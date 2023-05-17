@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Configuration>
+<ViewDefinitions>
+<View>
+  <Name>Nme.HostPool.ScheduledReImageJob</Name>
+  <ViewSelectedBy>
+    <TypeName>Nme.HostPool.ScheduledReImageJob</TypeName>
+  </ViewSelectedBy>
+  <TableControl>
+    <TableHeaders>
+      <TableColumnHeader>
+        <Width>30</Width>
+      </TableColumnHeader>
+      <TableColumnHeader>
+        <Width>30</Width>
+      </TableColumnHeader>
+      <TableColumnHeader>
+        <Width>38</Width>
+      </TableColumnHeader>
+    </TableHeaders>
+    <TableRowEntries>
+      <TableRowEntry>
+        <TableColumnItems>
+          <TableColumnItem>
+           <PropertyName>bulkJobParams</PropertyName>
+          </TableColumnItem>
+          <TableColumnItem>
+            <PropertyName>jobParams</PropertyName>
+          </TableColumnItem>
+          <TableColumnItem>
+            <PropertyName>schedule</PropertyName>
+          </TableColumnItem>
+        </TableColumnItems>
+      </TableRowEntry>
+    </TableRowEntries>
+  </TableControl>
+</View>
+<View>
+  <Name>Nme.DesktopImage.ScriptSchedule</Name>
+  <ViewSelectedBy>
+    <TypeName>Nme.DesktopImage.ScriptSchedule</TypeName>
+  </ViewSelectedBy>
+  <TableControl>
+    <TableHeaders>
+      <TableColumnHeader>
+        <Width>40</Width>
+      </TableColumnHeader>
+      <TableColumnHeader>
+        <Width>40</Width>
+      </TableColumnHeader>
+    </TableHeaders>
+    <TableRowEntries>
+      <TableRowEntry>
+        <TableColumnItems>
+          <TableColumnItem>
+           <PropertyName>schedule</PropertyName>
+          </TableColumnItem>
+          <TableColumnItem>
+            <PropertyName>config</PropertyName>
+          </TableColumnItem>
+        </TableColumnItems>
+      </TableRowEntry>
+    </TableRowEntries>
+  </TableControl>
+</View>
+</ViewDefinitions>
+</Configuration>
