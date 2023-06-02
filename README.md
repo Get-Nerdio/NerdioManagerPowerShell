@@ -1,7 +1,6 @@
 # Introduction 
 A PowerShell module for managing Nerdio Manager for Enterprise (NME) 
 
-This module is in beta and not recommended for production environments. Feedback is very welcome.
 
 # Getting Started
 Copy the NerdioManagerPowerShell directory to your modules directory, then run
