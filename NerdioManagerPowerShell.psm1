@@ -90,7 +90,8 @@ function CapProps {
     PROCESS {
         if ($Object){
             $TypeName = $Object.psobject.typenames | Where-Object {$_ -NotMatch 'System\.'} | select -First 1
-            $Properties = $Object | Get-Member | Where-Object MemberType -eq NoteProperty
+            Write-Output $object
+            $Properties =  Get-Member -InputObject $Object | Where-Object MemberType -eq NoteProperty
             $NewObject = New-Object -TypeName psobject  
             foreach ($prop in $Properties) {
                 if ($prop.Definition -match 'object') {
