@@ -6668,15 +6668,15 @@ function New-NmeVmTemplateParams {
 	#>
 	[cmdletbinding()]
 	Param(
-		[string]$Prefix,
-		[string]$Size,
-		[string]$Image,
-		[string]$StorageType,
-		[string]$ResourceGroupId,
-		[string]$NetworkId,
-		[string]$Subnet,
-		[int]$DiskSize,
-		[bool]$HasEphemeralOSDisk,
+		[Parameter(Mandatory=$true)][string]$Prefix,
+		[Parameter(Mandatory=$true)][string]$Size,
+		[Parameter(Mandatory=$true)][string]$Image,
+		[Parameter(Mandatory=$true)][string]$StorageType,
+		[Parameter(Mandatory=$true)][string]$ResourceGroupId,
+		[Parameter(Mandatory=$true)][string]$NetworkId,
+		[Parameter(Mandatory=$true)][string]$Subnet,
+		[Parameter(Mandatory=$true)][int]$DiskSize,
+		[Parameter(Mandatory=$true)][bool]$HasEphemeralOSDisk,
 		[ValidateSet("CacheDisk","ResourceDisk")][string]$EphemeralOSDiskPlacement
 	)
 
