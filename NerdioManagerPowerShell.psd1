@@ -12,7 +12,7 @@
     RootModule = 'NerdioManagerPowerShell.psm1'
     
     # Version number of this module.
-    ModuleVersion = '0.2.10'
+    ModuleVersion = '0.2.12'
     
     # Supported PSEditions
     # CompatiblePSEditions = @()

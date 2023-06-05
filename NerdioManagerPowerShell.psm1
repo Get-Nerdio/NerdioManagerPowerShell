@@ -93,8 +93,13 @@ function CapProps {
             $Properties = Get-Member -InputObject $Object | Where-Object MemberType -eq NoteProperty
             $NewObject = New-Object -TypeName psobject  
             foreach ($prop in $Properties) {
-                if ($prop.Definition -match 'object') {
-                    $NewObject | Add-Member -NotePropertyName (CapString $prop.name) -NotePropertyValue (CapProps $Object.($prop.name))
+                if ($prop.Definition -match 'Object\[\]') {
+                    if ($Object.($prop.name)) {
+                        $NewObject | Add-Member -NotePropertyName (CapString $prop.name) -NotePropertyValue ($Object.($prop.name) | CapProps)
+                    }
+                    else {
+                        $NewObject | Add-Member -NotePropertyName (CapString $prop.name) -NotePropertyValue $null
+                    }
                 }
                 else {$NewObject | Add-Member -NotePropertyName (CapString $prop.name) -NotePropertyValue $Object.($prop.name)}
             }
