@@ -837,14 +837,14 @@ function New-NmeAutoHealConfigurationItem {
 	#>
 	[cmdletbinding()]
 	Param(
-		[Parameter(Mandatory=$true)][ValidateSet("Available","Unavailable","Shutdown","Disconnected","Upgrading","UpgradeFailed","NoHeartbeat","NotJoinedToDomain","DomainTrustRelationshipLost","SxSStackListenerNotReady","FSLogixNotHealthy","NeedsAssistance")][String]$WvdStatuses,
+		[Parameter(Mandatory=$true)][ValidateSet("Available","Unavailable","Shutdown","Disconnected","Upgrading","UpgradeFailed","NoHeartbeat","NotJoinedToDomain","DomainTrustRelationshipLost","SxSStackListenerNotReady","FSLogixNotHealthy","NeedsAssistance")][String[]]$WvdStatuses,
 		[Parameter(Mandatory=$true)][ValidateSet("WithoutSessions","WithoutActive","WithActive")][string]$SessionCriteria,
 		[int]$StaleHeartbeatMinutes,
 		[int]$RestartAttempts,
 		[int]$WaitMinutesBeforeFirstAction,
 		[Parameter(Mandatory=$true)][int]$WaitMinutes,
 		[string]$FinalAction,
-		[psobject[]][ValidateScript({$_.PSObject.TypeNames -contains "NmeAutoHealAction"})]$Actions
+		[Parameter(Mandatory=$true)][psobject[]][ValidateScript({$_.PSObject.TypeNames -contains "NmeAutoHealAction"})]$Actions
 	)
 
 	$PropertyHash = @{}
@@ -1069,7 +1069,7 @@ function New-NmeAzureFilesPreStageConfig {
 	[cmdletbinding()]
 	Param(
 		[Parameter(Mandatory=$true)][bool]$IsEnabled,
-		[ValidateSet(0,1,2,3,4,5,6)][Int]$WorkDays,
+		[ValidateSet(0,1,2,3,4,5,6)][Int[]]$WorkDays,
 		[string]$TimezoneId,
 		[int]$QuotaBuffer
 	)
@@ -3939,7 +3939,7 @@ function New-NmeNetAppFilesWorkTimeSetModel {
 	#>
 	[cmdletbinding()]
 	Param(
-		[Parameter(Mandatory=$true)][ValidateSet(0,1,2,3,4,5,6)][Int]$WorkDays,
+		[Parameter(Mandatory=$true)][ValidateSet(0,1,2,3,4,5,6)][Int[]]$WorkDays,
 		[Parameter(Mandatory=$true)][int]$StartTimeHour,
 		[Parameter(Mandatory=$true)][int]$EndTimeHour,
 		[Parameter(Mandatory=$true)][int]$MinSize
@@ -4437,7 +4437,7 @@ function New-NmePreStageHostsConfigurationItem {
 	#>
 	[cmdletbinding()]
 	Param(
-		[Parameter(Mandatory=$true)][ValidateSet(0,1,2,3,4,5,6)][Int]$Days,
+		[Parameter(Mandatory=$true)][ValidateSet(0,1,2,3,4,5,6)][Int[]]$Days,
 		[Parameter(Mandatory=$true)][ValidateScript({if ($_.PSObject.TypeNames -contains "NmeTimeIntervalWithTimeZone"){$true} else{throw "$_ is not a NmeTimeIntervalWithTimeZone object. Use New-NmeTimeIntervalWithTimeZone to create before calling this function"}})][psobject]$StartWork,
 		[Parameter(Mandatory=$true)][int]$HostsToBeReady,
 		[bool]$PreStageDiskType,
