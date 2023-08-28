@@ -14,7 +14,7 @@ function Connect-Nme {
     $script:ClientSecret = $ClientSecret
     Set-NmeAuthHeaders -Force
     if (Test-NmeApi) {
-        Write-Host "Connection successful."
+        Write-Output "Connection successful."
     }
 }
 
