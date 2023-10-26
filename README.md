@@ -1,6 +1,28 @@
 # Introduction 
 A PowerShell module for managing Nerdio Manager for Enterprise (NME) 
 
+# 0.5.0 Release Notes:
+- App Management function Get-NmeAppRepository now available
+- New ability to manage scripted action groups
+- New function Get-NmeDesktopImage to list NME images
+- Rolling drain mode parameters for Host Pool AutoScale configuration
+- Enhancements to managing scripted actions
+- New functions for managing images
+- New functions for querying Entra ID & Entra domain services profiles
+- New functions for managing ControlUp integrations
+- New parameters for New-NmePersonalAutoShrinkRestConfiguration
+- New parameter IntelligentPrestageMode for function New-NmePreStateHostsConfiguration
+- New options for host pool user self service
+- New-NmeTimeIntervalWithTimeZone parameter TimeZoneId is now deprecated
+- New RDP configuration options
+- New fucntion Set-NmeAppAttachImageVersionName
+
+# Breaking changes:
+- New mandatory parameters for New-NmeHostPoolVmDeploymentRestModel
+- New mandatory parameter RdpShortpath for New-NmeHostPoolVmDeploymentRestPutRequest
+- New-NmeHostPoolRdpModelRest has been updated to New-NmeArmHostPoolRdpModelRest; you will need to replace the former with the latter
+- object BulkJobParams used in New-NmeRunScriptScheduledBulkJobParams has changed parameters
+- TimeZoneId is now a required parameter for New-NmeDynamicPoolConfiguration and Set-NmeDynamicPoolConfiguration 
 
 # Getting Started
 Copy the NerdioManagerPowerShell directory to your modules directory, then run

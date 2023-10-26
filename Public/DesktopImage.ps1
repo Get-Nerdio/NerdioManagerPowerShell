@@ -151,6 +151,39 @@ Function New-NmeDesktopImageScriptSchedule {
 		write-error ($message | out-string)
 	}
 }
+Function Get-NmeDesktopImage {
+	<#
+
+	.SYNOPSIS
+
+	Get list of all desktop images.
+
+	.DESCRIPTION
+
+	Get list of all desktop images. 
+
+	This function calls the /api/v1/desktop-image endpoint of the NME REST API, using the get method.
+
+
+
+
+	#>
+
+	[CmdletBinding()]
+	Param(
+
+	)
+	Set-NmeAuthHeaders
+	Try {
+		$Result = Invoke-RestMethod "$script:NmeUri/api/v1/desktop-image$Querystring" -Method get -Headers $script:AuthHeaders -ContentType 'application/json'
+		$Result.PSObject.TypeNames.Insert(0, 'NmeDesktopImageRestModel')
+		$Result | CapProps
+	}
+	Catch {
+		$message = ParseErrorForResponseBody($_)
+		write-error ($message | out-string)
+	}
+}
 Function Get-NmeDesktopImageSetAsImageSchedule {
 	<#
 
