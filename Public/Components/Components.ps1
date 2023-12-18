@@ -27,12 +27,12 @@ function New-NmeADObjectRestModel {
 	$ReturnObject.PSObject.TypeNames.Insert(0, 'NmeADObjectRestModel')
 	Return $ReturnObject	
 }
-function New-NmeActionStateRest.GET {
+function New-NmeActionStateRest_GET {
 	<#
 
 	.SYNOPSIS
 
-	Creates an object of type NmeActionStateRest.GET, for use in other Nme module commands
+	Creates an object of type NmeActionStateRest_GET, for use in other Nme module commands
 
 	.PARAMETER Status
 
@@ -53,7 +53,7 @@ function New-NmeActionStateRest.GET {
 	if ($PSBoundParameters.containskey("Status")){ $PropertyHash += @{Status = $Status} }
 	if ($PSBoundParameters.containskey("Message")){ $PropertyHash += @{Message = $Message} }
 	$ReturnObject = New-Object -TypeName psobject -Property $PropertyHash
-	$ReturnObject.PSObject.TypeNames.Insert(0, 'NmeActionStateRest.GET')
+	$ReturnObject.PSObject.TypeNames.Insert(0, 'NmeActionStateRest_GET')
 	Return $ReturnObject	
 }
 function New-NmeActiveSessionsConfiguration {
@@ -262,12 +262,12 @@ function New-NmeAdConfiguration {
 	$ReturnObject.PSObject.TypeNames.Insert(0, 'NmeAdConfiguration')
 	Return $ReturnObject	
 }
-function New-NmeAdObjectRest.GET {
+function New-NmeAdObjectRest_GET {
 	<#
 
 	.SYNOPSIS
 
-	Creates an object of type NmeAdObjectRest.GET, for use in other Nme module commands
+	Creates an object of type NmeAdObjectRest_GET, for use in other Nme module commands
 
 	.PARAMETER ObjectType
 
@@ -288,15 +288,15 @@ function New-NmeAdObjectRest.GET {
 	if ($PSBoundParameters.containskey("ObjectType")){ $PropertyHash += @{ObjectType = $ObjectType} }
 	if ($PSBoundParameters.containskey("Id")){ $PropertyHash += @{Id = $Id} }
 	$ReturnObject = New-Object -TypeName psobject -Property $PropertyHash
-	$ReturnObject.PSObject.TypeNames.Insert(0, 'NmeAdObjectRest.GET')
+	$ReturnObject.PSObject.TypeNames.Insert(0, 'NmeAdObjectRest_GET')
 	Return $ReturnObject	
 }
-function New-NmeAdObjectRest.POST {
+function New-NmeAdObjectRest_POST {
 	<#
 
 	.SYNOPSIS
 
-	Creates an object of type NmeAdObjectRest.POST, for use in other Nme module commands
+	Creates an object of type NmeAdObjectRest_POST, for use in other Nme module commands
 
 	.PARAMETER ObjectType
 
@@ -317,15 +317,15 @@ function New-NmeAdObjectRest.POST {
 	if ($PSBoundParameters.containskey("ObjectType")){ $PropertyHash += @{ObjectType = $ObjectType} }
 	if ($PSBoundParameters.containskey("Id")){ $PropertyHash += @{Id = $Id} }
 	$ReturnObject = New-Object -TypeName psobject -Property $PropertyHash
-	$ReturnObject.PSObject.TypeNames.Insert(0, 'NmeAdObjectRest.POST')
+	$ReturnObject.PSObject.TypeNames.Insert(0, 'NmeAdObjectRest_POST')
 	Return $ReturnObject	
 }
-function New-NmeAnyAppActionRest.GET {
+function New-NmeAnyAppActionRest_GET {
 	<#
 
 	.SYNOPSIS
 
-	Creates an object of type NmeAnyAppActionRest.GET, for use in other Nme module commands
+	Creates an object of type NmeAnyAppActionRest_GET, for use in other Nme module commands
 
 	.PARAMETER Type
 
@@ -370,15 +370,15 @@ function New-NmeAnyAppActionRest.GET {
 	if ($PSBoundParameters.containskey("Name")){ $PropertyHash += @{Name = $Name} }
 	if ($PSBoundParameters.containskey("Reboot")){ $PropertyHash += @{Reboot = $Reboot} }
 	$ReturnObject = New-Object -TypeName psobject -Property $PropertyHash
-	$ReturnObject.PSObject.TypeNames.Insert(0, 'NmeAnyAppActionRest.GET')
+	$ReturnObject.PSObject.TypeNames.Insert(0, 'NmeAnyAppActionRest_GET')
 	Return $ReturnObject	
 }
-function New-NmeAnyAppActionRest.POST {
+function New-NmeAnyAppActionRest_POST {
 	<#
 
 	.SYNOPSIS
 
-	Creates an object of type NmeAnyAppActionRest.POST, for use in other Nme module commands
+	Creates an object of type NmeAnyAppActionRest_POST, for use in other Nme module commands
 
 	.PARAMETER Type
 
@@ -423,15 +423,15 @@ function New-NmeAnyAppActionRest.POST {
 	if ($PSBoundParameters.containskey("Name")){ $PropertyHash += @{Name = $Name} }
 	if ($PSBoundParameters.containskey("Reboot")){ $PropertyHash += @{Reboot = $Reboot} }
 	$ReturnObject = New-Object -TypeName psobject -Property $PropertyHash
-	$ReturnObject.PSObject.TypeNames.Insert(0, 'NmeAnyAppActionRest.POST')
+	$ReturnObject.PSObject.TypeNames.Insert(0, 'NmeAnyAppActionRest_POST')
 	Return $ReturnObject	
 }
-function New-NmeAnyAppRest.GET {
+function New-NmeAnyAppRest_GET {
 	<#
 
 	.SYNOPSIS
 
-	Creates an object of type NmeAnyAppRest.GET, for use in other Nme module commands
+	Creates an object of type NmeAnyAppRest_GET, for use in other Nme module commands
 
 	.PARAMETER Type
 
@@ -470,15 +470,15 @@ function New-NmeAnyAppRest.GET {
 	if ($PSBoundParameters.containskey("Versions")){ $PropertyHash += @{Versions = $Versions} }
 	if ($PSBoundParameters.containskey("Publisher")){ $PropertyHash += @{Publisher = $Publisher} }
 	$ReturnObject = New-Object -TypeName psobject -Property $PropertyHash
-	$ReturnObject.PSObject.TypeNames.Insert(0, 'NmeAnyAppRest.GET')
+	$ReturnObject.PSObject.TypeNames.Insert(0, 'NmeAnyAppRest_GET')
 	Return $ReturnObject	
 }
-function New-NmeAnyAppScopeRest.GET {
+function New-NmeAnyAppScopeRest_GET {
 	<#
 
 	.SYNOPSIS
 
-	Creates an object of type NmeAnyAppScopeRest.GET, for use in other Nme module commands
+	Creates an object of type NmeAnyAppScopeRest_GET, for use in other Nme module commands
 
 	.PARAMETER Type
 
@@ -494,7 +494,7 @@ function New-NmeAnyAppScopeRest.GET {
 
 	.PARAMETER Users
 
-	An array of objects of type NmeAdObjectRest.GET. Can be created using New-NmeAdObjectRest.GET
+	An array of objects of type NmeAdObjectRest_GET. Can be created using New-NmeAdObjectRest_GET
 
 	.PARAMETER DeviceGroups
 
@@ -506,7 +506,7 @@ function New-NmeAnyAppScopeRest.GET {
 		[ValidateSet("AVD_PersonalPools","AVD_PooledPools","AVD_ExactHosts","Intune")][string]$Type,
 		[string[]]$HostPools,
 		[string[]]$Hosts,
-		[psobject[]][ValidateScript({$_.PSObject.TypeNames -contains "NmeAdObjectRest.GET"})]$Users,
+		[psobject[]][ValidateScript({$_.PSObject.TypeNames -contains "NmeAdObjectRest_GET"})]$Users,
 		[string[]]$DeviceGroups
 	)
 
@@ -517,15 +517,15 @@ function New-NmeAnyAppScopeRest.GET {
 	if ($PSBoundParameters.containskey("Users")){ $PropertyHash += @{Users = $Users} }
 	if ($PSBoundParameters.containskey("DeviceGroups")){ $PropertyHash += @{DeviceGroups = $DeviceGroups} }
 	$ReturnObject = New-Object -TypeName psobject -Property $PropertyHash
-	$ReturnObject.PSObject.TypeNames.Insert(0, 'NmeAnyAppScopeRest.GET')
+	$ReturnObject.PSObject.TypeNames.Insert(0, 'NmeAnyAppScopeRest_GET')
 	Return $ReturnObject	
 }
-function New-NmeAnyAppScopeRest.POST {
+function New-NmeAnyAppScopeRest_POST {
 	<#
 
 	.SYNOPSIS
 
-	Creates an object of type NmeAnyAppScopeRest.POST, for use in other Nme module commands
+	Creates an object of type NmeAnyAppScopeRest_POST, for use in other Nme module commands
 
 	.PARAMETER Type
 
@@ -541,7 +541,7 @@ function New-NmeAnyAppScopeRest.POST {
 
 	.PARAMETER Users
 
-	An array of objects of type NmeAdObjectRest.POST. Can be created using New-NmeAdObjectRest.POST
+	An array of objects of type NmeAdObjectRest_POST. Can be created using New-NmeAdObjectRest_POST
 
 	.PARAMETER DeviceGroups
 
@@ -553,7 +553,7 @@ function New-NmeAnyAppScopeRest.POST {
 		[Parameter(Mandatory=$true)][ValidateSet("AVD_PersonalPools","AVD_PooledPools","AVD_ExactHosts","Intune")][string]$Type,
 		[string[]]$HostPools,
 		[string[]]$Hosts,
-		[psobject[]][ValidateScript({$_.PSObject.TypeNames -contains "NmeAdObjectRest.POST"})]$Users,
+		[psobject[]][ValidateScript({$_.PSObject.TypeNames -contains "NmeAdObjectRest_POST"})]$Users,
 		[string[]]$DeviceGroups
 	)
 
@@ -564,15 +564,15 @@ function New-NmeAnyAppScopeRest.POST {
 	if ($PSBoundParameters.containskey("Users")){ $PropertyHash += @{Users = $Users} }
 	if ($PSBoundParameters.containskey("DeviceGroups")){ $PropertyHash += @{DeviceGroups = $DeviceGroups} }
 	$ReturnObject = New-Object -TypeName psobject -Property $PropertyHash
-	$ReturnObject.PSObject.TypeNames.Insert(0, 'NmeAnyAppScopeRest.POST')
+	$ReturnObject.PSObject.TypeNames.Insert(0, 'NmeAnyAppScopeRest_POST')
 	Return $ReturnObject	
 }
-function New-NmeAnyRepositoryRest.GET {
+function New-NmeAnyRepositoryRest_GET {
 	<#
 
 	.SYNOPSIS
 
-	Creates an object of type NmeAnyRepositoryRest.GET, for use in other Nme module commands
+	Creates an object of type NmeAnyRepositoryRest_GET, for use in other Nme module commands
 
 	.PARAMETER Id
 
@@ -611,7 +611,7 @@ function New-NmeAnyRepositoryRest.GET {
 	if ($PSBoundParameters.containskey("Url")){ $PropertyHash += @{Url = $Url} }
 	if ($PSBoundParameters.containskey("BlobContainerUri")){ $PropertyHash += @{BlobContainerUri = $BlobContainerUri} }
 	$ReturnObject = New-Object -TypeName psobject -Property $PropertyHash
-	$ReturnObject.PSObject.TypeNames.Insert(0, 'NmeAnyRepositoryRest.GET')
+	$ReturnObject.PSObject.TypeNames.Insert(0, 'NmeAnyRepositoryRest_GET')
 	Return $ReturnObject	
 }
 function New-NmeAppAttachImageRestModel {
@@ -836,12 +836,12 @@ function New-NmeAppAttachImageVersionRestPutRequest {
 	$ReturnObject.PSObject.TypeNames.Insert(0, 'NmeAppAttachImageVersionRestPutRequest')
 	Return $ReturnObject	
 }
-function New-NmeAppPolicyOneTimeRest.GET {
+function New-NmeAppPolicyOneTimeRest_GET {
 	<#
 
 	.SYNOPSIS
 
-	Creates an object of type NmeAppPolicyOneTimeRest.GET, for use in other Nme module commands
+	Creates an object of type NmeAppPolicyOneTimeRest_GET, for use in other Nme module commands
 
 	.PARAMETER IsEnabled
 
@@ -861,15 +861,15 @@ function New-NmeAppPolicyOneTimeRest.GET {
 
 	.PARAMETER Concurrency
 
-	An object of type NmePolicyConcurrencyRest.GET. Can be created using New-NmePolicyConcurrencyRest.GET
+	An object of type NmePolicyConcurrencyRest_GET. Can be created using New-NmePolicyConcurrencyRest_GET
 
 	.PARAMETER Actions
 
-	An array of objects of type NmeAnyAppActionRest.GET. Can be created using New-NmeAnyAppActionRest.GET
+	An array of objects of type NmeAnyAppActionRest_GET. Can be created using New-NmeAnyAppActionRest_GET
 
 	.PARAMETER Scopes
 
-	An array of objects of type NmeAnyAppScopeRest.GET. Can be created using New-NmeAnyAppScopeRest.GET
+	An array of objects of type NmeAnyAppScopeRest_GET. Can be created using New-NmeAnyAppScopeRest_GET
 
 	#>
 	[cmdletbinding()]
@@ -878,9 +878,9 @@ function New-NmeAppPolicyOneTimeRest.GET {
 		[int]$Id,
 		[string]$Name,
 		[string]$CreatedAt,
-		[ValidateScript({if ($_.PSObject.TypeNames -contains "NmePolicyConcurrencyRest.GET"){$true} else{throw "$_ is not a NmePolicyConcurrencyRest.GET object. Use New-NmePolicyConcurrencyRest.GET to create before calling this function"}})][psobject]$Concurrency,
-		[psobject[]][ValidateScript({$_.PSObject.TypeNames -contains "NmeAnyAppActionRest.GET"})]$Actions,
-		[psobject[]][ValidateScript({$_.PSObject.TypeNames -contains "NmeAnyAppScopeRest.GET"})]$Scopes
+		[ValidateScript({if ($_.PSObject.TypeNames -contains "NmePolicyConcurrencyRest_GET"){$true} else{throw "$_ is not a NmePolicyConcurrencyRest_GET object. Use New-NmePolicyConcurrencyRest_GET to create before calling this function"}})][psobject]$Concurrency,
+		[psobject[]][ValidateScript({$_.PSObject.TypeNames -contains "NmeAnyAppActionRest_GET"})]$Actions,
+		[psobject[]][ValidateScript({$_.PSObject.TypeNames -contains "NmeAnyAppScopeRest_GET"})]$Scopes
 	)
 
 	$PropertyHash = @{}
@@ -892,15 +892,15 @@ function New-NmeAppPolicyOneTimeRest.GET {
 	if ($PSBoundParameters.containskey("Actions")){ $PropertyHash += @{Actions = $Actions} }
 	if ($PSBoundParameters.containskey("Scopes")){ $PropertyHash += @{Scopes = $Scopes} }
 	$ReturnObject = New-Object -TypeName psobject -Property $PropertyHash
-	$ReturnObject.PSObject.TypeNames.Insert(0, 'NmeAppPolicyOneTimeRest.GET')
+	$ReturnObject.PSObject.TypeNames.Insert(0, 'NmeAppPolicyOneTimeRest_GET')
 	Return $ReturnObject	
 }
-function New-NmeAppPolicyOneTimeRest.POST {
+function New-NmeAppPolicyOneTimeRest_POST {
 	<#
 
 	.SYNOPSIS
 
-	Creates an object of type NmeAppPolicyOneTimeRest.POST, for use in other Nme module commands
+	Creates an object of type NmeAppPolicyOneTimeRest_POST, for use in other Nme module commands
 
 	.PARAMETER Name
 
@@ -908,23 +908,23 @@ function New-NmeAppPolicyOneTimeRest.POST {
 
 	.PARAMETER Concurrency
 
-	An object of type NmePolicyConcurrencyRest.POST. Can be created using New-NmePolicyConcurrencyRest.POST
+	An object of type NmePolicyConcurrencyRest_POST. Can be created using New-NmePolicyConcurrencyRest_POST
 
 	.PARAMETER Actions
 
-	An array of objects of type NmeAnyAppActionRest.POST. Can be created using New-NmeAnyAppActionRest.POST
+	An array of objects of type NmeAnyAppActionRest_POST. Can be created using New-NmeAnyAppActionRest_POST
 
 	.PARAMETER Scopes
 
-	An array of objects of type NmeAnyAppScopeRest.POST. Can be created using New-NmeAnyAppScopeRest.POST
+	An array of objects of type NmeAnyAppScopeRest_POST. Can be created using New-NmeAnyAppScopeRest_POST
 
 	#>
 	[cmdletbinding()]
 	Param(
-		[Parameter(Mandatory=$true)][string]$Name,
-		[Parameter(Mandatory=$true)][ValidateScript({if ($_.PSObject.TypeNames -contains "NmePolicyConcurrencyRest.POST"){$true} else{throw "$_ is not a NmePolicyConcurrencyRest.POST object. Use New-NmePolicyConcurrencyRest.POST to create before calling this function"}})][psobject]$Concurrency,
-		[Parameter(Mandatory=$true)][psobject[]][ValidateScript({$_.PSObject.TypeNames -contains "NmeAnyAppActionRest.POST"})]$Actions,
-		[Parameter(Mandatory=$true)][psobject[]][ValidateScript({$_.PSObject.TypeNames -contains "NmeAnyAppScopeRest.POST"})]$Scopes
+		[string]$Name,
+		[Parameter(Mandatory=$true)][ValidateScript({if ($_.PSObject.TypeNames -contains "NmePolicyConcurrencyRest_POST"){$true} else{throw "$_ is not a NmePolicyConcurrencyRest_POST object. Use New-NmePolicyConcurrencyRest_POST to create before calling this function"}})][psobject]$Concurrency,
+		[Parameter(Mandatory=$true)][psobject[]][ValidateScript({$_.PSObject.TypeNames -contains "NmeAnyAppActionRest_POST"})]$Actions,
+		[Parameter(Mandatory=$true)][psobject[]][ValidateScript({$_.PSObject.TypeNames -contains "NmeAnyAppScopeRest_POST"})]$Scopes
 	)
 
 	$PropertyHash = @{}
@@ -933,15 +933,15 @@ function New-NmeAppPolicyOneTimeRest.POST {
 	if ($PSBoundParameters.containskey("Actions")){ $PropertyHash += @{Actions = $Actions} }
 	if ($PSBoundParameters.containskey("Scopes")){ $PropertyHash += @{Scopes = $Scopes} }
 	$ReturnObject = New-Object -TypeName psobject -Property $PropertyHash
-	$ReturnObject.PSObject.TypeNames.Insert(0, 'NmeAppPolicyOneTimeRest.POST')
+	$ReturnObject.PSObject.TypeNames.Insert(0, 'NmeAppPolicyOneTimeRest_POST')
 	Return $ReturnObject	
 }
-function New-NmeAppPolicyRecurrentRest.GET {
+function New-NmeAppPolicyRecurrentRest_GET {
 	<#
 
 	.SYNOPSIS
 
-	Creates an object of type NmeAppPolicyRecurrentRest.GET, for use in other Nme module commands
+	Creates an object of type NmeAppPolicyRecurrentRest_GET, for use in other Nme module commands
 
 	.PARAMETER IsEnabled
 
@@ -965,15 +965,15 @@ function New-NmeAppPolicyRecurrentRest.GET {
 
 	.PARAMETER Concurrency
 
-	An object of type NmePolicyConcurrencyRest.GET. Can be created using New-NmePolicyConcurrencyRest.GET
+	An object of type NmePolicyConcurrencyRest_GET. Can be created using New-NmePolicyConcurrencyRest_GET
 
 	.PARAMETER Actions
 
-	An array of objects of type NmeAnyAppActionRest.GET. Can be created using New-NmeAnyAppActionRest.GET
+	An array of objects of type NmeAnyAppActionRest_GET. Can be created using New-NmeAnyAppActionRest_GET
 
 	.PARAMETER Scopes
 
-	An array of objects of type NmeAnyAppScopeRest.GET. Can be created using New-NmeAnyAppScopeRest.GET
+	An array of objects of type NmeAnyAppScopeRest_GET. Can be created using New-NmeAnyAppScopeRest_GET
 
 	#>
 	[cmdletbinding()]
@@ -983,9 +983,9 @@ function New-NmeAppPolicyRecurrentRest.GET {
 		[string]$Name,
 		[string]$Description,
 		[string]$CreatedAt,
-		[ValidateScript({if ($_.PSObject.TypeNames -contains "NmePolicyConcurrencyRest.GET"){$true} else{throw "$_ is not a NmePolicyConcurrencyRest.GET object. Use New-NmePolicyConcurrencyRest.GET to create before calling this function"}})][psobject]$Concurrency,
-		[psobject[]][ValidateScript({$_.PSObject.TypeNames -contains "NmeAnyAppActionRest.GET"})]$Actions,
-		[psobject[]][ValidateScript({$_.PSObject.TypeNames -contains "NmeAnyAppScopeRest.GET"})]$Scopes
+		[ValidateScript({if ($_.PSObject.TypeNames -contains "NmePolicyConcurrencyRest_GET"){$true} else{throw "$_ is not a NmePolicyConcurrencyRest_GET object. Use New-NmePolicyConcurrencyRest_GET to create before calling this function"}})][psobject]$Concurrency,
+		[psobject[]][ValidateScript({$_.PSObject.TypeNames -contains "NmeAnyAppActionRest_GET"})]$Actions,
+		[psobject[]][ValidateScript({$_.PSObject.TypeNames -contains "NmeAnyAppScopeRest_GET"})]$Scopes
 	)
 
 	$PropertyHash = @{}
@@ -998,15 +998,15 @@ function New-NmeAppPolicyRecurrentRest.GET {
 	if ($PSBoundParameters.containskey("Actions")){ $PropertyHash += @{Actions = $Actions} }
 	if ($PSBoundParameters.containskey("Scopes")){ $PropertyHash += @{Scopes = $Scopes} }
 	$ReturnObject = New-Object -TypeName psobject -Property $PropertyHash
-	$ReturnObject.PSObject.TypeNames.Insert(0, 'NmeAppPolicyRecurrentRest.GET')
+	$ReturnObject.PSObject.TypeNames.Insert(0, 'NmeAppPolicyRecurrentRest_GET')
 	Return $ReturnObject	
 }
-function New-NmeAppPolicyRecurrentRest.PATCH {
+function New-NmeAppPolicyRecurrentRest_PATCH {
 	<#
 
 	.SYNOPSIS
 
-	Creates an object of type NmeAppPolicyRecurrentRest.PATCH, for use in other Nme module commands
+	Creates an object of type NmeAppPolicyRecurrentRest_PATCH, for use in other Nme module commands
 
 	.PARAMETER IsEnabled
 
@@ -1022,15 +1022,15 @@ function New-NmeAppPolicyRecurrentRest.PATCH {
 
 	.PARAMETER Concurrency
 
-	An object of type NmePolicyConcurrencyRest.POST. Can be created using New-NmePolicyConcurrencyRest.POST
+	An object of type NmePolicyConcurrencyRest_POST. Can be created using New-NmePolicyConcurrencyRest_POST
 
 	.PARAMETER Actions
 
-	An array of objects of type NmeAnyAppActionRest.POST. Can be created using New-NmeAnyAppActionRest.POST
+	An array of objects of type NmeAnyAppActionRest_POST. Can be created using New-NmeAnyAppActionRest_POST
 
 	.PARAMETER Scopes
 
-	An array of objects of type NmeAnyAppScopeRest.POST. Can be created using New-NmeAnyAppScopeRest.POST
+	An array of objects of type NmeAnyAppScopeRest_POST. Can be created using New-NmeAnyAppScopeRest_POST
 
 	#>
 	[cmdletbinding()]
@@ -1038,9 +1038,9 @@ function New-NmeAppPolicyRecurrentRest.PATCH {
 		[bool]$IsEnabled,
 		[string]$Name,
 		[string]$Description,
-		[ValidateScript({if ($_.PSObject.TypeNames -contains "NmePolicyConcurrencyRest.POST"){$true} else{throw "$_ is not a NmePolicyConcurrencyRest.POST object. Use New-NmePolicyConcurrencyRest.POST to create before calling this function"}})][psobject]$Concurrency,
-		[psobject[]][ValidateScript({$_.PSObject.TypeNames -contains "NmeAnyAppActionRest.POST"})]$Actions,
-		[psobject[]][ValidateScript({$_.PSObject.TypeNames -contains "NmeAnyAppScopeRest.POST"})]$Scopes
+		[ValidateScript({if ($_.PSObject.TypeNames -contains "NmePolicyConcurrencyRest_POST"){$true} else{throw "$_ is not a NmePolicyConcurrencyRest_POST object. Use New-NmePolicyConcurrencyRest_POST to create before calling this function"}})][psobject]$Concurrency,
+		[psobject[]][ValidateScript({$_.PSObject.TypeNames -contains "NmeAnyAppActionRest_POST"})]$Actions,
+		[psobject[]][ValidateScript({$_.PSObject.TypeNames -contains "NmeAnyAppScopeRest_POST"})]$Scopes
 	)
 
 	$PropertyHash = @{}
@@ -1051,15 +1051,15 @@ function New-NmeAppPolicyRecurrentRest.PATCH {
 	if ($PSBoundParameters.containskey("Actions")){ $PropertyHash += @{Actions = $Actions} }
 	if ($PSBoundParameters.containskey("Scopes")){ $PropertyHash += @{Scopes = $Scopes} }
 	$ReturnObject = New-Object -TypeName psobject -Property $PropertyHash
-	$ReturnObject.PSObject.TypeNames.Insert(0, 'NmeAppPolicyRecurrentRest.PATCH')
+	$ReturnObject.PSObject.TypeNames.Insert(0, 'NmeAppPolicyRecurrentRest_PATCH')
 	Return $ReturnObject	
 }
-function New-NmeAppPolicyRecurrentRest.POST {
+function New-NmeAppPolicyRecurrentRest_POST {
 	<#
 
 	.SYNOPSIS
 
-	Creates an object of type NmeAppPolicyRecurrentRest.POST, for use in other Nme module commands
+	Creates an object of type NmeAppPolicyRecurrentRest_POST, for use in other Nme module commands
 
 	.PARAMETER IsEnabled
 
@@ -1075,15 +1075,15 @@ function New-NmeAppPolicyRecurrentRest.POST {
 
 	.PARAMETER Concurrency
 
-	An object of type NmePolicyConcurrencyRest.POST. Can be created using New-NmePolicyConcurrencyRest.POST
+	An object of type NmePolicyConcurrencyRest_POST. Can be created using New-NmePolicyConcurrencyRest_POST
 
 	.PARAMETER Actions
 
-	An array of objects of type NmeAnyAppActionRest.POST. Can be created using New-NmeAnyAppActionRest.POST
+	An array of objects of type NmeAnyAppActionRest_POST. Can be created using New-NmeAnyAppActionRest_POST
 
 	.PARAMETER Scopes
 
-	An array of objects of type NmeAnyAppScopeRest.POST. Can be created using New-NmeAnyAppScopeRest.POST
+	An array of objects of type NmeAnyAppScopeRest_POST. Can be created using New-NmeAnyAppScopeRest_POST
 
 	#>
 	[cmdletbinding()]
@@ -1091,9 +1091,9 @@ function New-NmeAppPolicyRecurrentRest.POST {
 		[Parameter(Mandatory=$true)][bool]$IsEnabled,
 		[Parameter(Mandatory=$true)][string]$Name,
 		[string]$Description,
-		[Parameter(Mandatory=$true)][ValidateScript({if ($_.PSObject.TypeNames -contains "NmePolicyConcurrencyRest.POST"){$true} else{throw "$_ is not a NmePolicyConcurrencyRest.POST object. Use New-NmePolicyConcurrencyRest.POST to create before calling this function"}})][psobject]$Concurrency,
-		[Parameter(Mandatory=$true)][psobject[]][ValidateScript({$_.PSObject.TypeNames -contains "NmeAnyAppActionRest.POST"})]$Actions,
-		[Parameter(Mandatory=$true)][psobject[]][ValidateScript({$_.PSObject.TypeNames -contains "NmeAnyAppScopeRest.POST"})]$Scopes
+		[Parameter(Mandatory=$true)][ValidateScript({if ($_.PSObject.TypeNames -contains "NmePolicyConcurrencyRest_POST"){$true} else{throw "$_ is not a NmePolicyConcurrencyRest_POST object. Use New-NmePolicyConcurrencyRest_POST to create before calling this function"}})][psobject]$Concurrency,
+		[Parameter(Mandatory=$true)][psobject[]][ValidateScript({$_.PSObject.TypeNames -contains "NmeAnyAppActionRest_POST"})]$Actions,
+		[Parameter(Mandatory=$true)][psobject[]][ValidateScript({$_.PSObject.TypeNames -contains "NmeAnyAppScopeRest_POST"})]$Scopes
 	)
 
 	$PropertyHash = @{}
@@ -1104,7 +1104,7 @@ function New-NmeAppPolicyRecurrentRest.POST {
 	if ($PSBoundParameters.containskey("Actions")){ $PropertyHash += @{Actions = $Actions} }
 	if ($PSBoundParameters.containskey("Scopes")){ $PropertyHash += @{Scopes = $Scopes} }
 	$ReturnObject = New-Object -TypeName psobject -Property $PropertyHash
-	$ReturnObject.PSObject.TypeNames.Insert(0, 'NmeAppPolicyRecurrentRest.POST')
+	$ReturnObject.PSObject.TypeNames.Insert(0, 'NmeAppPolicyRecurrentRest_POST')
 	Return $ReturnObject	
 }
 function New-NmeArmHostPoolAssignmentRequest {
@@ -2832,12 +2832,12 @@ function New-NmeDesktopImageSetAsImageScheduleRest {
 	$ReturnObject.PSObject.TypeNames.Insert(0, 'NmeDesktopImageSetAsImageScheduleRest')
 	Return $ReturnObject	
 }
-function New-NmeDeviceRest.GET {
+function New-NmeDeviceRest_GET {
 	<#
 
 	.SYNOPSIS
 
-	Creates an object of type NmeDeviceRest.GET, for use in other Nme module commands
+	Creates an object of type NmeDeviceRest_GET, for use in other Nme module commands
 
 	.PARAMETER Type
 
@@ -2894,19 +2894,19 @@ function New-NmeDeviceRest.GET {
 	if ($PSBoundParameters.containskey("Intune_DeviceId")){ $PropertyHash += @{Intune_DeviceId = $Intune_DeviceId} }
 	if ($PSBoundParameters.containskey("Intune_ManagedId")){ $PropertyHash += @{Intune_ManagedId = $Intune_ManagedId} }
 	$ReturnObject = New-Object -TypeName psobject -Property $PropertyHash
-	$ReturnObject.PSObject.TypeNames.Insert(0, 'NmeDeviceRest.GET')
+	$ReturnObject.PSObject.TypeNames.Insert(0, 'NmeDeviceRest_GET')
 	Return $ReturnObject	
 }
-function New-NmeDeviceStateRest.GET {
+function New-NmeDeviceStateRest_GET {
 	<#
 
 	.SYNOPSIS
 
-	Creates an object of type NmeDeviceStateRest.GET, for use in other Nme module commands
+	Creates an object of type NmeDeviceStateRest_GET, for use in other Nme module commands
 
 	.PARAMETER Device
 
-	An object of type NmeDeviceRest.GET. Can be created using New-NmeDeviceRest.GET
+	An object of type NmeDeviceRest_GET. Can be created using New-NmeDeviceRest_GET
 
 	.PARAMETER Status
 
@@ -2914,14 +2914,14 @@ function New-NmeDeviceStateRest.GET {
 
 	.PARAMETER ActionStates
 
-	An array of objects of type NmeActionStateRest.GET. Can be created using New-NmeActionStateRest.GET
+	An array of objects of type NmeActionStateRest_GET. Can be created using New-NmeActionStateRest_GET
 
 	#>
 	[cmdletbinding()]
 	Param(
-		[ValidateScript({if ($_.PSObject.TypeNames -contains "NmeDeviceRest.GET"){$true} else{throw "$_ is not a NmeDeviceRest.GET object. Use New-NmeDeviceRest.GET to create before calling this function"}})][psobject]$Device,
+		[ValidateScript({if ($_.PSObject.TypeNames -contains "NmeDeviceRest_GET"){$true} else{throw "$_ is not a NmeDeviceRest_GET object. Use New-NmeDeviceRest_GET to create before calling this function"}})][psobject]$Device,
 		[ValidateSet("Pending","Running","Completed","Failed")][string]$Status,
-		[psobject[]][ValidateScript({$_.PSObject.TypeNames -contains "NmeActionStateRest.GET"})]$ActionStates
+		[psobject[]][ValidateScript({$_.PSObject.TypeNames -contains "NmeActionStateRest_GET"})]$ActionStates
 	)
 
 	$PropertyHash = @{}
@@ -2929,7 +2929,7 @@ function New-NmeDeviceStateRest.GET {
 	if ($PSBoundParameters.containskey("Status")){ $PropertyHash += @{Status = $Status} }
 	if ($PSBoundParameters.containskey("ActionStates")){ $PropertyHash += @{ActionStates = $ActionStates} }
 	$ReturnObject = New-Object -TypeName psobject -Property $PropertyHash
-	$ReturnObject.PSObject.TypeNames.Insert(0, 'NmeDeviceStateRest.GET')
+	$ReturnObject.PSObject.TypeNames.Insert(0, 'NmeDeviceStateRest_GET')
 	Return $ReturnObject	
 }
 function New-NmeDynamicPoolConfig {
@@ -5693,7 +5693,7 @@ function New-NmePatchHostPoolControlUpRestModel {
 
 	.PARAMETER Authentication
 
-	An object of type NmePatchHostPoolControlUpRestModel.AuthenticationKey. Can be created using New-NmePatchHostPoolControlUpRestModel.AuthenticationKey
+	An object of type NmePatchHostPoolControlUpRestModel_AuthenticationKey. Can be created using New-NmePatchHostPoolControlUpRestModel_AuthenticationKey
 
 	.PARAMETER Monitors
 
@@ -5740,7 +5740,7 @@ function New-NmePatchHostPoolControlUpRestModel {
 	Param(
 		[bool]$IsEnabled,
 		[bool]$UseDefault,
-		[ValidateScript({if ($_.PSObject.TypeNames -contains "NmePatchHostPoolControlUpRestModel.AuthenticationKey"){$true} else{throw "$_ is not a NmePatchHostPoolControlUpRestModel.AuthenticationKey object. Use New-NmePatchHostPoolControlUpRestModel.AuthenticationKey to create before calling this function"}})][psobject]$Authentication,
+		[ValidateScript({if ($_.PSObject.TypeNames -contains "NmePatchHostPoolControlUpRestModel_AuthenticationKey"){$true} else{throw "$_ is not a NmePatchHostPoolControlUpRestModel_AuthenticationKey object. Use New-NmePatchHostPoolControlUpRestModel_AuthenticationKey to create before calling this function"}})][psobject]$Authentication,
 		[string[]]$Monitors,
 		[string]$Version,
 		[string]$Site,
@@ -5771,12 +5771,12 @@ function New-NmePatchHostPoolControlUpRestModel {
 	$ReturnObject.PSObject.TypeNames.Insert(0, 'NmePatchHostPoolControlUpRestModel')
 	Return $ReturnObject	
 }
-function New-NmePatchHostPoolControlUpRestModel.AuthenticationKey {
+function New-NmePatchHostPoolControlUpRestModel_AuthenticationKey {
 	<#
 
 	.SYNOPSIS
 
-	Creates an object of type NmePatchHostPoolControlUpRestModel.AuthenticationKey, for use in other Nme module commands
+	Creates an object of type NmePatchHostPoolControlUpRestModel_AuthenticationKey, for use in other Nme module commands
 
 	.PARAMETER Default
 
@@ -5797,7 +5797,7 @@ function New-NmePatchHostPoolControlUpRestModel.AuthenticationKey {
 	if ($PSBoundParameters.containskey("Default")){ $PropertyHash += @{Default = $Default} }
 	if ($PSBoundParameters.containskey("Value")){ $PropertyHash += @{Value = $Value} }
 	$ReturnObject = New-Object -TypeName psobject -Property $PropertyHash
-	$ReturnObject.PSObject.TypeNames.Insert(0, 'NmePatchHostPoolControlUpRestModel.AuthenticationKey')
+	$ReturnObject.PSObject.TypeNames.Insert(0, 'NmePatchHostPoolControlUpRestModel_AuthenticationKey')
 	Return $ReturnObject	
 }
 function New-NmePersonalAutoGrowRestConfiguration {
@@ -5929,12 +5929,12 @@ function New-NmePersonalParams {
 	$ReturnObject.PSObject.TypeNames.Insert(0, 'NmePersonalParams')
 	Return $ReturnObject	
 }
-function New-NmePolicyConcurrencyRest.GET {
+function New-NmePolicyConcurrencyRest_GET {
 	<#
 
 	.SYNOPSIS
 
-	Creates an object of type NmePolicyConcurrencyRest.GET, for use in other Nme module commands
+	Creates an object of type NmePolicyConcurrencyRest_GET, for use in other Nme module commands
 
 	.PARAMETER Balancer
 
@@ -5955,15 +5955,15 @@ function New-NmePolicyConcurrencyRest.GET {
 	if ($PSBoundParameters.containskey("Balancer")){ $PropertyHash += @{Balancer = $Balancer} }
 	if ($PSBoundParameters.containskey("MaxJobs")){ $PropertyHash += @{MaxJobs = $MaxJobs} }
 	$ReturnObject = New-Object -TypeName psobject -Property $PropertyHash
-	$ReturnObject.PSObject.TypeNames.Insert(0, 'NmePolicyConcurrencyRest.GET')
+	$ReturnObject.PSObject.TypeNames.Insert(0, 'NmePolicyConcurrencyRest_GET')
 	Return $ReturnObject	
 }
-function New-NmePolicyConcurrencyRest.POST {
+function New-NmePolicyConcurrencyRest_POST {
 	<#
 
 	.SYNOPSIS
 
-	Creates an object of type NmePolicyConcurrencyRest.POST, for use in other Nme module commands
+	Creates an object of type NmePolicyConcurrencyRest_POST, for use in other Nme module commands
 
 	.PARAMETER Balancer
 
@@ -5984,23 +5984,23 @@ function New-NmePolicyConcurrencyRest.POST {
 	if ($PSBoundParameters.containskey("Balancer")){ $PropertyHash += @{Balancer = $Balancer} }
 	if ($PSBoundParameters.containskey("MaxJobs")){ $PropertyHash += @{MaxJobs = $MaxJobs} }
 	$ReturnObject = New-Object -TypeName psobject -Property $PropertyHash
-	$ReturnObject.PSObject.TypeNames.Insert(0, 'NmePolicyConcurrencyRest.POST')
+	$ReturnObject.PSObject.TypeNames.Insert(0, 'NmePolicyConcurrencyRest_POST')
 	Return $ReturnObject	
 }
-function New-NmePolicyStateRest.GET {
+function New-NmePolicyStateRest_GET {
 	<#
 
 	.SYNOPSIS
 
-	Creates an object of type NmePolicyStateRest.GET, for use in other Nme module commands
+	Creates an object of type NmePolicyStateRest_GET, for use in other Nme module commands
 
 	.PARAMETER DeviceStates
 
-	An array of objects of type NmeDeviceStateRest.GET. Can be created using New-NmeDeviceStateRest.GET
+	An array of objects of type NmeDeviceStateRest_GET. Can be created using New-NmeDeviceStateRest_GET
 
 	.PARAMETER ValidActions
 
-	An array of objects of type NmeAnyAppActionRest.GET. Can be created using New-NmeAnyAppActionRest.GET
+	An array of objects of type NmeAnyAppActionRest_GET. Can be created using New-NmeAnyAppActionRest_GET
 
 	.PARAMETER CacheStatus
 
@@ -6013,8 +6013,8 @@ function New-NmePolicyStateRest.GET {
 	#>
 	[cmdletbinding()]
 	Param(
-		[psobject[]][ValidateScript({$_.PSObject.TypeNames -contains "NmeDeviceStateRest.GET"})]$DeviceStates,
-		[psobject[]][ValidateScript({$_.PSObject.TypeNames -contains "NmeAnyAppActionRest.GET"})]$ValidActions,
+		[psobject[]][ValidateScript({$_.PSObject.TypeNames -contains "NmeDeviceStateRest_GET"})]$DeviceStates,
+		[psobject[]][ValidateScript({$_.PSObject.TypeNames -contains "NmeAnyAppActionRest_GET"})]$ValidActions,
 		[ValidateSet("Pending","Ready","Migrating")][string]$CacheStatus,
 		[string]$CacheLastUpdate
 	)
@@ -6025,7 +6025,7 @@ function New-NmePolicyStateRest.GET {
 	if ($PSBoundParameters.containskey("CacheStatus")){ $PropertyHash += @{CacheStatus = $CacheStatus} }
 	if ($PSBoundParameters.containskey("CacheLastUpdate")){ $PropertyHash += @{CacheLastUpdate = $CacheLastUpdate} }
 	$ReturnObject = New-Object -TypeName psobject -Property $PropertyHash
-	$ReturnObject.PSObject.TypeNames.Insert(0, 'NmePolicyStateRest.GET')
+	$ReturnObject.PSObject.TypeNames.Insert(0, 'NmePolicyStateRest_GET')
 	Return $ReturnObject	
 }
 function New-NmePooledParams {
@@ -6687,73 +6687,73 @@ function New-NmeRemoveSessionHostRequest {
 	$ReturnObject.PSObject.TypeNames.Insert(0, 'NmeRemoveSessionHostRequest')
 	Return $ReturnObject	
 }
-function New-NmeResponseListAndAnyAppRest.GET {
+function New-NmeResponseListAndAnyAppRest_GET {
 	<#
 
 	.SYNOPSIS
 
-	Creates an object of type NmeResponseListAndAnyAppRest.GET, for use in other Nme module commands
+	Creates an object of type NmeResponseListAndAnyAppRest_GET, for use in other Nme module commands
 
 	.PARAMETER Items
 
-	An array of objects of type NmeAnyAppRest.GET. Can be created using New-NmeAnyAppRest.GET
+	An array of objects of type NmeAnyAppRest_GET. Can be created using New-NmeAnyAppRest_GET
 
 	#>
 	[cmdletbinding()]
 	Param(
-		[psobject[]][ValidateScript({$_.PSObject.TypeNames -contains "NmeAnyAppRest.GET"})]$Items
+		[psobject[]][ValidateScript({$_.PSObject.TypeNames -contains "NmeAnyAppRest_GET"})]$Items
 	)
 
 	$PropertyHash = @{}
 	if ($PSBoundParameters.containskey("Items")){ $PropertyHash += @{Items = $Items} }
 	$ReturnObject = New-Object -TypeName psobject -Property $PropertyHash
-	$ReturnObject.PSObject.TypeNames.Insert(0, 'NmeResponseListAndAnyAppRest.GET')
+	$ReturnObject.PSObject.TypeNames.Insert(0, 'NmeResponseListAndAnyAppRest_GET')
 	Return $ReturnObject	
 }
-function New-NmeResponseListAndAppPolicyOneTimeRest.GET {
+function New-NmeResponseListAndAppPolicyOneTimeRest_GET {
 	<#
 
 	.SYNOPSIS
 
-	Creates an object of type NmeResponseListAndAppPolicyOneTimeRest.GET, for use in other Nme module commands
+	Creates an object of type NmeResponseListAndAppPolicyOneTimeRest_GET, for use in other Nme module commands
 
 	.PARAMETER Items
 
-	An array of objects of type NmeAppPolicyOneTimeRest.GET. Can be created using New-NmeAppPolicyOneTimeRest.GET
+	An array of objects of type NmeAppPolicyOneTimeRest_GET. Can be created using New-NmeAppPolicyOneTimeRest_GET
 
 	#>
 	[cmdletbinding()]
 	Param(
-		[psobject[]][ValidateScript({$_.PSObject.TypeNames -contains "NmeAppPolicyOneTimeRest.GET"})]$Items
+		[psobject[]][ValidateScript({$_.PSObject.TypeNames -contains "NmeAppPolicyOneTimeRest_GET"})]$Items
 	)
 
 	$PropertyHash = @{}
 	if ($PSBoundParameters.containskey("Items")){ $PropertyHash += @{Items = $Items} }
 	$ReturnObject = New-Object -TypeName psobject -Property $PropertyHash
-	$ReturnObject.PSObject.TypeNames.Insert(0, 'NmeResponseListAndAppPolicyOneTimeRest.GET')
+	$ReturnObject.PSObject.TypeNames.Insert(0, 'NmeResponseListAndAppPolicyOneTimeRest_GET')
 	Return $ReturnObject	
 }
-function New-NmeResponseListAndAppPolicyRecurrentRest.GET {
+function New-NmeResponseListAndAppPolicyRecurrentRest_GET {
 	<#
 
 	.SYNOPSIS
 
-	Creates an object of type NmeResponseListAndAppPolicyRecurrentRest.GET, for use in other Nme module commands
+	Creates an object of type NmeResponseListAndAppPolicyRecurrentRest_GET, for use in other Nme module commands
 
 	.PARAMETER Items
 
-	An array of objects of type NmeAppPolicyRecurrentRest.GET. Can be created using New-NmeAppPolicyRecurrentRest.GET
+	An array of objects of type NmeAppPolicyRecurrentRest_GET. Can be created using New-NmeAppPolicyRecurrentRest_GET
 
 	#>
 	[cmdletbinding()]
 	Param(
-		[psobject[]][ValidateScript({$_.PSObject.TypeNames -contains "NmeAppPolicyRecurrentRest.GET"})]$Items
+		[psobject[]][ValidateScript({$_.PSObject.TypeNames -contains "NmeAppPolicyRecurrentRest_GET"})]$Items
 	)
 
 	$PropertyHash = @{}
 	if ($PSBoundParameters.containskey("Items")){ $PropertyHash += @{Items = $Items} }
 	$ReturnObject = New-Object -TypeName psobject -Property $PropertyHash
-	$ReturnObject.PSObject.TypeNames.Insert(0, 'NmeResponseListAndAppPolicyRecurrentRest.GET')
+	$ReturnObject.PSObject.TypeNames.Insert(0, 'NmeResponseListAndAppPolicyRecurrentRest_GET')
 	Return $ReturnObject	
 }
 function New-NmeResponseWithJob {
@@ -6808,12 +6808,12 @@ function New-NmeResponseWithJobAndAppAttachImageRestModel {
 	$ReturnObject.PSObject.TypeNames.Insert(0, 'NmeResponseWithJobAndAppAttachImageRestModel')
 	Return $ReturnObject	
 }
-function New-NmeResponseWithJobAndAppPolicyOneTimeRest.GET {
+function New-NmeResponseWithJobAndAppPolicyOneTimeRest_GET {
 	<#
 
 	.SYNOPSIS
 
-	Creates an object of type NmeResponseWithJobAndAppPolicyOneTimeRest.GET, for use in other Nme module commands
+	Creates an object of type NmeResponseWithJobAndAppPolicyOneTimeRest_GET, for use in other Nme module commands
 
 	.PARAMETER Job
 
@@ -6821,28 +6821,28 @@ function New-NmeResponseWithJobAndAppPolicyOneTimeRest.GET {
 
 	.PARAMETER Payload
 
-	An object of type NmeAppPolicyOneTimeRest.GET. Can be created using New-NmeAppPolicyOneTimeRest.GET
+	An object of type NmeAppPolicyOneTimeRest_GET. Can be created using New-NmeAppPolicyOneTimeRest_GET
 
 	#>
 	[cmdletbinding()]
 	Param(
 		[ValidateScript({if ($_.PSObject.TypeNames -contains "NmeJobShortInfo"){$true} else{throw "$_ is not a NmeJobShortInfo object. Use New-NmeJobShortInfo to create before calling this function"}})][psobject]$Job,
-		[ValidateScript({if ($_.PSObject.TypeNames -contains "NmeAppPolicyOneTimeRest.GET"){$true} else{throw "$_ is not a NmeAppPolicyOneTimeRest.GET object. Use New-NmeAppPolicyOneTimeRest.GET to create before calling this function"}})][psobject]$Payload
+		[ValidateScript({if ($_.PSObject.TypeNames -contains "NmeAppPolicyOneTimeRest_GET"){$true} else{throw "$_ is not a NmeAppPolicyOneTimeRest_GET object. Use New-NmeAppPolicyOneTimeRest_GET to create before calling this function"}})][psobject]$Payload
 	)
 
 	$PropertyHash = @{}
 	if ($PSBoundParameters.containskey("Job")){ $PropertyHash += @{Job = $Job} }
 	if ($PSBoundParameters.containskey("Payload")){ $PropertyHash += @{Payload = $Payload} }
 	$ReturnObject = New-Object -TypeName psobject -Property $PropertyHash
-	$ReturnObject.PSObject.TypeNames.Insert(0, 'NmeResponseWithJobAndAppPolicyOneTimeRest.GET')
+	$ReturnObject.PSObject.TypeNames.Insert(0, 'NmeResponseWithJobAndAppPolicyOneTimeRest_GET')
 	Return $ReturnObject	
 }
-function New-NmeResponseWithJobAndAppPolicyRecurrentRest.GET {
+function New-NmeResponseWithJobAndAppPolicyRecurrentRest_GET {
 	<#
 
 	.SYNOPSIS
 
-	Creates an object of type NmeResponseWithJobAndAppPolicyRecurrentRest.GET, for use in other Nme module commands
+	Creates an object of type NmeResponseWithJobAndAppPolicyRecurrentRest_GET, for use in other Nme module commands
 
 	.PARAMETER Job
 
@@ -6850,20 +6850,20 @@ function New-NmeResponseWithJobAndAppPolicyRecurrentRest.GET {
 
 	.PARAMETER Payload
 
-	An object of type NmeAppPolicyRecurrentRest.GET. Can be created using New-NmeAppPolicyRecurrentRest.GET
+	An object of type NmeAppPolicyRecurrentRest_GET. Can be created using New-NmeAppPolicyRecurrentRest_GET
 
 	#>
 	[cmdletbinding()]
 	Param(
 		[ValidateScript({if ($_.PSObject.TypeNames -contains "NmeJobShortInfo"){$true} else{throw "$_ is not a NmeJobShortInfo object. Use New-NmeJobShortInfo to create before calling this function"}})][psobject]$Job,
-		[ValidateScript({if ($_.PSObject.TypeNames -contains "NmeAppPolicyRecurrentRest.GET"){$true} else{throw "$_ is not a NmeAppPolicyRecurrentRest.GET object. Use New-NmeAppPolicyRecurrentRest.GET to create before calling this function"}})][psobject]$Payload
+		[ValidateScript({if ($_.PSObject.TypeNames -contains "NmeAppPolicyRecurrentRest_GET"){$true} else{throw "$_ is not a NmeAppPolicyRecurrentRest_GET object. Use New-NmeAppPolicyRecurrentRest_GET to create before calling this function"}})][psobject]$Payload
 	)
 
 	$PropertyHash = @{}
 	if ($PSBoundParameters.containskey("Job")){ $PropertyHash += @{Job = $Job} }
 	if ($PSBoundParameters.containskey("Payload")){ $PropertyHash += @{Payload = $Payload} }
 	$ReturnObject = New-Object -TypeName psobject -Property $PropertyHash
-	$ReturnObject.PSObject.TypeNames.Insert(0, 'NmeResponseWithJobAndAppPolicyRecurrentRest.GET')
+	$ReturnObject.PSObject.TypeNames.Insert(0, 'NmeResponseWithJobAndAppPolicyRecurrentRest_GET')
 	Return $ReturnObject	
 }
 function New-NmeResponseWithJobAndArmWorkspace {
