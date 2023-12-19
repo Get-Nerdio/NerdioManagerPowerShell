@@ -14,13 +14,13 @@ Function Get-NmeImages {
 
 	.PARAMETER ImageType
 
-	Marketplace image, Custom Image, or Compute Gallery Image
+	Valid values are: MarketplaceImage, CustomImage, or ComputeGalleryImage
 
 	#>
 
 	[CmdletBinding()]
 	Param(
-		[Parameter(ValueFromPipelineByPropertyName=$true)][string]$ImageType
+		[Parameter(ValueFromPipelineByPropertyName=$true)][ValidateSet("MarketplaceImage", "CustomImage", "ComputeGalleryImage")][string]$ImageType
 	)
 	Set-NmeAuthHeaders
 	Try {
