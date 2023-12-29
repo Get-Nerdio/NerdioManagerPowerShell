@@ -24,7 +24,7 @@ Function Remove-NmeLinkedResourceGroup {
 
 	[CmdletBinding()]
 	Param(
-		[Parameter(Mandatory=$true,ValueFromPipelineByPropertyName=$true)][string]$SubscriptionId,
+		[Parameter(Mandatory=$true,ValueFromPipelineByPropertyName=$true)][ValidatePattern('(\{|\()?[A-Za-z0-9]{4}([A-Za-z0-9]{4}\-?){4}[A-Za-z0-9]{12}(\}|\()?')][string]$SubscriptionId,
 		[Parameter(Mandatory=$true,ValueFromPipelineByPropertyName=$true)][string]$ResourceGroup
 	)
 	Set-NmeAuthHeaders
@@ -70,7 +70,7 @@ Function New-NmeLinkedResourceGroup {
 
 	[CmdletBinding()]
 	Param(
-		[Parameter(Mandatory=$true,ValueFromPipelineByPropertyName=$true)][string]$SubscriptionId,
+		[Parameter(Mandatory=$true,ValueFromPipelineByPropertyName=$true)][ValidatePattern('(\{|\()?[A-Za-z0-9]{4}([A-Za-z0-9]{4}\-?){4}[A-Za-z0-9]{12}(\}|\()?')][string]$SubscriptionId,
 		[Parameter(Mandatory=$true,ValueFromPipelineByPropertyName=$true)][string]$ResourceGroup,
 		[Parameter(Mandatory=$true, ValueFromPipelineByPropertyName=$True)][ValidateScript({if ($_.PSObject.TypeNames -contains "NmeLinkResourceGroupRequest"){$true} else{throw " is not a NmeLinkResourceGroupRequest object."}})]$NmeLinkResourceGroupRequest
 	)
