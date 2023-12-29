@@ -2982,6 +2982,10 @@ function New-NmeDynamicPoolConfiguration {
 
 	DEPRECATED
 
+	.PARAMETER EnableFixFailedTask
+
+	DEPRECATED
+
 	.PARAMETER IsSingleUserDesktop
 
 	boolean. Specify -IsSingleUserDesktop $True or -IsSingleUserDesktop $False. 
@@ -2989,6 +2993,10 @@ function New-NmeDynamicPoolConfiguration {
 	.PARAMETER ActiveHostType
 
 	string. Valid values are: Running, AvailableForConnection
+
+	.PARAMETER MinCountCreatedVmsType
+
+	integer. Valid values are: 0, 1
 
 	.PARAMETER ScalingMode
 
@@ -3090,8 +3098,10 @@ function New-NmeDynamicPoolConfiguration {
 		[Parameter(Mandatory=$true)][ValidateScript({if ($_.PSObject.TypeNames -contains "NmeVmTemplateParams"){$true} else{throw "$_ is not a NmeVmTemplateParams object. Use New-NmeVmTemplateParams to create before calling this function"}})][psobject]$VmTemplate,
 		[string]$StoppedDiskType,
 		[bool]$ReuseVmNames,
+		[bool]$EnableFixFailedTask,
 		[Parameter(Mandatory=$true)][bool]$IsSingleUserDesktop,
 		[Parameter(Mandatory=$true)][ValidateSet("Running","AvailableForConnection")][string]$ActiveHostType,
+		[ValidateSet("0","1")][int]$MinCountCreatedVmsType,
 		[Parameter(Mandatory=$true)][ValidateSet("Default","WorkingHours","UserDriven")][string]$ScalingMode,
 		[Parameter(Mandatory=$true)][int]$HostPoolCapacity,
 		[Parameter(Mandatory=$true)][int]$MinActiveHostsCount,
@@ -3123,8 +3133,10 @@ function New-NmeDynamicPoolConfiguration {
 	if ($PSBoundParameters.containskey("VmTemplate")){ $PropertyHash += @{VmTemplate = $VmTemplate} }
 	if ($PSBoundParameters.containskey("StoppedDiskType")){ $PropertyHash += @{StoppedDiskType = $StoppedDiskType} }
 	if ($PSBoundParameters.containskey("ReuseVmNames")){ $PropertyHash += @{ReuseVmNames = $ReuseVmNames} }
+	if ($PSBoundParameters.containskey("EnableFixFailedTask")){ $PropertyHash += @{EnableFixFailedTask = $EnableFixFailedTask} }
 	if ($PSBoundParameters.containskey("IsSingleUserDesktop")){ $PropertyHash += @{IsSingleUserDesktop = $IsSingleUserDesktop} }
 	if ($PSBoundParameters.containskey("ActiveHostType")){ $PropertyHash += @{ActiveHostType = $ActiveHostType} }
+	if ($PSBoundParameters.containskey("MinCountCreatedVmsType")){ $PropertyHash += @{MinCountCreatedVmsType = $MinCountCreatedVmsType} }
 	if ($PSBoundParameters.containskey("ScalingMode")){ $PropertyHash += @{ScalingMode = $ScalingMode} }
 	if ($PSBoundParameters.containskey("HostPoolCapacity")){ $PropertyHash += @{HostPoolCapacity = $HostPoolCapacity} }
 	if ($PSBoundParameters.containskey("MinActiveHostsCount")){ $PropertyHash += @{MinActiveHostsCount = $MinActiveHostsCount} }
@@ -4572,7 +4584,7 @@ function New-NmeImageRestModel {
 
 	.PARAMETER ImageType
 
-	Marketplace image, Custom Image, or Compute Gallery Image
+	Valid values are: MarketplaceImage, CustomImage, or ComputeGalleryImage
 
 	.PARAMETER MarketplaceImageInfo
 
