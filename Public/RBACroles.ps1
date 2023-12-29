@@ -53,7 +53,7 @@ Function Get-NmeRbacRolesAssignment {
 
 	[CmdletBinding()]
 	Param(
-		[Parameter(Mandatory=$true,ValueFromPipelineByPropertyName=$true)][string]$ObjectId
+		[Parameter(Mandatory=$true,ValueFromPipelineByPropertyName=$true)][ValidatePattern('(\{|\()?[A-Za-z0-9]{4}([A-Za-z0-9]{4}\-?){4}[A-Za-z0-9]{12}(\}|\()?')][string]$ObjectId
 	)
 	Set-NmeAuthHeaders
 	Try {
@@ -95,7 +95,7 @@ Function Set-NmeRbacRolesAssignment {
 
 	[CmdletBinding()]
 	Param(
-		[Parameter(Mandatory=$true,ValueFromPipelineByPropertyName=$true)][string]$ObjectId,
+		[Parameter(Mandatory=$true,ValueFromPipelineByPropertyName=$true)][ValidatePattern('(\{|\()?[A-Za-z0-9]{4}([A-Za-z0-9]{4}\-?){4}[A-Za-z0-9]{12}(\}|\()?')][string]$ObjectId,
 		[Parameter(Mandatory=$true, ValueFromPipelineByPropertyName=$True)][ValidateScript({if ($_.PSObject.TypeNames -contains "NmeRbacAssignmentUpdateRestModel"){$true} else{throw " is not a NmeRbacAssignmentUpdateRestModel object."}})]$NmeRbacAssignmentUpdateRestModel
 	)
 	Set-NmeAuthHeaders
