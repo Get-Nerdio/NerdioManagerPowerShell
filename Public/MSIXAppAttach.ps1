@@ -94,7 +94,7 @@ Function Get-NmeAppAttachImageVersion {
 
 	[CmdletBinding()]
 	Param(
-		[Parameter(Mandatory=$true,ValueFromPipelineByPropertyName=$true)][string]$ImageId
+		[Parameter(Mandatory=$true,ValueFromPipelineByPropertyName=$true)][ValidatePattern('(\{|\()?[A-Za-z0-9]{4}([A-Za-z0-9]{4}\-?){4}[A-Za-z0-9]{12}(\}|\()?')][string]$ImageId
 	)
 	Set-NmeAuthHeaders
 	Try {
@@ -167,7 +167,7 @@ Function Set-NmeAppAttachImageId {
 
 	[CmdletBinding()]
 	Param(
-		[Parameter(Mandatory=$true,ValueFromPipelineByPropertyName=$true)][string]$ImageId,
+		[Parameter(Mandatory=$true,ValueFromPipelineByPropertyName=$true)][ValidatePattern('(\{|\()?[A-Za-z0-9]{4}([A-Za-z0-9]{4}\-?){4}[A-Za-z0-9]{12}(\}|\()?')][string]$ImageId,
 		[Parameter(Mandatory=$true, ValueFromPipelineByPropertyName=$True)][ValidateScript({if ($_.PSObject.TypeNames -contains "NmeAppAttachImageRestPatchRequest"){$true} else{throw " is not a NmeAppAttachImageRestPatchRequest object."}})]$NmeAppAttachImageRestPatchRequest
 	)
 	Set-NmeAuthHeaders
@@ -228,46 +228,6 @@ Function New-NmeMSIXPackage {
 		write-error ($message | out-string)
 	}
 }
-Function New-NmeMSIXPackageDirectUpload {
-	<#
-
-	.SYNOPSIS
-
-	Upload MSIX package (up to 100MB).
-
-	.DESCRIPTION
-
-	### Default failure policy values are: cleanup = false, restart = false incase not specified
-### If TempVmSubscriptionId and/or TempVmResourceGroup is not specified, default resource group will be used
-### If TempVmNetworkId and/or TempVmSubnet is not specified, default network will be used
-### To reset example values press "reset", then "cancel" and "try it out". 
-
-	This function calls the /api/v1/app-attach/package-msix/direct endpoint of the NME REST API, using the post method.
-
-
-
-
-	#>
-
-	[CmdletBinding()]
-	Param(
-
-	)
-	Set-NmeAuthHeaders
-	Try {
-		$json = $ | ConvertTo-Json -Depth 20
-		Write-Debug 'json:'
-		Write-Debug $json
-		$Result = Invoke-RestMethod "$script:NmeUri/api/v1/app-attach/package-msix/direct$QueryString" -Method post -Headers $script:AuthHeaders -ContentType 'application/json' -body $json
-		Write-Verbose ($result | out-string)
-		$Result.PSObject.TypeNames.Insert(0, 'NmeResponseWithJob')
-		$Result | CapProps
-	}
-	Catch {
-		$message = ParseErrorForResponseBody($_)
-		write-error ($message | out-string)
-	}
-}
 Function New-NmeMSIXImageVersion {
 	<#
 
@@ -295,7 +255,7 @@ Function New-NmeMSIXImageVersion {
 
 	[CmdletBinding()]
 	Param(
-		[Parameter(Mandatory=$true,ValueFromPipelineByPropertyName=$true)][string]$ImageId,
+		[Parameter(Mandatory=$true,ValueFromPipelineByPropertyName=$true)][ValidatePattern('(\{|\()?[A-Za-z0-9]{4}([A-Za-z0-9]{4}\-?){4}[A-Za-z0-9]{12}(\}|\()?')][string]$ImageId,
 		[Parameter(Mandatory=$true, ValueFromPipelineByPropertyName=$True)][ValidateScript({if ($_.PSObject.TypeNames -contains "NmeAppAttachImageVersionRestPostRequest"){$true} else{throw " is not a NmeAppAttachImageVersionRestPostRequest object."}})]$NmeAppAttachImageVersionRestPostRequest
 	)
 	Set-NmeAuthHeaders
@@ -307,43 +267,6 @@ Function New-NmeMSIXImageVersion {
 		Write-Verbose ($result | out-string)
 		$Result.PSObject.TypeNames.Insert(0, 'NmeResponseWithJob')
 		$Result | Add-Member -NotePropertyName 'imageId' -NotePropertyValue $imageId -erroraction 'SilentlyContinue'
-		$Result | CapProps
-	}
-	Catch {
-		$message = ParseErrorForResponseBody($_)
-		write-error ($message | out-string)
-	}
-}
-Function New-NmeMSIXImageCertificate {
-	<#
-
-	.SYNOPSIS
-
-	Upload certificate.
-
-	.DESCRIPTION
-
-	Upload certificate. 
-
-	This function calls the /api/v1/app-attach/certificate endpoint of the NME REST API, using the post method.
-
-
-
-
-	#>
-
-	[CmdletBinding()]
-	Param(
-
-	)
-	Set-NmeAuthHeaders
-	Try {
-		$json = $ | ConvertTo-Json -Depth 20
-		Write-Debug 'json:'
-		Write-Debug $json
-		$Result = Invoke-RestMethod "$script:NmeUri/api/v1/app-attach/certificate$QueryString" -Method post -Headers $script:AuthHeaders -ContentType 'application/json' -body $json
-		Write-Verbose ($result | out-string)
-		$Result.PSObject.TypeNames.Insert(0, 'NmeResponseWithJob')
 		$Result | CapProps
 	}
 	Catch {
@@ -381,7 +304,7 @@ Function Set-NmeAppAttachImageVersionName {
 
 	[CmdletBinding()]
 	Param(
-		[Parameter(Mandatory=$true,ValueFromPipelineByPropertyName=$true)][string]$ImageId,
+		[Parameter(Mandatory=$true,ValueFromPipelineByPropertyName=$true)][ValidatePattern('(\{|\()?[A-Za-z0-9]{4}([A-Za-z0-9]{4}\-?){4}[A-Za-z0-9]{12}(\}|\()?')][string]$ImageId,
 		[Parameter(Mandatory=$true,ValueFromPipelineByPropertyName=$true)][string]$VersionName,
 		[Parameter(Mandatory=$true, ValueFromPipelineByPropertyName=$True)][ValidateScript({if ($_.PSObject.TypeNames -contains "NmeAppAttachImageVersionRestPutRequest"){$true} else{throw " is not a NmeAppAttachImageVersionRestPutRequest object."}})]$NmeAppAttachImageVersionRestPutRequest
 	)

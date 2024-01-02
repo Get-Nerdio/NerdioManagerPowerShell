@@ -2996,7 +2996,7 @@ function New-NmeDynamicPoolConfiguration {
 
 	.PARAMETER MinCountCreatedVmsType
 
-	integer. Valid values are: 0, 1
+	string. Valid values are: HostPoolCapacity, MinActiveHostsProperty
 
 	.PARAMETER ScalingMode
 
@@ -3101,7 +3101,7 @@ function New-NmeDynamicPoolConfiguration {
 		[bool]$EnableFixFailedTask,
 		[Parameter(Mandatory=$true)][bool]$IsSingleUserDesktop,
 		[Parameter(Mandatory=$true)][ValidateSet("Running","AvailableForConnection")][string]$ActiveHostType,
-		[ValidateSet("0","1")][int]$MinCountCreatedVmsType,
+		[ValidateSet("HostPoolCapacity","MinActiveHostsProperty")][string]$MinCountCreatedVmsType,
 		[Parameter(Mandatory=$true)][ValidateSet("Default","WorkingHours","UserDriven")][string]$ScalingMode,
 		[Parameter(Mandatory=$true)][int]$HostPoolCapacity,
 		[Parameter(Mandatory=$true)][int]$MinActiveHostsCount,

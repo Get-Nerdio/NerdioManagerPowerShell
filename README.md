@@ -1,6 +1,12 @@
 # Introduction 
 A PowerShell module for managing Nerdio Manager for Enterprise (NME) 
 
+# 0.6.1 Release Notes
+ - New functions have been added for configuring and managing the Unified Application Management features.
+ - Compatible with NME 5.6.1 release
+ - Two properties of New-NmeDynamicPoolConfiguration are now deprecated: minCountCreatedVmsType and enableFixFailedTask. 
+
+
 # 0.5.0 Release Notes:
 - App Management function Get-NmeAppRepository now available
 - New ability to manage scripted action groups
