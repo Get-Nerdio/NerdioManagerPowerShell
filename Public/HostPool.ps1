@@ -193,7 +193,7 @@ Function Get-NmeHostPoolAutoScaleConfig {
 	Set-NmeAuthHeaders
 	Try {
 		$Result = Invoke-RestMethod "$script:NmeUri/api/v1/arm/hostpool/$SubscriptionId/$ResourceGroup/$HostPoolName/auto-scale$Querystring" -Method get -Headers $script:AuthHeaders -ContentType 'application/json'
-		$Result | Add-Member -NotePropertyName 'subscriptionId' -NotePropertyValue $subscriptionId -erroraction 'SilentlyContinue'
+				$Result | Add-Member -NotePropertyName 'subscriptionId' -NotePropertyValue $subscriptionId -erroraction 'SilentlyContinue'
 		$Result | Add-Member -NotePropertyName 'resourceGroup' -NotePropertyValue $resourceGroup -erroraction 'SilentlyContinue'
 		$Result | Add-Member -NotePropertyName 'hostPoolName' -NotePropertyValue $hostPoolName -erroraction 'SilentlyContinue'
 		$result = $Result | CapProps
@@ -202,7 +202,7 @@ Function Get-NmeHostPoolAutoScaleConfig {
 			$result = ($result | select -Property *  -ExcludeProperty RollingDrainMode)
 		}
 		$Result.PSObject.TypeNames.Insert(0, 'NmeDynamicPoolConfiguration')
-		$result
+		$Result
 	}
 	Catch {
 		$message = ParseErrorForResponseBody($_)
@@ -359,9 +359,9 @@ Function Set-NmeHostPoolAutoScaleConfig {
 		[Parameter(Mandatory=$true,ValueFromPipelineByPropertyName=$true)][string]$SubscriptionId,
 		[Parameter(Mandatory=$true,ValueFromPipelineByPropertyName=$true)][string]$ResourceGroup,
 		[Parameter(Mandatory=$true,ValueFromPipelineByPropertyName=$true)][string]$HostPoolName,
-		[Parameter(ValueFromPipelineByPropertyName=$true)][boolean]$MultiTriggers,
-		[Parameter(ValueFromPipelineByPropertyName=$true)][boolean]$AutoHealActions,
-		[Parameter(Mandatory=$true, ValueFromPipelineByPropertyName=$True)][ValidateScript({if ($_.PSObject.TypeNames -contains "NmeDynamicPoolConfiguration"){$true} else{throw " is not a NmeDynamicPoolConfiguration object."}})][psobject[]]$NmeDynamicPoolConfiguration
+		[Parameter(ValueFromPipelineByPropertyName=$true)][bool]$MultiTriggers,
+		[Parameter(ValueFromPipelineByPropertyName=$true)][bool]$AutoHealActions,
+		[Parameter(Mandatory=$true, ValueFromPipelineByPropertyName=$True)][ValidateScript({if ($_.PSObject.TypeNames -contains "NmeDynamicPoolConfiguration"){$true} else{throw " is not a NmeDynamicPoolConfiguration object."}})]$NmeDynamicPoolConfiguration
 	)
 	Set-NmeAuthHeaders
 	Try {
