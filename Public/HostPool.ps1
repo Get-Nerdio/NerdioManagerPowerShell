@@ -193,16 +193,11 @@ Function Get-NmeHostPoolAutoScaleConfig {
 	Set-NmeAuthHeaders
 	Try {
 		$Result = Invoke-RestMethod "$script:NmeUri/api/v1/arm/hostpool/$SubscriptionId/$ResourceGroup/$HostPoolName/auto-scale$Querystring" -Method get -Headers $script:AuthHeaders -ContentType 'application/json'
-				$Result | Add-Member -NotePropertyName 'subscriptionId' -NotePropertyValue $subscriptionId -erroraction 'SilentlyContinue'
+		$Result.PSObject.TypeNames.Insert(0, 'NmeDynamicPoolConfiguration')
+		$Result | Add-Member -NotePropertyName 'subscriptionId' -NotePropertyValue $subscriptionId -erroraction 'SilentlyContinue'
 		$Result | Add-Member -NotePropertyName 'resourceGroup' -NotePropertyValue $resourceGroup -erroraction 'SilentlyContinue'
 		$Result | Add-Member -NotePropertyName 'hostPoolName' -NotePropertyValue $hostPoolName -erroraction 'SilentlyContinue'
-		$result = $Result | CapProps
-		$Result.AutoScaleTriggers = @($result.autoScaleTriggers)
-		if ($Result.RollingDrainMode.Windows -eq $null) {
-			$result = ($result | select -Property *  -ExcludeProperty RollingDrainMode)
-		}
-		$Result.PSObject.TypeNames.Insert(0, 'NmeDynamicPoolConfiguration')
-		$Result
+		$Result | CapProps
 	}
 	Catch {
 		$message = ParseErrorForResponseBody($_)

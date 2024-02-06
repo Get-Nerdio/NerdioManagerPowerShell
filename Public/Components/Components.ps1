@@ -435,7 +435,7 @@ function New-NmeAnyAppRest_GET {
 
 	.PARAMETER Type
 
-	string. Valid values are: Winget, Intune
+	string. Valid values are: Winget, Intune, Nme
 
 	.PARAMETER ExternalId
 
@@ -456,7 +456,7 @@ function New-NmeAnyAppRest_GET {
 	#>
 	[cmdletbinding()]
 	Param(
-		[ValidateSet("Winget","Intune")][string]$Type,
+		[ValidateSet("Winget","Intune","Nme")][string]$Type,
 		[string]$ExternalId,
 		[string]$Name,
 		[string[]]$Versions,
@@ -584,7 +584,7 @@ function New-NmeAnyRepositoryRest_GET {
 
 	.PARAMETER Type
 
-	string. Valid values are: Winget, Intune
+	string. Valid values are: Winget, Intune, Nme
 
 	.PARAMETER Url
 
@@ -599,7 +599,7 @@ function New-NmeAnyRepositoryRest_GET {
 	Param(
 		[int]$Id,
 		[string]$DisplayName,
-		[ValidateSet("Winget","Intune")][string]$Type,
+		[ValidateSet("Winget","Intune","Nme")][string]$Type,
 		[string]$Url,
 		[string]$BlobContainerUri
 	)
@@ -612,6 +612,88 @@ function New-NmeAnyRepositoryRest_GET {
 	if ($PSBoundParameters.containskey("BlobContainerUri")){ $PropertyHash += @{BlobContainerUri = $BlobContainerUri} }
 	$ReturnObject = New-Object -TypeName psobject -Property $PropertyHash
 	$ReturnObject.PSObject.TypeNames.Insert(0, 'NmeAnyRepositoryRest_GET')
+	Return $ReturnObject	
+}
+function New-NmeAnySelfServiceApp_GET {
+	<#
+
+	.SYNOPSIS
+
+	Creates an object of type NmeAnySelfServiceApp_GET, for use in other Nme module commands
+
+	.PARAMETER Version
+
+	string. 
+
+	.PARAMETER RepoId
+
+	Id of the application repository
+
+	.PARAMETER ExternalId
+
+	string. 
+
+	.PARAMETER Name
+
+	The name of the resource
+
+	#>
+	[cmdletbinding()]
+	Param(
+		[string]$Version,
+		[int]$RepoId,
+		[string]$ExternalId,
+		[string]$Name
+	)
+
+	$PropertyHash = @{}
+	if ($PSBoundParameters.containskey("Version")){ $PropertyHash += @{Version = $Version} }
+	if ($PSBoundParameters.containskey("RepoId")){ $PropertyHash += @{RepoId = $RepoId} }
+	if ($PSBoundParameters.containskey("ExternalId")){ $PropertyHash += @{ExternalId = $ExternalId} }
+	if ($PSBoundParameters.containskey("Name")){ $PropertyHash += @{Name = $Name} }
+	$ReturnObject = New-Object -TypeName psobject -Property $PropertyHash
+	$ReturnObject.PSObject.TypeNames.Insert(0, 'NmeAnySelfServiceApp_GET')
+	Return $ReturnObject	
+}
+function New-NmeAnySelfServiceApp_POST {
+	<#
+
+	.SYNOPSIS
+
+	Creates an object of type NmeAnySelfServiceApp_POST, for use in other Nme module commands
+
+	.PARAMETER Version
+
+	string. 
+
+	.PARAMETER RepoId
+
+	Id of the application repository
+
+	.PARAMETER ExternalId
+
+	string. 
+
+	.PARAMETER Name
+
+	The name of the resource
+
+	#>
+	[cmdletbinding()]
+	Param(
+		[string]$Version,
+		[Parameter(Mandatory=$true)][int]$RepoId,
+		[Parameter(Mandatory=$true)][string]$ExternalId,
+		[Parameter(Mandatory=$true)][string]$Name
+	)
+
+	$PropertyHash = @{}
+	if ($PSBoundParameters.containskey("Version")){ $PropertyHash += @{Version = $Version} }
+	if ($PSBoundParameters.containskey("RepoId")){ $PropertyHash += @{RepoId = $RepoId} }
+	if ($PSBoundParameters.containskey("ExternalId")){ $PropertyHash += @{ExternalId = $ExternalId} }
+	if ($PSBoundParameters.containskey("Name")){ $PropertyHash += @{Name = $Name} }
+	$ReturnObject = New-Object -TypeName psobject -Property $PropertyHash
+	$ReturnObject.PSObject.TypeNames.Insert(0, 'NmeAnySelfServiceApp_POST')
 	Return $ReturnObject	
 }
 function New-NmeAppAttachImageRestModel {
@@ -4094,6 +4176,14 @@ function New-NmeHostPoolUserSelfServiceModelRest {
 
 	An array of objects of type NmeUserSelfServiceTag. Can be created using New-NmeUserSelfServiceTag
 
+	.PARAMETER AllowAppInstall
+
+	boolean. Specify -AllowAppInstall $True or -AllowAppInstall $False. 
+
+	.PARAMETER AllowedApps
+
+	An array of objects of type NmeAnySelfServiceApp_GET. Can be created using New-NmeAnySelfServiceApp_GET
+
 	#>
 	[cmdletbinding()]
 	Param(
@@ -4112,7 +4202,9 @@ function New-NmeHostPoolUserSelfServiceModelRest {
 		[bool]$AllowScriptedActions,
 		[psobject[]][ValidateScript({$_.PSObject.TypeNames -contains "NmeUserSelfServiceScriptedAction"})]$AllowedScriptedActions,
 		[bool]$AllowUpdateDesktopsTags,
-		[psobject[]][ValidateScript({$_.PSObject.TypeNames -contains "NmeUserSelfServiceTag"})]$AllowedDesktopsTags
+		[psobject[]][ValidateScript({$_.PSObject.TypeNames -contains "NmeUserSelfServiceTag"})]$AllowedDesktopsTags,
+		[bool]$AllowAppInstall,
+		[psobject[]][ValidateScript({$_.PSObject.TypeNames -contains "NmeAnySelfServiceApp_GET"})]$AllowedApps
 	)
 
 	$PropertyHash = @{}
@@ -4132,6 +4224,8 @@ function New-NmeHostPoolUserSelfServiceModelRest {
 	if ($PSBoundParameters.containskey("AllowedScriptedActions")){ $PropertyHash += @{AllowedScriptedActions = $AllowedScriptedActions} }
 	if ($PSBoundParameters.containskey("AllowUpdateDesktopsTags")){ $PropertyHash += @{AllowUpdateDesktopsTags = $AllowUpdateDesktopsTags} }
 	if ($PSBoundParameters.containskey("AllowedDesktopsTags")){ $PropertyHash += @{AllowedDesktopsTags = $AllowedDesktopsTags} }
+	if ($PSBoundParameters.containskey("AllowAppInstall")){ $PropertyHash += @{AllowAppInstall = $AllowAppInstall} }
+	if ($PSBoundParameters.containskey("AllowedApps")){ $PropertyHash += @{AllowedApps = $AllowedApps} }
 	$ReturnObject = New-Object -TypeName psobject -Property $PropertyHash
 	$ReturnObject.PSObject.TypeNames.Insert(0, 'NmeHostPoolUserSelfServiceModelRest')
 	Return $ReturnObject	
