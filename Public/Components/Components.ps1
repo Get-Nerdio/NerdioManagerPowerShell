@@ -435,7 +435,7 @@ function New-NmeAnyAppRest_GET {
 
 	.PARAMETER Type
 
-	string. Valid values are: Winget, Intune, Nme
+	string. Valid values are: Winget, Intune, Shell
 
 	.PARAMETER ExternalId
 
@@ -456,7 +456,7 @@ function New-NmeAnyAppRest_GET {
 	#>
 	[cmdletbinding()]
 	Param(
-		[ValidateSet("Winget","Intune","Nme")][string]$Type,
+		[ValidateSet("Winget","Intune","Shell")][string]$Type,
 		[string]$ExternalId,
 		[string]$Name,
 		[string[]]$Versions,
@@ -584,7 +584,7 @@ function New-NmeAnyRepositoryRest_GET {
 
 	.PARAMETER Type
 
-	string. Valid values are: Winget, Intune, Nme
+	string. Valid values are: Winget, Intune, Shell
 
 	.PARAMETER Url
 
@@ -599,7 +599,7 @@ function New-NmeAnyRepositoryRest_GET {
 	Param(
 		[int]$Id,
 		[string]$DisplayName,
-		[ValidateSet("Winget","Intune","Nme")][string]$Type,
+		[ValidateSet("Winget","Intune","Shell")][string]$Type,
 		[string]$Url,
 		[string]$BlobContainerUri
 	)
@@ -3375,6 +3375,10 @@ function New-NmeFsLogixRestProperties {
 
 	boolean. Specify -ForceUpdate $True or -ForceUpdate $False. 
 
+	.PARAMETER RedirectionsXml
+
+	string. 
+
 	#>
 	[cmdletbinding()]
 	Param(
@@ -3384,7 +3388,8 @@ function New-NmeFsLogixRestProperties {
 		[string]$OfficeContainerPath,
 		[string]$OfficeContainerRegistryOptions,
 		[bool]$SetupRegistryForAADJoinedStorage,
-		[bool]$ForceUpdate
+		[bool]$ForceUpdate,
+		[string]$RedirectionsXml
 	)
 
 	$PropertyHash = @{}
@@ -3395,6 +3400,7 @@ function New-NmeFsLogixRestProperties {
 	if ($PSBoundParameters.containskey("OfficeContainerRegistryOptions")){ $PropertyHash += @{OfficeContainerRegistryOptions = $OfficeContainerRegistryOptions} }
 	if ($PSBoundParameters.containskey("SetupRegistryForAADJoinedStorage")){ $PropertyHash += @{SetupRegistryForAADJoinedStorage = $SetupRegistryForAADJoinedStorage} }
 	if ($PSBoundParameters.containskey("ForceUpdate")){ $PropertyHash += @{ForceUpdate = $ForceUpdate} }
+	if ($PSBoundParameters.containskey("RedirectionsXml")){ $PropertyHash += @{RedirectionsXml = $RedirectionsXml} }
 	$ReturnObject = New-Object -TypeName psobject -Property $PropertyHash
 	$ReturnObject.PSObject.TypeNames.Insert(0, 'NmeFsLogixRestProperties')
 	Return $ReturnObject	
@@ -3455,6 +3461,10 @@ function New-NmeGalleryImageRestConfiguration {
 
 	boolean. Specify -HibernationSupported $True or -HibernationSupported $False. 
 
+	.PARAMETER ImageSecurityType
+
+	integer. Valid values are: 0, 1, 2, 3, 4, 5
+
 	#>
 	[cmdletbinding()]
 	Param(
@@ -3462,7 +3472,8 @@ function New-NmeGalleryImageRestConfiguration {
 		[string[]]$TargetRegions,
 		[bool]$SetInactive,
 		[int]$ReplicaCount,
-		[bool]$HibernationSupported
+		[bool]$HibernationSupported,
+		[ValidateSet("0","1","2","3","4","5")][int]$ImageSecurityType
 	)
 
 	$PropertyHash = @{}
@@ -3471,6 +3482,7 @@ function New-NmeGalleryImageRestConfiguration {
 	if ($PSBoundParameters.containskey("SetInactive")){ $PropertyHash += @{SetInactive = $SetInactive} }
 	if ($PSBoundParameters.containskey("ReplicaCount")){ $PropertyHash += @{ReplicaCount = $ReplicaCount} }
 	if ($PSBoundParameters.containskey("HibernationSupported")){ $PropertyHash += @{HibernationSupported = $HibernationSupported} }
+	if ($PSBoundParameters.containskey("ImageSecurityType")){ $PropertyHash += @{ImageSecurityType = $ImageSecurityType} }
 	$ReturnObject = New-Object -TypeName psobject -Property $PropertyHash
 	$ReturnObject.PSObject.TypeNames.Insert(0, 'NmeGalleryImageRestConfiguration')
 	Return $ReturnObject	
@@ -4184,6 +4196,14 @@ function New-NmeHostPoolUserSelfServiceModelRest {
 
 	An array of objects of type NmeAnySelfServiceApp_GET. Can be created using New-NmeAnySelfServiceApp_GET
 
+	.PARAMETER AllowRestrictAutoScale
+
+	boolean. Specify -AllowRestrictAutoScale $True or -AllowRestrictAutoScale $False. 
+
+	.PARAMETER MaxAutoScaleRestrictionPeriod
+
+	integer. 
+
 	#>
 	[cmdletbinding()]
 	Param(
@@ -4204,7 +4224,9 @@ function New-NmeHostPoolUserSelfServiceModelRest {
 		[bool]$AllowUpdateDesktopsTags,
 		[psobject[]][ValidateScript({$_.PSObject.TypeNames -contains "NmeUserSelfServiceTag"})]$AllowedDesktopsTags,
 		[bool]$AllowAppInstall,
-		[psobject[]][ValidateScript({$_.PSObject.TypeNames -contains "NmeAnySelfServiceApp_GET"})]$AllowedApps
+		[psobject[]][ValidateScript({$_.PSObject.TypeNames -contains "NmeAnySelfServiceApp_GET"})]$AllowedApps,
+		[bool]$AllowRestrictAutoScale,
+		[int]$MaxAutoScaleRestrictionPeriod
 	)
 
 	$PropertyHash = @{}
@@ -4226,6 +4248,8 @@ function New-NmeHostPoolUserSelfServiceModelRest {
 	if ($PSBoundParameters.containskey("AllowedDesktopsTags")){ $PropertyHash += @{AllowedDesktopsTags = $AllowedDesktopsTags} }
 	if ($PSBoundParameters.containskey("AllowAppInstall")){ $PropertyHash += @{AllowAppInstall = $AllowAppInstall} }
 	if ($PSBoundParameters.containskey("AllowedApps")){ $PropertyHash += @{AllowedApps = $AllowedApps} }
+	if ($PSBoundParameters.containskey("AllowRestrictAutoScale")){ $PropertyHash += @{AllowRestrictAutoScale = $AllowRestrictAutoScale} }
+	if ($PSBoundParameters.containskey("MaxAutoScaleRestrictionPeriod")){ $PropertyHash += @{MaxAutoScaleRestrictionPeriod = $MaxAutoScaleRestrictionPeriod} }
 	$ReturnObject = New-Object -TypeName psobject -Property $PropertyHash
 	$ReturnObject.PSObject.TypeNames.Insert(0, 'NmeHostPoolUserSelfServiceModelRest')
 	Return $ReturnObject	
@@ -7059,6 +7083,35 @@ function New-NmeResponseWithJobAndScriptedAction {
 	$ReturnObject.PSObject.TypeNames.Insert(0, 'NmeResponseWithJobAndScriptedAction')
 	Return $ReturnObject	
 }
+function New-NmeResponseWithJobAndUserCostAttributionConfigurationModel {
+	<#
+
+	.SYNOPSIS
+
+	Creates an object of type NmeResponseWithJobAndUserCostAttributionConfigurationModel, for use in other Nme module commands
+
+	.PARAMETER Job
+
+	An object of type NmeJobShortInfo. Can be created using New-NmeJobShortInfo
+
+	.PARAMETER Payload
+
+	An object of type NmeUserCostAttributionConfigurationModel. Can be created using New-NmeUserCostAttributionConfigurationModel
+
+	#>
+	[cmdletbinding()]
+	Param(
+		[ValidateScript({if ($_.PSObject.TypeNames -contains "NmeJobShortInfo"){$true} else{throw "$_ is not a NmeJobShortInfo object. Use New-NmeJobShortInfo to create before calling this function"}})][psobject]$Job,
+		[ValidateScript({if ($_.PSObject.TypeNames -contains "NmeUserCostAttributionConfigurationModel"){$true} else{throw "$_ is not a NmeUserCostAttributionConfigurationModel object. Use New-NmeUserCostAttributionConfigurationModel to create before calling this function"}})][psobject]$Payload
+	)
+
+	$PropertyHash = @{}
+	if ($PSBoundParameters.containskey("Job")){ $PropertyHash += @{Job = $Job} }
+	if ($PSBoundParameters.containskey("Payload")){ $PropertyHash += @{Payload = $Payload} }
+	$ReturnObject = New-Object -TypeName psobject -Property $PropertyHash
+	$ReturnObject.PSObject.TypeNames.Insert(0, 'NmeResponseWithJobAndUserCostAttributionConfigurationModel')
+	Return $ReturnObject	
+}
 function New-NmeResponseWithMultipleJobs_BackwardCompatibility {
 	<#
 
@@ -8920,6 +8973,341 @@ function New-NmeUsageRestModel {
 	if ($PSBoundParameters.containskey("MonthlyActiveUsers")){ $PropertyHash += @{MonthlyActiveUsers = $MonthlyActiveUsers} }
 	$ReturnObject = New-Object -TypeName psobject -Property $PropertyHash
 	$ReturnObject.PSObject.TypeNames.Insert(0, 'NmeUsageRestModel')
+	Return $ReturnObject	
+}
+function New-NmeUserCostAttributionConfigurationCreateModel {
+	<#
+
+	.SYNOPSIS
+
+	Creates an object of type NmeUserCostAttributionConfigurationCreateModel, for use in other Nme module commands
+
+	.PARAMETER DisplayName
+
+	string. 
+
+	.PARAMETER DefaultReportType
+
+	string. Valid values are: Uniform, Proportional, Unallocated
+
+	.PARAMETER SubscriptionsIds
+
+	array. 
+
+	.PARAMETER WorkspaceIds
+
+	array. 
+
+	.PARAMETER Tags
+
+	object. 
+
+	.PARAMETER UseDefaultTags
+
+	boolean. Specify -UseDefaultTags $True or -UseDefaultTags $False. 
+
+	#>
+	[cmdletbinding()]
+	Param(
+		[Parameter(Mandatory=$true)][string]$DisplayName,
+		[Parameter(Mandatory=$true)][ValidateSet("Uniform","Proportional","Unallocated")][string]$DefaultReportType,
+		[Parameter(Mandatory=$true)][string[]]$SubscriptionsIds,
+		[Parameter(Mandatory=$true)][string[]]$WorkspaceIds,
+		[Parameter(Mandatory=$true)][hashtable]$Tags,
+		[Parameter(Mandatory=$true)][bool]$UseDefaultTags
+	)
+
+	$PropertyHash = @{}
+	if ($PSBoundParameters.containskey("DisplayName")){ $PropertyHash += @{DisplayName = $DisplayName} }
+	if ($PSBoundParameters.containskey("DefaultReportType")){ $PropertyHash += @{DefaultReportType = $DefaultReportType} }
+	if ($PSBoundParameters.containskey("SubscriptionsIds")){ $PropertyHash += @{SubscriptionsIds = $SubscriptionsIds} }
+	if ($PSBoundParameters.containskey("WorkspaceIds")){ $PropertyHash += @{WorkspaceIds = $WorkspaceIds} }
+	if ($PSBoundParameters.containskey("Tags")){ $PropertyHash += @{Tags = $Tags} }
+	if ($PSBoundParameters.containskey("UseDefaultTags")){ $PropertyHash += @{UseDefaultTags = $UseDefaultTags} }
+	$ReturnObject = New-Object -TypeName psobject -Property $PropertyHash
+	$ReturnObject.PSObject.TypeNames.Insert(0, 'NmeUserCostAttributionConfigurationCreateModel')
+	Return $ReturnObject	
+}
+function New-NmeUserCostAttributionConfigurationModel {
+	<#
+
+	.SYNOPSIS
+
+	Creates an object of type NmeUserCostAttributionConfigurationModel, for use in other Nme module commands
+
+	.PARAMETER DisplayName
+
+	string. 
+
+	.PARAMETER DefaultReportType
+
+	string. Valid values are: Uniform, Proportional, Unallocated
+
+	.PARAMETER SubscriptionsIds
+
+	array. 
+
+	.PARAMETER WorkspaceIds
+
+	array. 
+
+	.PARAMETER Tags
+
+	object. 
+
+	.PARAMETER UseDefaultTags
+
+	boolean. Specify -UseDefaultTags $True or -UseDefaultTags $False. 
+
+	.PARAMETER Id
+
+	ID of scripted Action
+
+	.PARAMETER IsDefault
+
+	boolean. Specify -IsDefault $True or -IsDefault $False. 
+
+	.PARAMETER IsArchived
+
+	boolean. Specify -IsArchived $True or -IsArchived $False. 
+
+	#>
+	[cmdletbinding()]
+	Param(
+		[Parameter(Mandatory=$true)][string]$DisplayName,
+		[Parameter(Mandatory=$true)][ValidateSet("Uniform","Proportional","Unallocated")][string]$DefaultReportType,
+		[Parameter(Mandatory=$true)][string[]]$SubscriptionsIds,
+		[Parameter(Mandatory=$true)][string[]]$WorkspaceIds,
+		[Parameter(Mandatory=$true)][hashtable]$Tags,
+		[Parameter(Mandatory=$true)][bool]$UseDefaultTags,
+		[string]$Id,
+		[bool]$IsDefault,
+		[bool]$IsArchived
+	)
+
+	$PropertyHash = @{}
+	if ($PSBoundParameters.containskey("DisplayName")){ $PropertyHash += @{DisplayName = $DisplayName} }
+	if ($PSBoundParameters.containskey("DefaultReportType")){ $PropertyHash += @{DefaultReportType = $DefaultReportType} }
+	if ($PSBoundParameters.containskey("SubscriptionsIds")){ $PropertyHash += @{SubscriptionsIds = $SubscriptionsIds} }
+	if ($PSBoundParameters.containskey("WorkspaceIds")){ $PropertyHash += @{WorkspaceIds = $WorkspaceIds} }
+	if ($PSBoundParameters.containskey("Tags")){ $PropertyHash += @{Tags = $Tags} }
+	if ($PSBoundParameters.containskey("UseDefaultTags")){ $PropertyHash += @{UseDefaultTags = $UseDefaultTags} }
+	if ($PSBoundParameters.containskey("Id")){ $PropertyHash += @{Id = $Id} }
+	if ($PSBoundParameters.containskey("IsDefault")){ $PropertyHash += @{IsDefault = $IsDefault} }
+	if ($PSBoundParameters.containskey("IsArchived")){ $PropertyHash += @{IsArchived = $IsArchived} }
+	$ReturnObject = New-Object -TypeName psobject -Property $PropertyHash
+	$ReturnObject.PSObject.TypeNames.Insert(0, 'NmeUserCostAttributionConfigurationModel')
+	Return $ReturnObject	
+}
+function New-NmeUserCostAttributionConfigurationPatchModel {
+	<#
+
+	.SYNOPSIS
+
+	Creates an object of type NmeUserCostAttributionConfigurationPatchModel, for use in other Nme module commands
+
+	.PARAMETER DisplayName
+
+	string. 
+
+	.PARAMETER DefaultReportType
+
+	string. Valid values are: Uniform, Proportional, Unallocated
+
+	.PARAMETER IsDefault
+
+	boolean. Specify -IsDefault $True or -IsDefault $False. 
+
+	#>
+	[cmdletbinding()]
+	Param(
+		[string]$DisplayName,
+		[ValidateSet("Uniform","Proportional","Unallocated")][string]$DefaultReportType,
+		[bool]$IsDefault
+	)
+
+	$PropertyHash = @{}
+	if ($PSBoundParameters.containskey("DisplayName")){ $PropertyHash += @{DisplayName = $DisplayName} }
+	if ($PSBoundParameters.containskey("DefaultReportType")){ $PropertyHash += @{DefaultReportType = $DefaultReportType} }
+	if ($PSBoundParameters.containskey("IsDefault")){ $PropertyHash += @{IsDefault = $IsDefault} }
+	$ReturnObject = New-Object -TypeName psobject -Property $PropertyHash
+	$ReturnObject.PSObject.TypeNames.Insert(0, 'NmeUserCostAttributionConfigurationPatchModel')
+	Return $ReturnObject	
+}
+function New-NmeUserCostAttributionReportHostPool {
+	<#
+
+	.SYNOPSIS
+
+	Creates an object of type NmeUserCostAttributionReportHostPool, for use in other Nme module commands
+
+	.PARAMETER HostPoolId
+
+	string. 
+
+	.PARAMETER Users
+
+	An array of objects of type NmeUserCostAttributionReportUserSummary. Can be created using New-NmeUserCostAttributionReportUserSummary
+
+	#>
+	[cmdletbinding()]
+	Param(
+		[string]$HostPoolId,
+		[psobject[]][ValidateScript({$_.PSObject.TypeNames -contains "NmeUserCostAttributionReportUserSummary"})]$Users
+	)
+
+	$PropertyHash = @{}
+	if ($PSBoundParameters.containskey("HostPoolId")){ $PropertyHash += @{HostPoolId = $HostPoolId} }
+	if ($PSBoundParameters.containskey("Users")){ $PropertyHash += @{Users = $Users} }
+	$ReturnObject = New-Object -TypeName psobject -Property $PropertyHash
+	$ReturnObject.PSObject.TypeNames.Insert(0, 'NmeUserCostAttributionReportHostPool')
+	Return $ReturnObject	
+}
+function New-NmeUserCostAttributionReportResponse {
+	<#
+
+	.SYNOPSIS
+
+	Creates an object of type NmeUserCostAttributionReportResponse, for use in other Nme module commands
+
+	.PARAMETER Status
+
+	string. Valid values are: NotStarted, InProgress, Completed, Error
+
+	.PARAMETER Result
+
+	An object of type NmeUserCostAttributionReportResult. Can be created using New-NmeUserCostAttributionReportResult
+
+	#>
+	[cmdletbinding()]
+	Param(
+		[ValidateSet("NotStarted","InProgress","Completed","Error")][string]$Status,
+		[ValidateScript({if ($_.PSObject.TypeNames -contains "NmeUserCostAttributionReportResult"){$true} else{throw "$_ is not a NmeUserCostAttributionReportResult object. Use New-NmeUserCostAttributionReportResult to create before calling this function"}})][psobject]$Result
+	)
+
+	$PropertyHash = @{}
+	if ($PSBoundParameters.containskey("Status")){ $PropertyHash += @{Status = $Status} }
+	if ($PSBoundParameters.containskey("Result")){ $PropertyHash += @{Result = $Result} }
+	$ReturnObject = New-Object -TypeName psobject -Property $PropertyHash
+	$ReturnObject.PSObject.TypeNames.Insert(0, 'NmeUserCostAttributionReportResponse')
+	Return $ReturnObject	
+}
+function New-NmeUserCostAttributionReportResult {
+	<#
+
+	.SYNOPSIS
+
+	Creates an object of type NmeUserCostAttributionReportResult, for use in other Nme module commands
+
+	.PARAMETER HostPools
+
+	An array of objects of type NmeUserCostAttributionReportHostPool. Can be created using New-NmeUserCostAttributionReportHostPool
+
+	.PARAMETER LastBuildTime
+
+	string. 
+
+	.PARAMETER Currency
+
+	string. 
+
+	#>
+	[cmdletbinding()]
+	Param(
+		[psobject[]][ValidateScript({$_.PSObject.TypeNames -contains "NmeUserCostAttributionReportHostPool"})]$HostPools,
+		[string]$LastBuildTime,
+		[string]$Currency
+	)
+
+	$PropertyHash = @{}
+	if ($PSBoundParameters.containskey("HostPools")){ $PropertyHash += @{HostPools = $HostPools} }
+	if ($PSBoundParameters.containskey("LastBuildTime")){ $PropertyHash += @{LastBuildTime = $LastBuildTime} }
+	if ($PSBoundParameters.containskey("Currency")){ $PropertyHash += @{Currency = $Currency} }
+	$ReturnObject = New-Object -TypeName psobject -Property $PropertyHash
+	$ReturnObject.PSObject.TypeNames.Insert(0, 'NmeUserCostAttributionReportResult')
+	Return $ReturnObject	
+}
+function New-NmeUserCostAttributionReportUserSummary {
+	<#
+
+	.SYNOPSIS
+
+	Creates an object of type NmeUserCostAttributionReportUserSummary, for use in other Nme module commands
+
+	.PARAMETER Username
+
+	Username of assigned user
+
+	.PARAMETER TotalCost
+
+	number. 
+
+	.PARAMETER VmsAndDisksCost
+
+	number. 
+
+	.PARAMETER StorageCost
+
+	number. 
+
+	.PARAMETER NetworkCost
+
+	number. 
+
+	.PARAMETER LogAnalyticsCost
+
+	number. 
+
+	.PARAMETER ImagesCost
+
+	number. 
+
+	.PARAMETER OtherCosts
+
+	number. 
+
+	.PARAMETER SessionCount
+
+	integer. 
+
+	.PARAMETER SessionMinutes
+
+	number. 
+
+	.PARAMETER VmMinutes
+
+	number. 
+
+	#>
+	[cmdletbinding()]
+	Param(
+		[string]$Username,
+		[float]$TotalCost,
+		[float]$VmsAndDisksCost,
+		[float]$StorageCost,
+		[float]$NetworkCost,
+		[float]$LogAnalyticsCost,
+		[float]$ImagesCost,
+		[float]$OtherCosts,
+		[int]$SessionCount,
+		[float]$SessionMinutes,
+		[float]$VmMinutes
+	)
+
+	$PropertyHash = @{}
+	if ($PSBoundParameters.containskey("Username")){ $PropertyHash += @{Username = $Username} }
+	if ($PSBoundParameters.containskey("TotalCost")){ $PropertyHash += @{TotalCost = $TotalCost} }
+	if ($PSBoundParameters.containskey("VmsAndDisksCost")){ $PropertyHash += @{VmsAndDisksCost = $VmsAndDisksCost} }
+	if ($PSBoundParameters.containskey("StorageCost")){ $PropertyHash += @{StorageCost = $StorageCost} }
+	if ($PSBoundParameters.containskey("NetworkCost")){ $PropertyHash += @{NetworkCost = $NetworkCost} }
+	if ($PSBoundParameters.containskey("LogAnalyticsCost")){ $PropertyHash += @{LogAnalyticsCost = $LogAnalyticsCost} }
+	if ($PSBoundParameters.containskey("ImagesCost")){ $PropertyHash += @{ImagesCost = $ImagesCost} }
+	if ($PSBoundParameters.containskey("OtherCosts")){ $PropertyHash += @{OtherCosts = $OtherCosts} }
+	if ($PSBoundParameters.containskey("SessionCount")){ $PropertyHash += @{SessionCount = $SessionCount} }
+	if ($PSBoundParameters.containskey("SessionMinutes")){ $PropertyHash += @{SessionMinutes = $SessionMinutes} }
+	if ($PSBoundParameters.containskey("VmMinutes")){ $PropertyHash += @{VmMinutes = $VmMinutes} }
+	$ReturnObject = New-Object -TypeName psobject -Property $PropertyHash
+	$ReturnObject.PSObject.TypeNames.Insert(0, 'NmeUserCostAttributionReportUserSummary')
 	Return $ReturnObject	
 }
 function New-NmeUserDrivenRestConfiguration {
