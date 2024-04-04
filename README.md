@@ -1,6 +1,10 @@
 # Introduction 
 A PowerShell module for managing Nerdio Manager for Enterprise (NME) 
 
+# 0.8.2 Release Notes
+- Compatible with NME version 6.0
+- New commands for User Cost Attribution
+
 # 0.6.1 Release Notes
  - New functions have been added for configuring and managing the Unified Application Management features.
  - Compatible with NME 5.6.1 release
