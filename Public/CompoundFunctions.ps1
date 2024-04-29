@@ -49,7 +49,7 @@ Function Export-NmeHostPoolConfig {
 
 
     $hp =Get-NmeHostPool -subscriptionId $SubscriptionId -resourceGroup $ResourceGroup -hostPoolName $HostPoolName
-    $asconfig = Get-NmeHostPoolAutoScaleConfig -subscriptionId $SubscriptionId -resourceGroup $ResourceGroup -hostPoolName $HostPoolName -ErrorAction SilentlyContinue
+    $asconfig = Get-NmeHostPoolAutoScaleConfig -subscriptionId $SubscriptionId -resourceGroup $ResourceGroup -hostPoolName $HostPoolName
     $avdconfig =Get-NmeHostPoolAVDConfig -SubscriptionId $SubscriptionId -ResourceGroup $ResourceGroup -HostPoolName $HostPoolName
     $AdConfig = Get-NmeHostPoolADConfig -SubscriptionId $SubscriptionId -ResourceGroup $ResourceGroup -HostPoolName $HostPoolName
     $BackupConfig = Get-NmeHostPoolBackupConfig -SubscriptionId $SubscriptionId -ResourceGroup $ResourceGroup -HostPoolName $HostPoolName

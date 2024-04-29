@@ -61,6 +61,51 @@ Function Get-NmeHostPoolUsage {
 		write-error ($message | out-string)
 	}
 }
+Function Get-NmeAllWorkSpaceUsage {
+	<#
+
+	.SYNOPSIS
+
+	Get usage of all ARM workspaces.
+
+	.DESCRIPTION
+
+	Get usage of all ARM workspaces. 
+
+	This function calls the /api/v1/usages/arm/workspace endpoint of the NME REST API, using the get method.
+
+
+	.PARAMETER StartUtc
+
+	Start date in UTC
+
+	.PARAMETER EndUtc
+
+	End date in UTC
+
+	#>
+
+	[CmdletBinding()]
+	Param(
+		[Parameter(ValueFromPipelineByPropertyName=$true)][string]$StartUtc,
+		[Parameter(ValueFromPipelineByPropertyName=$true)][string]$EndUtc
+	)
+	Set-NmeAuthHeaders
+	Try {
+		$QueryString = '?'
+		$QueryStrings = @{}
+		$QueryStrings += @{startUtc= $startUtc}
+		$QueryStrings += @{endUtc= $endUtc}
+		$QueryString += ($QueryStrings.GetEnumerator() | % { "$($_.Key)=$($_.Value)" }) -join '&'
+		$Result = Invoke-RestMethod "$script:NmeUri/api/v1/usages/arm/workspace$Querystring" -Method get -Headers $script:AuthHeaders -ContentType 'application/json'
+		$Result.PSObject.TypeNames.Insert(0, 'NmeUsageRestModel')
+		$Result | CapProps
+	}
+	Catch {
+		$message = ParseErrorForResponseBody($_)
+		write-error ($message | out-string)
+	}
+}
 Function Get-NmeWorkSpaceUsage {
 	<#
 
@@ -117,51 +162,6 @@ Function Get-NmeWorkSpaceUsage {
 		$Result | Add-Member -NotePropertyName 'subscriptionId' -NotePropertyValue $subscriptionId -erroraction 'SilentlyContinue'
 		$Result | Add-Member -NotePropertyName 'resourceGroup' -NotePropertyValue $resourceGroup -erroraction 'SilentlyContinue'
 		$Result | Add-Member -NotePropertyName 'workspaceName' -NotePropertyValue $workspaceName -erroraction 'SilentlyContinue'
-		$Result | CapProps
-	}
-	Catch {
-		$message = ParseErrorForResponseBody($_)
-		write-error ($message | out-string)
-	}
-}
-Function Get-NmeAllWorkSpaceUsage {
-	<#
-
-	.SYNOPSIS
-
-	Get usage of all ARM workspaces.
-
-	.DESCRIPTION
-
-	Get usage of all ARM workspaces. 
-
-	This function calls the /api/v1/usages/arm/workspace endpoint of the NME REST API, using the get method.
-
-
-	.PARAMETER StartUtc
-
-	Start date in UTC
-
-	.PARAMETER EndUtc
-
-	End date in UTC
-
-	#>
-
-	[CmdletBinding()]
-	Param(
-		[Parameter(ValueFromPipelineByPropertyName=$true)][string]$StartUtc,
-		[Parameter(ValueFromPipelineByPropertyName=$true)][string]$EndUtc
-	)
-	Set-NmeAuthHeaders
-	Try {
-		$QueryString = '?'
-		$QueryStrings = @{}
-		$QueryStrings += @{startUtc= $startUtc}
-		$QueryStrings += @{endUtc= $endUtc}
-		$QueryString += ($QueryStrings.GetEnumerator() | % { "$($_.Key)=$($_.Value)" }) -join '&'
-		$Result = Invoke-RestMethod "$script:NmeUri/api/v1/usages/arm/workspace$Querystring" -Method get -Headers $script:AuthHeaders -ContentType 'application/json'
-		$Result.PSObject.TypeNames.Insert(0, 'NmeUsageRestModel')
 		$Result | CapProps
 	}
 	Catch {

@@ -2393,13 +2393,18 @@ function New-NmeCreateOrUpdateSecureVariableRestPayload {
 
 	boolean. Specify -AssignmentRequired $True or -AssignmentRequired $False. 
 
+	.PARAMETER ShellAppAccessible
+
+	boolean. Specify -ShellAppAccessible $True or -ShellAppAccessible $False. 
+
 	#>
 	[cmdletbinding()]
 	Param(
 		[Parameter(Mandatory=$true)][string]$Name,
 		[int[]]$ScriptedActions,
 		[Parameter(Mandatory=$true)][string]$Value,
-		[Parameter(Mandatory=$true)][bool]$AssignmentRequired
+		[Parameter(Mandatory=$true)][bool]$AssignmentRequired,
+		[Parameter(Mandatory=$true)][bool]$ShellAppAccessible
 	)
 
 	$PropertyHash = @{}
@@ -2407,8 +2412,44 @@ function New-NmeCreateOrUpdateSecureVariableRestPayload {
 	if ($PSBoundParameters.containskey("ScriptedActions")){ $PropertyHash += @{ScriptedActions = $ScriptedActions} }
 	if ($PSBoundParameters.containskey("Value")){ $PropertyHash += @{Value = $Value} }
 	if ($PSBoundParameters.containskey("AssignmentRequired")){ $PropertyHash += @{AssignmentRequired = $AssignmentRequired} }
+	if ($PSBoundParameters.containskey("ShellAppAccessible")){ $PropertyHash += @{ShellAppAccessible = $ShellAppAccessible} }
 	$ReturnObject = New-Object -TypeName psobject -Property $PropertyHash
 	$ReturnObject.PSObject.TypeNames.Insert(0, 'NmeCreateOrUpdateSecureVariableRestPayload')
+	Return $ReturnObject	
+}
+function New-NmeCreatePortalNotificationRestModel {
+	<#
+
+	.SYNOPSIS
+
+	Creates an object of type NmeCreatePortalNotificationRestModel, for use in other Nme module commands
+
+	.PARAMETER Type
+
+	string. Valid values are: UserSelfServiceGlobal, UserSelfServiceHostPool
+
+	.PARAMETER HtmlText
+
+	string. 
+
+	.PARAMETER HostPoolId
+
+	string. 
+
+	#>
+	[cmdletbinding()]
+	Param(
+		[ValidateSet("UserSelfServiceGlobal","UserSelfServiceHostPool")][string]$Type,
+		[string]$HtmlText,
+		[string]$HostPoolId
+	)
+
+	$PropertyHash = @{}
+	if ($PSBoundParameters.containskey("Type")){ $PropertyHash += @{Type = $Type} }
+	if ($PSBoundParameters.containskey("HtmlText")){ $PropertyHash += @{HtmlText = $HtmlText} }
+	if ($PSBoundParameters.containskey("HostPoolId")){ $PropertyHash += @{HostPoolId = $HostPoolId} }
+	$ReturnObject = New-Object -TypeName psobject -Property $PropertyHash
+	$ReturnObject.PSObject.TypeNames.Insert(0, 'NmeCreatePortalNotificationRestModel')
 	Return $ReturnObject	
 }
 function New-NmeCreateScriptedActionRequest {
@@ -2847,6 +2888,10 @@ function New-NmeDesktopImageScheduleRestModel {
 
 	integer. 
 
+	.PARAMETER ScheduleId
+
+	Id of Schedule
+
 	.PARAMETER NextRunDateUtc
 
 	string. 
@@ -2866,6 +2911,7 @@ function New-NmeDesktopImageScheduleRestModel {
 		[ValidateSet("First","Second","Third","Fourth","Last")][string]$DayOfWeekNumber,
 		[ValidateSet("0","1","2","3","4","5","6")][int]$DayOfWeek,
 		[int]$OffsetInDays,
+		[int]$ScheduleId,
 		[string]$NextRunDateUtc,
 		[string]$JobType
 	)
@@ -2879,6 +2925,7 @@ function New-NmeDesktopImageScheduleRestModel {
 	if ($PSBoundParameters.containskey("DayOfWeekNumber")){ $PropertyHash += @{DayOfWeekNumber = $DayOfWeekNumber} }
 	if ($PSBoundParameters.containskey("DayOfWeek")){ $PropertyHash += @{DayOfWeek = $DayOfWeek} }
 	if ($PSBoundParameters.containskey("OffsetInDays")){ $PropertyHash += @{OffsetInDays = $OffsetInDays} }
+	if ($PSBoundParameters.containskey("ScheduleId")){ $PropertyHash += @{ScheduleId = $ScheduleId} }
 	if ($PSBoundParameters.containskey("NextRunDateUtc")){ $PropertyHash += @{NextRunDateUtc = $NextRunDateUtc} }
 	if ($PSBoundParameters.containskey("JobType")){ $PropertyHash += @{JobType = $JobType} }
 	$ReturnObject = New-Object -TypeName psobject -Property $PropertyHash
@@ -3176,7 +3223,7 @@ function New-NmeDynamicPoolConfiguration {
 	[cmdletbinding()]
 	Param(
 		[Parameter(Mandatory=$true)][bool]$IsEnabled,
-		[Parameter(Mandatory=$true)][string]$TimezoneId,
+		[string]$TimezoneId,
 		[Parameter(Mandatory=$true)][ValidateScript({if ($_.PSObject.TypeNames -contains "NmeVmTemplateParams"){$true} else{throw "$_ is not a NmeVmTemplateParams object. Use New-NmeVmTemplateParams to create before calling this function"}})][psobject]$VmTemplate,
 		[string]$StoppedDiskType,
 		[bool]$ReuseVmNames,
@@ -3285,6 +3332,10 @@ function New-NmeExistingScheduleConfigurationPayloadRest {
 
 	integer. 
 
+	.PARAMETER ScheduleId
+
+	Id of Schedule
+
 	.PARAMETER NextRunDateUtc
 
 	string. 
@@ -3300,6 +3351,7 @@ function New-NmeExistingScheduleConfigurationPayloadRest {
 		[ValidateSet("First","Second","Third","Fourth","Last")][string]$DayOfWeekNumber,
 		[ValidateSet("0","1","2","3","4","5","6")][int]$DayOfWeek,
 		[int]$OffsetInDays,
+		[int]$ScheduleId,
 		[string]$NextRunDateUtc
 	)
 
@@ -3312,6 +3364,7 @@ function New-NmeExistingScheduleConfigurationPayloadRest {
 	if ($PSBoundParameters.containskey("DayOfWeekNumber")){ $PropertyHash += @{DayOfWeekNumber = $DayOfWeekNumber} }
 	if ($PSBoundParameters.containskey("DayOfWeek")){ $PropertyHash += @{DayOfWeek = $DayOfWeek} }
 	if ($PSBoundParameters.containskey("OffsetInDays")){ $PropertyHash += @{OffsetInDays = $OffsetInDays} }
+	if ($PSBoundParameters.containskey("ScheduleId")){ $PropertyHash += @{ScheduleId = $ScheduleId} }
 	if ($PSBoundParameters.containskey("NextRunDateUtc")){ $PropertyHash += @{NextRunDateUtc = $NextRunDateUtc} }
 	$ReturnObject = New-Object -TypeName psobject -Property $PropertyHash
 	$ReturnObject.PSObject.TypeNames.Insert(0, 'NmeExistingScheduleConfigurationPayloadRest')
@@ -4631,6 +4684,10 @@ function New-NmeHostpoolScheduleRestModel {
 
 	integer. 
 
+	.PARAMETER ScheduleId
+
+	Id of Schedule
+
 	.PARAMETER NextRunDateUtc
 
 	string. 
@@ -4650,6 +4707,7 @@ function New-NmeHostpoolScheduleRestModel {
 		[ValidateSet("First","Second","Third","Fourth","Last")][string]$DayOfWeekNumber,
 		[ValidateSet("0","1","2","3","4","5","6")][int]$DayOfWeek,
 		[int]$OffsetInDays,
+		[int]$ScheduleId,
 		[string]$NextRunDateUtc,
 		[string]$JobType
 	)
@@ -4663,6 +4721,7 @@ function New-NmeHostpoolScheduleRestModel {
 	if ($PSBoundParameters.containskey("DayOfWeekNumber")){ $PropertyHash += @{DayOfWeekNumber = $DayOfWeekNumber} }
 	if ($PSBoundParameters.containskey("DayOfWeek")){ $PropertyHash += @{DayOfWeek = $DayOfWeek} }
 	if ($PSBoundParameters.containskey("OffsetInDays")){ $PropertyHash += @{OffsetInDays = $OffsetInDays} }
+	if ($PSBoundParameters.containskey("ScheduleId")){ $PropertyHash += @{ScheduleId = $ScheduleId} }
 	if ($PSBoundParameters.containskey("NextRunDateUtc")){ $PropertyHash += @{NextRunDateUtc = $NextRunDateUtc} }
 	if ($PSBoundParameters.containskey("JobType")){ $PropertyHash += @{JobType = $JobType} }
 	$ReturnObject = New-Object -TypeName psobject -Property $PropertyHash
@@ -5930,6 +5989,29 @@ function New-NmePatchHostPoolControlUpRestModel_AuthenticationKey {
 	$ReturnObject.PSObject.TypeNames.Insert(0, 'NmePatchHostPoolControlUpRestModel_AuthenticationKey')
 	Return $ReturnObject	
 }
+function New-NmePatchPortalNotificationRestModel {
+	<#
+
+	.SYNOPSIS
+
+	Creates an object of type NmePatchPortalNotificationRestModel, for use in other Nme module commands
+
+	.PARAMETER HtmlText
+
+	string. 
+
+	#>
+	[cmdletbinding()]
+	Param(
+		[string]$HtmlText
+	)
+
+	$PropertyHash = @{}
+	if ($PSBoundParameters.containskey("HtmlText")){ $PropertyHash += @{HtmlText = $HtmlText} }
+	$ReturnObject = New-Object -TypeName psobject -Property $PropertyHash
+	$ReturnObject.PSObject.TypeNames.Insert(0, 'NmePatchPortalNotificationRestModel')
+	Return $ReturnObject	
+}
 function New-NmePersonalAutoGrowRestConfiguration {
 	<#
 
@@ -6006,6 +6088,10 @@ function New-NmePersonalAutoShrinkRestConfiguration {
 
 	string. 
 
+	.PARAMETER NotificationFrequency
+
+	integer. 
+
 	#>
 	[cmdletbinding()]
 	Param(
@@ -6018,7 +6104,8 @@ function New-NmePersonalAutoShrinkRestConfiguration {
 		[string]$NotificationMailbox,
 		[string[]]$AdminNotificationEmails,
 		[string]$NotificationSubjectTemplate,
-		[string]$NotificationTemplate
+		[string]$NotificationTemplate,
+		[int]$NotificationFrequency
 	)
 
 	$PropertyHash = @{}
@@ -6032,6 +6119,7 @@ function New-NmePersonalAutoShrinkRestConfiguration {
 	if ($PSBoundParameters.containskey("AdminNotificationEmails")){ $PropertyHash += @{AdminNotificationEmails = $AdminNotificationEmails} }
 	if ($PSBoundParameters.containskey("NotificationSubjectTemplate")){ $PropertyHash += @{NotificationSubjectTemplate = $NotificationSubjectTemplate} }
 	if ($PSBoundParameters.containskey("NotificationTemplate")){ $PropertyHash += @{NotificationTemplate = $NotificationTemplate} }
+	if ($PSBoundParameters.containskey("NotificationFrequency")){ $PropertyHash += @{NotificationFrequency = $NotificationFrequency} }
 	$ReturnObject = New-Object -TypeName psobject -Property $PropertyHash
 	$ReturnObject.PSObject.TypeNames.Insert(0, 'NmePersonalAutoShrinkRestConfiguration')
 	Return $ReturnObject	
@@ -6191,6 +6279,47 @@ function New-NmePooledParams {
 	if ($PSBoundParameters.containskey("IsDekstop")){ $PropertyHash += @{IsDekstop = $IsDekstop} }
 	$ReturnObject = New-Object -TypeName psobject -Property $PropertyHash
 	$ReturnObject.PSObject.TypeNames.Insert(0, 'NmePooledParams')
+	Return $ReturnObject	
+}
+function New-NmePortalNotificationRestModel {
+	<#
+
+	.SYNOPSIS
+
+	Creates an object of type NmePortalNotificationRestModel, for use in other Nme module commands
+
+	.PARAMETER Id
+
+	ID of scripted Action
+
+	.PARAMETER Type
+
+	string. Valid values are: UserSelfServiceGlobal, UserSelfServiceHostPool
+
+	.PARAMETER HtmlText
+
+	string. 
+
+	.PARAMETER HostPoolId
+
+	string. 
+
+	#>
+	[cmdletbinding()]
+	Param(
+		[int]$Id,
+		[ValidateSet("UserSelfServiceGlobal","UserSelfServiceHostPool")][string]$Type,
+		[string]$HtmlText,
+		[string]$HostPoolId
+	)
+
+	$PropertyHash = @{}
+	if ($PSBoundParameters.containskey("Id")){ $PropertyHash += @{Id = $Id} }
+	if ($PSBoundParameters.containskey("Type")){ $PropertyHash += @{Type = $Type} }
+	if ($PSBoundParameters.containskey("HtmlText")){ $PropertyHash += @{HtmlText = $HtmlText} }
+	if ($PSBoundParameters.containskey("HostPoolId")){ $PropertyHash += @{HostPoolId = $HostPoolId} }
+	$ReturnObject = New-Object -TypeName psobject -Property $PropertyHash
+	$ReturnObject.PSObject.TypeNames.Insert(0, 'NmePortalNotificationRestModel')
 	Return $ReturnObject	
 }
 function New-NmePowerStateCommandExtensions {
@@ -7083,6 +7212,35 @@ function New-NmeResponseWithJobAndScriptedAction {
 	$ReturnObject.PSObject.TypeNames.Insert(0, 'NmeResponseWithJobAndScriptedAction')
 	Return $ReturnObject	
 }
+function New-NmeResponseWithJobAndString {
+	<#
+
+	.SYNOPSIS
+
+	Creates an object of type NmeResponseWithJobAndString, for use in other Nme module commands
+
+	.PARAMETER Job
+
+	An object of type NmeJobShortInfo. Can be created using New-NmeJobShortInfo
+
+	.PARAMETER Payload
+
+	string. 
+
+	#>
+	[cmdletbinding()]
+	Param(
+		[ValidateScript({if ($_.PSObject.TypeNames -contains "NmeJobShortInfo"){$true} else{throw "$_ is not a NmeJobShortInfo object. Use New-NmeJobShortInfo to create before calling this function"}})][psobject]$Job,
+		[string]$Payload
+	)
+
+	$PropertyHash = @{}
+	if ($PSBoundParameters.containskey("Job")){ $PropertyHash += @{Job = $Job} }
+	if ($PSBoundParameters.containskey("Payload")){ $PropertyHash += @{Payload = $Payload} }
+	$ReturnObject = New-Object -TypeName psobject -Property $PropertyHash
+	$ReturnObject.PSObject.TypeNames.Insert(0, 'NmeResponseWithJobAndString')
+	Return $ReturnObject	
+}
 function New-NmeResponseWithJobAndUserCostAttributionConfigurationModel {
 	<#
 
@@ -7189,18 +7347,24 @@ function New-NmeRollingDrainModeWindowRest {
 
 	integer. 
 
+	.PARAMETER LoadBalancing
+
+	string. Valid values are: BreadthFirst, DepthFirst, Persistent
+
 	#>
 	[cmdletbinding()]
 	Param(
 		[Parameter(Mandatory=$true)][string]$Name,
 		[Parameter(Mandatory=$true)][ValidateScript({if ($_.PSObject.TypeNames -contains "NmeTimeSpan"){$true} else{throw "$_ is not a NmeTimeSpan object. Use New-NmeTimeSpan to create before calling this function"}})][psobject]$StartTime,
-		[Parameter(Mandatory=$true)][int]$Percent
+		[Parameter(Mandatory=$true)][int]$Percent,
+		[ValidateSet("BreadthFirst","DepthFirst","Persistent")][string]$LoadBalancing
 	)
 
 	$PropertyHash = @{}
 	if ($PSBoundParameters.containskey("Name")){ $PropertyHash += @{Name = $Name} }
 	if ($PSBoundParameters.containskey("StartTime")){ $PropertyHash += @{StartTime = $StartTime} }
 	if ($PSBoundParameters.containskey("Percent")){ $PropertyHash += @{Percent = $Percent} }
+	if ($PSBoundParameters.containskey("LoadBalancing")){ $PropertyHash += @{LoadBalancing = $LoadBalancing} }
 	$ReturnObject = New-Object -TypeName psobject -Property $PropertyHash
 	$ReturnObject.PSObject.TypeNames.Insert(0, 'NmeRollingDrainModeWindowRest')
 	Return $ReturnObject	
@@ -7459,7 +7623,7 @@ function New-NmeScheduleAzureScripedActionPayload {
 
 	.PARAMETER Schedule
 
-	An object of type NmeScheduleConfigurationPayloadRest. Can be created using New-NmeScheduleConfigurationPayloadRest
+	An object of type NmeScheduleConfigurationPayloadRest_POST. Can be created using New-NmeScheduleConfigurationPayloadRest_POST
 
 	.PARAMETER Config
 
@@ -7468,7 +7632,7 @@ function New-NmeScheduleAzureScripedActionPayload {
 	#>
 	[cmdletbinding()]
 	Param(
-		[Parameter(Mandatory=$true)][ValidateScript({if ($_.PSObject.TypeNames -contains "NmeScheduleConfigurationPayloadRest"){$true} else{throw "$_ is not a NmeScheduleConfigurationPayloadRest object. Use New-NmeScheduleConfigurationPayloadRest to create before calling this function"}})][psobject]$Schedule,
+		[Parameter(Mandatory=$true)][ValidateScript({if ($_.PSObject.TypeNames -contains "NmeScheduleConfigurationPayloadRest_POST"){$true} else{throw "$_ is not a NmeScheduleConfigurationPayloadRest_POST object. Use New-NmeScheduleConfigurationPayloadRest_POST to create before calling this function"}})][psobject]$Schedule,
 		[Parameter(Mandatory=$true)][ValidateScript({if ($_.PSObject.TypeNames -contains "NmeRunAzureScripedActionPayload"){$true} else{throw "$_ is not a NmeRunAzureScripedActionPayload object. Use New-NmeRunAzureScripedActionPayload to create before calling this function"}})][psobject]$Config
 	)
 
@@ -7479,12 +7643,83 @@ function New-NmeScheduleAzureScripedActionPayload {
 	$ReturnObject.PSObject.TypeNames.Insert(0, 'NmeScheduleAzureScripedActionPayload')
 	Return $ReturnObject	
 }
-function New-NmeScheduleConfigurationPayloadRest {
+function New-NmeScheduleConfigurationPayloadRest_GET {
 	<#
 
 	.SYNOPSIS
 
-	Creates an object of type NmeScheduleConfigurationPayloadRest, for use in other Nme module commands
+	Creates an object of type NmeScheduleConfigurationPayloadRest_GET, for use in other Nme module commands
+
+	.PARAMETER StartDate
+
+	string. 
+
+	.PARAMETER StartHour
+
+	integer. 
+
+	.PARAMETER StartMinutes
+
+	integer. 
+
+	.PARAMETER TimeZoneId
+
+	string. 
+
+	.PARAMETER ScheduleRecurrenceType
+
+	string. Valid values are: Once, Daily, Weekly, Monthly, Hourly, PatchTuesday
+
+	.PARAMETER DayOfWeekNumber
+
+	string. Valid values are: First, Second, Third, Fourth, Last
+
+	.PARAMETER DayOfWeek
+
+	integer. Valid values are: 0, 1, 2, 3, 4, 5, 6
+
+	.PARAMETER OffsetInDays
+
+	integer. 
+
+	.PARAMETER ScheduleId
+
+	Id of Schedule
+
+	#>
+	[cmdletbinding()]
+	Param(
+		[Parameter(Mandatory=$true)][string]$StartDate,
+		[Parameter(Mandatory=$true)][int]$StartHour,
+		[Parameter(Mandatory=$true)][int]$StartMinutes,
+		[Parameter(Mandatory=$true)][string]$TimeZoneId,
+		[Parameter(Mandatory=$true)][ValidateSet("Once","Daily","Weekly","Monthly","Hourly","PatchTuesday")][string]$ScheduleRecurrenceType,
+		[ValidateSet("First","Second","Third","Fourth","Last")][string]$DayOfWeekNumber,
+		[ValidateSet("0","1","2","3","4","5","6")][int]$DayOfWeek,
+		[int]$OffsetInDays,
+		[int]$ScheduleId
+	)
+
+	$PropertyHash = @{}
+	if ($PSBoundParameters.containskey("StartDate")){ $PropertyHash += @{StartDate = $StartDate} }
+	if ($PSBoundParameters.containskey("StartHour")){ $PropertyHash += @{StartHour = $StartHour} }
+	if ($PSBoundParameters.containskey("StartMinutes")){ $PropertyHash += @{StartMinutes = $StartMinutes} }
+	if ($PSBoundParameters.containskey("TimeZoneId")){ $PropertyHash += @{TimeZoneId = $TimeZoneId} }
+	if ($PSBoundParameters.containskey("ScheduleRecurrenceType")){ $PropertyHash += @{ScheduleRecurrenceType = $ScheduleRecurrenceType} }
+	if ($PSBoundParameters.containskey("DayOfWeekNumber")){ $PropertyHash += @{DayOfWeekNumber = $DayOfWeekNumber} }
+	if ($PSBoundParameters.containskey("DayOfWeek")){ $PropertyHash += @{DayOfWeek = $DayOfWeek} }
+	if ($PSBoundParameters.containskey("OffsetInDays")){ $PropertyHash += @{OffsetInDays = $OffsetInDays} }
+	if ($PSBoundParameters.containskey("ScheduleId")){ $PropertyHash += @{ScheduleId = $ScheduleId} }
+	$ReturnObject = New-Object -TypeName psobject -Property $PropertyHash
+	$ReturnObject.PSObject.TypeNames.Insert(0, 'NmeScheduleConfigurationPayloadRest_GET')
+	Return $ReturnObject	
+}
+function New-NmeScheduleConfigurationPayloadRest_POST {
+	<#
+
+	.SYNOPSIS
+
+	Creates an object of type NmeScheduleConfigurationPayloadRest_POST, for use in other Nme module commands
 
 	.PARAMETER StartDate
 
@@ -7541,7 +7776,7 @@ function New-NmeScheduleConfigurationPayloadRest {
 	if ($PSBoundParameters.containskey("DayOfWeek")){ $PropertyHash += @{DayOfWeek = $DayOfWeek} }
 	if ($PSBoundParameters.containskey("OffsetInDays")){ $PropertyHash += @{OffsetInDays = $OffsetInDays} }
 	$ReturnObject = New-Object -TypeName psobject -Property $PropertyHash
-	$ReturnObject.PSObject.TypeNames.Insert(0, 'NmeScheduleConfigurationPayloadRest')
+	$ReturnObject.PSObject.TypeNames.Insert(0, 'NmeScheduleConfigurationPayloadRest_POST')
 	Return $ReturnObject	
 }
 function New-NmeScheduleHostPoolScriptRestPayload {
@@ -7561,14 +7796,14 @@ function New-NmeScheduleHostPoolScriptRestPayload {
 
 	.PARAMETER Schedule
 
-	An object of type NmeScheduleConfigurationPayloadRest. Can be created using New-NmeScheduleConfigurationPayloadRest
+	An object of type NmeScheduleConfigurationPayloadRest_POST. Can be created using New-NmeScheduleConfigurationPayloadRest_POST
 
 	#>
 	[cmdletbinding()]
 	Param(
 		[ValidateScript({if ($_.PSObject.TypeNames -contains "NmeRunScriptParams"){$true} else{throw "$_ is not a NmeRunScriptParams object. Use New-NmeRunScriptParams to create before calling this function"}})][psobject]$Config,
 		[ValidateScript({if ($_.PSObject.TypeNames -contains "NmeBulkJobParamsRunScript"){$true} else{throw "$_ is not a NmeBulkJobParamsRunScript object. Use New-NmeBulkJobParamsRunScript to create before calling this function"}})][psobject]$BulkJobParams,
-		[ValidateScript({if ($_.PSObject.TypeNames -contains "NmeScheduleConfigurationPayloadRest"){$true} else{throw "$_ is not a NmeScheduleConfigurationPayloadRest object. Use New-NmeScheduleConfigurationPayloadRest to create before calling this function"}})][psobject]$Schedule
+		[ValidateScript({if ($_.PSObject.TypeNames -contains "NmeScheduleConfigurationPayloadRest_POST"){$true} else{throw "$_ is not a NmeScheduleConfigurationPayloadRest_POST object. Use New-NmeScheduleConfigurationPayloadRest_POST to create before calling this function"}})][psobject]$Schedule
 	)
 
 	$PropertyHash = @{}
@@ -7592,13 +7827,13 @@ function New-NmeScheduleReimagePoolRestPayload {
 
 	.PARAMETER Schedule
 
-	An object of type NmeScheduleConfigurationPayloadRest. Can be created using New-NmeScheduleConfigurationPayloadRest
+	An object of type NmeScheduleConfigurationPayloadRest_POST. Can be created using New-NmeScheduleConfigurationPayloadRest_POST
 
 	#>
 	[cmdletbinding()]
 	Param(
 		[ValidateScript({if ($_.PSObject.TypeNames -contains "NmeReimagePoolPayload"){$true} else{throw "$_ is not a NmeReimagePoolPayload object. Use New-NmeReimagePoolPayload to create before calling this function"}})][psobject]$Reimage,
-		[ValidateScript({if ($_.PSObject.TypeNames -contains "NmeScheduleConfigurationPayloadRest"){$true} else{throw "$_ is not a NmeScheduleConfigurationPayloadRest object. Use New-NmeScheduleConfigurationPayloadRest to create before calling this function"}})][psobject]$Schedule
+		[ValidateScript({if ($_.PSObject.TypeNames -contains "NmeScheduleConfigurationPayloadRest_POST"){$true} else{throw "$_ is not a NmeScheduleConfigurationPayloadRest_POST object. Use New-NmeScheduleConfigurationPayloadRest_POST to create before calling this function"}})][psobject]$Schedule
 	)
 
 	$PropertyHash = @{}
@@ -7608,16 +7843,16 @@ function New-NmeScheduleReimagePoolRestPayload {
 	$ReturnObject.PSObject.TypeNames.Insert(0, 'NmeScheduleReimagePoolRestPayload')
 	Return $ReturnObject	
 }
-function New-NmeScheduleRunCustomScriptOnVmRestModel {
+function New-NmeScheduleRunCustomScriptOnVmRestModel_GET {
 	<#
 
 	.SYNOPSIS
 
-	Creates an object of type NmeScheduleRunCustomScriptOnVmRestModel, for use in other Nme module commands
+	Creates an object of type NmeScheduleRunCustomScriptOnVmRestModel_GET, for use in other Nme module commands
 
 	.PARAMETER Schedule
 
-	An object of type NmeScheduleConfigurationPayloadRest. Can be created using New-NmeScheduleConfigurationPayloadRest
+	An object of type NmeScheduleConfigurationPayloadRest_GET. Can be created using New-NmeScheduleConfigurationPayloadRest_GET
 
 	.PARAMETER Config
 
@@ -7626,7 +7861,7 @@ function New-NmeScheduleRunCustomScriptOnVmRestModel {
 	#>
 	[cmdletbinding()]
 	Param(
-		[Parameter(Mandatory=$true)][ValidateScript({if ($_.PSObject.TypeNames -contains "NmeScheduleConfigurationPayloadRest"){$true} else{throw "$_ is not a NmeScheduleConfigurationPayloadRest object. Use New-NmeScheduleConfigurationPayloadRest to create before calling this function"}})][psobject]$Schedule,
+		[Parameter(Mandatory=$true)][ValidateScript({if ($_.PSObject.TypeNames -contains "NmeScheduleConfigurationPayloadRest_GET"){$true} else{throw "$_ is not a NmeScheduleConfigurationPayloadRest_GET object. Use New-NmeScheduleConfigurationPayloadRest_GET to create before calling this function"}})][psobject]$Schedule,
 		[Parameter(Mandatory=$true)][ValidateScript({if ($_.PSObject.TypeNames -contains "NmeRunCustomScriptOnVmRestModel"){$true} else{throw "$_ is not a NmeRunCustomScriptOnVmRestModel object. Use New-NmeRunCustomScriptOnVmRestModel to create before calling this function"}})][psobject]$Config
 	)
 
@@ -7634,7 +7869,36 @@ function New-NmeScheduleRunCustomScriptOnVmRestModel {
 	if ($PSBoundParameters.containskey("Schedule")){ $PropertyHash += @{Schedule = $Schedule} }
 	if ($PSBoundParameters.containskey("Config")){ $PropertyHash += @{Config = $Config} }
 	$ReturnObject = New-Object -TypeName psobject -Property $PropertyHash
-	$ReturnObject.PSObject.TypeNames.Insert(0, 'NmeScheduleRunCustomScriptOnVmRestModel')
+	$ReturnObject.PSObject.TypeNames.Insert(0, 'NmeScheduleRunCustomScriptOnVmRestModel_GET')
+	Return $ReturnObject	
+}
+function New-NmeScheduleRunCustomScriptOnVmRestModel_POST {
+	<#
+
+	.SYNOPSIS
+
+	Creates an object of type NmeScheduleRunCustomScriptOnVmRestModel_POST, for use in other Nme module commands
+
+	.PARAMETER Schedule
+
+	An object of type NmeScheduleConfigurationPayloadRest_POST. Can be created using New-NmeScheduleConfigurationPayloadRest_POST
+
+	.PARAMETER Config
+
+	An object of type NmeRunCustomScriptOnVmRestModel. Can be created using New-NmeRunCustomScriptOnVmRestModel
+
+	#>
+	[cmdletbinding()]
+	Param(
+		[Parameter(Mandatory=$true)][ValidateScript({if ($_.PSObject.TypeNames -contains "NmeScheduleConfigurationPayloadRest_POST"){$true} else{throw "$_ is not a NmeScheduleConfigurationPayloadRest_POST object. Use New-NmeScheduleConfigurationPayloadRest_POST to create before calling this function"}})][psobject]$Schedule,
+		[Parameter(Mandatory=$true)][ValidateScript({if ($_.PSObject.TypeNames -contains "NmeRunCustomScriptOnVmRestModel"){$true} else{throw "$_ is not a NmeRunCustomScriptOnVmRestModel object. Use New-NmeRunCustomScriptOnVmRestModel to create before calling this function"}})][psobject]$Config
+	)
+
+	$PropertyHash = @{}
+	if ($PSBoundParameters.containskey("Schedule")){ $PropertyHash += @{Schedule = $Schedule} }
+	if ($PSBoundParameters.containskey("Config")){ $PropertyHash += @{Config = $Config} }
+	$ReturnObject = New-Object -TypeName psobject -Property $PropertyHash
+	$ReturnObject.PSObject.TypeNames.Insert(0, 'NmeScheduleRunCustomScriptOnVmRestModel_POST')
 	Return $ReturnObject	
 }
 function New-NmeScriptedAction {
@@ -8019,18 +8283,24 @@ function New-NmeSecureVariableRestModel {
 
 	boolean. Specify -AssignmentRequired $True or -AssignmentRequired $False. 
 
+	.PARAMETER ShellAppAccessible
+
+	boolean. Specify -ShellAppAccessible $True or -ShellAppAccessible $False. 
+
 	#>
 	[cmdletbinding()]
 	Param(
 		[string]$Name,
 		[int[]]$ScriptedActions,
-		[bool]$AssignmentRequired
+		[bool]$AssignmentRequired,
+		[bool]$ShellAppAccessible
 	)
 
 	$PropertyHash = @{}
 	if ($PSBoundParameters.containskey("Name")){ $PropertyHash += @{Name = $Name} }
 	if ($PSBoundParameters.containskey("ScriptedActions")){ $PropertyHash += @{ScriptedActions = $ScriptedActions} }
 	if ($PSBoundParameters.containskey("AssignmentRequired")){ $PropertyHash += @{AssignmentRequired = $AssignmentRequired} }
+	if ($PSBoundParameters.containskey("ShellAppAccessible")){ $PropertyHash += @{ShellAppAccessible = $ShellAppAccessible} }
 	$ReturnObject = New-Object -TypeName psobject -Property $PropertyHash
 	$ReturnObject.PSObject.TypeNames.Insert(0, 'NmeSecureVariableRestModel')
 	Return $ReturnObject	
@@ -9378,6 +9648,29 @@ function New-NmeUserSelfServiceScriptedAction {
 	if ($PSBoundParameters.containskey("Action")){ $PropertyHash += @{Action = $Action} }
 	$ReturnObject = New-Object -TypeName psobject -Property $PropertyHash
 	$ReturnObject.PSObject.TypeNames.Insert(0, 'NmeUserSelfServiceScriptedAction')
+	Return $ReturnObject	
+}
+function New-NmeUserSelfServiceSettingsDto {
+	<#
+
+	.SYNOPSIS
+
+	Creates an object of type NmeUserSelfServiceSettingsDto, for use in other Nme module commands
+
+	.PARAMETER Logo
+
+	string. 
+
+	#>
+	[cmdletbinding()]
+	Param(
+		[string]$Logo
+	)
+
+	$PropertyHash = @{}
+	if ($PSBoundParameters.containskey("Logo")){ $PropertyHash += @{Logo = $Logo} }
+	$ReturnObject = New-Object -TypeName psobject -Property $PropertyHash
+	$ReturnObject.PSObject.TypeNames.Insert(0, 'NmeUserSelfServiceSettingsDto')
 	Return $ReturnObject	
 }
 function New-NmeUserSelfServiceTag {

@@ -1,38 +1,29 @@
-Function Remove-NmeLinkedResourceGroup {
+Function Get-NmeLinkedResourceGroup {
 	<#
 
 	.SYNOPSIS
 
-	Unlink Azure resource group.
+	Get linked resource groups.
 
 	.DESCRIPTION
 
-	Unlink Azure resource group. 
+	Get linked resource groups. 
 
-	This function calls the /api/v1/resourcegroup/{subscriptionId}/{resourceGroup}/linked endpoint of the NME REST API, using the delete method.
+	This function calls the /api/v1/resourcegroup endpoint of the NME REST API, using the get method.
 
 
-	.PARAMETER SubscriptionId
 
-	The id (guid) of the subscription where this resourcegroup resides
-
-	.PARAMETER ResourceGroup
-
-	The Azure resource group where the resourcegroup resides
 
 	#>
 
 	[CmdletBinding()]
 	Param(
-		[Parameter(Mandatory=$true,ValueFromPipelineByPropertyName=$true)][ValidatePattern('(\{|\()?[A-Za-z0-9]{4}([A-Za-z0-9]{4}\-?){4}[A-Za-z0-9]{12}(\}|\()?')][string]$SubscriptionId,
-		[Parameter(Mandatory=$true,ValueFromPipelineByPropertyName=$true)][string]$ResourceGroup
+
 	)
 	Set-NmeAuthHeaders
 	Try {
-		$Result = Invoke-RestMethod "$script:NmeUri/api/v1/resourcegroup/$SubscriptionId/$ResourceGroup/linked$Querystring" -Method delete -Headers $script:AuthHeaders -ContentType 'application/json'
-		$Result.PSObject.TypeNames.Insert(0, 'NmeResponseWithJob')
-		$Result | Add-Member -NotePropertyName 'subscriptionId' -NotePropertyValue $subscriptionId -erroraction 'SilentlyContinue'
-		$Result | Add-Member -NotePropertyName 'resourceGroup' -NotePropertyValue $resourceGroup -erroraction 'SilentlyContinue'
+		$Result = Invoke-RestMethod "$script:NmeUri/api/v1/resourcegroup$Querystring" -Method get -Headers $script:AuthHeaders -ContentType 'application/json'
+		$Result.PSObject.TypeNames.Insert(0, 'NmeLinkedResourceGroupRestModel')
 		$Result | CapProps
 	}
 	Catch {
@@ -91,32 +82,41 @@ Function New-NmeLinkedResourceGroup {
 		write-error ($message | out-string)
 	}
 }
-Function Get-NmeLinkedResourceGroup {
+Function Remove-NmeLinkedResourceGroup {
 	<#
 
 	.SYNOPSIS
 
-	Get linked resource groups.
+	Unlink Azure resource group.
 
 	.DESCRIPTION
 
-	Get linked resource groups. 
+	Unlink Azure resource group. 
 
-	This function calls the /api/v1/resourcegroup endpoint of the NME REST API, using the get method.
+	This function calls the /api/v1/resourcegroup/{subscriptionId}/{resourceGroup}/linked endpoint of the NME REST API, using the delete method.
 
 
+	.PARAMETER SubscriptionId
 
+	The id (guid) of the subscription where this resourcegroup resides
+
+	.PARAMETER ResourceGroup
+
+	The Azure resource group where the resourcegroup resides
 
 	#>
 
 	[CmdletBinding()]
 	Param(
-
+		[Parameter(Mandatory=$true,ValueFromPipelineByPropertyName=$true)][ValidatePattern('(\{|\()?[A-Za-z0-9]{4}([A-Za-z0-9]{4}\-?){4}[A-Za-z0-9]{12}(\}|\()?')][string]$SubscriptionId,
+		[Parameter(Mandatory=$true,ValueFromPipelineByPropertyName=$true)][string]$ResourceGroup
 	)
 	Set-NmeAuthHeaders
 	Try {
-		$Result = Invoke-RestMethod "$script:NmeUri/api/v1/resourcegroup$Querystring" -Method get -Headers $script:AuthHeaders -ContentType 'application/json'
-		$Result.PSObject.TypeNames.Insert(0, 'NmeLinkedResourceGroupRestModel')
+		$Result = Invoke-RestMethod "$script:NmeUri/api/v1/resourcegroup/$SubscriptionId/$ResourceGroup/linked$Querystring" -Method delete -Headers $script:AuthHeaders -ContentType 'application/json'
+		$Result.PSObject.TypeNames.Insert(0, 'NmeResponseWithJob')
+		$Result | Add-Member -NotePropertyName 'subscriptionId' -NotePropertyValue $subscriptionId -erroraction 'SilentlyContinue'
+		$Result | Add-Member -NotePropertyName 'resourceGroup' -NotePropertyValue $resourceGroup -erroraction 'SilentlyContinue'
 		$Result | CapProps
 	}
 	Catch {
