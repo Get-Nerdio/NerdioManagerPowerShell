@@ -103,7 +103,7 @@ Function New-NmeSessionHost {
 		write-error ($message | out-string)
 	}
 }
-Function Get-NmeSessionHostByName {
+Function Get-NmeSessionHost {
 	<#
 
 	.SYNOPSIS
@@ -157,7 +157,7 @@ Function Get-NmeSessionHostByName {
 		write-error ($message | out-string)
 	}
 }
-Function Remove-NmeSessionHostByName {
+Function Remove-NmeSessionHost {
 	<#
 
 	.SYNOPSIS
