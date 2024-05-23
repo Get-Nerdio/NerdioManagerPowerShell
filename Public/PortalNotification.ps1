@@ -62,7 +62,7 @@ Function New-NmePortalNotification {
 		Write-Debug $json
 		$Result = Invoke-RestMethod "$script:NmeUri/api/v1/portal-notification$QueryString" -Method post -Headers $script:AuthHeaders -ContentType 'application/json' -body $json
 		Write-Verbose ($result | out-string)
-		$Result.PSObject.TypeNames.Insert(0, 'NmePortalNotificationRestModel')
+		$Result.PSObject.TypeNames.Insert(0, 'NmeResponseWithJobAndPortalNotificationRestModel')
 		$Result | CapProps
 	}
 	Catch {
@@ -142,7 +142,7 @@ Function Set-NmePortalNotificationId {
 		Write-Debug $json
 		$Result = Invoke-RestMethod "$script:NmeUri/api/v1/portal-notification/$Id$QueryString" -Method patch -Headers $script:AuthHeaders -ContentType 'application/json' -body $json
 		Write-Verbose ($result | out-string)
-		$Result.PSObject.TypeNames.Insert(0, 'NmePortalNotificationRestModel')
+		$Result.PSObject.TypeNames.Insert(0, 'NmeResponseWithJobAndPortalNotificationRestModel')
 		$Result | Add-Member -NotePropertyName 'id' -NotePropertyValue $id -erroraction 'SilentlyContinue'
 		$Result | CapProps
 	}
@@ -178,6 +178,8 @@ Function Remove-NmePortalNotificationId {
 	Set-NmeAuthHeaders
 	Try {
 		$Result = Invoke-RestMethod "$script:NmeUri/api/v1/portal-notification/$Id$Querystring" -Method delete -Headers $script:AuthHeaders -ContentType 'application/json'
+		$Result.PSObject.TypeNames.Insert(0, 'NmeResponseWithJob')
+		$Result | Add-Member -NotePropertyName 'id' -NotePropertyValue $id -erroraction 'SilentlyContinue'
 		$Result | CapProps
 	}
 	Catch {

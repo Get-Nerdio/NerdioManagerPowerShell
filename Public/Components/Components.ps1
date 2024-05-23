@@ -2439,8 +2439,8 @@ function New-NmeCreatePortalNotificationRestModel {
 	#>
 	[cmdletbinding()]
 	Param(
-		[ValidateSet("UserSelfServiceGlobal","UserSelfServiceHostPool")][string]$Type,
-		[string]$HtmlText,
+		[Parameter(Mandatory=$true)][ValidateSet("UserSelfServiceGlobal","UserSelfServiceHostPool")][string]$Type,
+		[Parameter(Mandatory=$true)][string]$HtmlText,
 		[string]$HostPoolId
 	)
 
@@ -4366,6 +4366,18 @@ function New-NmeHostPoolVmDeploymentRestModel {
 
 	string. Valid values are: DoNothing, ForceEnable, ForceDisable
 
+	.PARAMETER ComplianceEnforcement
+
+	string. Valid values are: None, CompliancePoliciesOnly, AllIntunePolicies
+
+	.PARAMETER ComplianceTimeout
+
+	integer. Compliance timeout in hours. Supported values are 1-24 hours.
+
+	.PARAMETER EntraIdGroups
+
+	array. Default hostpool groups ids. New session hosts will be assigned to these groups by default.
+
 	.PARAMETER AlwaysPromptForPassword
 
 	boolean. Specify -AlwaysPromptForPassword $True or -AlwaysPromptForPassword $False. Enforce a password prompt for users logging on to Remote Desktop Services
@@ -4434,6 +4446,9 @@ function New-NmeHostPoolVmDeploymentRestModel {
 		[Parameter(Mandatory=$true)][bool]$InstallCertificates,
 		[Parameter(Mandatory=$true)][ValidateScript({if ($_.PSObject.TypeNames -contains "NmeHostPoolScriptedActionsRestModel"){$true} else{throw "$_ is not a NmeHostPoolScriptedActionsRestModel object. Use New-NmeHostPoolScriptedActionsRestModel to create before calling this function"}})][psobject]$ScriptedActions,
 		[Parameter(Mandatory=$true)][ValidateSet("DoNothing","ForceEnable","ForceDisable")][string]$RdpShortpath,
+		[ValidateSet("None","CompliancePoliciesOnly","AllIntunePolicies")][string]$ComplianceEnforcement,
+		[int]$ComplianceTimeout,
+		[string[]]$EntraIdGroups,
 		[Parameter(Mandatory=$true)][bool]$AlwaysPromptForPassword,
 		[Parameter(Mandatory=$true)][ValidateSet("None","TrustedLaunch","Confidential")][string]$SecurityType,
 		[Parameter(Mandatory=$true)][bool]$SecureBootEnabled,
@@ -4463,6 +4478,9 @@ function New-NmeHostPoolVmDeploymentRestModel {
 	if ($PSBoundParameters.containskey("InstallCertificates")){ $PropertyHash += @{InstallCertificates = $InstallCertificates} }
 	if ($PSBoundParameters.containskey("ScriptedActions")){ $PropertyHash += @{ScriptedActions = $ScriptedActions} }
 	if ($PSBoundParameters.containskey("RdpShortpath")){ $PropertyHash += @{RdpShortpath = $RdpShortpath} }
+	if ($PSBoundParameters.containskey("ComplianceEnforcement")){ $PropertyHash += @{ComplianceEnforcement = $ComplianceEnforcement} }
+	if ($PSBoundParameters.containskey("ComplianceTimeout")){ $PropertyHash += @{ComplianceTimeout = $ComplianceTimeout} }
+	if ($PSBoundParameters.containskey("EntraIdGroups")){ $PropertyHash += @{EntraIdGroups = $EntraIdGroups} }
 	if ($PSBoundParameters.containskey("AlwaysPromptForPassword")){ $PropertyHash += @{AlwaysPromptForPassword = $AlwaysPromptForPassword} }
 	if ($PSBoundParameters.containskey("SecurityType")){ $PropertyHash += @{SecurityType = $SecurityType} }
 	if ($PSBoundParameters.containskey("SecureBootEnabled")){ $PropertyHash += @{SecureBootEnabled = $SecureBootEnabled} }
@@ -4539,6 +4557,18 @@ function New-NmeHostPoolVmDeploymentRestPutRequest {
 
 	string. Valid values are: DoNothing, ForceEnable, ForceDisable
 
+	.PARAMETER ComplianceEnforcement
+
+	string. Valid values are: None, CompliancePoliciesOnly, AllIntunePolicies
+
+	.PARAMETER ComplianceTimeout
+
+	integer. Compliance timeout in hours. Supported values are 1-24 hours.
+
+	.PARAMETER EntraIdGroups
+
+	array. Default hostpool groups ids. New session hosts will be assigned to these groups by default.
+
 	.PARAMETER AlwaysPromptForPassword
 
 	boolean. Specify -AlwaysPromptForPassword $True or -AlwaysPromptForPassword $False. Enforce a password prompt for users logging on to Remote Desktop Services
@@ -4559,6 +4589,9 @@ function New-NmeHostPoolVmDeploymentRestPutRequest {
 		[Parameter(Mandatory=$true)][bool]$InstallCertificates,
 		[Parameter(Mandatory=$true)][ValidateScript({if ($_.PSObject.TypeNames -contains "NmeHostPoolScriptedActionsRestModel"){$true} else{throw "$_ is not a NmeHostPoolScriptedActionsRestModel object. Use New-NmeHostPoolScriptedActionsRestModel to create before calling this function"}})][psobject]$ScriptedActions,
 		[Parameter(Mandatory=$true)][ValidateSet("DoNothing","ForceEnable","ForceDisable")][string]$RdpShortpath,
+		[ValidateSet("None","CompliancePoliciesOnly","AllIntunePolicies")][string]$ComplianceEnforcement,
+		[int]$ComplianceTimeout,
+		[string[]]$EntraIdGroups,
 		[bool]$AlwaysPromptForPassword
 	)
 
@@ -4576,6 +4609,9 @@ function New-NmeHostPoolVmDeploymentRestPutRequest {
 	if ($PSBoundParameters.containskey("InstallCertificates")){ $PropertyHash += @{InstallCertificates = $InstallCertificates} }
 	if ($PSBoundParameters.containskey("ScriptedActions")){ $PropertyHash += @{ScriptedActions = $ScriptedActions} }
 	if ($PSBoundParameters.containskey("RdpShortpath")){ $PropertyHash += @{RdpShortpath = $RdpShortpath} }
+	if ($PSBoundParameters.containskey("ComplianceEnforcement")){ $PropertyHash += @{ComplianceEnforcement = $ComplianceEnforcement} }
+	if ($PSBoundParameters.containskey("ComplianceTimeout")){ $PropertyHash += @{ComplianceTimeout = $ComplianceTimeout} }
+	if ($PSBoundParameters.containskey("EntraIdGroups")){ $PropertyHash += @{EntraIdGroups = $EntraIdGroups} }
 	if ($PSBoundParameters.containskey("AlwaysPromptForPassword")){ $PropertyHash += @{AlwaysPromptForPassword = $AlwaysPromptForPassword} }
 	$ReturnObject = New-Object -TypeName psobject -Property $PropertyHash
 	$ReturnObject.PSObject.TypeNames.Insert(0, 'NmeHostPoolVmDeploymentRestPutRequest')
@@ -7152,6 +7188,35 @@ function New-NmeResponseWithJobAndArmWorkspace {
 	if ($PSBoundParameters.containskey("Payload")){ $PropertyHash += @{Payload = $Payload} }
 	$ReturnObject = New-Object -TypeName psobject -Property $PropertyHash
 	$ReturnObject.PSObject.TypeNames.Insert(0, 'NmeResponseWithJobAndArmWorkspace')
+	Return $ReturnObject	
+}
+function New-NmeResponseWithJobAndPortalNotificationRestModel {
+	<#
+
+	.SYNOPSIS
+
+	Creates an object of type NmeResponseWithJobAndPortalNotificationRestModel, for use in other Nme module commands
+
+	.PARAMETER Job
+
+	An object of type NmeJobShortInfo. Can be created using New-NmeJobShortInfo
+
+	.PARAMETER Payload
+
+	An object of type NmePortalNotificationRestModel. Can be created using New-NmePortalNotificationRestModel
+
+	#>
+	[cmdletbinding()]
+	Param(
+		[ValidateScript({if ($_.PSObject.TypeNames -contains "NmeJobShortInfo"){$true} else{throw "$_ is not a NmeJobShortInfo object. Use New-NmeJobShortInfo to create before calling this function"}})][psobject]$Job,
+		[ValidateScript({if ($_.PSObject.TypeNames -contains "NmePortalNotificationRestModel"){$true} else{throw "$_ is not a NmePortalNotificationRestModel object. Use New-NmePortalNotificationRestModel to create before calling this function"}})][psobject]$Payload
+	)
+
+	$PropertyHash = @{}
+	if ($PSBoundParameters.containskey("Job")){ $PropertyHash += @{Job = $Job} }
+	if ($PSBoundParameters.containskey("Payload")){ $PropertyHash += @{Payload = $Payload} }
+	$ReturnObject = New-Object -TypeName psobject -Property $PropertyHash
+	$ReturnObject.PSObject.TypeNames.Insert(0, 'NmeResponseWithJobAndPortalNotificationRestModel')
 	Return $ReturnObject	
 }
 function New-NmeResponseWithJobAndRbacAssignmentRestModel {
