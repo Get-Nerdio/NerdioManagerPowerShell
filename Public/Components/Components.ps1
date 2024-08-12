@@ -16,7 +16,7 @@ function New-NmeADObjectRestModel {
 	#>
 	[cmdletbinding()]
 	Param(
-		[Parameter(Mandatory=$true)][string]$ObjectId,
+		[string]$ObjectId = $null,
 		[Parameter(Mandatory=$true)][ValidateSet("User","Group")][string]$ObjectType
 	)
 
@@ -1941,7 +1941,7 @@ function New-NmeAutoHealConfigurationItem {
 		[int]$WaitMinutesBeforeFirstAction,
 		[Parameter(Mandatory=$true)][int]$WaitMinutes,
 		[string]$FinalAction,
-		[Parameter(Mandatory=$true)][psobject[]][ValidateScript({$_.PSObject.TypeNames -contains "NmeAutoHealAction"})]$Actions
+		[psobject[]][ValidateScript({$_.PSObject.TypeNames -contains "NmeAutoHealAction"})]$Actions = $null
 	)
 
 	$PropertyHash = @{}
@@ -2085,7 +2085,7 @@ function New-NmeAutoScaleProfileAssignmentRest_POST {
 	#>
 	[cmdletbinding()]
 	Param(
-		[Parameter(Mandatory=$true)][string]$HostPoolId,
+		[string]$HostPoolId = $null,
 		[Parameter(Mandatory=$true)][ValidateSet("Primary","Secondary")][string]$Type,
 		[ValidateScript({if ($_.PSObject.TypeNames -contains "NmeAutoScaleProfileSchedule"){$true} else{throw "$_ is not a NmeAutoScaleProfileSchedule object. Use New-NmeAutoScaleProfileSchedule to create before calling this function"}})][psobject]$Schedule
 	)
@@ -2137,7 +2137,7 @@ function New-NmeAutoScaleProfileRest_GET {
 	[cmdletbinding()]
 	Param(
 		[Parameter(Mandatory=$true)][ValidateSet("Default","WorkingHours","UserDriven")][string]$Mode,
-		[Parameter(Mandatory=$true)][string]$Name,
+		[string]$Name = $null,
 		[string]$Description,
 		[ValidateScript({if ($_.PSObject.TypeNames -contains "NmeAutoScaleDefaultConfiguration"){$true} else{throw "$_ is not a NmeAutoScaleDefaultConfiguration object. Use New-NmeAutoScaleDefaultConfiguration to create before calling this function"}})][psobject]$Default,
 		[ValidateScript({if ($_.PSObject.TypeNames -contains "NmeAutoScaleUserDrivenConfiguration"){$true} else{throw "$_ is not a NmeAutoScaleUserDrivenConfiguration object. Use New-NmeAutoScaleUserDrivenConfiguration to create before calling this function"}})][psobject]$UserDriven,
@@ -2239,7 +2239,7 @@ function New-NmeAutoScaleProfileRest_POST {
 	[cmdletbinding()]
 	Param(
 		[Parameter(Mandatory=$true)][ValidateSet("Default","WorkingHours","UserDriven")][string]$Mode,
-		[Parameter(Mandatory=$true)][string]$Name,
+		[string]$Name = $null,
 		[string]$Description,
 		[ValidateScript({if ($_.PSObject.TypeNames -contains "NmeAutoScaleDefaultConfiguration"){$true} else{throw "$_ is not a NmeAutoScaleDefaultConfiguration object. Use New-NmeAutoScaleDefaultConfiguration to create before calling this function"}})][psobject]$Default,
 		[ValidateScript({if ($_.PSObject.TypeNames -contains "NmeAutoScaleUserDrivenConfiguration"){$true} else{throw "$_ is not a NmeAutoScaleUserDrivenConfiguration object. Use New-NmeAutoScaleUserDrivenConfiguration to create before calling this function"}})][psobject]$UserDriven,
@@ -4440,7 +4440,7 @@ function New-NmeHostPoolAssignmentRestModel {
 	#>
 	[cmdletbinding()]
 	Param(
-		[Parameter(Mandatory=$true)][string]$ObjectId,
+		[string]$ObjectId = $null,
 		[Parameter(Mandatory=$true)][ValidateSet("User","Group")][string]$ObjectType
 	)
 
@@ -5286,15 +5286,15 @@ function New-NmeHostPoolVmDeploymentRestModel {
 		[Parameter(Mandatory=$true)][bool]$VTpmEnabled,
 		[Parameter(Mandatory=$true)][bool]$IntegrityMonitoring,
 		[Parameter(Mandatory=$true)][bool]$UseDedicatedHosts,
-		[Parameter(Mandatory=$true)][string]$DedicatedHostGroupId,
-		[Parameter(Mandatory=$true)][string]$DedicatedHostId,
+		[string]$DedicatedHostGroupId = $null,
+		[string]$DedicatedHostId = $null,
 		[Parameter(Mandatory=$true)][bool]$EncryptionAtHost,
-		[Parameter(Mandatory=$true)][string[]]$DiskEncryptionSetsIds,
+		[string[]]$DiskEncryptionSetsIds = $null,
 		[Parameter(Mandatory=$true)][bool]$BootDiagEnabled,
-		[Parameter(Mandatory=$true)][string[]]$BootDiagStorageAccountsIds,
+		[string[]]$BootDiagStorageAccountsIds = $null,
 		[Parameter(Mandatory=$true)][ValidateScript({if ($_.PSObject.TypeNames -contains "NmeWatermarkingProperties"){$true} else{throw "$_ is not a NmeWatermarkingProperties object. Use New-NmeWatermarkingProperties to create before calling this function"}})][psobject]$Watermarking,
 		[Parameter(Mandatory=$true)][bool]$RunAppPolicies,
-		[Parameter(Mandatory=$true)][string[]]$CapacityReservationGroupsIds
+		[string[]]$CapacityReservationGroupsIds = $null
 	)
 
 	$PropertyHash = @{}
@@ -11360,15 +11360,15 @@ function New-NmeVmTemplateParams {
 	#>
 	[cmdletbinding()]
 	Param(
-		[Parameter(Mandatory=$true)][string]$Prefix,
-		[Parameter(Mandatory=$true)][string]$Size,
-		[Parameter(Mandatory=$true)][string]$Image,
-		[Parameter(Mandatory=$true)][string]$StorageType,
-		[Parameter(Mandatory=$true)][string]$ResourceGroupId,
-		[Parameter(Mandatory=$true)][string]$NetworkId,
-		[Parameter(Mandatory=$true)][string]$Subnet,
-		[Parameter(Mandatory=$true)][int]$DiskSize,
-		[Parameter(Mandatory=$true)][bool]$HasEphemeralOSDisk,
+		[string]$Prefix = $null,
+		[string]$Size = $null,
+		[string]$Image = $null,
+		[string]$StorageType = $null,
+		[string]$ResourceGroupId = $null,
+		[string]$NetworkId = $null,
+		[string]$Subnet = $null,
+		[int]$DiskSize = $null,
+		[bool]$HasEphemeralOSDisk = $null,
 		[ValidateSet("CacheDisk","ResourceDisk")][string]$EphemeralOSDiskPlacement
 	)
 

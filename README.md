@@ -1,6 +1,10 @@
 # Introduction 
 A PowerShell module for managing Nerdio Manager for Enterprise (NME) 
 
+# 0.9.1 Release Notes
+ - New functions added for compatibility with NME 6.3 REST API
+ - Properties listed as 'nullable' in swagger file now default to null value in NME ps module
+
 # 0.8.6 Release Notes
  - New function have been added for compatibility with NME 6.1 REST API
 
