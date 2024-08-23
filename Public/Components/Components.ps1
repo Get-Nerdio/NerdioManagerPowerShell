@@ -16,7 +16,7 @@ function New-NmeADObjectRestModel {
 	#>
 	[cmdletbinding()]
 	Param(
-		[string]$ObjectId = $null,
+		[Parameter(Mandatory=$true)][string]$ObjectId,
 		[Parameter(Mandatory=$true)][ValidateSet("User","Group")][string]$ObjectType
 	)
 
@@ -1941,7 +1941,7 @@ function New-NmeAutoHealConfigurationItem {
 		[int]$WaitMinutesBeforeFirstAction,
 		[Parameter(Mandatory=$true)][int]$WaitMinutes,
 		[string]$FinalAction,
-		[psobject[]][ValidateScript({$_.PSObject.TypeNames -contains "NmeAutoHealAction"})]$Actions = $null
+		[Parameter(Mandatory=$true)][psobject[]][ValidateScript({$_.PSObject.TypeNames -contains "NmeAutoHealAction"})]$Actions
 	)
 
 	$PropertyHash = @{}
@@ -2085,7 +2085,7 @@ function New-NmeAutoScaleProfileAssignmentRest_POST {
 	#>
 	[cmdletbinding()]
 	Param(
-		[string]$HostPoolId = $null,
+		[Parameter(Mandatory=$true)][string]$HostPoolId,
 		[Parameter(Mandatory=$true)][ValidateSet("Primary","Secondary")][string]$Type,
 		[ValidateScript({if ($_.PSObject.TypeNames -contains "NmeAutoScaleProfileSchedule"){$true} else{throw "$_ is not a NmeAutoScaleProfileSchedule object. Use New-NmeAutoScaleProfileSchedule to create before calling this function"}})][psobject]$Schedule
 	)
@@ -2137,7 +2137,7 @@ function New-NmeAutoScaleProfileRest_GET {
 	[cmdletbinding()]
 	Param(
 		[Parameter(Mandatory=$true)][ValidateSet("Default","WorkingHours","UserDriven")][string]$Mode,
-		[string]$Name = $null,
+		[Parameter(Mandatory=$true)][string]$Name,
 		[string]$Description,
 		[ValidateScript({if ($_.PSObject.TypeNames -contains "NmeAutoScaleDefaultConfiguration"){$true} else{throw "$_ is not a NmeAutoScaleDefaultConfiguration object. Use New-NmeAutoScaleDefaultConfiguration to create before calling this function"}})][psobject]$Default,
 		[ValidateScript({if ($_.PSObject.TypeNames -contains "NmeAutoScaleUserDrivenConfiguration"){$true} else{throw "$_ is not a NmeAutoScaleUserDrivenConfiguration object. Use New-NmeAutoScaleUserDrivenConfiguration to create before calling this function"}})][psobject]$UserDriven,
@@ -2239,7 +2239,7 @@ function New-NmeAutoScaleProfileRest_POST {
 	[cmdletbinding()]
 	Param(
 		[Parameter(Mandatory=$true)][ValidateSet("Default","WorkingHours","UserDriven")][string]$Mode,
-		[string]$Name = $null,
+		[Parameter(Mandatory=$true)][string]$Name,
 		[string]$Description,
 		[ValidateScript({if ($_.PSObject.TypeNames -contains "NmeAutoScaleDefaultConfiguration"){$true} else{throw "$_ is not a NmeAutoScaleDefaultConfiguration object. Use New-NmeAutoScaleDefaultConfiguration to create before calling this function"}})][psobject]$Default,
 		[ValidateScript({if ($_.PSObject.TypeNames -contains "NmeAutoScaleUserDrivenConfiguration"){$true} else{throw "$_ is not a NmeAutoScaleUserDrivenConfiguration object. Use New-NmeAutoScaleUserDrivenConfiguration to create before calling this function"}})][psobject]$UserDriven,
@@ -2613,6 +2613,55 @@ function New-NmeAzureFilesAutoscaleConfig {
 	if ($PSBoundParameters.containskey("PreStage")){ $PropertyHash += @{PreStage = $PreStage} }
 	$ReturnObject = New-Object -TypeName psobject -Property $PropertyHash
 	$ReturnObject.PSObject.TypeNames.Insert(0, 'NmeAzureFilesAutoscaleConfig')
+	$ReturnObject.PSObject.TypeNames.Insert(0, 'NmeAzureFilesAutoscaleConfigPatch')
+	Return $ReturnObject	
+}
+function New-NmeAzureFilesAutoscaleConfigPatch {
+	<#
+
+	.SYNOPSIS
+
+	Creates an object of type NmeAzureFilesAutoscaleConfigPatch, for use in other Nme module commands
+
+	.PARAMETER IsEnabled
+
+	boolean. Specify -IsEnabled $True or -IsEnabled $False. 
+
+	.PARAMETER Unit
+
+	string. Valid values are: Percent, SizeGb, SizeTb
+
+	.PARAMETER Basic
+
+	An object of type NmeAzureFilesBasicAutoscaleConfigPatch. Can be created using New-NmeAzureFilesBasicAutoscaleConfigPatch
+
+	.PARAMETER Scaling
+
+	An object of type NmeAzureFilesScalingRestConfigPatch. Can be created using New-NmeAzureFilesScalingRestConfigPatch
+
+	.PARAMETER PreStage
+
+	An object of type NmeAzureFilesPreStageConfigPatch. Can be created using New-NmeAzureFilesPreStageConfigPatch
+
+	#>
+	[cmdletbinding()]
+	Param(
+		[bool]$IsEnabled,
+		[ValidateSet("Percent","SizeGb","SizeTb")][string]$Unit,
+		[ValidateScript({if ($_.PSObject.TypeNames -contains "NmeAzureFilesBasicAutoscaleConfigPatch"){$true} else{throw "$_ is not a NmeAzureFilesBasicAutoscaleConfigPatch object. Use New-NmeAzureFilesBasicAutoscaleConfigPatch to create before calling this function"}})][psobject]$Basic,
+		[ValidateScript({if ($_.PSObject.TypeNames -contains "NmeAzureFilesScalingRestConfigPatch"){$true} else{throw "$_ is not a NmeAzureFilesScalingRestConfigPatch object. Use New-NmeAzureFilesScalingRestConfigPatch to create before calling this function"}})][psobject]$Scaling,
+		[ValidateScript({if ($_.PSObject.TypeNames -contains "NmeAzureFilesPreStageConfigPatch"){$true} else{throw "$_ is not a NmeAzureFilesPreStageConfigPatch object. Use New-NmeAzureFilesPreStageConfigPatch to create before calling this function"}})][psobject]$PreStage
+	)
+
+	$PropertyHash = @{}
+	if ($PSBoundParameters.containskey("IsEnabled")){ $PropertyHash += @{IsEnabled = $IsEnabled} }
+	if ($PSBoundParameters.containskey("Unit")){ $PropertyHash += @{Unit = $Unit} }
+	if ($PSBoundParameters.containskey("Basic")){ $PropertyHash += @{Basic = $Basic} }
+	if ($PSBoundParameters.containskey("Scaling")){ $PropertyHash += @{Scaling = $Scaling} }
+	if ($PSBoundParameters.containskey("PreStage")){ $PropertyHash += @{PreStage = $PreStage} }
+	$ReturnObject = New-Object -TypeName psobject -Property $PropertyHash
+	$ReturnObject.PSObject.TypeNames.Insert(0, 'NmeAzureFilesAutoscaleConfigPatch')
+	$ReturnObject.PSObject.TypeNames.Insert(0, 'NmeAzureFilesAutoscaleConfig')
 	Return $ReturnObject	
 }
 function New-NmeAzureFilesBasicAutoscaleConfig {
@@ -2647,6 +2696,43 @@ function New-NmeAzureFilesBasicAutoscaleConfig {
 	if ($PSBoundParameters.containskey("MaxQuotaBuffer")){ $PropertyHash += @{MaxQuotaBuffer = $MaxQuotaBuffer} }
 	if ($PSBoundParameters.containskey("MaxQuotaLimitGb")){ $PropertyHash += @{MaxQuotaLimitGb = $MaxQuotaLimitGb} }
 	$ReturnObject = New-Object -TypeName psobject -Property $PropertyHash
+	$ReturnObject.PSObject.TypeNames.Insert(0, 'NmeAzureFilesBasicAutoscaleConfig')
+	$ReturnObject.PSObject.TypeNames.Insert(0, 'NmeAzureFilesBasicAutoscaleConfigPatch')
+	Return $ReturnObject	
+}
+function New-NmeAzureFilesBasicAutoscaleConfigPatch {
+	<#
+
+	.SYNOPSIS
+
+	Creates an object of type NmeAzureFilesBasicAutoscaleConfigPatch, for use in other Nme module commands
+
+	.PARAMETER MinQuotaBuffer
+
+	integer. 
+
+	.PARAMETER MaxQuotaBuffer
+
+	integer. 
+
+	.PARAMETER MaxQuotaLimitGb
+
+	integer. 
+
+	#>
+	[cmdletbinding()]
+	Param(
+		[int]$MinQuotaBuffer,
+		[int]$MaxQuotaBuffer,
+		[int]$MaxQuotaLimitGb
+	)
+
+	$PropertyHash = @{}
+	if ($PSBoundParameters.containskey("MinQuotaBuffer")){ $PropertyHash += @{MinQuotaBuffer = $MinQuotaBuffer} }
+	if ($PSBoundParameters.containskey("MaxQuotaBuffer")){ $PropertyHash += @{MaxQuotaBuffer = $MaxQuotaBuffer} }
+	if ($PSBoundParameters.containskey("MaxQuotaLimitGb")){ $PropertyHash += @{MaxQuotaLimitGb = $MaxQuotaLimitGb} }
+	$ReturnObject = New-Object -TypeName psobject -Property $PropertyHash
+	$ReturnObject.PSObject.TypeNames.Insert(0, 'NmeAzureFilesBasicAutoscaleConfigPatch')
 	$ReturnObject.PSObject.TypeNames.Insert(0, 'NmeAzureFilesBasicAutoscaleConfig')
 	Return $ReturnObject	
 }
@@ -2688,6 +2774,49 @@ function New-NmeAzureFilesPreStageConfig {
 	if ($PSBoundParameters.containskey("TimezoneId")){ $PropertyHash += @{TimezoneId = $TimezoneId} }
 	if ($PSBoundParameters.containskey("QuotaBuffer")){ $PropertyHash += @{QuotaBuffer = $QuotaBuffer} }
 	$ReturnObject = New-Object -TypeName psobject -Property $PropertyHash
+	$ReturnObject.PSObject.TypeNames.Insert(0, 'NmeAzureFilesPreStageConfig')
+	$ReturnObject.PSObject.TypeNames.Insert(0, 'NmeAzureFilesPreStageConfigPatch')
+	Return $ReturnObject	
+}
+function New-NmeAzureFilesPreStageConfigPatch {
+	<#
+
+	.SYNOPSIS
+
+	Creates an object of type NmeAzureFilesPreStageConfigPatch, for use in other Nme module commands
+
+	.PARAMETER IsEnabled
+
+	boolean. Specify -IsEnabled $True or -IsEnabled $False. 
+
+	.PARAMETER WorkDays
+
+	integer. Valid values are: 0, 1, 2, 3, 4, 5, 6
+
+	.PARAMETER TimezoneId
+
+	string. 
+
+	.PARAMETER QuotaBuffer
+
+	integer. 
+
+	#>
+	[cmdletbinding()]
+	Param(
+		[bool]$IsEnabled,
+		[ValidateSet(0,1,2,3,4,5,6)][Int[]]$WorkDays,
+		[string]$TimezoneId,
+		[int]$QuotaBuffer
+	)
+
+	$PropertyHash = @{}
+	if ($PSBoundParameters.containskey("IsEnabled")){ $PropertyHash += @{IsEnabled = $IsEnabled} }
+	if ($PSBoundParameters.containskey("WorkDays")){ $PropertyHash += @{WorkDays = $WorkDays} }
+	if ($PSBoundParameters.containskey("TimezoneId")){ $PropertyHash += @{TimezoneId = $TimezoneId} }
+	if ($PSBoundParameters.containskey("QuotaBuffer")){ $PropertyHash += @{QuotaBuffer = $QuotaBuffer} }
+	$ReturnObject = New-Object -TypeName psobject -Property $PropertyHash
+	$ReturnObject.PSObject.TypeNames.Insert(0, 'NmeAzureFilesPreStageConfigPatch')
 	$ReturnObject.PSObject.TypeNames.Insert(0, 'NmeAzureFilesPreStageConfig')
 	Return $ReturnObject	
 }
@@ -2753,6 +2882,73 @@ function New-NmeAzureFilesScalingRestConfig {
 	if ($PSBoundParameters.containskey("ScaleInInterval")){ $PropertyHash += @{ScaleInInterval = $ScaleInInterval} }
 	if ($PSBoundParameters.containskey("TransactionThreshold")){ $PropertyHash += @{TransactionThreshold = $TransactionThreshold} }
 	$ReturnObject = New-Object -TypeName psobject -Property $PropertyHash
+	$ReturnObject.PSObject.TypeNames.Insert(0, 'NmeAzureFilesScalingRestConfig')
+	$ReturnObject.PSObject.TypeNames.Insert(0, 'NmeAzureFilesScalingRestConfigPatch')
+	Return $ReturnObject	
+}
+function New-NmeAzureFilesScalingRestConfigPatch {
+	<#
+
+	.SYNOPSIS
+
+	Creates an object of type NmeAzureFilesScalingRestConfigPatch, for use in other Nme module commands
+
+	.PARAMETER Trigger
+
+	string. Valid values are: MaxSuccessServerLatency, AvgSuccessServerLatency
+
+	.PARAMETER ScaleOutBy
+
+	integer. 
+
+	.PARAMETER ScaleOutHighLatency
+
+	integer. 
+
+	.PARAMETER ScaleOutInterval
+
+	integer. 
+
+	.PARAMETER ScaleInBy
+
+	integer. 
+
+	.PARAMETER ScaleInLowLatency
+
+	integer. 
+
+	.PARAMETER ScaleInInterval
+
+	integer. 
+
+	.PARAMETER TransactionThreshold
+
+	integer. 
+
+	#>
+	[cmdletbinding()]
+	Param(
+		[ValidateSet("MaxSuccessServerLatency","AvgSuccessServerLatency")][string]$Trigger,
+		[int]$ScaleOutBy,
+		[int]$ScaleOutHighLatency,
+		[int]$ScaleOutInterval,
+		[int]$ScaleInBy,
+		[int]$ScaleInLowLatency,
+		[int]$ScaleInInterval,
+		[int]$TransactionThreshold
+	)
+
+	$PropertyHash = @{}
+	if ($PSBoundParameters.containskey("Trigger")){ $PropertyHash += @{Trigger = $Trigger} }
+	if ($PSBoundParameters.containskey("ScaleOutBy")){ $PropertyHash += @{ScaleOutBy = $ScaleOutBy} }
+	if ($PSBoundParameters.containskey("ScaleOutHighLatency")){ $PropertyHash += @{ScaleOutHighLatency = $ScaleOutHighLatency} }
+	if ($PSBoundParameters.containskey("ScaleOutInterval")){ $PropertyHash += @{ScaleOutInterval = $ScaleOutInterval} }
+	if ($PSBoundParameters.containskey("ScaleInBy")){ $PropertyHash += @{ScaleInBy = $ScaleInBy} }
+	if ($PSBoundParameters.containskey("ScaleInLowLatency")){ $PropertyHash += @{ScaleInLowLatency = $ScaleInLowLatency} }
+	if ($PSBoundParameters.containskey("ScaleInInterval")){ $PropertyHash += @{ScaleInInterval = $ScaleInInterval} }
+	if ($PSBoundParameters.containskey("TransactionThreshold")){ $PropertyHash += @{TransactionThreshold = $TransactionThreshold} }
+	$ReturnObject = New-Object -TypeName psobject -Property $PropertyHash
+	$ReturnObject.PSObject.TypeNames.Insert(0, 'NmeAzureFilesScalingRestConfigPatch')
 	$ReturnObject.PSObject.TypeNames.Insert(0, 'NmeAzureFilesScalingRestConfig')
 	Return $ReturnObject	
 }
@@ -3202,6 +3398,7 @@ function New-NmeCreateOrUpdateSecureVariableRestPayload {
 	if ($PSBoundParameters.containskey("ShellAppAccessible")){ $PropertyHash += @{ShellAppAccessible = $ShellAppAccessible} }
 	$ReturnObject = New-Object -TypeName psobject -Property $PropertyHash
 	$ReturnObject.PSObject.TypeNames.Insert(0, 'NmeCreateOrUpdateSecureVariableRestPayload')
+	$ReturnObject.PSObject.TypeNames.Insert(0, 'NmePatchSecureVariableRestPayload')
 	Return $ReturnObject	
 }
 function New-NmeCreateScriptedActionRequest {
@@ -3261,6 +3458,7 @@ function New-NmeCreateScriptedActionRequest {
 	if ($PSBoundParameters.containskey("Description")){ $PropertyHash += @{Description = $Description} }
 	$ReturnObject = New-Object -TypeName psobject -Property $PropertyHash
 	$ReturnObject.PSObject.TypeNames.Insert(0, 'NmeCreateScriptedActionRequest')
+	$ReturnObject.PSObject.TypeNames.Insert(0, 'NmePatchScriptedActionRequest')
 	Return $ReturnObject	
 }
 function New-NmeCreateSessionHostPayload {
@@ -3981,7 +4179,7 @@ function New-NmeDynamicPoolConfiguration {
 	[cmdletbinding()]
 	Param(
 		[Parameter(Mandatory=$true)][bool]$IsEnabled,
-		[string]$TimezoneId,
+		[Parameter(Mandatory=$true)][string]$TimezoneId,
 		[Parameter(Mandatory=$true)][ValidateScript({if ($_.PSObject.TypeNames -contains "NmeVmTemplateParams"){$true} else{throw "$_ is not a NmeVmTemplateParams object. Use New-NmeVmTemplateParams to create before calling this function"}})][psobject]$VmTemplate,
 		[string]$StoppedDiskType,
 		[bool]$ReuseVmNames,
@@ -4440,7 +4638,7 @@ function New-NmeHostPoolAssignmentRestModel {
 	#>
 	[cmdletbinding()]
 	Param(
-		[string]$ObjectId = $null,
+		[Parameter(Mandatory=$true)][string]$ObjectId,
 		[Parameter(Mandatory=$true)][ValidateSet("User","Group")][string]$ObjectType
 	)
 
@@ -5123,6 +5321,145 @@ function New-NmeHostPoolUserSelfServiceModelRest {
 	if ($PSBoundParameters.containskey("MaxAutoScaleRestrictionPeriod")){ $PropertyHash += @{MaxAutoScaleRestrictionPeriod = $MaxAutoScaleRestrictionPeriod} }
 	$ReturnObject = New-Object -TypeName psobject -Property $PropertyHash
 	$ReturnObject.PSObject.TypeNames.Insert(0, 'NmeHostPoolUserSelfServiceModelRest')
+	$ReturnObject.PSObject.TypeNames.Insert(0, 'NmeHostPoolUserSelfServicePatchModelRest')
+	Return $ReturnObject	
+}
+function New-NmeHostPoolUserSelfServicePatchModelRest {
+	<#
+
+	.SYNOPSIS
+
+	Creates an object of type NmeHostPoolUserSelfServicePatchModelRest, for use in other Nme module commands
+
+	.PARAMETER AllowStartDesktops
+
+	boolean. Specify -AllowStartDesktops $True or -AllowStartDesktops $False. 
+
+	.PARAMETER AllowRestartDesktops
+
+	boolean. Specify -AllowRestartDesktops $True or -AllowRestartDesktops $False. 
+
+	.PARAMETER AllowStopDesktops
+
+	boolean. Specify -AllowStopDesktops $True or -AllowStopDesktops $False. 
+
+	.PARAMETER AllowReimageDesktops
+
+	boolean. Specify -AllowReimageDesktops $True or -AllowReimageDesktops $False. 
+
+	.PARAMETER AllowedImages
+
+	array. 
+
+	.PARAMETER AllowRestoreDesktops
+
+	boolean. Specify -AllowRestoreDesktops $True or -AllowRestoreDesktops $False. 
+
+	.PARAMETER RecoveryMode
+
+	string. Valid values are: InstantRestoresOnly, AllRecoveryPoints
+
+	.PARAMETER AllowResizeDesktops
+
+	boolean. Specify -AllowResizeDesktops $True or -AllowResizeDesktops $False. 
+
+	.PARAMETER AllowedVmSizes
+
+	array. 
+
+	.PARAMETER AllowedDiskSizes
+
+	array. 
+
+	.PARAMETER AutoRevertPersonalSize
+
+	boolean. Specify -AutoRevertPersonalSize $True or -AutoRevertPersonalSize $False. 
+
+	.PARAMETER AutoRevertPersonalSizeMaxDelayHours
+
+	integer. 
+
+	.PARAMETER AllowScriptedActions
+
+	boolean. Specify -AllowScriptedActions $True or -AllowScriptedActions $False. 
+
+	.PARAMETER AllowedScriptedActions
+
+	An array of objects of type NmeUserSelfServiceScriptedAction. Can be created using New-NmeUserSelfServiceScriptedAction
+
+	.PARAMETER AllowUpdateDesktopsTags
+
+	boolean. Specify -AllowUpdateDesktopsTags $True or -AllowUpdateDesktopsTags $False. 
+
+	.PARAMETER AllowedDesktopsTags
+
+	An array of objects of type NmeUserSelfServiceTag. Can be created using New-NmeUserSelfServiceTag
+
+	.PARAMETER AllowAppInstall
+
+	boolean. Specify -AllowAppInstall $True or -AllowAppInstall $False. 
+
+	.PARAMETER AllowedApps
+
+	An array of objects of type NmeAnySelfServiceApp_POST. Can be created using New-NmeAnySelfServiceApp_POST
+
+	.PARAMETER AllowRestrictAutoScale
+
+	boolean. Specify -AllowRestrictAutoScale $True or -AllowRestrictAutoScale $False. 
+
+	.PARAMETER MaxAutoScaleRestrictionPeriod
+
+	integer. 
+
+	#>
+	[cmdletbinding()]
+	Param(
+		[bool]$AllowStartDesktops,
+		[bool]$AllowRestartDesktops,
+		[bool]$AllowStopDesktops,
+		[bool]$AllowReimageDesktops,
+		[string[]]$AllowedImages,
+		[bool]$AllowRestoreDesktops,
+		[ValidateSet("InstantRestoresOnly","AllRecoveryPoints")][string]$RecoveryMode,
+		[bool]$AllowResizeDesktops,
+		[string[]]$AllowedVmSizes,
+		[string[]]$AllowedDiskSizes,
+		[bool]$AutoRevertPersonalSize,
+		[int]$AutoRevertPersonalSizeMaxDelayHours,
+		[bool]$AllowScriptedActions,
+		[psobject[]][ValidateScript({$_.PSObject.TypeNames -contains "NmeUserSelfServiceScriptedAction"})]$AllowedScriptedActions,
+		[bool]$AllowUpdateDesktopsTags,
+		[psobject[]][ValidateScript({$_.PSObject.TypeNames -contains "NmeUserSelfServiceTag"})]$AllowedDesktopsTags,
+		[bool]$AllowAppInstall,
+		[psobject[]][ValidateScript({$_.PSObject.TypeNames -contains "NmeAnySelfServiceApp_POST"})]$AllowedApps,
+		[bool]$AllowRestrictAutoScale,
+		[int]$MaxAutoScaleRestrictionPeriod
+	)
+
+	$PropertyHash = @{}
+	if ($PSBoundParameters.containskey("AllowStartDesktops")){ $PropertyHash += @{AllowStartDesktops = $AllowStartDesktops} }
+	if ($PSBoundParameters.containskey("AllowRestartDesktops")){ $PropertyHash += @{AllowRestartDesktops = $AllowRestartDesktops} }
+	if ($PSBoundParameters.containskey("AllowStopDesktops")){ $PropertyHash += @{AllowStopDesktops = $AllowStopDesktops} }
+	if ($PSBoundParameters.containskey("AllowReimageDesktops")){ $PropertyHash += @{AllowReimageDesktops = $AllowReimageDesktops} }
+	if ($PSBoundParameters.containskey("AllowedImages")){ $PropertyHash += @{AllowedImages = $AllowedImages} }
+	if ($PSBoundParameters.containskey("AllowRestoreDesktops")){ $PropertyHash += @{AllowRestoreDesktops = $AllowRestoreDesktops} }
+	if ($PSBoundParameters.containskey("RecoveryMode")){ $PropertyHash += @{RecoveryMode = $RecoveryMode} }
+	if ($PSBoundParameters.containskey("AllowResizeDesktops")){ $PropertyHash += @{AllowResizeDesktops = $AllowResizeDesktops} }
+	if ($PSBoundParameters.containskey("AllowedVmSizes")){ $PropertyHash += @{AllowedVmSizes = $AllowedVmSizes} }
+	if ($PSBoundParameters.containskey("AllowedDiskSizes")){ $PropertyHash += @{AllowedDiskSizes = $AllowedDiskSizes} }
+	if ($PSBoundParameters.containskey("AutoRevertPersonalSize")){ $PropertyHash += @{AutoRevertPersonalSize = $AutoRevertPersonalSize} }
+	if ($PSBoundParameters.containskey("AutoRevertPersonalSizeMaxDelayHours")){ $PropertyHash += @{AutoRevertPersonalSizeMaxDelayHours = $AutoRevertPersonalSizeMaxDelayHours} }
+	if ($PSBoundParameters.containskey("AllowScriptedActions")){ $PropertyHash += @{AllowScriptedActions = $AllowScriptedActions} }
+	if ($PSBoundParameters.containskey("AllowedScriptedActions")){ $PropertyHash += @{AllowedScriptedActions = $AllowedScriptedActions} }
+	if ($PSBoundParameters.containskey("AllowUpdateDesktopsTags")){ $PropertyHash += @{AllowUpdateDesktopsTags = $AllowUpdateDesktopsTags} }
+	if ($PSBoundParameters.containskey("AllowedDesktopsTags")){ $PropertyHash += @{AllowedDesktopsTags = $AllowedDesktopsTags} }
+	if ($PSBoundParameters.containskey("AllowAppInstall")){ $PropertyHash += @{AllowAppInstall = $AllowAppInstall} }
+	if ($PSBoundParameters.containskey("AllowedApps")){ $PropertyHash += @{AllowedApps = $AllowedApps} }
+	if ($PSBoundParameters.containskey("AllowRestrictAutoScale")){ $PropertyHash += @{AllowRestrictAutoScale = $AllowRestrictAutoScale} }
+	if ($PSBoundParameters.containskey("MaxAutoScaleRestrictionPeriod")){ $PropertyHash += @{MaxAutoScaleRestrictionPeriod = $MaxAutoScaleRestrictionPeriod} }
+	$ReturnObject = New-Object -TypeName psobject -Property $PropertyHash
+	$ReturnObject.PSObject.TypeNames.Insert(0, 'NmeHostPoolUserSelfServicePatchModelRest')
+	$ReturnObject.PSObject.TypeNames.Insert(0, 'NmeHostPoolUserSelfServiceModelRest')
 	Return $ReturnObject	
 }
 function New-NmeHostPoolVmDeploymentRestModel {
@@ -5286,15 +5623,15 @@ function New-NmeHostPoolVmDeploymentRestModel {
 		[Parameter(Mandatory=$true)][bool]$VTpmEnabled,
 		[Parameter(Mandatory=$true)][bool]$IntegrityMonitoring,
 		[Parameter(Mandatory=$true)][bool]$UseDedicatedHosts,
-		[string]$DedicatedHostGroupId = $null,
-		[string]$DedicatedHostId = $null,
+		[Parameter(Mandatory=$true)][string]$DedicatedHostGroupId,
+		[Parameter(Mandatory=$true)][string]$DedicatedHostId,
 		[Parameter(Mandatory=$true)][bool]$EncryptionAtHost,
-		[string[]]$DiskEncryptionSetsIds = $null,
+		[Parameter(Mandatory=$true)][string[]]$DiskEncryptionSetsIds,
 		[Parameter(Mandatory=$true)][bool]$BootDiagEnabled,
-		[string[]]$BootDiagStorageAccountsIds = $null,
+		[Parameter(Mandatory=$true)][string[]]$BootDiagStorageAccountsIds,
 		[Parameter(Mandatory=$true)][ValidateScript({if ($_.PSObject.TypeNames -contains "NmeWatermarkingProperties"){$true} else{throw "$_ is not a NmeWatermarkingProperties object. Use New-NmeWatermarkingProperties to create before calling this function"}})][psobject]$Watermarking,
 		[Parameter(Mandatory=$true)][bool]$RunAppPolicies,
-		[string[]]$CapacityReservationGroupsIds = $null
+		[Parameter(Mandatory=$true)][string[]]$CapacityReservationGroupsIds
 	)
 
 	$PropertyHash = @{}
@@ -5331,6 +5668,211 @@ function New-NmeHostPoolVmDeploymentRestModel {
 	if ($PSBoundParameters.containskey("RunAppPolicies")){ $PropertyHash += @{RunAppPolicies = $RunAppPolicies} }
 	if ($PSBoundParameters.containskey("CapacityReservationGroupsIds")){ $PropertyHash += @{CapacityReservationGroupsIds = $CapacityReservationGroupsIds} }
 	$ReturnObject = New-Object -TypeName psobject -Property $PropertyHash
+	$ReturnObject.PSObject.TypeNames.Insert(0, 'NmeHostPoolVmDeploymentRestModel')
+	$ReturnObject.PSObject.TypeNames.Insert(0, 'NmeHostPoolVmDeploymentRestPatchRequest')
+	Return $ReturnObject	
+}
+function New-NmeHostPoolVmDeploymentRestPatchRequest {
+	<#
+
+	.SYNOPSIS
+
+	Creates an object of type NmeHostPoolVmDeploymentRestPatchRequest, for use in other Nme module commands
+
+	.PARAMETER IsAcceleratedNetworkingEnabled
+
+	boolean. Specify -IsAcceleratedNetworkingEnabled $True or -IsAcceleratedNetworkingEnabled $False. Use accelerated networking when possible
+
+	.PARAMETER ForceVMRestart
+
+	boolean. Specify -ForceVMRestart $True or -ForceVMRestart $False. Restart VM at the end of creation
+
+	.PARAMETER EnableTimezoneRedirection
+
+	boolean. Specify -EnableTimezoneRedirection $True or -EnableTimezoneRedirection $False. Enable time zone redirection
+
+	.PARAMETER VmTimezone
+
+	string. Set windows timezone on VM
+
+	.PARAMETER InstallGPUDrivers
+
+	boolean. Specify -InstallGPUDrivers $True or -InstallGPUDrivers $False. Install GPU drivers if VM have discrete GPU card
+
+	.PARAMETER UseAvailabilityZones
+
+	boolean. Specify -UseAvailabilityZones $True or -UseAvailabilityZones $False. Distribute VMs across availability zones in the azure region
+
+	.PARAMETER ShadowUserAssignments
+
+	An array of objects of type NmeHostPoolAssignmentRestModel. Can be created using New-NmeHostPoolAssignmentRestModel
+
+	.PARAMETER IsShadowUsersEnabled
+
+	boolean. Specify -IsShadowUsersEnabled $True or -IsShadowUsersEnabled $False. Allow session shadowing for non-admin users
+
+	.PARAMETER EnableVmDeallocation
+
+	boolean. Specify -EnableVmDeallocation $True or -EnableVmDeallocation $False. Enable automatic deallocation of stopped VMs
+
+	.PARAMETER InstallCertificates
+
+	boolean. Specify -InstallCertificates $True or -InstallCertificates $False. Install MSIX AppAttach certificates if any
+
+	.PARAMETER RunAppPolicies
+
+	boolean. Specify -RunAppPolicies $True or -RunAppPolicies $False. Scripted actions configuration
+
+	.PARAMETER ScriptedActions
+
+	An object of type NmeHostPoolScriptedActionsRestModel. Can be created using New-NmeHostPoolScriptedActionsRestModel
+
+	.PARAMETER AlwaysPromptForPassword
+
+	boolean. Specify -AlwaysPromptForPassword $True or -AlwaysPromptForPassword $False. Enforce a password prompt for users logging on to Remote Desktop Services
+
+	.PARAMETER SecurityType
+
+	string. Valid values are: None, TrustedLaunch, Confidential
+
+	.PARAMETER SecureBootEnabled
+
+	boolean. Specify -SecureBootEnabled $True or -SecureBootEnabled $False. Allow secure boot if Trusted launch or Confidential security type is enabled
+
+	.PARAMETER VTpmEnabled
+
+	boolean. Specify -VTpmEnabled $True or -VTpmEnabled $False. Allow VTpm if Trusted launch or Confidential security type is enabled
+
+	.PARAMETER IntegrityMonitoring
+
+	boolean. Specify -IntegrityMonitoring $True or -IntegrityMonitoring $False. Allow integrity monitoring if Trusted launch or Confidential security type is enabled
+
+	.PARAMETER UseDedicatedHosts
+
+	boolean. Specify -UseDedicatedHosts $True or -UseDedicatedHosts $False. Place VMs on Dedicated Hosts
+
+	.PARAMETER DedicatedHostGroupId
+
+	string. Host Group resource id
+
+	.PARAMETER DedicatedHostId
+
+	string. Host resource id
+
+	.PARAMETER RdpShortpath
+
+	string. Valid values are: DoNothing, ForceEnable, ForceDisable
+
+	.PARAMETER EncryptionAtHost
+
+	boolean. Specify -EncryptionAtHost $True or -EncryptionAtHost $False. Is encryption at host enabled?
+
+	.PARAMETER DiskEncryptionSetsIds
+
+	array. List of disk encryption set IDs if encryption at host is performed with customer managed keys.
+
+	.PARAMETER BootDiagEnabled
+
+	boolean. Specify -BootDiagEnabled $True or -BootDiagEnabled $False. Is host boot diagnostics enabled?
+
+	.PARAMETER BootDiagStorageAccountsIds
+
+	array. List storage account IDs for boot diagnostics, if custom accounts are used.
+
+	.PARAMETER Watermarking
+
+	An object of type NmeWatermarkingProperties. Can be created using New-NmeWatermarkingProperties
+
+	.PARAMETER ComplianceEnforcement
+
+	string. Valid values are: None, CompliancePoliciesOnly, AllIntunePolicies
+
+	.PARAMETER ComplianceTimeout
+
+	integer. Compliance timeout in hours. Supported values are 1-24 hours.
+
+	.PARAMETER EntraIdGroups
+
+	array. Default hostpool groups. New session hosts will be assigned to these groups by default.
+
+	.PARAMETER EntraDeviceTimeoutInMinutes
+
+	integer. Entra groups timeout in minutes
+
+	.PARAMETER CapacityReservationGroupsIds
+
+	array. On-demand Capacity Reservation Groups ids
+
+	#>
+	[cmdletbinding()]
+	Param(
+		[bool]$IsAcceleratedNetworkingEnabled,
+		[bool]$ForceVMRestart,
+		[bool]$EnableTimezoneRedirection,
+		[string]$VmTimezone,
+		[bool]$InstallGPUDrivers,
+		[bool]$UseAvailabilityZones,
+		[psobject[]][ValidateScript({$_.PSObject.TypeNames -contains "NmeHostPoolAssignmentRestModel"})]$ShadowUserAssignments,
+		[bool]$IsShadowUsersEnabled,
+		[bool]$EnableVmDeallocation,
+		[bool]$InstallCertificates,
+		[bool]$RunAppPolicies,
+		[ValidateScript({if ($_.PSObject.TypeNames -contains "NmeHostPoolScriptedActionsRestModel"){$true} else{throw "$_ is not a NmeHostPoolScriptedActionsRestModel object. Use New-NmeHostPoolScriptedActionsRestModel to create before calling this function"}})][psobject]$ScriptedActions,
+		[bool]$AlwaysPromptForPassword,
+		[ValidateSet("None","TrustedLaunch","Confidential")][string]$SecurityType,
+		[bool]$SecureBootEnabled,
+		[bool]$VTpmEnabled,
+		[bool]$IntegrityMonitoring,
+		[bool]$UseDedicatedHosts,
+		[string]$DedicatedHostGroupId,
+		[string]$DedicatedHostId,
+		[ValidateSet("DoNothing","ForceEnable","ForceDisable")][string]$RdpShortpath,
+		[bool]$EncryptionAtHost,
+		[string[]]$DiskEncryptionSetsIds,
+		[bool]$BootDiagEnabled,
+		[string[]]$BootDiagStorageAccountsIds,
+		[ValidateScript({if ($_.PSObject.TypeNames -contains "NmeWatermarkingProperties"){$true} else{throw "$_ is not a NmeWatermarkingProperties object. Use New-NmeWatermarkingProperties to create before calling this function"}})][psobject]$Watermarking,
+		[ValidateSet("None","CompliancePoliciesOnly","AllIntunePolicies")][string]$ComplianceEnforcement,
+		[int]$ComplianceTimeout,
+		[string[]]$EntraIdGroups,
+		[int]$EntraDeviceTimeoutInMinutes,
+		[string[]]$CapacityReservationGroupsIds
+	)
+
+	$PropertyHash = @{}
+	if ($PSBoundParameters.containskey("IsAcceleratedNetworkingEnabled")){ $PropertyHash += @{IsAcceleratedNetworkingEnabled = $IsAcceleratedNetworkingEnabled} }
+	if ($PSBoundParameters.containskey("ForceVMRestart")){ $PropertyHash += @{ForceVMRestart = $ForceVMRestart} }
+	if ($PSBoundParameters.containskey("EnableTimezoneRedirection")){ $PropertyHash += @{EnableTimezoneRedirection = $EnableTimezoneRedirection} }
+	if ($PSBoundParameters.containskey("VmTimezone")){ $PropertyHash += @{VmTimezone = $VmTimezone} }
+	if ($PSBoundParameters.containskey("InstallGPUDrivers")){ $PropertyHash += @{InstallGPUDrivers = $InstallGPUDrivers} }
+	if ($PSBoundParameters.containskey("UseAvailabilityZones")){ $PropertyHash += @{UseAvailabilityZones = $UseAvailabilityZones} }
+	if ($PSBoundParameters.containskey("ShadowUserAssignments")){ $PropertyHash += @{ShadowUserAssignments = $ShadowUserAssignments} }
+	if ($PSBoundParameters.containskey("IsShadowUsersEnabled")){ $PropertyHash += @{IsShadowUsersEnabled = $IsShadowUsersEnabled} }
+	if ($PSBoundParameters.containskey("EnableVmDeallocation")){ $PropertyHash += @{EnableVmDeallocation = $EnableVmDeallocation} }
+	if ($PSBoundParameters.containskey("InstallCertificates")){ $PropertyHash += @{InstallCertificates = $InstallCertificates} }
+	if ($PSBoundParameters.containskey("RunAppPolicies")){ $PropertyHash += @{RunAppPolicies = $RunAppPolicies} }
+	if ($PSBoundParameters.containskey("ScriptedActions")){ $PropertyHash += @{ScriptedActions = $ScriptedActions} }
+	if ($PSBoundParameters.containskey("AlwaysPromptForPassword")){ $PropertyHash += @{AlwaysPromptForPassword = $AlwaysPromptForPassword} }
+	if ($PSBoundParameters.containskey("SecurityType")){ $PropertyHash += @{SecurityType = $SecurityType} }
+	if ($PSBoundParameters.containskey("SecureBootEnabled")){ $PropertyHash += @{SecureBootEnabled = $SecureBootEnabled} }
+	if ($PSBoundParameters.containskey("VTpmEnabled")){ $PropertyHash += @{VTpmEnabled = $VTpmEnabled} }
+	if ($PSBoundParameters.containskey("IntegrityMonitoring")){ $PropertyHash += @{IntegrityMonitoring = $IntegrityMonitoring} }
+	if ($PSBoundParameters.containskey("UseDedicatedHosts")){ $PropertyHash += @{UseDedicatedHosts = $UseDedicatedHosts} }
+	if ($PSBoundParameters.containskey("DedicatedHostGroupId")){ $PropertyHash += @{DedicatedHostGroupId = $DedicatedHostGroupId} }
+	if ($PSBoundParameters.containskey("DedicatedHostId")){ $PropertyHash += @{DedicatedHostId = $DedicatedHostId} }
+	if ($PSBoundParameters.containskey("RdpShortpath")){ $PropertyHash += @{RdpShortpath = $RdpShortpath} }
+	if ($PSBoundParameters.containskey("EncryptionAtHost")){ $PropertyHash += @{EncryptionAtHost = $EncryptionAtHost} }
+	if ($PSBoundParameters.containskey("DiskEncryptionSetsIds")){ $PropertyHash += @{DiskEncryptionSetsIds = $DiskEncryptionSetsIds} }
+	if ($PSBoundParameters.containskey("BootDiagEnabled")){ $PropertyHash += @{BootDiagEnabled = $BootDiagEnabled} }
+	if ($PSBoundParameters.containskey("BootDiagStorageAccountsIds")){ $PropertyHash += @{BootDiagStorageAccountsIds = $BootDiagStorageAccountsIds} }
+	if ($PSBoundParameters.containskey("Watermarking")){ $PropertyHash += @{Watermarking = $Watermarking} }
+	if ($PSBoundParameters.containskey("ComplianceEnforcement")){ $PropertyHash += @{ComplianceEnforcement = $ComplianceEnforcement} }
+	if ($PSBoundParameters.containskey("ComplianceTimeout")){ $PropertyHash += @{ComplianceTimeout = $ComplianceTimeout} }
+	if ($PSBoundParameters.containskey("EntraIdGroups")){ $PropertyHash += @{EntraIdGroups = $EntraIdGroups} }
+	if ($PSBoundParameters.containskey("EntraDeviceTimeoutInMinutes")){ $PropertyHash += @{EntraDeviceTimeoutInMinutes = $EntraDeviceTimeoutInMinutes} }
+	if ($PSBoundParameters.containskey("CapacityReservationGroupsIds")){ $PropertyHash += @{CapacityReservationGroupsIds = $CapacityReservationGroupsIds} }
+	$ReturnObject = New-Object -TypeName psobject -Property $PropertyHash
+	$ReturnObject.PSObject.TypeNames.Insert(0, 'NmeHostPoolVmDeploymentRestPatchRequest')
 	$ReturnObject.PSObject.TypeNames.Insert(0, 'NmeHostPoolVmDeploymentRestModel')
 	Return $ReturnObject	
 }
@@ -6320,6 +6862,55 @@ function New-NmeNetAppFilesAutoscaleConfig {
 	if ($PSBoundParameters.containskey("PreStage")){ $PropertyHash += @{PreStage = $PreStage} }
 	$ReturnObject = New-Object -TypeName psobject -Property $PropertyHash
 	$ReturnObject.PSObject.TypeNames.Insert(0, 'NmeNetAppFilesAutoscaleConfig')
+	$ReturnObject.PSObject.TypeNames.Insert(0, 'NmeNetAppFilesAutoscaleConfigPatch')
+	Return $ReturnObject	
+}
+function New-NmeNetAppFilesAutoscaleConfigPatch {
+	<#
+
+	.SYNOPSIS
+
+	Creates an object of type NmeNetAppFilesAutoscaleConfigPatch, for use in other Nme module commands
+
+	.PARAMETER IsEnabled
+
+	boolean. Specify -IsEnabled $True or -IsEnabled $False. 
+
+	.PARAMETER Unit
+
+	string. Valid values are: Percent, SizeGb, SizeTb
+
+	.PARAMETER Basic
+
+	An object of type NmeNetAppFilesBasicAutoscaleConfigPatch. Can be created using New-NmeNetAppFilesBasicAutoscaleConfigPatch
+
+	.PARAMETER Scaling
+
+	An object of type NmeNetAppFilesScalingConfigPatch. Can be created using New-NmeNetAppFilesScalingConfigPatch
+
+	.PARAMETER PreStage
+
+	An object of type NmeNetAppFilesPreStageConfigPatch. Can be created using New-NmeNetAppFilesPreStageConfigPatch
+
+	#>
+	[cmdletbinding()]
+	Param(
+		[bool]$IsEnabled,
+		[ValidateSet("Percent","SizeGb","SizeTb")][string]$Unit,
+		[ValidateScript({if ($_.PSObject.TypeNames -contains "NmeNetAppFilesBasicAutoscaleConfigPatch"){$true} else{throw "$_ is not a NmeNetAppFilesBasicAutoscaleConfigPatch object. Use New-NmeNetAppFilesBasicAutoscaleConfigPatch to create before calling this function"}})][psobject]$Basic,
+		[ValidateScript({if ($_.PSObject.TypeNames -contains "NmeNetAppFilesScalingConfigPatch"){$true} else{throw "$_ is not a NmeNetAppFilesScalingConfigPatch object. Use New-NmeNetAppFilesScalingConfigPatch to create before calling this function"}})][psobject]$Scaling,
+		[ValidateScript({if ($_.PSObject.TypeNames -contains "NmeNetAppFilesPreStageConfigPatch"){$true} else{throw "$_ is not a NmeNetAppFilesPreStageConfigPatch object. Use New-NmeNetAppFilesPreStageConfigPatch to create before calling this function"}})][psobject]$PreStage
+	)
+
+	$PropertyHash = @{}
+	if ($PSBoundParameters.containskey("IsEnabled")){ $PropertyHash += @{IsEnabled = $IsEnabled} }
+	if ($PSBoundParameters.containskey("Unit")){ $PropertyHash += @{Unit = $Unit} }
+	if ($PSBoundParameters.containskey("Basic")){ $PropertyHash += @{Basic = $Basic} }
+	if ($PSBoundParameters.containskey("Scaling")){ $PropertyHash += @{Scaling = $Scaling} }
+	if ($PSBoundParameters.containskey("PreStage")){ $PropertyHash += @{PreStage = $PreStage} }
+	$ReturnObject = New-Object -TypeName psobject -Property $PropertyHash
+	$ReturnObject.PSObject.TypeNames.Insert(0, 'NmeNetAppFilesAutoscaleConfigPatch')
+	$ReturnObject.PSObject.TypeNames.Insert(0, 'NmeNetAppFilesAutoscaleConfig')
 	Return $ReturnObject	
 }
 function New-NmeNetAppFilesBasicAutoscaleConfig {
@@ -6361,6 +6952,49 @@ function New-NmeNetAppFilesBasicAutoscaleConfig {
 	if ($PSBoundParameters.containskey("MaxSizeBuffer")){ $PropertyHash += @{MaxSizeBuffer = $MaxSizeBuffer} }
 	$ReturnObject = New-Object -TypeName psobject -Property $PropertyHash
 	$ReturnObject.PSObject.TypeNames.Insert(0, 'NmeNetAppFilesBasicAutoscaleConfig')
+	$ReturnObject.PSObject.TypeNames.Insert(0, 'NmeNetAppFilesBasicAutoscaleConfigPatch')
+	Return $ReturnObject	
+}
+function New-NmeNetAppFilesBasicAutoscaleConfigPatch {
+	<#
+
+	.SYNOPSIS
+
+	Creates an object of type NmeNetAppFilesBasicAutoscaleConfigPatch, for use in other Nme module commands
+
+	.PARAMETER ScalingMode
+
+	string. Valid values are: VolumeOnly, VolumeAndPool
+
+	.PARAMETER MinSizeBuffer
+
+	number. 
+
+	.PARAMETER MaxSizeBuffer
+
+	integer. 
+
+	.PARAMETER MaxSizeLimit
+
+	integer. 
+
+	#>
+	[cmdletbinding()]
+	Param(
+		[ValidateSet("VolumeOnly","VolumeAndPool")][string]$ScalingMode,
+		[float]$MinSizeBuffer,
+		[int]$MaxSizeBuffer,
+		[int]$MaxSizeLimit
+	)
+
+	$PropertyHash = @{}
+	if ($PSBoundParameters.containskey("ScalingMode")){ $PropertyHash += @{ScalingMode = $ScalingMode} }
+	if ($PSBoundParameters.containskey("MinSizeBuffer")){ $PropertyHash += @{MinSizeBuffer = $MinSizeBuffer} }
+	if ($PSBoundParameters.containskey("MaxSizeBuffer")){ $PropertyHash += @{MaxSizeBuffer = $MaxSizeBuffer} }
+	if ($PSBoundParameters.containskey("MaxSizeLimit")){ $PropertyHash += @{MaxSizeLimit = $MaxSizeLimit} }
+	$ReturnObject = New-Object -TypeName psobject -Property $PropertyHash
+	$ReturnObject.PSObject.TypeNames.Insert(0, 'NmeNetAppFilesBasicAutoscaleConfigPatch')
+	$ReturnObject.PSObject.TypeNames.Insert(0, 'NmeNetAppFilesBasicAutoscaleConfig')
 	Return $ReturnObject	
 }
 function New-NmeNetAppFilesPreStageConfig {
@@ -6395,6 +7029,43 @@ function New-NmeNetAppFilesPreStageConfig {
 	if ($PSBoundParameters.containskey("WorkTimeSets")){ $PropertyHash += @{WorkTimeSets = $WorkTimeSets} }
 	if ($PSBoundParameters.containskey("TimezoneId")){ $PropertyHash += @{TimezoneId = $TimezoneId} }
 	$ReturnObject = New-Object -TypeName psobject -Property $PropertyHash
+	$ReturnObject.PSObject.TypeNames.Insert(0, 'NmeNetAppFilesPreStageConfig')
+	$ReturnObject.PSObject.TypeNames.Insert(0, 'NmeNetAppFilesPreStageConfigPatch')
+	Return $ReturnObject	
+}
+function New-NmeNetAppFilesPreStageConfigPatch {
+	<#
+
+	.SYNOPSIS
+
+	Creates an object of type NmeNetAppFilesPreStageConfigPatch, for use in other Nme module commands
+
+	.PARAMETER IsEnabled
+
+	boolean. Specify -IsEnabled $True or -IsEnabled $False. 
+
+	.PARAMETER WorkTimeSets
+
+	An array of objects of type NmeNetAppFilesWorkTimeSetModel. Can be created using New-NmeNetAppFilesWorkTimeSetModel
+
+	.PARAMETER TimezoneId
+
+	string. 
+
+	#>
+	[cmdletbinding()]
+	Param(
+		[bool]$IsEnabled,
+		[psobject[]][ValidateScript({$_.PSObject.TypeNames -contains "NmeNetAppFilesWorkTimeSetModel"})]$WorkTimeSets,
+		[string]$TimezoneId
+	)
+
+	$PropertyHash = @{}
+	if ($PSBoundParameters.containskey("IsEnabled")){ $PropertyHash += @{IsEnabled = $IsEnabled} }
+	if ($PSBoundParameters.containskey("WorkTimeSets")){ $PropertyHash += @{WorkTimeSets = $WorkTimeSets} }
+	if ($PSBoundParameters.containskey("TimezoneId")){ $PropertyHash += @{TimezoneId = $TimezoneId} }
+	$ReturnObject = New-Object -TypeName psobject -Property $PropertyHash
+	$ReturnObject.PSObject.TypeNames.Insert(0, 'NmeNetAppFilesPreStageConfigPatch')
 	$ReturnObject.PSObject.TypeNames.Insert(0, 'NmeNetAppFilesPreStageConfig')
 	Return $ReturnObject	
 }
@@ -6460,6 +7131,73 @@ function New-NmeNetAppFilesScalingConfig {
 	if ($PSBoundParameters.containskey("ScaleInLowLatency")){ $PropertyHash += @{ScaleInLowLatency = $ScaleInLowLatency} }
 	if ($PSBoundParameters.containskey("ScaleInInterval")){ $PropertyHash += @{ScaleInInterval = $ScaleInInterval} }
 	$ReturnObject = New-Object -TypeName psobject -Property $PropertyHash
+	$ReturnObject.PSObject.TypeNames.Insert(0, 'NmeNetAppFilesScalingConfig')
+	$ReturnObject.PSObject.TypeNames.Insert(0, 'NmeNetAppFilesScalingConfigPatch')
+	Return $ReturnObject	
+}
+function New-NmeNetAppFilesScalingConfigPatch {
+	<#
+
+	.SYNOPSIS
+
+	Creates an object of type NmeNetAppFilesScalingConfigPatch, for use in other Nme module commands
+
+	.PARAMETER IsEnabled
+
+	boolean. Specify -IsEnabled $True or -IsEnabled $False. 
+
+	.PARAMETER Trigger
+
+	string. Valid values are: AvgReadLatency, AvgWriteLatency, AvgReadOrWriteLatency
+
+	.PARAMETER ScaleOutBy
+
+	integer. 
+
+	.PARAMETER ScaleOutHighLatency
+
+	integer. 
+
+	.PARAMETER ScaleOutInterval
+
+	integer. 
+
+	.PARAMETER ScaleInBy
+
+	integer. 
+
+	.PARAMETER ScaleInLowLatency
+
+	integer. 
+
+	.PARAMETER ScaleInInterval
+
+	integer. 
+
+	#>
+	[cmdletbinding()]
+	Param(
+		[bool]$IsEnabled,
+		[ValidateSet("AvgReadLatency","AvgWriteLatency","AvgReadOrWriteLatency")][string]$Trigger,
+		[int]$ScaleOutBy,
+		[int]$ScaleOutHighLatency,
+		[int]$ScaleOutInterval,
+		[int]$ScaleInBy,
+		[int]$ScaleInLowLatency,
+		[int]$ScaleInInterval
+	)
+
+	$PropertyHash = @{}
+	if ($PSBoundParameters.containskey("IsEnabled")){ $PropertyHash += @{IsEnabled = $IsEnabled} }
+	if ($PSBoundParameters.containskey("Trigger")){ $PropertyHash += @{Trigger = $Trigger} }
+	if ($PSBoundParameters.containskey("ScaleOutBy")){ $PropertyHash += @{ScaleOutBy = $ScaleOutBy} }
+	if ($PSBoundParameters.containskey("ScaleOutHighLatency")){ $PropertyHash += @{ScaleOutHighLatency = $ScaleOutHighLatency} }
+	if ($PSBoundParameters.containskey("ScaleOutInterval")){ $PropertyHash += @{ScaleOutInterval = $ScaleOutInterval} }
+	if ($PSBoundParameters.containskey("ScaleInBy")){ $PropertyHash += @{ScaleInBy = $ScaleInBy} }
+	if ($PSBoundParameters.containskey("ScaleInLowLatency")){ $PropertyHash += @{ScaleInLowLatency = $ScaleInLowLatency} }
+	if ($PSBoundParameters.containskey("ScaleInInterval")){ $PropertyHash += @{ScaleInInterval = $ScaleInInterval} }
+	$ReturnObject = New-Object -TypeName psobject -Property $PropertyHash
+	$ReturnObject.PSObject.TypeNames.Insert(0, 'NmeNetAppFilesScalingConfigPatch')
 	$ReturnObject.PSObject.TypeNames.Insert(0, 'NmeNetAppFilesScalingConfig')
 	Return $ReturnObject	
 }
@@ -7158,6 +7896,114 @@ function New-NmePatchLinkedSubscriptionRestModel {
 	if ($PSBoundParameters.containskey("AvdEnabled")){ $PropertyHash += @{AvdEnabled = $AvdEnabled} }
 	$ReturnObject = New-Object -TypeName psobject -Property $PropertyHash
 	$ReturnObject.PSObject.TypeNames.Insert(0, 'NmePatchLinkedSubscriptionRestModel')
+	Return $ReturnObject	
+}
+function New-NmePatchScriptedActionRequest {
+	<#
+
+	.SYNOPSIS
+
+	Creates an object of type NmePatchScriptedActionRequest, for use in other Nme module commands
+
+	.PARAMETER Name
+
+	The name of the resource
+
+	.PARAMETER Script
+
+	string. 
+
+	.PARAMETER ExecutionMode
+
+	string. Valid values are: Combined, Individual, IndividualWithRestart
+
+	.PARAMETER ExecutionEnvironment
+
+	string. Valid values are: CustomScript, AzureAutomation
+
+	.PARAMETER ExecutionTimeout
+
+	integer. 
+
+	.PARAMETER Tags
+
+	array. 
+
+	.PARAMETER Description
+
+	string. 
+
+	#>
+	[cmdletbinding()]
+	Param(
+		[string]$Name,
+		[string]$Script,
+		[ValidateSet("Combined","Individual","IndividualWithRestart")][string]$ExecutionMode,
+		[ValidateSet("CustomScript","AzureAutomation")][string]$ExecutionEnvironment,
+		[int]$ExecutionTimeout,
+		[string[]]$Tags,
+		[string]$Description
+	)
+
+	$PropertyHash = @{}
+	if ($PSBoundParameters.containskey("Name")){ $PropertyHash += @{Name = $Name} }
+	if ($PSBoundParameters.containskey("Script")){ $PropertyHash += @{Script = $Script} }
+	if ($PSBoundParameters.containskey("ExecutionMode")){ $PropertyHash += @{ExecutionMode = $ExecutionMode} }
+	if ($PSBoundParameters.containskey("ExecutionEnvironment")){ $PropertyHash += @{ExecutionEnvironment = $ExecutionEnvironment} }
+	if ($PSBoundParameters.containskey("ExecutionTimeout")){ $PropertyHash += @{ExecutionTimeout = $ExecutionTimeout} }
+	if ($PSBoundParameters.containskey("Tags")){ $PropertyHash += @{Tags = $Tags} }
+	if ($PSBoundParameters.containskey("Description")){ $PropertyHash += @{Description = $Description} }
+	$ReturnObject = New-Object -TypeName psobject -Property $PropertyHash
+	$ReturnObject.PSObject.TypeNames.Insert(0, 'NmePatchScriptedActionRequest')
+	$ReturnObject.PSObject.TypeNames.Insert(0, 'NmeCreateScriptedActionRequest')
+	Return $ReturnObject	
+}
+function New-NmePatchSecureVariableRestPayload {
+	<#
+
+	.SYNOPSIS
+
+	Creates an object of type NmePatchSecureVariableRestPayload, for use in other Nme module commands
+
+	.PARAMETER Name
+
+	The name of the resource
+
+	.PARAMETER ScriptedActions
+
+	array. 
+
+	.PARAMETER Value
+
+	string. 
+
+	.PARAMETER AssignmentRequired
+
+	boolean. Specify -AssignmentRequired $True or -AssignmentRequired $False. 
+
+	.PARAMETER ShellAppAccessible
+
+	boolean. Specify -ShellAppAccessible $True or -ShellAppAccessible $False. 
+
+	#>
+	[cmdletbinding()]
+	Param(
+		[Parameter(Mandatory=$true)][string]$Name,
+		[int[]]$ScriptedActions,
+		[string]$Value,
+		[bool]$AssignmentRequired,
+		[bool]$ShellAppAccessible
+	)
+
+	$PropertyHash = @{}
+	if ($PSBoundParameters.containskey("Name")){ $PropertyHash += @{Name = $Name} }
+	if ($PSBoundParameters.containskey("ScriptedActions")){ $PropertyHash += @{ScriptedActions = $ScriptedActions} }
+	if ($PSBoundParameters.containskey("Value")){ $PropertyHash += @{Value = $Value} }
+	if ($PSBoundParameters.containskey("AssignmentRequired")){ $PropertyHash += @{AssignmentRequired = $AssignmentRequired} }
+	if ($PSBoundParameters.containskey("ShellAppAccessible")){ $PropertyHash += @{ShellAppAccessible = $ShellAppAccessible} }
+	$ReturnObject = New-Object -TypeName psobject -Property $PropertyHash
+	$ReturnObject.PSObject.TypeNames.Insert(0, 'NmePatchSecureVariableRestPayload')
+	$ReturnObject.PSObject.TypeNames.Insert(0, 'NmeCreateOrUpdateSecureVariableRestPayload')
 	Return $ReturnObject	
 }
 function New-NmePersistentAvdProperties {
@@ -11360,15 +12206,15 @@ function New-NmeVmTemplateParams {
 	#>
 	[cmdletbinding()]
 	Param(
-		[string]$Prefix = $null,
-		[string]$Size = $null,
-		[string]$Image = $null,
-		[string]$StorageType = $null,
-		[string]$ResourceGroupId = $null,
-		[string]$NetworkId = $null,
-		[string]$Subnet = $null,
-		[int]$DiskSize = $null,
-		[bool]$HasEphemeralOSDisk = $null,
+		[Parameter(Mandatory=$true)][string]$Prefix,
+		[Parameter(Mandatory=$true)][string]$Size,
+		[Parameter(Mandatory=$true)][string]$Image,
+		[Parameter(Mandatory=$true)][string]$StorageType,
+		[Parameter(Mandatory=$true)][string]$ResourceGroupId,
+		[Parameter(Mandatory=$true)][string]$NetworkId,
+		[Parameter(Mandatory=$true)][string]$Subnet,
+		[Parameter(Mandatory=$true)][int]$DiskSize,
+		[Parameter(Mandatory=$true)][bool]$HasEphemeralOSDisk,
 		[ValidateSet("CacheDisk","ResourceDisk")][string]$EphemeralOSDiskPlacement
 	)
 
