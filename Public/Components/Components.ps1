@@ -482,7 +482,7 @@ function New-NmeAnyAppScopeRest_GET {
 
 	.PARAMETER Type
 
-	string. Valid values are: AVD_PersonalPools, AVD_PooledPools, AVD_ExactHosts, Intune
+	string. Valid values are: AVD_PersonalPools, AVD_PooledPools, AVD_ExactHosts, Intune, AVD_Workspaces
 
 	.PARAMETER HostPools
 
@@ -500,14 +500,24 @@ function New-NmeAnyAppScopeRest_GET {
 
 	array. 
 
+	.PARAMETER Workspaces
+
+	array. 
+
+	.PARAMETER TenantId
+
+	string. 
+
 	#>
 	[cmdletbinding()]
 	Param(
-		[ValidateSet("AVD_PersonalPools","AVD_PooledPools","AVD_ExactHosts","Intune")][string]$Type,
+		[ValidateSet("AVD_PersonalPools","AVD_PooledPools","AVD_ExactHosts","Intune","AVD_Workspaces")][string]$Type,
 		[string[]]$HostPools,
 		[string[]]$Hosts,
 		[psobject[]][ValidateScript({$_.PSObject.TypeNames -contains "NmeAdObjectRest_GET"})]$Users,
-		[string[]]$DeviceGroups
+		[string[]]$DeviceGroups,
+		[string[]]$Workspaces,
+		[string]$TenantId
 	)
 
 	$PropertyHash = @{}
@@ -516,6 +526,8 @@ function New-NmeAnyAppScopeRest_GET {
 	if ($PSBoundParameters.containskey("Hosts")){ $PropertyHash += @{Hosts = $Hosts} }
 	if ($PSBoundParameters.containskey("Users")){ $PropertyHash += @{Users = $Users} }
 	if ($PSBoundParameters.containskey("DeviceGroups")){ $PropertyHash += @{DeviceGroups = $DeviceGroups} }
+	if ($PSBoundParameters.containskey("Workspaces")){ $PropertyHash += @{Workspaces = $Workspaces} }
+	if ($PSBoundParameters.containskey("TenantId")){ $PropertyHash += @{TenantId = $TenantId} }
 	$ReturnObject = New-Object -TypeName psobject -Property $PropertyHash
 	$ReturnObject.PSObject.TypeNames.Insert(0, 'NmeAnyAppScopeRest_GET')
 	Return $ReturnObject	
@@ -529,7 +541,7 @@ function New-NmeAnyAppScopeRest_POST {
 
 	.PARAMETER Type
 
-	string. Valid values are: AVD_PersonalPools, AVD_PooledPools, AVD_ExactHosts, Intune
+	string. Valid values are: AVD_PersonalPools, AVD_PooledPools, AVD_ExactHosts, Intune, AVD_Workspaces
 
 	.PARAMETER HostPools
 
@@ -547,14 +559,24 @@ function New-NmeAnyAppScopeRest_POST {
 
 	array. 
 
+	.PARAMETER Workspaces
+
+	array. 
+
+	.PARAMETER TenantId
+
+	string. 
+
 	#>
 	[cmdletbinding()]
 	Param(
-		[Parameter(Mandatory=$true)][ValidateSet("AVD_PersonalPools","AVD_PooledPools","AVD_ExactHosts","Intune")][string]$Type,
+		[Parameter(Mandatory=$true)][ValidateSet("AVD_PersonalPools","AVD_PooledPools","AVD_ExactHosts","Intune","AVD_Workspaces")][string]$Type,
 		[string[]]$HostPools,
 		[string[]]$Hosts,
 		[psobject[]][ValidateScript({$_.PSObject.TypeNames -contains "NmeAdObjectRest_POST"})]$Users,
-		[string[]]$DeviceGroups
+		[string[]]$DeviceGroups,
+		[string[]]$Workspaces,
+		[string]$TenantId
 	)
 
 	$PropertyHash = @{}
@@ -563,6 +585,8 @@ function New-NmeAnyAppScopeRest_POST {
 	if ($PSBoundParameters.containskey("Hosts")){ $PropertyHash += @{Hosts = $Hosts} }
 	if ($PSBoundParameters.containskey("Users")){ $PropertyHash += @{Users = $Users} }
 	if ($PSBoundParameters.containskey("DeviceGroups")){ $PropertyHash += @{DeviceGroups = $DeviceGroups} }
+	if ($PSBoundParameters.containskey("Workspaces")){ $PropertyHash += @{Workspaces = $Workspaces} }
+	if ($PSBoundParameters.containskey("TenantId")){ $PropertyHash += @{TenantId = $TenantId} }
 	$ReturnObject = New-Object -TypeName psobject -Property $PropertyHash
 	$ReturnObject.PSObject.TypeNames.Insert(0, 'NmeAnyAppScopeRest_POST')
 	Return $ReturnObject	
@@ -1609,16 +1633,22 @@ function New-NmeArmHostPoolRdpModelRest {
 
 	string. 
 
+	.PARAMETER ShortPath
+
+	An object of type NmeRdpShortpathPropertiesRest. Can be created using New-NmeRdpShortpathPropertiesRest
+
 	#>
 	[cmdletbinding()]
 	Param(
 		[string]$ConfigurationName,
-		[string]$RdpProperties
+		[string]$RdpProperties,
+		[ValidateScript({if ($_.PSObject.TypeNames -contains "NmeRdpShortpathPropertiesRest"){$true} else{throw "$_ is not a NmeRdpShortpathPropertiesRest object. Use New-NmeRdpShortpathPropertiesRest to create before calling this function"}})][psobject]$ShortPath
 	)
 
 	$PropertyHash = @{}
 	if ($PSBoundParameters.containskey("ConfigurationName")){ $PropertyHash += @{ConfigurationName = $ConfigurationName} }
 	if ($PSBoundParameters.containskey("RdpProperties")){ $PropertyHash += @{RdpProperties = $RdpProperties} }
+	if ($PSBoundParameters.containskey("ShortPath")){ $PropertyHash += @{ShortPath = $ShortPath} }
 	$ReturnObject = New-Object -TypeName psobject -Property $PropertyHash
 	$ReturnObject.PSObject.TypeNames.Insert(0, 'NmeArmHostPoolRdpModelRest')
 	Return $ReturnObject	
@@ -1911,10 +1941,6 @@ function New-NmeAutoHealConfigurationItem {
 
 	integer. 
 
-	.PARAMETER RestartAttempts
-
-	DEPRECATED
-
 	.PARAMETER WaitMinutesBeforeFirstAction
 
 	integer. 
@@ -1922,10 +1948,6 @@ function New-NmeAutoHealConfigurationItem {
 	.PARAMETER WaitMinutes
 
 	integer. 
-
-	.PARAMETER FinalAction
-
-	DEPRECATED
 
 	.PARAMETER Actions
 
@@ -1937,10 +1959,8 @@ function New-NmeAutoHealConfigurationItem {
 		[Parameter(Mandatory=$true)][ValidateSet("Available","Unavailable","Shutdown","Disconnected","Upgrading","UpgradeFailed","NoHeartbeat","NotJoinedToDomain","DomainTrustRelationshipLost","SxSStackListenerNotReady","FSLogixNotHealthy","NeedsAssistance")][String[]]$WvdStatuses,
 		[Parameter(Mandatory=$true)][ValidateSet("WithoutSessions","WithoutActive","WithActive")][string]$SessionCriteria,
 		[int]$StaleHeartbeatMinutes,
-		[int]$RestartAttempts,
 		[int]$WaitMinutesBeforeFirstAction,
 		[Parameter(Mandatory=$true)][int]$WaitMinutes,
-		[string]$FinalAction,
 		[Parameter(Mandatory=$true)][psobject[]][ValidateScript({$_.PSObject.TypeNames -contains "NmeAutoHealAction"})]$Actions
 	)
 
@@ -1948,10 +1968,8 @@ function New-NmeAutoHealConfigurationItem {
 	if ($PSBoundParameters.containskey("WvdStatuses")){ $PropertyHash += @{WvdStatuses = $WvdStatuses} }
 	if ($PSBoundParameters.containskey("SessionCriteria")){ $PropertyHash += @{SessionCriteria = $SessionCriteria} }
 	if ($PSBoundParameters.containskey("StaleHeartbeatMinutes")){ $PropertyHash += @{StaleHeartbeatMinutes = $StaleHeartbeatMinutes} }
-	if ($PSBoundParameters.containskey("RestartAttempts")){ $PropertyHash += @{RestartAttempts = $RestartAttempts} }
 	if ($PSBoundParameters.containskey("WaitMinutesBeforeFirstAction")){ $PropertyHash += @{WaitMinutesBeforeFirstAction = $WaitMinutesBeforeFirstAction} }
 	if ($PSBoundParameters.containskey("WaitMinutes")){ $PropertyHash += @{WaitMinutes = $WaitMinutes} }
-	if ($PSBoundParameters.containskey("FinalAction")){ $PropertyHash += @{FinalAction = $FinalAction} }
 	if ($PSBoundParameters.containskey("Actions")){ $PropertyHash += @{Actions = $Actions} }
 	$ReturnObject = New-Object -TypeName psobject -Property $PropertyHash
 	$ReturnObject.PSObject.TypeNames.Insert(0, 'NmeAutoHealConfigurationItem')
@@ -2434,10 +2452,6 @@ function New-NmeAvailableUserSessionsConfiguration {
 
 	Creates an object of type NmeAvailableUserSessionsConfiguration, for use in other Nme module commands
 
-	.PARAMETER MaxSessionsPerHost
-
-	DEPRECATED
-
 	.PARAMETER MinAvailableUserSessions
 
 	integer. 
@@ -2456,21 +2470,19 @@ function New-NmeAvailableUserSessionsConfiguration {
 
 	.PARAMETER EndWorkHours
 
-	An object of type NmeTimeSpan. Can be created using New-NmeTimeSpan
+	string. 
 
 	#>
 	[cmdletbinding()]
 	Param(
-		[int]$MaxSessionsPerHost,
 		[Parameter(Mandatory=$true)][int]$MinAvailableUserSessions,
 		[Parameter(Mandatory=$true)][int]$MaxAvailableUserSessions,
 		[Parameter(Mandatory=$true)][ValidateSet("Always","DuringWorkHours")][string]$AvailableSessionRestriction,
 		[int]$OutsideWorkHoursSessions,
-		[ValidateScript({if ($_.PSObject.TypeNames -contains "NmeTimeSpan"){$true} else{throw "$_ is not a NmeTimeSpan object. Use New-NmeTimeSpan to create before calling this function"}})][psobject]$EndWorkHours
+		[string]$EndWorkHours
 	)
 
 	$PropertyHash = @{}
-	if ($PSBoundParameters.containskey("MaxSessionsPerHost")){ $PropertyHash += @{MaxSessionsPerHost = $MaxSessionsPerHost} }
 	if ($PSBoundParameters.containskey("MinAvailableUserSessions")){ $PropertyHash += @{MinAvailableUserSessions = $MinAvailableUserSessions} }
 	if ($PSBoundParameters.containskey("MaxAvailableUserSessions")){ $PropertyHash += @{MaxAvailableUserSessions = $MaxAvailableUserSessions} }
 	if ($PSBoundParameters.containskey("AvailableSessionRestriction")){ $PropertyHash += @{AvailableSessionRestriction = $AvailableSessionRestriction} }
@@ -3251,10 +3263,6 @@ function New-NmeCreateImageFromLibraryPayload {
 
 	object. 
 
-	.PARAMETER UseTrustedLaunch
-
-	DEPRECATED
-
 	.PARAMETER SecurityProfile
 
 	An object of type NmeVmSecurityProfileRest. Can be created using New-NmeVmSecurityProfileRest
@@ -3266,10 +3274,6 @@ function New-NmeCreateImageFromLibraryPayload {
 	.PARAMETER InstallCertificates
 
 	boolean. Specify -InstallCertificates $True or -InstallCertificates $False. 
-
-	.PARAMETER ScriptedActionsIds
-
-	Array of integers, listed under the ID column in Nerdio Manager Scripted Actions. Can be retrieved by running Get-NmeScriptedActions
 
 	#>
 	[cmdletbinding()]
@@ -3291,11 +3295,9 @@ function New-NmeCreateImageFromLibraryPayload {
 		[bool]$SkipRemoveProfiles,
 		[bool]$UninstallFSLogix,
 		[hashtable]$Tags,
-		[bool]$UseTrustedLaunch,
 		[ValidateScript({if ($_.PSObject.TypeNames -contains "NmeVmSecurityProfileRest"){$true} else{throw "$_ is not a NmeVmSecurityProfileRest object. Use New-NmeVmSecurityProfileRest to create before calling this function"}})][psobject]$SecurityProfile,
 		[ValidateScript({if ($_.PSObject.TypeNames -contains "NmeGalleryImageRestConfiguration"){$true} else{throw "$_ is not a NmeGalleryImageRestConfiguration object. Use New-NmeGalleryImageRestConfiguration to create before calling this function"}})][psobject]$GalleryImage,
-		[bool]$InstallCertificates,
-		[int[]]$ScriptedActionsIds
+		[bool]$InstallCertificates
 	)
 
 	$PropertyHash = @{}
@@ -3315,11 +3317,9 @@ function New-NmeCreateImageFromLibraryPayload {
 	if ($PSBoundParameters.containskey("SkipRemoveProfiles")){ $PropertyHash += @{SkipRemoveProfiles = $SkipRemoveProfiles} }
 	if ($PSBoundParameters.containskey("UninstallFSLogix")){ $PropertyHash += @{UninstallFSLogix = $UninstallFSLogix} }
 	if ($PSBoundParameters.containskey("Tags")){ $PropertyHash += @{Tags = $Tags} }
-	if ($PSBoundParameters.containskey("UseTrustedLaunch")){ $PropertyHash += @{UseTrustedLaunch = $UseTrustedLaunch} }
 	if ($PSBoundParameters.containskey("SecurityProfile")){ $PropertyHash += @{SecurityProfile = $SecurityProfile} }
 	if ($PSBoundParameters.containskey("GalleryImage")){ $PropertyHash += @{GalleryImage = $GalleryImage} }
 	if ($PSBoundParameters.containskey("InstallCertificates")){ $PropertyHash += @{InstallCertificates = $InstallCertificates} }
-	if ($PSBoundParameters.containskey("ScriptedActionsIds")){ $PropertyHash += @{ScriptedActionsIds = $ScriptedActionsIds} }
 	$ReturnObject = New-Object -TypeName psobject -Property $PropertyHash
 	$ReturnObject.PSObject.TypeNames.Insert(0, 'NmeCreateImageFromLibraryPayload')
 	Return $ReturnObject	
@@ -3769,6 +3769,10 @@ function New-NmeDesktopImageRestModel {
 
 	boolean. Specify -HibernationSupported $True or -HibernationSupported $False. 
 
+	.PARAMETER DiskControllerTypes
+
+	string. Valid values are: SCSI, NVMe
+
 	.PARAMETER NmeImageMetaInfo
 
 	An object of type NmeNmeImageMetaInfoRest. Can be created using New-NmeNmeImageMetaInfoRest
@@ -3787,6 +3791,7 @@ function New-NmeDesktopImageRestModel {
 		[Parameter(Mandatory=$true)][ValidateSet("None","TrustedLaunch","Confidential")][String[]]$AllowedSecurityTypes,
 		[Parameter(Mandatory=$true)][ValidateScript({if ($_.PSObject.TypeNames -contains "NmeVmSecurityProfileRest"){$true} else{throw "$_ is not a NmeVmSecurityProfileRest object. Use New-NmeVmSecurityProfileRest to create before calling this function"}})][psobject]$SecurityProfile,
 		[Parameter(Mandatory=$true)][bool]$HibernationSupported,
+		[Parameter(Mandatory=$true)][ValidateSet("SCSI","NVMe")][String[]]$DiskControllerTypes,
 		[ValidateScript({if ($_.PSObject.TypeNames -contains "NmeNmeImageMetaInfoRest"){$true} else{throw "$_ is not a NmeNmeImageMetaInfoRest object. Use New-NmeNmeImageMetaInfoRest to create before calling this function"}})][psobject]$NmeImageMetaInfo,
 		[ValidateScript({if ($_.PSObject.TypeNames -contains "NmeDesktopImageInfoRest"){$true} else{throw "$_ is not a NmeDesktopImageInfoRest object. Use New-NmeDesktopImageInfoRest to create before calling this function"}})][psobject]$DesktopImageInfo
 	)
@@ -3799,6 +3804,7 @@ function New-NmeDesktopImageRestModel {
 	if ($PSBoundParameters.containskey("AllowedSecurityTypes")){ $PropertyHash += @{AllowedSecurityTypes = $AllowedSecurityTypes} }
 	if ($PSBoundParameters.containskey("SecurityProfile")){ $PropertyHash += @{SecurityProfile = $SecurityProfile} }
 	if ($PSBoundParameters.containskey("HibernationSupported")){ $PropertyHash += @{HibernationSupported = $HibernationSupported} }
+	if ($PSBoundParameters.containskey("DiskControllerTypes")){ $PropertyHash += @{DiskControllerTypes = $DiskControllerTypes} }
 	if ($PSBoundParameters.containskey("NmeImageMetaInfo")){ $PropertyHash += @{NmeImageMetaInfo = $NmeImageMetaInfo} }
 	if ($PSBoundParameters.containskey("DesktopImageInfo")){ $PropertyHash += @{DesktopImageInfo = $DesktopImageInfo} }
 	$ReturnObject = New-Object -TypeName psobject -Property $PropertyHash
@@ -4063,14 +4069,6 @@ function New-NmeDynamicPoolConfiguration {
 
 	string. 
 
-	.PARAMETER ReuseVmNames
-
-	DEPRECATED
-
-	.PARAMETER EnableFixFailedTask
-
-	DEPRECATED
-
 	.PARAMETER IsSingleUserDesktop
 
 	boolean. Specify -IsSingleUserDesktop $True or -IsSingleUserDesktop $False. 
@@ -4078,10 +4076,6 @@ function New-NmeDynamicPoolConfiguration {
 	.PARAMETER ActiveHostType
 
 	string. Valid values are: Running, AvailableForConnection
-
-	.PARAMETER MinCountCreatedVmsType
-
-	string. Valid values are: HostPoolCapacity, MinActiveHostsProperty
 
 	.PARAMETER ScalingMode
 
@@ -4182,11 +4176,8 @@ function New-NmeDynamicPoolConfiguration {
 		[Parameter(Mandatory=$true)][string]$TimezoneId,
 		[Parameter(Mandatory=$true)][ValidateScript({if ($_.PSObject.TypeNames -contains "NmeVmTemplateParams"){$true} else{throw "$_ is not a NmeVmTemplateParams object. Use New-NmeVmTemplateParams to create before calling this function"}})][psobject]$VmTemplate,
 		[string]$StoppedDiskType,
-		[bool]$ReuseVmNames,
-		[bool]$EnableFixFailedTask,
 		[Parameter(Mandatory=$true)][bool]$IsSingleUserDesktop,
 		[Parameter(Mandatory=$true)][ValidateSet("Running","AvailableForConnection")][string]$ActiveHostType,
-		[ValidateSet("HostPoolCapacity","MinActiveHostsProperty")][string]$MinCountCreatedVmsType,
 		[Parameter(Mandatory=$true)][ValidateSet("Default","WorkingHours","UserDriven")][string]$ScalingMode,
 		[Parameter(Mandatory=$true)][int]$HostPoolCapacity,
 		[Parameter(Mandatory=$true)][int]$MinActiveHostsCount,
@@ -4217,11 +4208,8 @@ function New-NmeDynamicPoolConfiguration {
 	if ($PSBoundParameters.containskey("TimezoneId")){ $PropertyHash += @{TimezoneId = $TimezoneId} }
 	if ($PSBoundParameters.containskey("VmTemplate")){ $PropertyHash += @{VmTemplate = $VmTemplate} }
 	if ($PSBoundParameters.containskey("StoppedDiskType")){ $PropertyHash += @{StoppedDiskType = $StoppedDiskType} }
-	if ($PSBoundParameters.containskey("ReuseVmNames")){ $PropertyHash += @{ReuseVmNames = $ReuseVmNames} }
-	if ($PSBoundParameters.containskey("EnableFixFailedTask")){ $PropertyHash += @{EnableFixFailedTask = $EnableFixFailedTask} }
 	if ($PSBoundParameters.containskey("IsSingleUserDesktop")){ $PropertyHash += @{IsSingleUserDesktop = $IsSingleUserDesktop} }
 	if ($PSBoundParameters.containskey("ActiveHostType")){ $PropertyHash += @{ActiveHostType = $ActiveHostType} }
-	if ($PSBoundParameters.containskey("MinCountCreatedVmsType")){ $PropertyHash += @{MinCountCreatedVmsType = $MinCountCreatedVmsType} }
 	if ($PSBoundParameters.containskey("ScalingMode")){ $PropertyHash += @{ScalingMode = $ScalingMode} }
 	if ($PSBoundParameters.containskey("HostPoolCapacity")){ $PropertyHash += @{HostPoolCapacity = $HostPoolCapacity} }
 	if ($PSBoundParameters.containskey("MinActiveHostsCount")){ $PropertyHash += @{MinActiveHostsCount = $MinActiveHostsCount} }
@@ -4247,6 +4235,52 @@ function New-NmeDynamicPoolConfiguration {
 	if ($PSBoundParameters.containskey("VmNamingMode")){ $PropertyHash += @{VmNamingMode = $VmNamingMode} }
 	$ReturnObject = New-Object -TypeName psobject -Property $PropertyHash
 	$ReturnObject.PSObject.TypeNames.Insert(0, 'NmeDynamicPoolConfiguration')
+	Return $ReturnObject	
+}
+function New-NmeExclusions {
+	<#
+
+	.SYNOPSIS
+
+	Creates an object of type NmeExclusions, for use in other Nme module commands
+
+	.PARAMETER ExclusionMode
+
+	string. Valid values are: None, Admins
+
+	#>
+	[cmdletbinding()]
+	Param(
+		[Parameter(Mandatory=$true)][ValidateSet("None","Admins")][string]$ExclusionMode
+	)
+
+	$PropertyHash = @{}
+	if ($PSBoundParameters.containskey("ExclusionMode")){ $PropertyHash += @{ExclusionMode = $ExclusionMode} }
+	$ReturnObject = New-Object -TypeName psobject -Property $PropertyHash
+	$ReturnObject.PSObject.TypeNames.Insert(0, 'NmeExclusions')
+	Return $ReturnObject	
+}
+function New-NmeExclusions_PATCH {
+	<#
+
+	.SYNOPSIS
+
+	Creates an object of type NmeExclusions_PATCH, for use in other Nme module commands
+
+	.PARAMETER ExclusionMode
+
+	string. Valid values are: None, Admins
+
+	#>
+	[cmdletbinding()]
+	Param(
+		[ValidateSet("None","Admins")][string]$ExclusionMode
+	)
+
+	$PropertyHash = @{}
+	if ($PSBoundParameters.containskey("ExclusionMode")){ $PropertyHash += @{ExclusionMode = $ExclusionMode} }
+	$ReturnObject = New-Object -TypeName psobject -Property $PropertyHash
+	$ReturnObject.PSObject.TypeNames.Insert(0, 'NmeExclusions_PATCH')
 	Return $ReturnObject	
 }
 function New-NmeExistingScheduleConfigurationPayloadRest {
@@ -4349,6 +4383,146 @@ function New-NmeExtensionsRestConfiguration {
 	$ReturnObject.PSObject.TypeNames.Insert(0, 'NmeExtensionsRestConfiguration')
 	Return $ReturnObject	
 }
+function New-NmeFileShareModelRest {
+	<#
+
+	.SYNOPSIS
+
+	Creates an object of type NmeFileShareModelRest, for use in other Nme module commands
+
+	.PARAMETER Id
+
+	ID of scripted Action
+
+	.PARAMETER Description
+
+	string. Optional fileshare description
+
+	#>
+	[cmdletbinding()]
+	Param(
+		[Parameter(Mandatory=$true)][string]$Id,
+		[string]$Description
+	)
+
+	$PropertyHash = @{}
+	if ($PSBoundParameters.containskey("Id")){ $PropertyHash += @{Id = $Id} }
+	if ($PSBoundParameters.containskey("Description")){ $PropertyHash += @{Description = $Description} }
+	$ReturnObject = New-Object -TypeName psobject -Property $PropertyHash
+	$ReturnObject.PSObject.TypeNames.Insert(0, 'NmeFileShareModelRest')
+	Return $ReturnObject	
+}
+function New-NmeFsLogixParamsRest_GET {
+	<#
+
+	.SYNOPSIS
+
+	Creates an object of type NmeFsLogixParamsRest_GET, for use in other Nme module commands
+
+	.PARAMETER Id
+
+	ID of scripted Action
+
+	.PARAMETER Name
+
+	The name of the resource
+
+	.PARAMETER IsDefault
+
+	boolean. Specify -IsDefault $True or -IsDefault $False. 
+
+	.PARAMETER Properties
+
+	An object of type NmeProperties. Can be created using New-NmeProperties
+
+	#>
+	[cmdletbinding()]
+	Param(
+		[Parameter(Mandatory=$true)][int]$Id,
+		[Parameter(Mandatory=$true)][string]$Name,
+		[Parameter(Mandatory=$true)][bool]$IsDefault,
+		[Parameter(Mandatory=$true)][ValidateScript({if ($_.PSObject.TypeNames -contains "NmeProperties"){$true} else{throw "$_ is not a NmeProperties object. Use New-NmeProperties to create before calling this function"}})][psobject]$Properties
+	)
+
+	$PropertyHash = @{}
+	if ($PSBoundParameters.containskey("Id")){ $PropertyHash += @{Id = $Id} }
+	if ($PSBoundParameters.containskey("Name")){ $PropertyHash += @{Name = $Name} }
+	if ($PSBoundParameters.containskey("IsDefault")){ $PropertyHash += @{IsDefault = $IsDefault} }
+	if ($PSBoundParameters.containskey("Properties")){ $PropertyHash += @{Properties = $Properties} }
+	$ReturnObject = New-Object -TypeName psobject -Property $PropertyHash
+	$ReturnObject.PSObject.TypeNames.Insert(0, 'NmeFsLogixParamsRest_GET')
+	Return $ReturnObject	
+}
+function New-NmeFsLogixParamsRest_PATCH {
+	<#
+
+	.SYNOPSIS
+
+	Creates an object of type NmeFsLogixParamsRest_PATCH, for use in other Nme module commands
+
+	.PARAMETER Name
+
+	The name of the resource
+
+	.PARAMETER IsDefault
+
+	boolean. Specify -IsDefault $True or -IsDefault $False. 
+
+	.PARAMETER Properties
+
+	An object of type NmeProperties_PATCH. Can be created using New-NmeProperties_PATCH
+
+	#>
+	[cmdletbinding()]
+	Param(
+		[string]$Name,
+		[bool]$IsDefault,
+		[ValidateScript({if ($_.PSObject.TypeNames -contains "NmeProperties_PATCH"){$true} else{throw "$_ is not a NmeProperties_PATCH object. Use New-NmeProperties_PATCH to create before calling this function"}})][psobject]$Properties
+	)
+
+	$PropertyHash = @{}
+	if ($PSBoundParameters.containskey("Name")){ $PropertyHash += @{Name = $Name} }
+	if ($PSBoundParameters.containskey("IsDefault")){ $PropertyHash += @{IsDefault = $IsDefault} }
+	if ($PSBoundParameters.containskey("Properties")){ $PropertyHash += @{Properties = $Properties} }
+	$ReturnObject = New-Object -TypeName psobject -Property $PropertyHash
+	$ReturnObject.PSObject.TypeNames.Insert(0, 'NmeFsLogixParamsRest_PATCH')
+	Return $ReturnObject	
+}
+function New-NmeFsLogixParamsRest_POST {
+	<#
+
+	.SYNOPSIS
+
+	Creates an object of type NmeFsLogixParamsRest_POST, for use in other Nme module commands
+
+	.PARAMETER Name
+
+	The name of the resource
+
+	.PARAMETER IsDefault
+
+	boolean. Specify -IsDefault $True or -IsDefault $False. 
+
+	.PARAMETER Properties
+
+	An object of type NmeProperties. Can be created using New-NmeProperties
+
+	#>
+	[cmdletbinding()]
+	Param(
+		[Parameter(Mandatory=$true)][string]$Name,
+		[Parameter(Mandatory=$true)][bool]$IsDefault,
+		[Parameter(Mandatory=$true)][ValidateScript({if ($_.PSObject.TypeNames -contains "NmeProperties"){$true} else{throw "$_ is not a NmeProperties object. Use New-NmeProperties to create before calling this function"}})][psobject]$Properties
+	)
+
+	$PropertyHash = @{}
+	if ($PSBoundParameters.containskey("Name")){ $PropertyHash += @{Name = $Name} }
+	if ($PSBoundParameters.containskey("IsDefault")){ $PropertyHash += @{IsDefault = $IsDefault} }
+	if ($PSBoundParameters.containskey("Properties")){ $PropertyHash += @{Properties = $Properties} }
+	$ReturnObject = New-Object -TypeName psobject -Property $PropertyHash
+	$ReturnObject.PSObject.TypeNames.Insert(0, 'NmeFsLogixParamsRest_POST')
+	Return $ReturnObject	
+}
 function New-NmeFsLogixRestProperties {
 	<#
 
@@ -4367,6 +4541,10 @@ function New-NmeFsLogixRestProperties {
 	.PARAMETER CloudCacheEnabled
 
 	boolean. Specify -CloudCacheEnabled $True or -CloudCacheEnabled $False. 
+
+	.PARAMETER PageBlobs
+
+	boolean. Specify -PageBlobs $True or -PageBlobs $False. 
 
 	.PARAMETER OfficeContainerPath
 
@@ -4388,10 +4566,22 @@ function New-NmeFsLogixRestProperties {
 
 	string. 
 
+	.PARAMETER Exclusions
+
+	An object of type NmeExclusions. Can be created using New-NmeExclusions
+
 	.PARAMETER FsLogixVersion
 
 	string. FSLogix version.
 null means "use the latest stable version"
+
+	.PARAMETER AppServiceRegistryOptions
+
+	An object of type NmeOptionalRegistrySettings. Can be created using New-NmeOptionalRegistrySettings
+
+	.PARAMETER LogRegistryOptions
+
+	An object of type NmeOptionalRegistrySettings. Can be created using New-NmeOptionalRegistrySettings
 
 	#>
 	[cmdletbinding()]
@@ -4399,24 +4589,32 @@ null means "use the latest stable version"
 		[Parameter(Mandatory=$true)][string]$ProfilesPath,
 		[Parameter(Mandatory=$true)][string]$RegistryOptions,
 		[bool]$CloudCacheEnabled,
+		[bool]$PageBlobs,
 		[string]$OfficeContainerPath,
 		[string]$OfficeContainerRegistryOptions,
 		[bool]$SetupRegistryForAADJoinedStorage,
 		[bool]$ForceUpdate,
 		[string]$RedirectionsXml,
-		[string]$FsLogixVersion
+		[ValidateScript({if ($_.PSObject.TypeNames -contains "NmeExclusions"){$true} else{throw "$_ is not a NmeExclusions object. Use New-NmeExclusions to create before calling this function"}})][psobject]$Exclusions,
+		[string]$FsLogixVersion,
+		[ValidateScript({if ($_.PSObject.TypeNames -contains "NmeOptionalRegistrySettings"){$true} else{throw "$_ is not a NmeOptionalRegistrySettings object. Use New-NmeOptionalRegistrySettings to create before calling this function"}})][psobject]$AppServiceRegistryOptions,
+		[ValidateScript({if ($_.PSObject.TypeNames -contains "NmeOptionalRegistrySettings"){$true} else{throw "$_ is not a NmeOptionalRegistrySettings object. Use New-NmeOptionalRegistrySettings to create before calling this function"}})][psobject]$LogRegistryOptions
 	)
 
 	$PropertyHash = @{}
 	if ($PSBoundParameters.containskey("ProfilesPath")){ $PropertyHash += @{ProfilesPath = $ProfilesPath} }
 	if ($PSBoundParameters.containskey("RegistryOptions")){ $PropertyHash += @{RegistryOptions = $RegistryOptions} }
 	if ($PSBoundParameters.containskey("CloudCacheEnabled")){ $PropertyHash += @{CloudCacheEnabled = $CloudCacheEnabled} }
+	if ($PSBoundParameters.containskey("PageBlobs")){ $PropertyHash += @{PageBlobs = $PageBlobs} }
 	if ($PSBoundParameters.containskey("OfficeContainerPath")){ $PropertyHash += @{OfficeContainerPath = $OfficeContainerPath} }
 	if ($PSBoundParameters.containskey("OfficeContainerRegistryOptions")){ $PropertyHash += @{OfficeContainerRegistryOptions = $OfficeContainerRegistryOptions} }
 	if ($PSBoundParameters.containskey("SetupRegistryForAADJoinedStorage")){ $PropertyHash += @{SetupRegistryForAADJoinedStorage = $SetupRegistryForAADJoinedStorage} }
 	if ($PSBoundParameters.containskey("ForceUpdate")){ $PropertyHash += @{ForceUpdate = $ForceUpdate} }
 	if ($PSBoundParameters.containskey("RedirectionsXml")){ $PropertyHash += @{RedirectionsXml = $RedirectionsXml} }
+	if ($PSBoundParameters.containskey("Exclusions")){ $PropertyHash += @{Exclusions = $Exclusions} }
 	if ($PSBoundParameters.containskey("FsLogixVersion")){ $PropertyHash += @{FsLogixVersion = $FsLogixVersion} }
+	if ($PSBoundParameters.containskey("AppServiceRegistryOptions")){ $PropertyHash += @{AppServiceRegistryOptions = $AppServiceRegistryOptions} }
+	if ($PSBoundParameters.containskey("LogRegistryOptions")){ $PropertyHash += @{LogRegistryOptions = $LogRegistryOptions} }
 	$ReturnObject = New-Object -TypeName psobject -Property $PropertyHash
 	$ReturnObject.PSObject.TypeNames.Insert(0, 'NmeFsLogixRestProperties')
 	Return $ReturnObject	
@@ -4790,10 +4988,6 @@ function New-NmeHostPoolFsLogixRestModel {
 
 	boolean. Specify -Enable $True or -Enable $False. 
 
-	.PARAMETER UseDefault
-
-	DEPRECATED
-
 	.PARAMETER Type
 
 	string. Valid values are: Default, Predefined, Custom
@@ -4810,7 +5004,6 @@ function New-NmeHostPoolFsLogixRestModel {
 	[cmdletbinding()]
 	Param(
 		[bool]$Enable,
-		[bool]$UseDefault,
 		[ValidateSet("Default","Predefined","Custom")][string]$Type,
 		[int]$PredefinedConfigId,
 		[ValidateScript({if ($_.PSObject.TypeNames -contains "NmeFsLogixRestProperties"){$true} else{throw "$_ is not a NmeFsLogixRestProperties object. Use New-NmeFsLogixRestProperties to create before calling this function"}})][psobject]$EffectiveConfig
@@ -4818,7 +5011,6 @@ function New-NmeHostPoolFsLogixRestModel {
 
 	$PropertyHash = @{}
 	if ($PSBoundParameters.containskey("Enable")){ $PropertyHash += @{Enable = $Enable} }
-	if ($PSBoundParameters.containskey("UseDefault")){ $PropertyHash += @{UseDefault = $UseDefault} }
 	if ($PSBoundParameters.containskey("Type")){ $PropertyHash += @{Type = $Type} }
 	if ($PSBoundParameters.containskey("PredefinedConfigId")){ $PropertyHash += @{PredefinedConfigId = $PredefinedConfigId} }
 	if ($PSBoundParameters.containskey("EffectiveConfig")){ $PropertyHash += @{EffectiveConfig = $EffectiveConfig} }
@@ -4921,24 +5113,18 @@ function New-NmeHostPoolScriptedActionsConfigRestModel {
 
 	ID of Active Directory profile to be sent with this scripted action. Can be retrieved by running Get-NmeAdConfig
 
-	.PARAMETER ScriptedActionsIds
-
-	Array of integers, listed under the ID column in Nerdio Manager Scripted Actions. Can be retrieved by running Get-NmeScriptedActions
-
 	#>
 	[cmdletbinding()]
 	Param(
 		[Parameter(Mandatory=$true)][bool]$Enabled,
 		[Parameter(Mandatory=$true)][psobject[]][ValidateScript({$_.PSObject.TypeNames -contains "NmeScriptedActionOption"})]$ScriptedActions,
-		[int]$ActiveDirectoryId,
-		[int[]]$ScriptedActionsIds
+		[int]$ActiveDirectoryId
 	)
 
 	$PropertyHash = @{}
 	if ($PSBoundParameters.containskey("Enabled")){ $PropertyHash += @{Enabled = $Enabled} }
 	if ($PSBoundParameters.containskey("ScriptedActions")){ $PropertyHash += @{ScriptedActions = $ScriptedActions} }
 	if ($PSBoundParameters.containskey("ActiveDirectoryId")){ $PropertyHash += @{ActiveDirectoryId = $ActiveDirectoryId} }
-	if ($PSBoundParameters.containskey("ScriptedActionsIds")){ $PropertyHash += @{ScriptedActionsIds = $ScriptedActionsIds} }
 	$ReturnObject = New-Object -TypeName psobject -Property $PropertyHash
 	$ReturnObject.PSObject.TypeNames.Insert(0, 'NmeHostPoolScriptedActionsConfigRestModel')
 	Return $ReturnObject	
@@ -5469,10 +5655,6 @@ function New-NmeHostPoolVmDeploymentRestModel {
 
 	Creates an object of type NmeHostPoolVmDeploymentRestModel, for use in other Nme module commands
 
-	.PARAMETER ApplyVirtualDesktopOptimizations
-
-	DEPRECATED
-
 	.PARAMETER IsAcceleratedNetworkingEnabled
 
 	boolean. Specify -IsAcceleratedNetworkingEnabled $True or -IsAcceleratedNetworkingEnabled $False. Use accelerated networking when possible
@@ -5537,6 +5719,14 @@ function New-NmeHostPoolVmDeploymentRestModel {
 
 	integer. Entra groups timeout in minutes
 
+	.PARAMETER PreferredDiskControllerType
+
+	string. Valid values are: SCSI, NVMe
+
+	.PARAMETER ProximityPlacementGroupIds
+
+	array. Create VMs with the specified Proximity Placement Group
+
 	.PARAMETER AlwaysPromptForPassword
 
 	boolean. Specify -AlwaysPromptForPassword $True or -AlwaysPromptForPassword $False. Enforce a password prompt for users logging on to Remote Desktop Services
@@ -5600,7 +5790,6 @@ function New-NmeHostPoolVmDeploymentRestModel {
 	#>
 	[cmdletbinding()]
 	Param(
-		[Parameter(Mandatory=$true)][bool]$ApplyVirtualDesktopOptimizations,
 		[Parameter(Mandatory=$true)][bool]$IsAcceleratedNetworkingEnabled,
 		[Parameter(Mandatory=$true)][bool]$ForceVMRestart,
 		[Parameter(Mandatory=$true)][bool]$EnableTimezoneRedirection,
@@ -5617,6 +5806,8 @@ function New-NmeHostPoolVmDeploymentRestModel {
 		[int]$ComplianceTimeout,
 		[string[]]$EntraIdGroups,
 		[int]$EntraDeviceTimeoutInMinutes,
+		[ValidateSet("SCSI","NVMe")][string]$PreferredDiskControllerType,
+		[string[]]$ProximityPlacementGroupIds,
 		[Parameter(Mandatory=$true)][bool]$AlwaysPromptForPassword,
 		[Parameter(Mandatory=$true)][ValidateSet("None","TrustedLaunch","Confidential")][string]$SecurityType,
 		[Parameter(Mandatory=$true)][bool]$SecureBootEnabled,
@@ -5635,7 +5826,6 @@ function New-NmeHostPoolVmDeploymentRestModel {
 	)
 
 	$PropertyHash = @{}
-	if ($PSBoundParameters.containskey("ApplyVirtualDesktopOptimizations")){ $PropertyHash += @{ApplyVirtualDesktopOptimizations = $ApplyVirtualDesktopOptimizations} }
 	if ($PSBoundParameters.containskey("IsAcceleratedNetworkingEnabled")){ $PropertyHash += @{IsAcceleratedNetworkingEnabled = $IsAcceleratedNetworkingEnabled} }
 	if ($PSBoundParameters.containskey("ForceVMRestart")){ $PropertyHash += @{ForceVMRestart = $ForceVMRestart} }
 	if ($PSBoundParameters.containskey("EnableTimezoneRedirection")){ $PropertyHash += @{EnableTimezoneRedirection = $EnableTimezoneRedirection} }
@@ -5652,6 +5842,8 @@ function New-NmeHostPoolVmDeploymentRestModel {
 	if ($PSBoundParameters.containskey("ComplianceTimeout")){ $PropertyHash += @{ComplianceTimeout = $ComplianceTimeout} }
 	if ($PSBoundParameters.containskey("EntraIdGroups")){ $PropertyHash += @{EntraIdGroups = $EntraIdGroups} }
 	if ($PSBoundParameters.containskey("EntraDeviceTimeoutInMinutes")){ $PropertyHash += @{EntraDeviceTimeoutInMinutes = $EntraDeviceTimeoutInMinutes} }
+	if ($PSBoundParameters.containskey("PreferredDiskControllerType")){ $PropertyHash += @{PreferredDiskControllerType = $PreferredDiskControllerType} }
+	if ($PSBoundParameters.containskey("ProximityPlacementGroupIds")){ $PropertyHash += @{ProximityPlacementGroupIds = $ProximityPlacementGroupIds} }
 	if ($PSBoundParameters.containskey("AlwaysPromptForPassword")){ $PropertyHash += @{AlwaysPromptForPassword = $AlwaysPromptForPassword} }
 	if ($PSBoundParameters.containskey("SecurityType")){ $PropertyHash += @{SecurityType = $SecurityType} }
 	if ($PSBoundParameters.containskey("SecureBootEnabled")){ $PropertyHash += @{SecureBootEnabled = $SecureBootEnabled} }
@@ -5803,6 +5995,14 @@ function New-NmeHostPoolVmDeploymentRestPatchRequest {
 
 	array. On-demand Capacity Reservation Groups ids
 
+	.PARAMETER PreferredDiskControllerType
+
+	string. Valid values are: SCSI, NVMe
+
+	.PARAMETER ProximityPlacementGroupIds
+
+	array. Ids of Proximity Placement Groups where newly created VM can be placed
+
 	#>
 	[cmdletbinding()]
 	Param(
@@ -5836,7 +6036,9 @@ function New-NmeHostPoolVmDeploymentRestPatchRequest {
 		[int]$ComplianceTimeout,
 		[string[]]$EntraIdGroups,
 		[int]$EntraDeviceTimeoutInMinutes,
-		[string[]]$CapacityReservationGroupsIds
+		[string[]]$CapacityReservationGroupsIds,
+		[ValidateSet("SCSI","NVMe")][string]$PreferredDiskControllerType,
+		[string[]]$ProximityPlacementGroupIds
 	)
 
 	$PropertyHash = @{}
@@ -5871,6 +6073,8 @@ function New-NmeHostPoolVmDeploymentRestPatchRequest {
 	if ($PSBoundParameters.containskey("EntraIdGroups")){ $PropertyHash += @{EntraIdGroups = $EntraIdGroups} }
 	if ($PSBoundParameters.containskey("EntraDeviceTimeoutInMinutes")){ $PropertyHash += @{EntraDeviceTimeoutInMinutes = $EntraDeviceTimeoutInMinutes} }
 	if ($PSBoundParameters.containskey("CapacityReservationGroupsIds")){ $PropertyHash += @{CapacityReservationGroupsIds = $CapacityReservationGroupsIds} }
+	if ($PSBoundParameters.containskey("PreferredDiskControllerType")){ $PropertyHash += @{PreferredDiskControllerType = $PreferredDiskControllerType} }
+	if ($PSBoundParameters.containskey("ProximityPlacementGroupIds")){ $PropertyHash += @{ProximityPlacementGroupIds = $ProximityPlacementGroupIds} }
 	$ReturnObject = New-Object -TypeName psobject -Property $PropertyHash
 	$ReturnObject.PSObject.TypeNames.Insert(0, 'NmeHostPoolVmDeploymentRestPatchRequest')
 	$ReturnObject.PSObject.TypeNames.Insert(0, 'NmeHostPoolVmDeploymentRestModel')
@@ -5882,10 +6086,6 @@ function New-NmeHostPoolVmDeploymentRestPutRequest {
 	.SYNOPSIS
 
 	Creates an object of type NmeHostPoolVmDeploymentRestPutRequest, for use in other Nme module commands
-
-	.PARAMETER ApplyVirtualDesktopOptimizations
-
-	DEPRECATED
 
 	.PARAMETER IsAcceleratedNetworkingEnabled
 
@@ -5951,6 +6151,14 @@ function New-NmeHostPoolVmDeploymentRestPutRequest {
 
 	integer. Entra groups timeout in minutes
 
+	.PARAMETER PreferredDiskControllerType
+
+	string. Valid values are: SCSI, NVMe
+
+	.PARAMETER ProximityPlacementGroupIds
+
+	array. Create VMs with the specified Proximity Placement Group
+
 	.PARAMETER AlwaysPromptForPassword
 
 	boolean. Specify -AlwaysPromptForPassword $True or -AlwaysPromptForPassword $False. Enforce a password prompt for users logging on to Remote Desktop Services
@@ -5958,7 +6166,6 @@ function New-NmeHostPoolVmDeploymentRestPutRequest {
 	#>
 	[cmdletbinding()]
 	Param(
-		[Parameter(Mandatory=$true)][bool]$ApplyVirtualDesktopOptimizations,
 		[Parameter(Mandatory=$true)][bool]$IsAcceleratedNetworkingEnabled,
 		[Parameter(Mandatory=$true)][bool]$ForceVMRestart,
 		[Parameter(Mandatory=$true)][bool]$EnableTimezoneRedirection,
@@ -5975,11 +6182,12 @@ function New-NmeHostPoolVmDeploymentRestPutRequest {
 		[int]$ComplianceTimeout,
 		[string[]]$EntraIdGroups,
 		[int]$EntraDeviceTimeoutInMinutes,
+		[ValidateSet("SCSI","NVMe")][string]$PreferredDiskControllerType,
+		[string[]]$ProximityPlacementGroupIds,
 		[bool]$AlwaysPromptForPassword
 	)
 
 	$PropertyHash = @{}
-	if ($PSBoundParameters.containskey("ApplyVirtualDesktopOptimizations")){ $PropertyHash += @{ApplyVirtualDesktopOptimizations = $ApplyVirtualDesktopOptimizations} }
 	if ($PSBoundParameters.containskey("IsAcceleratedNetworkingEnabled")){ $PropertyHash += @{IsAcceleratedNetworkingEnabled = $IsAcceleratedNetworkingEnabled} }
 	if ($PSBoundParameters.containskey("ForceVMRestart")){ $PropertyHash += @{ForceVMRestart = $ForceVMRestart} }
 	if ($PSBoundParameters.containskey("EnableTimezoneRedirection")){ $PropertyHash += @{EnableTimezoneRedirection = $EnableTimezoneRedirection} }
@@ -5996,6 +6204,8 @@ function New-NmeHostPoolVmDeploymentRestPutRequest {
 	if ($PSBoundParameters.containskey("ComplianceTimeout")){ $PropertyHash += @{ComplianceTimeout = $ComplianceTimeout} }
 	if ($PSBoundParameters.containskey("EntraIdGroups")){ $PropertyHash += @{EntraIdGroups = $EntraIdGroups} }
 	if ($PSBoundParameters.containskey("EntraDeviceTimeoutInMinutes")){ $PropertyHash += @{EntraDeviceTimeoutInMinutes = $EntraDeviceTimeoutInMinutes} }
+	if ($PSBoundParameters.containskey("PreferredDiskControllerType")){ $PropertyHash += @{PreferredDiskControllerType = $PreferredDiskControllerType} }
+	if ($PSBoundParameters.containskey("ProximityPlacementGroupIds")){ $PropertyHash += @{ProximityPlacementGroupIds = $ProximityPlacementGroupIds} }
 	if ($PSBoundParameters.containskey("AlwaysPromptForPassword")){ $PropertyHash += @{AlwaysPromptForPassword = $AlwaysPromptForPassword} }
 	$ReturnObject = New-Object -TypeName psobject -Property $PropertyHash
 	$ReturnObject.PSObject.TypeNames.Insert(0, 'NmeHostPoolVmDeploymentRestPutRequest')
@@ -6206,6 +6416,10 @@ function New-NmeImageRestModel {
 
 	boolean. Specify -HibernationSupported $True or -HibernationSupported $False. 
 
+	.PARAMETER DiskControllerTypes
+
+	string. Valid values are: SCSI, NVMe
+
 	.PARAMETER ImageType
 
 	Valid values are: MarketplaceImage, CustomImage, or ComputeGalleryImage
@@ -6232,6 +6446,7 @@ function New-NmeImageRestModel {
 		[Parameter(Mandatory=$true)][ValidateSet("None","TrustedLaunch","Confidential")][String[]]$AllowedSecurityTypes,
 		[Parameter(Mandatory=$true)][ValidateScript({if ($_.PSObject.TypeNames -contains "NmeVmSecurityProfileRest"){$true} else{throw "$_ is not a NmeVmSecurityProfileRest object. Use New-NmeVmSecurityProfileRest to create before calling this function"}})][psobject]$SecurityProfile,
 		[Parameter(Mandatory=$true)][bool]$HibernationSupported,
+		[Parameter(Mandatory=$true)][ValidateSet("SCSI","NVMe")][String[]]$DiskControllerTypes,
 		[Parameter(Mandatory=$true)][ValidateSet("MarketplaceImage","CustomImage","ComputeGalleryImage")][string]$ImageType,
 		[ValidateScript({if ($_.PSObject.TypeNames -contains "NmeMarketplaceImageInfoRest"){$true} else{throw "$_ is not a NmeMarketplaceImageInfoRest object. Use New-NmeMarketplaceImageInfoRest to create before calling this function"}})][psobject]$MarketplaceImageInfo,
 		[ValidateScript({if ($_.PSObject.TypeNames -contains "NmeCustomImageInfoRest"){$true} else{throw "$_ is not a NmeCustomImageInfoRest object. Use New-NmeCustomImageInfoRest to create before calling this function"}})][psobject]$CustomImageInfo,
@@ -6246,12 +6461,71 @@ function New-NmeImageRestModel {
 	if ($PSBoundParameters.containskey("AllowedSecurityTypes")){ $PropertyHash += @{AllowedSecurityTypes = $AllowedSecurityTypes} }
 	if ($PSBoundParameters.containskey("SecurityProfile")){ $PropertyHash += @{SecurityProfile = $SecurityProfile} }
 	if ($PSBoundParameters.containskey("HibernationSupported")){ $PropertyHash += @{HibernationSupported = $HibernationSupported} }
+	if ($PSBoundParameters.containskey("DiskControllerTypes")){ $PropertyHash += @{DiskControllerTypes = $DiskControllerTypes} }
 	if ($PSBoundParameters.containskey("ImageType")){ $PropertyHash += @{ImageType = $ImageType} }
 	if ($PSBoundParameters.containskey("MarketplaceImageInfo")){ $PropertyHash += @{MarketplaceImageInfo = $MarketplaceImageInfo} }
 	if ($PSBoundParameters.containskey("CustomImageInfo")){ $PropertyHash += @{CustomImageInfo = $CustomImageInfo} }
 	if ($PSBoundParameters.containskey("GalleryImageInfo")){ $PropertyHash += @{GalleryImageInfo = $GalleryImageInfo} }
 	$ReturnObject = New-Object -TypeName psobject -Property $PropertyHash
 	$ReturnObject.PSObject.TypeNames.Insert(0, 'NmeImageRestModel')
+	Return $ReturnObject	
+}
+function New-NmeInstaller {
+	<#
+
+	.SYNOPSIS
+
+	Creates an object of type NmeInstaller, for use in other Nme module commands
+
+	.PARAMETER Version
+
+	string. FsLogix installer version. Empty string means "use the latest stable version".
+
+	.PARAMETER ForceUpdate
+
+	boolean. Specify -ForceUpdate $True or -ForceUpdate $False. This option is used to force the re-installation of the FSLogix agent and applications. This will install selected FSLogix Version.
+
+	#>
+	[cmdletbinding()]
+	Param(
+		[Parameter(Mandatory=$true)][string]$Version,
+		[Parameter(Mandatory=$true)][bool]$ForceUpdate
+	)
+
+	$PropertyHash = @{}
+	if ($PSBoundParameters.containskey("Version")){ $PropertyHash += @{Version = $Version} }
+	if ($PSBoundParameters.containskey("ForceUpdate")){ $PropertyHash += @{ForceUpdate = $ForceUpdate} }
+	$ReturnObject = New-Object -TypeName psobject -Property $PropertyHash
+	$ReturnObject.PSObject.TypeNames.Insert(0, 'NmeInstaller')
+	Return $ReturnObject	
+}
+function New-NmeInstaller_PATCH {
+	<#
+
+	.SYNOPSIS
+
+	Creates an object of type NmeInstaller_PATCH, for use in other Nme module commands
+
+	.PARAMETER Version
+
+	string. FsLogix installer version. Empty string means "use the latest stable version".
+
+	.PARAMETER ForceUpdate
+
+	boolean. Specify -ForceUpdate $True or -ForceUpdate $False. This option is used to force the re-installation of the FSLogix agent and applications. This will install selected FSLogix Version.
+
+	#>
+	[cmdletbinding()]
+	Param(
+		[string]$Version,
+		[bool]$ForceUpdate
+	)
+
+	$PropertyHash = @{}
+	if ($PSBoundParameters.containskey("Version")){ $PropertyHash += @{Version = $Version} }
+	if ($PSBoundParameters.containskey("ForceUpdate")){ $PropertyHash += @{ForceUpdate = $ForceUpdate} }
+	$ReturnObject = New-Object -TypeName psobject -Property $PropertyHash
+	$ReturnObject.PSObject.TypeNames.Insert(0, 'NmeInstaller_PATCH')
 	Return $ReturnObject	
 }
 function New-NmeJob {
@@ -6715,6 +6989,58 @@ function New-NmeLinkedSubscriptionRestModel {
 	if ($PSBoundParameters.containskey("AvdEnabled")){ $PropertyHash += @{AvdEnabled = $AvdEnabled} }
 	$ReturnObject = New-Object -TypeName psobject -Property $PropertyHash
 	$ReturnObject.PSObject.TypeNames.Insert(0, 'NmeLinkedSubscriptionRestModel')
+	Return $ReturnObject	
+}
+function New-NmeLogoSettingsDto {
+	<#
+
+	.SYNOPSIS
+
+	Creates an object of type NmeLogoSettingsDto, for use in other Nme module commands
+
+	.PARAMETER Logo
+
+	string. 
+
+	#>
+	[cmdletbinding()]
+	Param(
+		[string]$Logo
+	)
+
+	$PropertyHash = @{}
+	if ($PSBoundParameters.containskey("Logo")){ $PropertyHash += @{Logo = $Logo} }
+	$ReturnObject = New-Object -TypeName psobject -Property $PropertyHash
+	$ReturnObject.PSObject.TypeNames.Insert(0, 'NmeLogoSettingsDto')
+	Return $ReturnObject	
+}
+function New-NmeLogoSettingsRestModel {
+	<#
+
+	.SYNOPSIS
+
+	Creates an object of type NmeLogoSettingsRestModel, for use in other Nme module commands
+
+	.PARAMETER Logo
+
+	string. 
+
+	.PARAMETER Placement
+
+	string. Valid values are: SelfServicePortal, Everywhere, None
+
+	#>
+	[cmdletbinding()]
+	Param(
+		[string]$Logo,
+		[ValidateSet("SelfServicePortal","Everywhere","None")][string]$Placement
+	)
+
+	$PropertyHash = @{}
+	if ($PSBoundParameters.containskey("Logo")){ $PropertyHash += @{Logo = $Logo} }
+	if ($PSBoundParameters.containskey("Placement")){ $PropertyHash += @{Placement = $Placement} }
+	$ReturnObject = New-Object -TypeName psobject -Property $PropertyHash
+	$ReturnObject.PSObject.TypeNames.Insert(0, 'NmeLogoSettingsRestModel')
 	Return $ReturnObject	
 }
 function New-NmeMaintenanceWindowRestModel {
@@ -7493,6 +7819,64 @@ function New-NmeNonArmSessionHost {
 	$ReturnObject.PSObject.TypeNames.Insert(0, 'NmeNonArmSessionHost')
 	Return $ReturnObject	
 }
+function New-NmeOptionalRegistrySettings {
+	<#
+
+	.SYNOPSIS
+
+	Creates an object of type NmeOptionalRegistrySettings, for use in other Nme module commands
+
+	.PARAMETER RegistryOptionsMode
+
+	string. Valid values are: None, Apply
+
+	.PARAMETER RegistryOptions
+
+	string. 
+
+	#>
+	[cmdletbinding()]
+	Param(
+		[ValidateSet("None","Apply")][string]$RegistryOptionsMode,
+		[string]$RegistryOptions
+	)
+
+	$PropertyHash = @{}
+	if ($PSBoundParameters.containskey("RegistryOptionsMode")){ $PropertyHash += @{RegistryOptionsMode = $RegistryOptionsMode} }
+	if ($PSBoundParameters.containskey("RegistryOptions")){ $PropertyHash += @{RegistryOptions = $RegistryOptions} }
+	$ReturnObject = New-Object -TypeName psobject -Property $PropertyHash
+	$ReturnObject.PSObject.TypeNames.Insert(0, 'NmeOptionalRegistrySettings')
+	Return $ReturnObject	
+}
+function New-NmeOptionalRegistrySettings_PATCH {
+	<#
+
+	.SYNOPSIS
+
+	Creates an object of type NmeOptionalRegistrySettings_PATCH, for use in other Nme module commands
+
+	.PARAMETER RegistryOptionsMode
+
+	string. Valid values are: None, Apply
+
+	.PARAMETER RegistryOptions
+
+	string. 
+
+	#>
+	[cmdletbinding()]
+	Param(
+		[ValidateSet("None","Apply")][string]$RegistryOptionsMode,
+		[string]$RegistryOptions
+	)
+
+	$PropertyHash = @{}
+	if ($PSBoundParameters.containskey("RegistryOptionsMode")){ $PropertyHash += @{RegistryOptionsMode = $RegistryOptionsMode} }
+	if ($PSBoundParameters.containskey("RegistryOptions")){ $PropertyHash += @{RegistryOptions = $RegistryOptions} }
+	$ReturnObject = New-Object -TypeName psobject -Property $PropertyHash
+	$ReturnObject.PSObject.TypeNames.Insert(0, 'NmeOptionalRegistrySettings_PATCH')
+	Return $ReturnObject	
+}
 function New-NmeOsDiskPreStage {
 	<#
 
@@ -7873,6 +8257,41 @@ function New-NmePatchHostPoolControlUpRestModel_RegistrationKey {
 	if ($PSBoundParameters.containskey("Value")){ $PropertyHash += @{Value = $Value} }
 	$ReturnObject = New-Object -TypeName psobject -Property $PropertyHash
 	$ReturnObject.PSObject.TypeNames.Insert(0, 'NmePatchHostPoolControlUpRestModel_RegistrationKey')
+	Return $ReturnObject	
+}
+function New-NmePatchHostPoolRdpRequestRest {
+	<#
+
+	.SYNOPSIS
+
+	Creates an object of type NmePatchHostPoolRdpRequestRest, for use in other Nme module commands
+
+	.PARAMETER ConfigurationName
+
+	string. 
+
+	.PARAMETER RdpProperties
+
+	string. 
+
+	.PARAMETER ShortPath
+
+	An object of type NmeRdpShortpathPropertiesRest. Can be created using New-NmeRdpShortpathPropertiesRest
+
+	#>
+	[cmdletbinding()]
+	Param(
+		[string]$ConfigurationName,
+		[string]$RdpProperties,
+		[ValidateScript({if ($_.PSObject.TypeNames -contains "NmeRdpShortpathPropertiesRest"){$true} else{throw "$_ is not a NmeRdpShortpathPropertiesRest object. Use New-NmeRdpShortpathPropertiesRest to create before calling this function"}})][psobject]$ShortPath
+	)
+
+	$PropertyHash = @{}
+	if ($PSBoundParameters.containskey("ConfigurationName")){ $PropertyHash += @{ConfigurationName = $ConfigurationName} }
+	if ($PSBoundParameters.containskey("RdpProperties")){ $PropertyHash += @{RdpProperties = $RdpProperties} }
+	if ($PSBoundParameters.containskey("ShortPath")){ $PropertyHash += @{ShortPath = $ShortPath} }
+	$ReturnObject = New-Object -TypeName psobject -Property $PropertyHash
+	$ReturnObject.PSObject.TypeNames.Insert(0, 'NmePatchHostPoolRdpRequestRest')
 	Return $ReturnObject	
 }
 function New-NmePatchLinkedSubscriptionRestModel {
@@ -8278,22 +8697,16 @@ function New-NmePooledParams {
 
 	boolean. Specify -IsSingleUser $True or -IsSingleUser $False. 
 
-	.PARAMETER IsDekstop
-
-	DEPRECATED
-
 	#>
 	[cmdletbinding()]
 	Param(
 		[bool]$IsDesktop,
-		[Parameter(Mandatory=$true)][bool]$IsSingleUser,
-		[bool]$IsDekstop
+		[Parameter(Mandatory=$true)][bool]$IsSingleUser
 	)
 
 	$PropertyHash = @{}
 	if ($PSBoundParameters.containskey("IsDesktop")){ $PropertyHash += @{IsDesktop = $IsDesktop} }
 	if ($PSBoundParameters.containskey("IsSingleUser")){ $PropertyHash += @{IsSingleUser = $IsSingleUser} }
-	if ($PSBoundParameters.containskey("IsDekstop")){ $PropertyHash += @{IsDekstop = $IsDekstop} }
 	$ReturnObject = New-Object -TypeName psobject -Property $PropertyHash
 	$ReturnObject.PSObject.TypeNames.Insert(0, 'NmePooledParams')
 	Return $ReturnObject	
@@ -8579,7 +8992,7 @@ function New-NmePreStageHostsConfigurationItem {
 
 	.PARAMETER StartWork
 
-	An object of type NmeTimeIntervalWithTimeZone. Can be created using New-NmeTimeIntervalWithTimeZone
+	An object of type NmeTimeInterval. Can be created using New-NmeTimeInterval
 
 	.PARAMETER HostsToBeReady
 
@@ -8601,7 +9014,7 @@ function New-NmePreStageHostsConfigurationItem {
 	[cmdletbinding()]
 	Param(
 		[Parameter(Mandatory=$true)][ValidateSet(0,1,2,3,4,5,6)][Int[]]$Days,
-		[Parameter(Mandatory=$true)][ValidateScript({if ($_.PSObject.TypeNames -contains "NmeTimeIntervalWithTimeZone"){$true} else{throw "$_ is not a NmeTimeIntervalWithTimeZone object. Use New-NmeTimeIntervalWithTimeZone to create before calling this function"}})][psobject]$StartWork,
+		[Parameter(Mandatory=$true)][ValidateScript({if ($_.PSObject.TypeNames -contains "NmeTimeInterval"){$true} else{throw "$_ is not a NmeTimeInterval object. Use New-NmeTimeInterval to create before calling this function"}})][psobject]$StartWork,
 		[Parameter(Mandatory=$true)][int]$HostsToBeReady,
 		[bool]$PreStageDiskType,
 		[bool]$PreStageUnassigned,
@@ -8664,6 +9077,164 @@ function New-NmePreStateHostsConfiguration {
 	if ($PSBoundParameters.containskey("IntelligentPrestageMode")){ $PropertyHash += @{IntelligentPrestageMode = $IntelligentPrestageMode} }
 	$ReturnObject = New-Object -TypeName psobject -Property $PropertyHash
 	$ReturnObject.PSObject.TypeNames.Insert(0, 'NmePreStateHostsConfiguration')
+	Return $ReturnObject	
+}
+function New-NmeProperties {
+	<#
+
+	.SYNOPSIS
+
+	Creates an object of type NmeProperties, for use in other Nme module commands
+
+	.PARAMETER Installer
+
+	An object of type NmeInstaller. Can be created using New-NmeInstaller
+
+	.PARAMETER ProfileContainer
+
+	An object of type NmeRegistry. Can be created using New-NmeRegistry
+
+	.PARAMETER OfficeContainer
+
+	An object of type NmeRegistry. Can be created using New-NmeRegistry
+
+	.PARAMETER CloudCache
+
+	boolean. Specify -CloudCache $True or -CloudCache $False. Enable FSLogix Cloud Cache. See this Microsoft doc for more info.
+https://learn.microsoft.com/en-us/fslogix/concepts-fslogix-cloud-cache
+
+	.PARAMETER PageBlobs
+
+	boolean. Specify -PageBlobs $True or -PageBlobs $False. Use storage account blob containers to store users profiles. These containers will be accessed using storage account access keys.
+
+	.PARAMETER EntraIdKerberos
+
+	boolean. Specify -EntraIdKerberos $True or -EntraIdKerberos $False. Enable Entra ID Kerberos functionality and Entra ID account credentials loading.
+
+	.PARAMETER RedirectionsXml
+
+	string. See this Microsoft doc for more info.
+https://learn.microsoft.com/en-us/fslogix/concepts-redirections-xml
+
+	.PARAMETER Exclusions
+
+	An object of type NmeExclusions. Can be created using New-NmeExclusions
+
+	.PARAMETER AppServiceRegistryOptions
+
+	An object of type NmeOptionalRegistrySettings. Can be created using New-NmeOptionalRegistrySettings
+
+	.PARAMETER LogRegistryOptions
+
+	An object of type NmeOptionalRegistrySettings. Can be created using New-NmeOptionalRegistrySettings
+
+	#>
+	[cmdletbinding()]
+	Param(
+		[Parameter(Mandatory=$true)][ValidateScript({if ($_.PSObject.TypeNames -contains "NmeInstaller"){$true} else{throw "$_ is not a NmeInstaller object. Use New-NmeInstaller to create before calling this function"}})][psobject]$Installer,
+		[Parameter(Mandatory=$true)][ValidateScript({if ($_.PSObject.TypeNames -contains "NmeRegistry"){$true} else{throw "$_ is not a NmeRegistry object. Use New-NmeRegistry to create before calling this function"}})][psobject]$ProfileContainer,
+		[Parameter(Mandatory=$true)][ValidateScript({if ($_.PSObject.TypeNames -contains "NmeRegistry"){$true} else{throw "$_ is not a NmeRegistry object. Use New-NmeRegistry to create before calling this function"}})][psobject]$OfficeContainer,
+		[bool]$CloudCache,
+		[bool]$PageBlobs,
+		[bool]$EntraIdKerberos,
+		[string]$RedirectionsXml,
+		[ValidateScript({if ($_.PSObject.TypeNames -contains "NmeExclusions"){$true} else{throw "$_ is not a NmeExclusions object. Use New-NmeExclusions to create before calling this function"}})][psobject]$Exclusions,
+		[ValidateScript({if ($_.PSObject.TypeNames -contains "NmeOptionalRegistrySettings"){$true} else{throw "$_ is not a NmeOptionalRegistrySettings object. Use New-NmeOptionalRegistrySettings to create before calling this function"}})][psobject]$AppServiceRegistryOptions,
+		[ValidateScript({if ($_.PSObject.TypeNames -contains "NmeOptionalRegistrySettings"){$true} else{throw "$_ is not a NmeOptionalRegistrySettings object. Use New-NmeOptionalRegistrySettings to create before calling this function"}})][psobject]$LogRegistryOptions
+	)
+
+	$PropertyHash = @{}
+	if ($PSBoundParameters.containskey("Installer")){ $PropertyHash += @{Installer = $Installer} }
+	if ($PSBoundParameters.containskey("ProfileContainer")){ $PropertyHash += @{ProfileContainer = $ProfileContainer} }
+	if ($PSBoundParameters.containskey("OfficeContainer")){ $PropertyHash += @{OfficeContainer = $OfficeContainer} }
+	if ($PSBoundParameters.containskey("CloudCache")){ $PropertyHash += @{CloudCache = $CloudCache} }
+	if ($PSBoundParameters.containskey("PageBlobs")){ $PropertyHash += @{PageBlobs = $PageBlobs} }
+	if ($PSBoundParameters.containskey("EntraIdKerberos")){ $PropertyHash += @{EntraIdKerberos = $EntraIdKerberos} }
+	if ($PSBoundParameters.containskey("RedirectionsXml")){ $PropertyHash += @{RedirectionsXml = $RedirectionsXml} }
+	if ($PSBoundParameters.containskey("Exclusions")){ $PropertyHash += @{Exclusions = $Exclusions} }
+	if ($PSBoundParameters.containskey("AppServiceRegistryOptions")){ $PropertyHash += @{AppServiceRegistryOptions = $AppServiceRegistryOptions} }
+	if ($PSBoundParameters.containskey("LogRegistryOptions")){ $PropertyHash += @{LogRegistryOptions = $LogRegistryOptions} }
+	$ReturnObject = New-Object -TypeName psobject -Property $PropertyHash
+	$ReturnObject.PSObject.TypeNames.Insert(0, 'NmeProperties')
+	Return $ReturnObject	
+}
+function New-NmeProperties_PATCH {
+	<#
+
+	.SYNOPSIS
+
+	Creates an object of type NmeProperties_PATCH, for use in other Nme module commands
+
+	.PARAMETER Installer
+
+	An object of type NmeInstaller_PATCH. Can be created using New-NmeInstaller_PATCH
+
+	.PARAMETER ProfileContainer
+
+	An object of type NmeRegistry_PATCH. Can be created using New-NmeRegistry_PATCH
+
+	.PARAMETER OfficeContainer
+
+	An object of type NmeRegistry_PATCH. Can be created using New-NmeRegistry_PATCH
+
+	.PARAMETER CloudCache
+
+	boolean. Specify -CloudCache $True or -CloudCache $False. Enable FSLogix Cloud Cache. See this Microsoft doc for more info.
+https://learn.microsoft.com/en-us/fslogix/concepts-fslogix-cloud-cache
+
+	.PARAMETER PageBlobs
+
+	boolean. Specify -PageBlobs $True or -PageBlobs $False. Use storage account blob containers to store users profiles. These containers will be accessed using storage account access keys.
+
+	.PARAMETER EntraIdKerberos
+
+	boolean. Specify -EntraIdKerberos $True or -EntraIdKerberos $False. Enable Entra ID Kerberos functionality and Entra ID account credentials loading.
+
+	.PARAMETER RedirectionsXml
+
+	string. See this Microsoft doc for more info.
+https://learn.microsoft.com/en-us/fslogix/concepts-redirections-xml
+
+	.PARAMETER Exclusions
+
+	An object of type NmeExclusions_PATCH. Can be created using New-NmeExclusions_PATCH
+
+	.PARAMETER AppServiceRegistryOptions
+
+	An object of type NmeOptionalRegistrySettings_PATCH. Can be created using New-NmeOptionalRegistrySettings_PATCH
+
+	.PARAMETER LogRegistryOptions
+
+	An object of type NmeOptionalRegistrySettings_PATCH. Can be created using New-NmeOptionalRegistrySettings_PATCH
+
+	#>
+	[cmdletbinding()]
+	Param(
+		[ValidateScript({if ($_.PSObject.TypeNames -contains "NmeInstaller_PATCH"){$true} else{throw "$_ is not a NmeInstaller_PATCH object. Use New-NmeInstaller_PATCH to create before calling this function"}})][psobject]$Installer,
+		[ValidateScript({if ($_.PSObject.TypeNames -contains "NmeRegistry_PATCH"){$true} else{throw "$_ is not a NmeRegistry_PATCH object. Use New-NmeRegistry_PATCH to create before calling this function"}})][psobject]$ProfileContainer,
+		[ValidateScript({if ($_.PSObject.TypeNames -contains "NmeRegistry_PATCH"){$true} else{throw "$_ is not a NmeRegistry_PATCH object. Use New-NmeRegistry_PATCH to create before calling this function"}})][psobject]$OfficeContainer,
+		[bool]$CloudCache,
+		[bool]$PageBlobs,
+		[bool]$EntraIdKerberos,
+		[string]$RedirectionsXml,
+		[ValidateScript({if ($_.PSObject.TypeNames -contains "NmeExclusions_PATCH"){$true} else{throw "$_ is not a NmeExclusions_PATCH object. Use New-NmeExclusions_PATCH to create before calling this function"}})][psobject]$Exclusions,
+		[ValidateScript({if ($_.PSObject.TypeNames -contains "NmeOptionalRegistrySettings_PATCH"){$true} else{throw "$_ is not a NmeOptionalRegistrySettings_PATCH object. Use New-NmeOptionalRegistrySettings_PATCH to create before calling this function"}})][psobject]$AppServiceRegistryOptions,
+		[ValidateScript({if ($_.PSObject.TypeNames -contains "NmeOptionalRegistrySettings_PATCH"){$true} else{throw "$_ is not a NmeOptionalRegistrySettings_PATCH object. Use New-NmeOptionalRegistrySettings_PATCH to create before calling this function"}})][psobject]$LogRegistryOptions
+	)
+
+	$PropertyHash = @{}
+	if ($PSBoundParameters.containskey("Installer")){ $PropertyHash += @{Installer = $Installer} }
+	if ($PSBoundParameters.containskey("ProfileContainer")){ $PropertyHash += @{ProfileContainer = $ProfileContainer} }
+	if ($PSBoundParameters.containskey("OfficeContainer")){ $PropertyHash += @{OfficeContainer = $OfficeContainer} }
+	if ($PSBoundParameters.containskey("CloudCache")){ $PropertyHash += @{CloudCache = $CloudCache} }
+	if ($PSBoundParameters.containskey("PageBlobs")){ $PropertyHash += @{PageBlobs = $PageBlobs} }
+	if ($PSBoundParameters.containskey("EntraIdKerberos")){ $PropertyHash += @{EntraIdKerberos = $EntraIdKerberos} }
+	if ($PSBoundParameters.containskey("RedirectionsXml")){ $PropertyHash += @{RedirectionsXml = $RedirectionsXml} }
+	if ($PSBoundParameters.containskey("Exclusions")){ $PropertyHash += @{Exclusions = $Exclusions} }
+	if ($PSBoundParameters.containskey("AppServiceRegistryOptions")){ $PropertyHash += @{AppServiceRegistryOptions = $AppServiceRegistryOptions} }
+	if ($PSBoundParameters.containskey("LogRegistryOptions")){ $PropertyHash += @{LogRegistryOptions = $LogRegistryOptions} }
+	$ReturnObject = New-Object -TypeName psobject -Property $PropertyHash
+	$ReturnObject.PSObject.TypeNames.Insert(0, 'NmeProperties_PATCH')
 	Return $ReturnObject	
 }
 function New-NmeRbacAssignmentRestModel {
@@ -8730,6 +9301,47 @@ function New-NmeRbacAssignmentUpdateRestModel {
 	$ReturnObject.PSObject.TypeNames.Insert(0, 'NmeRbacAssignmentUpdateRestModel')
 	Return $ReturnObject	
 }
+function New-NmeRdpShortpathPropertiesRest {
+	<#
+
+	.SYNOPSIS
+
+	Creates an object of type NmeRdpShortpathPropertiesRest, for use in other Nme module commands
+
+	.PARAMETER ManagedPrivateUdp
+
+	string. Valid values are: Unknown, Default, Disabled, Enabled
+
+	.PARAMETER DirectUdp
+
+	string. Valid values are: Unknown, Default, Disabled, Enabled
+
+	.PARAMETER PublicUdp
+
+	string. Valid values are: Unknown, Default, Disabled, Enabled
+
+	.PARAMETER RelayUdp
+
+	string. Valid values are: Unknown, Default, Disabled, Enabled
+
+	#>
+	[cmdletbinding()]
+	Param(
+		[Parameter(Mandatory=$true)][ValidateSet("Unknown","Default","Disabled","Enabled")][string]$ManagedPrivateUdp,
+		[Parameter(Mandatory=$true)][ValidateSet("Unknown","Default","Disabled","Enabled")][string]$DirectUdp,
+		[Parameter(Mandatory=$true)][ValidateSet("Unknown","Default","Disabled","Enabled")][string]$PublicUdp,
+		[Parameter(Mandatory=$true)][ValidateSet("Unknown","Default","Disabled","Enabled")][string]$RelayUdp
+	)
+
+	$PropertyHash = @{}
+	if ($PSBoundParameters.containskey("ManagedPrivateUdp")){ $PropertyHash += @{ManagedPrivateUdp = $ManagedPrivateUdp} }
+	if ($PSBoundParameters.containskey("DirectUdp")){ $PropertyHash += @{DirectUdp = $DirectUdp} }
+	if ($PSBoundParameters.containskey("PublicUdp")){ $PropertyHash += @{PublicUdp = $PublicUdp} }
+	if ($PSBoundParameters.containskey("RelayUdp")){ $PropertyHash += @{RelayUdp = $RelayUdp} }
+	$ReturnObject = New-Object -TypeName psobject -Property $PropertyHash
+	$ReturnObject.PSObject.TypeNames.Insert(0, 'NmeRdpShortpathPropertiesRest')
+	Return $ReturnObject	
+}
 function New-NmeRefreshVmRestConfiguration {
 	<#
 
@@ -8757,6 +9369,64 @@ function New-NmeRefreshVmRestConfiguration {
 	if ($PSBoundParameters.containskey("AdConfigId")){ $PropertyHash += @{AdConfigId = $AdConfigId} }
 	$ReturnObject = New-Object -TypeName psobject -Property $PropertyHash
 	$ReturnObject.PSObject.TypeNames.Insert(0, 'NmeRefreshVmRestConfiguration')
+	Return $ReturnObject	
+}
+function New-NmeRegistry {
+	<#
+
+	.SYNOPSIS
+
+	Creates an object of type NmeRegistry, for use in other Nme module commands
+
+	.PARAMETER Locations
+
+	array. 
+
+	.PARAMETER Options
+
+	string. 
+
+	#>
+	[cmdletbinding()]
+	Param(
+		[Parameter(Mandatory=$true)][string[]]$Locations,
+		[Parameter(Mandatory=$true)][string]$Options
+	)
+
+	$PropertyHash = @{}
+	if ($PSBoundParameters.containskey("Locations")){ $PropertyHash += @{Locations = $Locations} }
+	if ($PSBoundParameters.containskey("Options")){ $PropertyHash += @{Options = $Options} }
+	$ReturnObject = New-Object -TypeName psobject -Property $PropertyHash
+	$ReturnObject.PSObject.TypeNames.Insert(0, 'NmeRegistry')
+	Return $ReturnObject	
+}
+function New-NmeRegistry_PATCH {
+	<#
+
+	.SYNOPSIS
+
+	Creates an object of type NmeRegistry_PATCH, for use in other Nme module commands
+
+	.PARAMETER Locations
+
+	array. 
+
+	.PARAMETER Options
+
+	string. 
+
+	#>
+	[cmdletbinding()]
+	Param(
+		[string[]]$Locations,
+		[string]$Options
+	)
+
+	$PropertyHash = @{}
+	if ($PSBoundParameters.containskey("Locations")){ $PropertyHash += @{Locations = $Locations} }
+	if ($PSBoundParameters.containskey("Options")){ $PropertyHash += @{Options = $Options} }
+	$ReturnObject = New-Object -TypeName psobject -Property $PropertyHash
+	$ReturnObject.PSObject.TypeNames.Insert(0, 'NmeRegistry_PATCH')
 	Return $ReturnObject	
 }
 function New-NmeReimageConcurrency {
@@ -9514,33 +10184,27 @@ function New-NmeResponseWithJobAndUserCostAttributionConfigurationModel {
 	$ReturnObject.PSObject.TypeNames.Insert(0, 'NmeResponseWithJobAndUserCostAttributionConfigurationModel')
 	Return $ReturnObject	
 }
-function New-NmeResponseWithMultipleJobs_BackwardCompatibility {
+function New-NmeResponseWithMultipleJobs {
 	<#
 
 	.SYNOPSIS
 
-	Creates an object of type NmeResponseWithMultipleJobs_BackwardCompatibility, for use in other Nme module commands
+	Creates an object of type NmeResponseWithMultipleJobs, for use in other Nme module commands
 
 	.PARAMETER Jobs
 
 	An array of objects of type NmeJobShortInfo. Can be created using New-NmeJobShortInfo
 
-	.PARAMETER Job
-
-	An object of type NmeJobShortInfo. Can be created using New-NmeJobShortInfo
-
 	#>
 	[cmdletbinding()]
 	Param(
-		[psobject[]][ValidateScript({$_.PSObject.TypeNames -contains "NmeJobShortInfo"})]$Jobs,
-		[ValidateScript({if ($_.PSObject.TypeNames -contains "NmeJobShortInfo"){$true} else{throw "$_ is not a NmeJobShortInfo object. Use New-NmeJobShortInfo to create before calling this function"}})][psobject]$Job
+		[psobject[]][ValidateScript({$_.PSObject.TypeNames -contains "NmeJobShortInfo"})]$Jobs
 	)
 
 	$PropertyHash = @{}
 	if ($PSBoundParameters.containskey("Jobs")){ $PropertyHash += @{Jobs = $Jobs} }
-	if ($PSBoundParameters.containskey("Job")){ $PropertyHash += @{Job = $Job} }
 	$ReturnObject = New-Object -TypeName psobject -Property $PropertyHash
-	$ReturnObject.PSObject.TypeNames.Insert(0, 'NmeResponseWithMultipleJobs_BackwardCompatibility')
+	$ReturnObject.PSObject.TypeNames.Insert(0, 'NmeResponseWithMultipleJobs')
 	Return $ReturnObject	
 }
 function New-NmeRollingDrainModeRestConfiguration {
@@ -9585,7 +10249,7 @@ function New-NmeRollingDrainModeWindowRest {
 
 	.PARAMETER StartTime
 
-	An object of type NmeTimeSpan. Can be created using New-NmeTimeSpan
+	string. 
 
 	.PARAMETER Percent
 
@@ -9595,13 +10259,18 @@ function New-NmeRollingDrainModeWindowRest {
 
 	string. Valid values are: BreadthFirst, DepthFirst, Persistent
 
+	.PARAMETER ScaleInAggressiveness
+
+	string. Valid values are: High, Medium, Low
+
 	#>
 	[cmdletbinding()]
 	Param(
 		[Parameter(Mandatory=$true)][string]$Name,
-		[Parameter(Mandatory=$true)][ValidateScript({if ($_.PSObject.TypeNames -contains "NmeTimeSpan"){$true} else{throw "$_ is not a NmeTimeSpan object. Use New-NmeTimeSpan to create before calling this function"}})][psobject]$StartTime,
+		[Parameter(Mandatory=$true)][string]$StartTime,
 		[Parameter(Mandatory=$true)][int]$Percent,
-		[ValidateSet("BreadthFirst","DepthFirst","Persistent")][string]$LoadBalancing
+		[ValidateSet("BreadthFirst","DepthFirst","Persistent")][string]$LoadBalancing,
+		[ValidateSet("High","Medium","Low")][string]$ScaleInAggressiveness
 	)
 
 	$PropertyHash = @{}
@@ -9609,6 +10278,7 @@ function New-NmeRollingDrainModeWindowRest {
 	if ($PSBoundParameters.containskey("StartTime")){ $PropertyHash += @{StartTime = $StartTime} }
 	if ($PSBoundParameters.containskey("Percent")){ $PropertyHash += @{Percent = $Percent} }
 	if ($PSBoundParameters.containskey("LoadBalancing")){ $PropertyHash += @{LoadBalancing = $LoadBalancing} }
+	if ($PSBoundParameters.containskey("ScaleInAggressiveness")){ $PropertyHash += @{ScaleInAggressiveness = $ScaleInAggressiveness} }
 	$ReturnObject = New-Object -TypeName psobject -Property $PropertyHash
 	$ReturnObject.PSObject.TypeNames.Insert(0, 'NmeRollingDrainModeWindowRest')
 	Return $ReturnObject	
@@ -9673,24 +10343,18 @@ function New-NmeRunCustomScriptOnVmRestModel {
 
 	Specify a boolean value. Use -restartVM $True if you wish to restart the VM after executing the script
 
-	.PARAMETER ScriptedActionsIds
-
-	Array of integers, listed under the ID column in Nerdio Manager Scripted Actions. Can be retrieved by running Get-NmeScriptedActions
-
 	#>
 	[cmdletbinding()]
 	Param(
 		[Parameter(Mandatory=$true)][psobject[]][ValidateScript({$_.PSObject.TypeNames -contains "NmeScriptedActionOption"})]$ScriptedActions,
 		[int]$ActiveDirectoryId,
-		[Parameter(Mandatory=$true)][bool]$RestartVm,
-		[int[]]$ScriptedActionsIds
+		[Parameter(Mandatory=$true)][bool]$RestartVm
 	)
 
 	$PropertyHash = @{}
 	if ($PSBoundParameters.containskey("ScriptedActions")){ $PropertyHash += @{ScriptedActions = $ScriptedActions} }
 	if ($PSBoundParameters.containskey("ActiveDirectoryId")){ $PropertyHash += @{ActiveDirectoryId = $ActiveDirectoryId} }
 	if ($PSBoundParameters.containskey("RestartVm")){ $PropertyHash += @{RestartVm = $RestartVm} }
-	if ($PSBoundParameters.containskey("ScriptedActionsIds")){ $PropertyHash += @{ScriptedActionsIds = $ScriptedActionsIds} }
 	$ReturnObject = New-Object -TypeName psobject -Property $PropertyHash
 	$ReturnObject.PSObject.TypeNames.Insert(0, 'NmeRunCustomScriptOnVmRestModel')
 	Return $ReturnObject	
@@ -9768,22 +10432,16 @@ function New-NmeRunScriptParams {
 
 	An array of objects of type NmeScriptedActionOption. Can be created using New-NmeScriptedActionOption
 
-	.PARAMETER ScriptedActionsIds
-
-	Array of integers, listed under the ID column in Nerdio Manager Scripted Actions. Can be retrieved by running Get-NmeScriptedActions
-
 	#>
 	[cmdletbinding()]
 	Param(
 		[int]$ActiveDirectoryId,
-		[psobject[]][ValidateScript({$_.PSObject.TypeNames -contains "NmeScriptedActionOption"})]$ScriptedActions,
-		[int[]]$ScriptedActionsIds
+		[psobject[]][ValidateScript({$_.PSObject.TypeNames -contains "NmeScriptedActionOption"})]$ScriptedActions
 	)
 
 	$PropertyHash = @{}
 	if ($PSBoundParameters.containskey("ActiveDirectoryId")){ $PropertyHash += @{ActiveDirectoryId = $ActiveDirectoryId} }
 	if ($PSBoundParameters.containskey("ScriptedActions")){ $PropertyHash += @{ScriptedActions = $ScriptedActions} }
-	if ($PSBoundParameters.containskey("ScriptedActionsIds")){ $PropertyHash += @{ScriptedActionsIds = $ScriptedActionsIds} }
 	$ReturnObject = New-Object -TypeName psobject -Property $PropertyHash
 	$ReturnObject.PSObject.TypeNames.Insert(0, 'NmeRunScriptParams')
 	Return $ReturnObject	
@@ -9871,7 +10529,7 @@ function New-NmeScaleIntimeRestrictionConfiguration {
 
 	.PARAMETER TimeRange
 
-	An object of type NmeTimeRangeWithTimeZone. Can be created using New-NmeTimeRangeWithTimeZone
+	An object of type NmeTimeRange. Can be created using New-NmeTimeRange
 
 	.PARAMETER PutToDrainMode
 
@@ -9881,7 +10539,7 @@ function New-NmeScaleIntimeRestrictionConfiguration {
 	[cmdletbinding()]
 	Param(
 		[Parameter(Mandatory=$true)][bool]$Enable,
-		[ValidateScript({if ($_.PSObject.TypeNames -contains "NmeTimeRangeWithTimeZone"){$true} else{throw "$_ is not a NmeTimeRangeWithTimeZone object. Use New-NmeTimeRangeWithTimeZone to create before calling this function"}})][psobject]$TimeRange,
+		[ValidateScript({if ($_.PSObject.TypeNames -contains "NmeTimeRange"){$true} else{throw "$_ is not a NmeTimeRange object. Use New-NmeTimeRange to create before calling this function"}})][psobject]$TimeRange,
 		[bool]$PutToDrainMode
 	)
 
@@ -10735,10 +11393,6 @@ function New-NmeSetAsImagePayload {
 
 	boolean. Specify -RetainOldImage $True or -RetainOldImage $False. 
 
-	.PARAMETER ScriptedActionsIds
-
-	Array of integers, listed under the ID column in Nerdio Manager Scripted Actions. Can be retrieved by running Get-NmeScriptedActions
-
 	#>
 	[cmdletbinding()]
 	Param(
@@ -10749,8 +11403,7 @@ function New-NmeSetAsImagePayload {
 		[bool]$SkipRemoveProfiles,
 		[hashtable]$Tags,
 		[bool]$InstallCertificates,
-		[bool]$RetainOldImage,
-		[int[]]$ScriptedActionsIds
+		[bool]$RetainOldImage
 	)
 
 	$PropertyHash = @{}
@@ -10762,7 +11415,6 @@ function New-NmeSetAsImagePayload {
 	if ($PSBoundParameters.containskey("Tags")){ $PropertyHash += @{Tags = $Tags} }
 	if ($PSBoundParameters.containskey("InstallCertificates")){ $PropertyHash += @{InstallCertificates = $InstallCertificates} }
 	if ($PSBoundParameters.containskey("RetainOldImage")){ $PropertyHash += @{RetainOldImage = $RetainOldImage} }
-	if ($PSBoundParameters.containskey("ScriptedActionsIds")){ $PropertyHash += @{ScriptedActionsIds = $ScriptedActionsIds} }
 	$ReturnObject = New-Object -TypeName psobject -Property $PropertyHash
 	$ReturnObject.PSObject.TypeNames.Insert(0, 'NmeSetAsImagePayload')
 	Return $ReturnObject	
@@ -10847,10 +11499,6 @@ function New-NmeSetAsImageRestConfiguration {
 
 	boolean. Specify -SkipRemoveProfiles $True or -SkipRemoveProfiles $False. 
 
-	.PARAMETER ScriptedActionsIds
-
-	Array of integers, listed under the ID column in Nerdio Manager Scripted Actions. Can be retrieved by running Get-NmeScriptedActions
-
 	#>
 	[cmdletbinding()]
 	Param(
@@ -10864,8 +11512,7 @@ function New-NmeSetAsImageRestConfiguration {
 		[bool]$RetainOldImage,
 		[bool]$Certificates,
 		[bool]$UploadToCloudPc,
-		[bool]$SkipRemoveProfiles,
-		[int[]]$ScriptedActionsIds
+		[bool]$SkipRemoveProfiles
 	)
 
 	$PropertyHash = @{}
@@ -10880,7 +11527,6 @@ function New-NmeSetAsImageRestConfiguration {
 	if ($PSBoundParameters.containskey("Certificates")){ $PropertyHash += @{Certificates = $Certificates} }
 	if ($PSBoundParameters.containskey("UploadToCloudPc")){ $PropertyHash += @{UploadToCloudPc = $UploadToCloudPc} }
 	if ($PSBoundParameters.containskey("SkipRemoveProfiles")){ $PropertyHash += @{SkipRemoveProfiles = $SkipRemoveProfiles} }
-	if ($PSBoundParameters.containskey("ScriptedActionsIds")){ $PropertyHash += @{ScriptedActionsIds = $ScriptedActionsIds} }
 	$ReturnObject = New-Object -TypeName psobject -Property $PropertyHash
 	$ReturnObject.PSObject.TypeNames.Insert(0, 'NmeSetAsImageRestConfiguration')
 	Return $ReturnObject	
@@ -11014,12 +11660,12 @@ function New-NmeTempVmRestModel {
 	$ReturnObject.PSObject.TypeNames.Insert(0, 'NmeTempVmRestModel')
 	Return $ReturnObject	
 }
-function New-NmeTimeIntervalWithTimeZone {
+function New-NmeTimeInterval {
 	<#
 
 	.SYNOPSIS
 
-	Creates an object of type NmeTimeIntervalWithTimeZone, for use in other Nme module commands
+	Creates an object of type NmeTimeInterval, for use in other Nme module commands
 
 	.PARAMETER Hour
 
@@ -11028,10 +11674,6 @@ function New-NmeTimeIntervalWithTimeZone {
 	.PARAMETER Minutes
 
 	integer. 
-
-	.PARAMETER TimeZoneId
-
-	DEPRECATED
 
 	.PARAMETER Duration
 
@@ -11042,25 +11684,23 @@ function New-NmeTimeIntervalWithTimeZone {
 	Param(
 		[Parameter(Mandatory=$true)][int]$Hour,
 		[int]$Minutes,
-		[string]$TimeZoneId,
 		[Parameter(Mandatory=$true)][int]$Duration
 	)
 
 	$PropertyHash = @{}
 	if ($PSBoundParameters.containskey("Hour")){ $PropertyHash += @{Hour = $Hour} }
 	if ($PSBoundParameters.containskey("Minutes")){ $PropertyHash += @{Minutes = $Minutes} }
-	if ($PSBoundParameters.containskey("TimeZoneId")){ $PropertyHash += @{TimeZoneId = $TimeZoneId} }
 	if ($PSBoundParameters.containskey("Duration")){ $PropertyHash += @{Duration = $Duration} }
 	$ReturnObject = New-Object -TypeName psobject -Property $PropertyHash
-	$ReturnObject.PSObject.TypeNames.Insert(0, 'NmeTimeIntervalWithTimeZone')
+	$ReturnObject.PSObject.TypeNames.Insert(0, 'NmeTimeInterval')
 	Return $ReturnObject	
 }
-function New-NmeTimeRangeWithTimeZone {
+function New-NmeTimeRange {
 	<#
 
 	.SYNOPSIS
 
-	Creates an object of type NmeTimeRangeWithTimeZone, for use in other Nme module commands
+	Creates an object of type NmeTimeRange, for use in other Nme module commands
 
 	.PARAMETER StartHour
 
@@ -11078,18 +11718,13 @@ function New-NmeTimeRangeWithTimeZone {
 
 	integer. 
 
-	.PARAMETER TimeZoneId
-
-	DEPRECATED
-
 	#>
 	[cmdletbinding()]
 	Param(
 		[Parameter(Mandatory=$true)][int]$StartHour,
 		[int]$StartMinutes,
 		[Parameter(Mandatory=$true)][int]$EndHour,
-		[int]$EndMinutes,
-		[string]$TimeZoneId
+		[int]$EndMinutes
 	)
 
 	$PropertyHash = @{}
@@ -11097,92 +11732,8 @@ function New-NmeTimeRangeWithTimeZone {
 	if ($PSBoundParameters.containskey("StartMinutes")){ $PropertyHash += @{StartMinutes = $StartMinutes} }
 	if ($PSBoundParameters.containskey("EndHour")){ $PropertyHash += @{EndHour = $EndHour} }
 	if ($PSBoundParameters.containskey("EndMinutes")){ $PropertyHash += @{EndMinutes = $EndMinutes} }
-	if ($PSBoundParameters.containskey("TimeZoneId")){ $PropertyHash += @{TimeZoneId = $TimeZoneId} }
 	$ReturnObject = New-Object -TypeName psobject -Property $PropertyHash
-	$ReturnObject.PSObject.TypeNames.Insert(0, 'NmeTimeRangeWithTimeZone')
-	Return $ReturnObject	
-}
-function New-NmeTimeSpan {
-	<#
-
-	.SYNOPSIS
-
-	Creates an object of type NmeTimeSpan, for use in other Nme module commands
-
-	.PARAMETER Ticks
-
-	integer. 
-
-	.PARAMETER Days
-
-	integer. 
-
-	.PARAMETER Hours
-
-	integer. 
-
-	.PARAMETER Milliseconds
-
-	integer. 
-
-	.PARAMETER Minutes
-
-	integer. 
-
-	.PARAMETER Seconds
-
-	integer. 
-
-	.PARAMETER TotalDays
-
-	number. 
-
-	.PARAMETER TotalHours
-
-	number. 
-
-	.PARAMETER TotalMilliseconds
-
-	number. 
-
-	.PARAMETER TotalMinutes
-
-	number. 
-
-	.PARAMETER TotalSeconds
-
-	number. 
-
-	#>
-	[cmdletbinding()]
-	Param(
-		[int]$Ticks,
-		[int]$Days,
-		[int]$Hours,
-		[int]$Milliseconds,
-		[int]$Minutes,
-		[int]$Seconds,
-		[float]$TotalDays,
-		[float]$TotalHours,
-		[float]$TotalMilliseconds,
-		[float]$TotalMinutes,
-		[float]$TotalSeconds
-	)
-
-	$PropertyHash = @{}
-	if ($PSBoundParameters.containskey("Ticks")){ $PropertyHash += @{Ticks = $Ticks} }
-	if ($PSBoundParameters.containskey("Days")){ $PropertyHash += @{Days = $Days} }
-	if ($PSBoundParameters.containskey("Hours")){ $PropertyHash += @{Hours = $Hours} }
-	if ($PSBoundParameters.containskey("Milliseconds")){ $PropertyHash += @{Milliseconds = $Milliseconds} }
-	if ($PSBoundParameters.containskey("Minutes")){ $PropertyHash += @{Minutes = $Minutes} }
-	if ($PSBoundParameters.containskey("Seconds")){ $PropertyHash += @{Seconds = $Seconds} }
-	if ($PSBoundParameters.containskey("TotalDays")){ $PropertyHash += @{TotalDays = $TotalDays} }
-	if ($PSBoundParameters.containskey("TotalHours")){ $PropertyHash += @{TotalHours = $TotalHours} }
-	if ($PSBoundParameters.containskey("TotalMilliseconds")){ $PropertyHash += @{TotalMilliseconds = $TotalMilliseconds} }
-	if ($PSBoundParameters.containskey("TotalMinutes")){ $PropertyHash += @{TotalMinutes = $TotalMinutes} }
-	if ($PSBoundParameters.containskey("TotalSeconds")){ $PropertyHash += @{TotalSeconds = $TotalSeconds} }
-	$ReturnObject = New-Object -TypeName psobject -Property $PropertyHash
-	$ReturnObject.PSObject.TypeNames.Insert(0, 'NmeTimeSpan')
+	$ReturnObject.PSObject.TypeNames.Insert(0, 'NmeTimeRange')
 	Return $ReturnObject	
 }
 function New-NmeTriggerInfo {
@@ -11348,10 +11899,6 @@ function New-NmeUpdateHostPoolFsLogixRestModel {
 
 	boolean. Specify -Enable $True or -Enable $False. 
 
-	.PARAMETER UseDefault
-
-	DEPRECATED
-
 	.PARAMETER Type
 
 	string. Valid values are: Default, Predefined, Custom
@@ -11368,7 +11915,6 @@ function New-NmeUpdateHostPoolFsLogixRestModel {
 	[cmdletbinding()]
 	Param(
 		[Parameter(Mandatory=$true)][bool]$Enable,
-		[bool]$UseDefault,
 		[ValidateSet("Default","Predefined","Custom")][string]$Type,
 		[int]$PredefinedConfigId,
 		[ValidateScript({if ($_.PSObject.TypeNames -contains "NmeFsLogixRestProperties"){$true} else{throw "$_ is not a NmeFsLogixRestProperties object. Use New-NmeFsLogixRestProperties to create before calling this function"}})][psobject]$Custom
@@ -11376,7 +11922,6 @@ function New-NmeUpdateHostPoolFsLogixRestModel {
 
 	$PropertyHash = @{}
 	if ($PSBoundParameters.containskey("Enable")){ $PropertyHash += @{Enable = $Enable} }
-	if ($PSBoundParameters.containskey("UseDefault")){ $PropertyHash += @{UseDefault = $UseDefault} }
 	if ($PSBoundParameters.containskey("Type")){ $PropertyHash += @{Type = $Type} }
 	if ($PSBoundParameters.containskey("PredefinedConfigId")){ $PropertyHash += @{PredefinedConfigId = $PredefinedConfigId} }
 	if ($PSBoundParameters.containskey("Custom")){ $PropertyHash += @{Custom = $Custom} }
@@ -11850,6 +12395,10 @@ function New-NmeUserCostAttributionReportUserSummary {
 
 	number. 
 
+	.PARAMETER CustomCost
+
+	number. 
+
 	.PARAMETER SessionCount
 
 	integer. 
@@ -11873,6 +12422,7 @@ function New-NmeUserCostAttributionReportUserSummary {
 		[float]$LogAnalyticsCost,
 		[float]$ImagesCost,
 		[float]$OtherCosts,
+		[float]$CustomCost,
 		[int]$SessionCount,
 		[float]$SessionMinutes,
 		[float]$VmMinutes
@@ -11887,6 +12437,7 @@ function New-NmeUserCostAttributionReportUserSummary {
 	if ($PSBoundParameters.containskey("LogAnalyticsCost")){ $PropertyHash += @{LogAnalyticsCost = $LogAnalyticsCost} }
 	if ($PSBoundParameters.containskey("ImagesCost")){ $PropertyHash += @{ImagesCost = $ImagesCost} }
 	if ($PSBoundParameters.containskey("OtherCosts")){ $PropertyHash += @{OtherCosts = $OtherCosts} }
+	if ($PSBoundParameters.containskey("CustomCost")){ $PropertyHash += @{CustomCost = $CustomCost} }
 	if ($PSBoundParameters.containskey("SessionCount")){ $PropertyHash += @{SessionCount = $SessionCount} }
 	if ($PSBoundParameters.containskey("SessionMinutes")){ $PropertyHash += @{SessionMinutes = $SessionMinutes} }
 	if ($PSBoundParameters.containskey("VmMinutes")){ $PropertyHash += @{VmMinutes = $VmMinutes} }
@@ -11962,29 +12513,6 @@ function New-NmeUserSelfServiceScriptedAction {
 	if ($PSBoundParameters.containskey("Action")){ $PropertyHash += @{Action = $Action} }
 	$ReturnObject = New-Object -TypeName psobject -Property $PropertyHash
 	$ReturnObject.PSObject.TypeNames.Insert(0, 'NmeUserSelfServiceScriptedAction')
-	Return $ReturnObject	
-}
-function New-NmeUserSelfServiceSettingsDto {
-	<#
-
-	.SYNOPSIS
-
-	Creates an object of type NmeUserSelfServiceSettingsDto, for use in other Nme module commands
-
-	.PARAMETER Logo
-
-	string. 
-
-	#>
-	[cmdletbinding()]
-	Param(
-		[string]$Logo
-	)
-
-	$PropertyHash = @{}
-	if ($PSBoundParameters.containskey("Logo")){ $PropertyHash += @{Logo = $Logo} }
-	$ReturnObject = New-Object -TypeName psobject -Property $PropertyHash
-	$ReturnObject.PSObject.TypeNames.Insert(0, 'NmeUserSelfServiceSettingsDto')
 	Return $ReturnObject	
 }
 function New-NmeUserSelfServiceTag {
@@ -12101,7 +12629,9 @@ function New-NmeVmObjectId {
 
 	.PARAMETER AddSuffix
 
-	boolean. Specify -AddSuffix $True or -AddSuffix $False. 
+	boolean. Specify -AddSuffix $True or -AddSuffix $False. Define the name assigning behaviour.
+false: Host will have name with the exact 'Name' value;
+true:  Host will have name with the 'Name-{????}' value.
 
 	#>
 	[cmdletbinding()]
@@ -12322,13 +12852,13 @@ function New-NmeWorkingHours {
 
 	.PARAMETER TimeInterval
 
-	An object of type NmeTimeIntervalWithTimeZone. Can be created using New-NmeTimeIntervalWithTimeZone
+	An object of type NmeTimeInterval. Can be created using New-NmeTimeInterval
 
 	#>
 	[cmdletbinding()]
 	Param(
 		[Parameter(Mandatory=$true)][ValidateSet(0,1,2,3,4,5,6)][Int[]]$Days,
-		[Parameter(Mandatory=$true)][ValidateScript({if ($_.PSObject.TypeNames -contains "NmeTimeIntervalWithTimeZone"){$true} else{throw "$_ is not a NmeTimeIntervalWithTimeZone object. Use New-NmeTimeIntervalWithTimeZone to create before calling this function"}})][psobject]$TimeInterval
+		[Parameter(Mandatory=$true)][ValidateScript({if ($_.PSObject.TypeNames -contains "NmeTimeInterval"){$true} else{throw "$_ is not a NmeTimeInterval object. Use New-NmeTimeInterval to create before calling this function"}})][psobject]$TimeInterval
 	)
 
 	$PropertyHash = @{}

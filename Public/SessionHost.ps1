@@ -55,7 +55,11 @@ Function New-NmeSessionHost {
 
 	.DESCRIPTION
 
-	### To choose more than one user to assign them to hosts in personal pool, write them in "userToAssign" field and separate them with comma [,].. 
+	### To choose more than one user to assign them to hosts in personal pool, write them in "userToAssign" field and separate them with comma [,].
+
+Host Name depends on "Name" value and "AddSuffix" value.
+When "AddSuffix" is false the host name will follow "Exact" name forming.
+When "AddSuffix" is true the host name will follow "Prefix" name forming.. 
 
 	This function calls the /api/v1/arm/hostpool/{subscriptionId}/{resourceGroup}/{hostPoolName}/host endpoint of the NME REST API, using the post method.
 
@@ -92,7 +96,7 @@ Function New-NmeSessionHost {
 		Write-Debug $json
 		$Result = Invoke-RestMethod "$script:NmeUri/api/v1/arm/hostpool/$SubscriptionId/$ResourceGroup/$HostPoolName/host$QueryString" -Method post -Headers $script:AuthHeaders -ContentType 'application/json' -body $json
 		Write-Verbose ($result | out-string)
-		$Result.PSObject.TypeNames.Insert(0, 'NmeResponseWithMultipleJobs_BackwardCompatibility')
+		$Result.PSObject.TypeNames.Insert(0, 'NmeResponseWithMultipleJobs')
 		$Result | Add-Member -NotePropertyName 'subscriptionId' -NotePropertyValue $subscriptionId -erroraction 'SilentlyContinue'
 		$Result | Add-Member -NotePropertyName 'resourceGroup' -NotePropertyValue $resourceGroup -erroraction 'SilentlyContinue'
 		$Result | Add-Member -NotePropertyName 'hostPoolName' -NotePropertyValue $hostPoolName -erroraction 'SilentlyContinue'

@@ -1,3 +1,36 @@
+Function Get-NmeAzureFiles {
+	<#
+
+	.SYNOPSIS
+
+	Get the list of File Shares.
+
+	.DESCRIPTION
+
+	Get the list of File Shares. 
+
+	This function calls the /api/v1/storage/azure-files endpoint of the NME REST API, using the get method.
+
+
+
+
+	#>
+
+	[CmdletBinding()]
+	Param(
+
+	)
+	Set-NmeAuthHeaders
+	Try {
+		$Result = Invoke-RestMethod "$script:NmeUri/api/v1/storage/azure-files$Querystring" -Method get -Headers $script:AuthHeaders -ContentType 'application/json'
+		$Result.PSObject.TypeNames.Insert(0, 'NmeFileShareModelRest')
+		$Result | CapProps
+	}
+	Catch {
+		$message = ParseErrorForResponseBody($_)
+		write-error ($message | out-string)
+	}
+}
 Function Get-NmeAzureFilesAutoScaleConfig {
 	<#
 
@@ -174,6 +207,104 @@ Function Update-NmeAzureFilesAutoScaleConfig {
 		$Result | Add-Member -NotePropertyName 'resourceGroup' -NotePropertyValue $resourceGroup -erroraction 'SilentlyContinue'
 		$Result | Add-Member -NotePropertyName 'accountName' -NotePropertyValue $accountName -erroraction 'SilentlyContinue'
 		$Result | Add-Member -NotePropertyName 'shareName' -NotePropertyValue $shareName -erroraction 'SilentlyContinue'
+		$Result | CapProps
+	}
+	Catch {
+		$message = ParseErrorForResponseBody($_)
+		write-error ($message | out-string)
+	}
+}
+Function New-NmeAzureFilesLink {
+	<#
+
+	.SYNOPSIS
+
+	Link File Share.
+
+	.DESCRIPTION
+
+	Link File Share. 
+
+	This function calls the /api/v1/storage/azure-files/{subscriptionId}/{resourceGroup}/{accountName}/{shareName}/link endpoint of the NME REST API, using the post method.
+
+
+	.PARAMETER SubscriptionId
+
+	The id (guid) of the subscription where this storage resides
+
+	.PARAMETER ResourceGroup
+
+	The Azure resource group where the storage resides
+
+	.PARAMETER AccountName
+
+	Storage account name
+
+	.PARAMETER ShareName
+
+	File share name
+
+	#>
+
+	[CmdletBinding()]
+	Param(
+		[Parameter(Mandatory=$true,ValueFromPipelineByPropertyName=$true)][string]$SubscriptionId,
+		[Parameter(Mandatory=$true,ValueFromPipelineByPropertyName=$true)][string]$ResourceGroup,
+		[Parameter(Mandatory=$true,ValueFromPipelineByPropertyName=$true)][string]$AccountName,
+		[Parameter(Mandatory=$true,ValueFromPipelineByPropertyName=$true)][string]$ShareName
+	)
+	Set-NmeAuthHeaders
+	Try {
+		$Result = Invoke-RestMethod "$script:NmeUri/api/v1/storage/azure-files/$SubscriptionId/$ResourceGroup/$AccountName/$ShareName/link$Querystring" -Method post -Headers $script:AuthHeaders -ContentType 'application/json'
+		$Result | CapProps
+	}
+	Catch {
+		$message = ParseErrorForResponseBody($_)
+		write-error ($message | out-string)
+	}
+}
+Function Remove-NmeAzureFilesLink {
+	<#
+
+	.SYNOPSIS
+
+	Unlink File Share.
+
+	.DESCRIPTION
+
+	Unlink File Share. 
+
+	This function calls the /api/v1/storage/azure-files/{subscriptionId}/{resourceGroup}/{accountName}/{shareName}/link endpoint of the NME REST API, using the delete method.
+
+
+	.PARAMETER SubscriptionId
+
+	The id (guid) of the subscription where this storage resides
+
+	.PARAMETER ResourceGroup
+
+	The Azure resource group where the storage resides
+
+	.PARAMETER AccountName
+
+	Storage account name
+
+	.PARAMETER ShareName
+
+	File share name
+
+	#>
+
+	[CmdletBinding()]
+	Param(
+		[Parameter(Mandatory=$true,ValueFromPipelineByPropertyName=$true)][string]$SubscriptionId,
+		[Parameter(Mandatory=$true,ValueFromPipelineByPropertyName=$true)][string]$ResourceGroup,
+		[Parameter(Mandatory=$true,ValueFromPipelineByPropertyName=$true)][string]$AccountName,
+		[Parameter(Mandatory=$true,ValueFromPipelineByPropertyName=$true)][string]$ShareName
+	)
+	Set-NmeAuthHeaders
+	Try {
+		$Result = Invoke-RestMethod "$script:NmeUri/api/v1/storage/azure-files/$SubscriptionId/$ResourceGroup/$AccountName/$ShareName/link$Querystring" -Method delete -Headers $script:AuthHeaders -ContentType 'application/json'
 		$Result | CapProps
 	}
 	Catch {
