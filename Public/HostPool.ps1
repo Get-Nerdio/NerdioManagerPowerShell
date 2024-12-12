@@ -469,7 +469,7 @@ Function Set-NmeHostPoolAutoScaleConfig {
 		[Parameter(Mandatory=$true,ValueFromPipelineByPropertyName=$true)][string]$HostPoolName,
 		[Parameter(ValueFromPipelineByPropertyName=$true)][bool]$MultiTriggers,
 		[Parameter(ValueFromPipelineByPropertyName=$true)][bool]$AutoHealActions,
-		[Parameter(Mandatory=$true, ValueFromPipelineByPropertyName=$True)][ValidateScript({if ($_.PSObject.TypeNames -contains "NmeDynamicPoolConfiguration"){$true} else{throw " is not a NmeDynamicPoolConfiguration object."}})]$NmeDynamicPoolConfiguration
+		[Parameter(Mandatory=$true, ValueFromPipelineByPropertyName=$True)][ValidateScript({if ($_.PSObject.TypeNames -contains "NmeDynamicPoolConfiguration"){$true} else{throw " is not a NmeDynamicPoolConfiguration object."}})][psobject[]]$NmeDynamicPoolConfiguration
 	)
 	Set-NmeAuthHeaders
 	Try {
