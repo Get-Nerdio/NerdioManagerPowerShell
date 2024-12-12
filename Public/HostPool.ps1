@@ -1011,6 +1011,7 @@ Function Set-NmeHostPoolRdpConfig {
 		[Parameter(Mandatory=$true, ValueFromPipelineByPropertyName=$True)][ValidateScript({if ($_.PSObject.TypeNames -contains "NmeUpdateHostPoolRdpWithConfigRequest"){$true} else{throw " is not a NmeUpdateHostPoolRdpWithConfigRequest object."}})]$NmeUpdateHostPoolRdpWithConfigRequest
 	)
 	Set-NmeAuthHeaders
+	Write-Warning 'This function is deprecated and will be removed in a future release.'
 	Try {
 		$json = $NmeUpdateHostPoolRdpWithConfigRequest | ConvertTo-Json -Depth 20
 		Write-Debug 'json:'

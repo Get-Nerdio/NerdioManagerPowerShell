@@ -21,6 +21,7 @@ Function Get-NmeUserSelfService {
 
 	)
 	Set-NmeAuthHeaders
+	Write-Warning 'This function is deprecated and will be removed in a future release.'
 	Try {
 		$Result = Invoke-RestMethod "$script:NmeUri/api/v1/user-self-service$Querystring" -Method get -Headers $script:AuthHeaders -ContentType 'application/json'
 		$Result.PSObject.TypeNames.Insert(0, 'NmeLogoSettingsDto')
