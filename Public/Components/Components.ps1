@@ -1633,16 +1633,22 @@ function New-NmeArmHostPoolRdpModelRest {
 
 	string. 
 
+	.PARAMETER ShortPath
+
+	An object of type NmeRdpShortpathPropertiesRest. Can be created using New-NmeRdpShortpathPropertiesRest
+
 	#>
 	[cmdletbinding()]
 	Param(
 		[string]$ConfigurationName,
-		[string]$RdpProperties
+		[string]$RdpProperties,
+		[ValidateScript({if ($_.PSObject.TypeNames -contains "NmeRdpShortpathPropertiesRest"){$true} else{throw "$_ is not a NmeRdpShortpathPropertiesRest object. Use New-NmeRdpShortpathPropertiesRest to create before calling this function"}})][psobject]$ShortPath
 	)
 
 	$PropertyHash = @{}
 	if ($PSBoundParameters.containskey("ConfigurationName")){ $PropertyHash += @{ConfigurationName = $ConfigurationName} }
 	if ($PSBoundParameters.containskey("RdpProperties")){ $PropertyHash += @{RdpProperties = $RdpProperties} }
+	if ($PSBoundParameters.containskey("ShortPath")){ $PropertyHash += @{ShortPath = $ShortPath} }
 	$ReturnObject = New-Object -TypeName psobject -Property $PropertyHash
 	$ReturnObject.PSObject.TypeNames.Insert(0, 'NmeArmHostPoolRdpModelRest')
 	Return $ReturnObject	
@@ -4569,6 +4575,14 @@ function New-NmeFsLogixRestProperties {
 	string. FSLogix version.
 null means "use the latest stable version"
 
+	.PARAMETER AppServiceRegistryOptions
+
+	An object of type NmeOptionalRegistrySettings. Can be created using New-NmeOptionalRegistrySettings
+
+	.PARAMETER LogRegistryOptions
+
+	An object of type NmeOptionalRegistrySettings. Can be created using New-NmeOptionalRegistrySettings
+
 	#>
 	[cmdletbinding()]
 	Param(
@@ -4582,7 +4596,9 @@ null means "use the latest stable version"
 		[bool]$ForceUpdate,
 		[string]$RedirectionsXml,
 		[ValidateScript({if ($_.PSObject.TypeNames -contains "NmeExclusions"){$true} else{throw "$_ is not a NmeExclusions object. Use New-NmeExclusions to create before calling this function"}})][psobject]$Exclusions,
-		[string]$FsLogixVersion
+		[string]$FsLogixVersion,
+		[ValidateScript({if ($_.PSObject.TypeNames -contains "NmeOptionalRegistrySettings"){$true} else{throw "$_ is not a NmeOptionalRegistrySettings object. Use New-NmeOptionalRegistrySettings to create before calling this function"}})][psobject]$AppServiceRegistryOptions,
+		[ValidateScript({if ($_.PSObject.TypeNames -contains "NmeOptionalRegistrySettings"){$true} else{throw "$_ is not a NmeOptionalRegistrySettings object. Use New-NmeOptionalRegistrySettings to create before calling this function"}})][psobject]$LogRegistryOptions
 	)
 
 	$PropertyHash = @{}
@@ -4597,6 +4613,8 @@ null means "use the latest stable version"
 	if ($PSBoundParameters.containskey("RedirectionsXml")){ $PropertyHash += @{RedirectionsXml = $RedirectionsXml} }
 	if ($PSBoundParameters.containskey("Exclusions")){ $PropertyHash += @{Exclusions = $Exclusions} }
 	if ($PSBoundParameters.containskey("FsLogixVersion")){ $PropertyHash += @{FsLogixVersion = $FsLogixVersion} }
+	if ($PSBoundParameters.containskey("AppServiceRegistryOptions")){ $PropertyHash += @{AppServiceRegistryOptions = $AppServiceRegistryOptions} }
+	if ($PSBoundParameters.containskey("LogRegistryOptions")){ $PropertyHash += @{LogRegistryOptions = $LogRegistryOptions} }
 	$ReturnObject = New-Object -TypeName psobject -Property $PropertyHash
 	$ReturnObject.PSObject.TypeNames.Insert(0, 'NmeFsLogixRestProperties')
 	Return $ReturnObject	
@@ -6973,6 +6991,58 @@ function New-NmeLinkedSubscriptionRestModel {
 	$ReturnObject.PSObject.TypeNames.Insert(0, 'NmeLinkedSubscriptionRestModel')
 	Return $ReturnObject	
 }
+function New-NmeLogoSettingsDto {
+	<#
+
+	.SYNOPSIS
+
+	Creates an object of type NmeLogoSettingsDto, for use in other Nme module commands
+
+	.PARAMETER Logo
+
+	string. 
+
+	#>
+	[cmdletbinding()]
+	Param(
+		[string]$Logo
+	)
+
+	$PropertyHash = @{}
+	if ($PSBoundParameters.containskey("Logo")){ $PropertyHash += @{Logo = $Logo} }
+	$ReturnObject = New-Object -TypeName psobject -Property $PropertyHash
+	$ReturnObject.PSObject.TypeNames.Insert(0, 'NmeLogoSettingsDto')
+	Return $ReturnObject	
+}
+function New-NmeLogoSettingsRestModel {
+	<#
+
+	.SYNOPSIS
+
+	Creates an object of type NmeLogoSettingsRestModel, for use in other Nme module commands
+
+	.PARAMETER Logo
+
+	string. 
+
+	.PARAMETER Placement
+
+	string. Valid values are: SelfServicePortal, Everywhere, None
+
+	#>
+	[cmdletbinding()]
+	Param(
+		[string]$Logo,
+		[ValidateSet("SelfServicePortal","Everywhere","None")][string]$Placement
+	)
+
+	$PropertyHash = @{}
+	if ($PSBoundParameters.containskey("Logo")){ $PropertyHash += @{Logo = $Logo} }
+	if ($PSBoundParameters.containskey("Placement")){ $PropertyHash += @{Placement = $Placement} }
+	$ReturnObject = New-Object -TypeName psobject -Property $PropertyHash
+	$ReturnObject.PSObject.TypeNames.Insert(0, 'NmeLogoSettingsRestModel')
+	Return $ReturnObject	
+}
 function New-NmeMaintenanceWindowRestModel {
 	<#
 
@@ -7749,6 +7819,64 @@ function New-NmeNonArmSessionHost {
 	$ReturnObject.PSObject.TypeNames.Insert(0, 'NmeNonArmSessionHost')
 	Return $ReturnObject	
 }
+function New-NmeOptionalRegistrySettings {
+	<#
+
+	.SYNOPSIS
+
+	Creates an object of type NmeOptionalRegistrySettings, for use in other Nme module commands
+
+	.PARAMETER RegistryOptionsMode
+
+	string. Valid values are: None, Apply
+
+	.PARAMETER RegistryOptions
+
+	string. 
+
+	#>
+	[cmdletbinding()]
+	Param(
+		[ValidateSet("None","Apply")][string]$RegistryOptionsMode,
+		[string]$RegistryOptions
+	)
+
+	$PropertyHash = @{}
+	if ($PSBoundParameters.containskey("RegistryOptionsMode")){ $PropertyHash += @{RegistryOptionsMode = $RegistryOptionsMode} }
+	if ($PSBoundParameters.containskey("RegistryOptions")){ $PropertyHash += @{RegistryOptions = $RegistryOptions} }
+	$ReturnObject = New-Object -TypeName psobject -Property $PropertyHash
+	$ReturnObject.PSObject.TypeNames.Insert(0, 'NmeOptionalRegistrySettings')
+	Return $ReturnObject	
+}
+function New-NmeOptionalRegistrySettings_PATCH {
+	<#
+
+	.SYNOPSIS
+
+	Creates an object of type NmeOptionalRegistrySettings_PATCH, for use in other Nme module commands
+
+	.PARAMETER RegistryOptionsMode
+
+	string. Valid values are: None, Apply
+
+	.PARAMETER RegistryOptions
+
+	string. 
+
+	#>
+	[cmdletbinding()]
+	Param(
+		[ValidateSet("None","Apply")][string]$RegistryOptionsMode,
+		[string]$RegistryOptions
+	)
+
+	$PropertyHash = @{}
+	if ($PSBoundParameters.containskey("RegistryOptionsMode")){ $PropertyHash += @{RegistryOptionsMode = $RegistryOptionsMode} }
+	if ($PSBoundParameters.containskey("RegistryOptions")){ $PropertyHash += @{RegistryOptions = $RegistryOptions} }
+	$ReturnObject = New-Object -TypeName psobject -Property $PropertyHash
+	$ReturnObject.PSObject.TypeNames.Insert(0, 'NmeOptionalRegistrySettings_PATCH')
+	Return $ReturnObject	
+}
 function New-NmeOsDiskPreStage {
 	<#
 
@@ -8129,6 +8257,41 @@ function New-NmePatchHostPoolControlUpRestModel_RegistrationKey {
 	if ($PSBoundParameters.containskey("Value")){ $PropertyHash += @{Value = $Value} }
 	$ReturnObject = New-Object -TypeName psobject -Property $PropertyHash
 	$ReturnObject.PSObject.TypeNames.Insert(0, 'NmePatchHostPoolControlUpRestModel_RegistrationKey')
+	Return $ReturnObject	
+}
+function New-NmePatchHostPoolRdpRequestRest {
+	<#
+
+	.SYNOPSIS
+
+	Creates an object of type NmePatchHostPoolRdpRequestRest, for use in other Nme module commands
+
+	.PARAMETER ConfigurationName
+
+	string. 
+
+	.PARAMETER RdpProperties
+
+	string. 
+
+	.PARAMETER ShortPath
+
+	An object of type NmeRdpShortpathPropertiesRest. Can be created using New-NmeRdpShortpathPropertiesRest
+
+	#>
+	[cmdletbinding()]
+	Param(
+		[string]$ConfigurationName,
+		[string]$RdpProperties,
+		[ValidateScript({if ($_.PSObject.TypeNames -contains "NmeRdpShortpathPropertiesRest"){$true} else{throw "$_ is not a NmeRdpShortpathPropertiesRest object. Use New-NmeRdpShortpathPropertiesRest to create before calling this function"}})][psobject]$ShortPath
+	)
+
+	$PropertyHash = @{}
+	if ($PSBoundParameters.containskey("ConfigurationName")){ $PropertyHash += @{ConfigurationName = $ConfigurationName} }
+	if ($PSBoundParameters.containskey("RdpProperties")){ $PropertyHash += @{RdpProperties = $RdpProperties} }
+	if ($PSBoundParameters.containskey("ShortPath")){ $PropertyHash += @{ShortPath = $ShortPath} }
+	$ReturnObject = New-Object -TypeName psobject -Property $PropertyHash
+	$ReturnObject.PSObject.TypeNames.Insert(0, 'NmePatchHostPoolRdpRequestRest')
 	Return $ReturnObject	
 }
 function New-NmePatchLinkedSubscriptionRestModel {
@@ -8957,6 +9120,14 @@ https://learn.microsoft.com/en-us/fslogix/concepts-redirections-xml
 
 	An object of type NmeExclusions. Can be created using New-NmeExclusions
 
+	.PARAMETER AppServiceRegistryOptions
+
+	An object of type NmeOptionalRegistrySettings. Can be created using New-NmeOptionalRegistrySettings
+
+	.PARAMETER LogRegistryOptions
+
+	An object of type NmeOptionalRegistrySettings. Can be created using New-NmeOptionalRegistrySettings
+
 	#>
 	[cmdletbinding()]
 	Param(
@@ -8967,7 +9138,9 @@ https://learn.microsoft.com/en-us/fslogix/concepts-redirections-xml
 		[bool]$PageBlobs,
 		[bool]$EntraIdKerberos,
 		[string]$RedirectionsXml,
-		[ValidateScript({if ($_.PSObject.TypeNames -contains "NmeExclusions"){$true} else{throw "$_ is not a NmeExclusions object. Use New-NmeExclusions to create before calling this function"}})][psobject]$Exclusions
+		[ValidateScript({if ($_.PSObject.TypeNames -contains "NmeExclusions"){$true} else{throw "$_ is not a NmeExclusions object. Use New-NmeExclusions to create before calling this function"}})][psobject]$Exclusions,
+		[ValidateScript({if ($_.PSObject.TypeNames -contains "NmeOptionalRegistrySettings"){$true} else{throw "$_ is not a NmeOptionalRegistrySettings object. Use New-NmeOptionalRegistrySettings to create before calling this function"}})][psobject]$AppServiceRegistryOptions,
+		[ValidateScript({if ($_.PSObject.TypeNames -contains "NmeOptionalRegistrySettings"){$true} else{throw "$_ is not a NmeOptionalRegistrySettings object. Use New-NmeOptionalRegistrySettings to create before calling this function"}})][psobject]$LogRegistryOptions
 	)
 
 	$PropertyHash = @{}
@@ -8979,6 +9152,8 @@ https://learn.microsoft.com/en-us/fslogix/concepts-redirections-xml
 	if ($PSBoundParameters.containskey("EntraIdKerberos")){ $PropertyHash += @{EntraIdKerberos = $EntraIdKerberos} }
 	if ($PSBoundParameters.containskey("RedirectionsXml")){ $PropertyHash += @{RedirectionsXml = $RedirectionsXml} }
 	if ($PSBoundParameters.containskey("Exclusions")){ $PropertyHash += @{Exclusions = $Exclusions} }
+	if ($PSBoundParameters.containskey("AppServiceRegistryOptions")){ $PropertyHash += @{AppServiceRegistryOptions = $AppServiceRegistryOptions} }
+	if ($PSBoundParameters.containskey("LogRegistryOptions")){ $PropertyHash += @{LogRegistryOptions = $LogRegistryOptions} }
 	$ReturnObject = New-Object -TypeName psobject -Property $PropertyHash
 	$ReturnObject.PSObject.TypeNames.Insert(0, 'NmeProperties')
 	Return $ReturnObject	
@@ -9024,6 +9199,14 @@ https://learn.microsoft.com/en-us/fslogix/concepts-redirections-xml
 
 	An object of type NmeExclusions_PATCH. Can be created using New-NmeExclusions_PATCH
 
+	.PARAMETER AppServiceRegistryOptions
+
+	An object of type NmeOptionalRegistrySettings_PATCH. Can be created using New-NmeOptionalRegistrySettings_PATCH
+
+	.PARAMETER LogRegistryOptions
+
+	An object of type NmeOptionalRegistrySettings_PATCH. Can be created using New-NmeOptionalRegistrySettings_PATCH
+
 	#>
 	[cmdletbinding()]
 	Param(
@@ -9034,7 +9217,9 @@ https://learn.microsoft.com/en-us/fslogix/concepts-redirections-xml
 		[bool]$PageBlobs,
 		[bool]$EntraIdKerberos,
 		[string]$RedirectionsXml,
-		[ValidateScript({if ($_.PSObject.TypeNames -contains "NmeExclusions_PATCH"){$true} else{throw "$_ is not a NmeExclusions_PATCH object. Use New-NmeExclusions_PATCH to create before calling this function"}})][psobject]$Exclusions
+		[ValidateScript({if ($_.PSObject.TypeNames -contains "NmeExclusions_PATCH"){$true} else{throw "$_ is not a NmeExclusions_PATCH object. Use New-NmeExclusions_PATCH to create before calling this function"}})][psobject]$Exclusions,
+		[ValidateScript({if ($_.PSObject.TypeNames -contains "NmeOptionalRegistrySettings_PATCH"){$true} else{throw "$_ is not a NmeOptionalRegistrySettings_PATCH object. Use New-NmeOptionalRegistrySettings_PATCH to create before calling this function"}})][psobject]$AppServiceRegistryOptions,
+		[ValidateScript({if ($_.PSObject.TypeNames -contains "NmeOptionalRegistrySettings_PATCH"){$true} else{throw "$_ is not a NmeOptionalRegistrySettings_PATCH object. Use New-NmeOptionalRegistrySettings_PATCH to create before calling this function"}})][psobject]$LogRegistryOptions
 	)
 
 	$PropertyHash = @{}
@@ -9046,6 +9231,8 @@ https://learn.microsoft.com/en-us/fslogix/concepts-redirections-xml
 	if ($PSBoundParameters.containskey("EntraIdKerberos")){ $PropertyHash += @{EntraIdKerberos = $EntraIdKerberos} }
 	if ($PSBoundParameters.containskey("RedirectionsXml")){ $PropertyHash += @{RedirectionsXml = $RedirectionsXml} }
 	if ($PSBoundParameters.containskey("Exclusions")){ $PropertyHash += @{Exclusions = $Exclusions} }
+	if ($PSBoundParameters.containskey("AppServiceRegistryOptions")){ $PropertyHash += @{AppServiceRegistryOptions = $AppServiceRegistryOptions} }
+	if ($PSBoundParameters.containskey("LogRegistryOptions")){ $PropertyHash += @{LogRegistryOptions = $LogRegistryOptions} }
 	$ReturnObject = New-Object -TypeName psobject -Property $PropertyHash
 	$ReturnObject.PSObject.TypeNames.Insert(0, 'NmeProperties_PATCH')
 	Return $ReturnObject	
@@ -9112,6 +9299,47 @@ function New-NmeRbacAssignmentUpdateRestModel {
 	if ($PSBoundParameters.containskey("AvdWorkspaces")){ $PropertyHash += @{AvdWorkspaces = $AvdWorkspaces} }
 	$ReturnObject = New-Object -TypeName psobject -Property $PropertyHash
 	$ReturnObject.PSObject.TypeNames.Insert(0, 'NmeRbacAssignmentUpdateRestModel')
+	Return $ReturnObject	
+}
+function New-NmeRdpShortpathPropertiesRest {
+	<#
+
+	.SYNOPSIS
+
+	Creates an object of type NmeRdpShortpathPropertiesRest, for use in other Nme module commands
+
+	.PARAMETER ManagedPrivateUdp
+
+	string. Valid values are: Unknown, Default, Disabled, Enabled
+
+	.PARAMETER DirectUdp
+
+	string. Valid values are: Unknown, Default, Disabled, Enabled
+
+	.PARAMETER PublicUdp
+
+	string. Valid values are: Unknown, Default, Disabled, Enabled
+
+	.PARAMETER RelayUdp
+
+	string. Valid values are: Unknown, Default, Disabled, Enabled
+
+	#>
+	[cmdletbinding()]
+	Param(
+		[Parameter(Mandatory=$true)][ValidateSet("Unknown","Default","Disabled","Enabled")][string]$ManagedPrivateUdp,
+		[Parameter(Mandatory=$true)][ValidateSet("Unknown","Default","Disabled","Enabled")][string]$DirectUdp,
+		[Parameter(Mandatory=$true)][ValidateSet("Unknown","Default","Disabled","Enabled")][string]$PublicUdp,
+		[Parameter(Mandatory=$true)][ValidateSet("Unknown","Default","Disabled","Enabled")][string]$RelayUdp
+	)
+
+	$PropertyHash = @{}
+	if ($PSBoundParameters.containskey("ManagedPrivateUdp")){ $PropertyHash += @{ManagedPrivateUdp = $ManagedPrivateUdp} }
+	if ($PSBoundParameters.containskey("DirectUdp")){ $PropertyHash += @{DirectUdp = $DirectUdp} }
+	if ($PSBoundParameters.containskey("PublicUdp")){ $PropertyHash += @{PublicUdp = $PublicUdp} }
+	if ($PSBoundParameters.containskey("RelayUdp")){ $PropertyHash += @{RelayUdp = $RelayUdp} }
+	$ReturnObject = New-Object -TypeName psobject -Property $PropertyHash
+	$ReturnObject.PSObject.TypeNames.Insert(0, 'NmeRdpShortpathPropertiesRest')
 	Return $ReturnObject	
 }
 function New-NmeRefreshVmRestConfiguration {
@@ -10031,13 +10259,18 @@ function New-NmeRollingDrainModeWindowRest {
 
 	string. Valid values are: BreadthFirst, DepthFirst, Persistent
 
+	.PARAMETER ScaleInAggressiveness
+
+	string. Valid values are: High, Medium, Low
+
 	#>
 	[cmdletbinding()]
 	Param(
 		[Parameter(Mandatory=$true)][string]$Name,
 		[Parameter(Mandatory=$true)][string]$StartTime,
 		[Parameter(Mandatory=$true)][int]$Percent,
-		[ValidateSet("BreadthFirst","DepthFirst","Persistent")][string]$LoadBalancing
+		[ValidateSet("BreadthFirst","DepthFirst","Persistent")][string]$LoadBalancing,
+		[ValidateSet("High","Medium","Low")][string]$ScaleInAggressiveness
 	)
 
 	$PropertyHash = @{}
@@ -10045,6 +10278,7 @@ function New-NmeRollingDrainModeWindowRest {
 	if ($PSBoundParameters.containskey("StartTime")){ $PropertyHash += @{StartTime = $StartTime} }
 	if ($PSBoundParameters.containskey("Percent")){ $PropertyHash += @{Percent = $Percent} }
 	if ($PSBoundParameters.containskey("LoadBalancing")){ $PropertyHash += @{LoadBalancing = $LoadBalancing} }
+	if ($PSBoundParameters.containskey("ScaleInAggressiveness")){ $PropertyHash += @{ScaleInAggressiveness = $ScaleInAggressiveness} }
 	$ReturnObject = New-Object -TypeName psobject -Property $PropertyHash
 	$ReturnObject.PSObject.TypeNames.Insert(0, 'NmeRollingDrainModeWindowRest')
 	Return $ReturnObject	
@@ -12279,29 +12513,6 @@ function New-NmeUserSelfServiceScriptedAction {
 	if ($PSBoundParameters.containskey("Action")){ $PropertyHash += @{Action = $Action} }
 	$ReturnObject = New-Object -TypeName psobject -Property $PropertyHash
 	$ReturnObject.PSObject.TypeNames.Insert(0, 'NmeUserSelfServiceScriptedAction')
-	Return $ReturnObject	
-}
-function New-NmeUserSelfServiceSettingsDto {
-	<#
-
-	.SYNOPSIS
-
-	Creates an object of type NmeUserSelfServiceSettingsDto, for use in other Nme module commands
-
-	.PARAMETER Logo
-
-	string. 
-
-	#>
-	[cmdletbinding()]
-	Param(
-		[string]$Logo
-	)
-
-	$PropertyHash = @{}
-	if ($PSBoundParameters.containskey("Logo")){ $PropertyHash += @{Logo = $Logo} }
-	$ReturnObject = New-Object -TypeName psobject -Property $PropertyHash
-	$ReturnObject.PSObject.TypeNames.Insert(0, 'NmeUserSelfServiceSettingsDto')
 	Return $ReturnObject	
 }
 function New-NmeUserSelfServiceTag {
