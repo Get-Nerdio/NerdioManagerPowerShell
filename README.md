@@ -5,6 +5,10 @@ A PowerShell module for managing Nerdio Manager for Enterprise (NME)
  - New functions added for compatibility with NME 6.6 REST API
  - See release notes for NME REST API for added and removed/deprecated functionality 
 
+ # 0.9.10 Release Notes
+ - New functions added for compatibility with NME 6.5 REST API
+ - See release notes for NME REST API for added and removed/deprecated functionality 
+
 # 0.9.3 Release Notes
  - New functions added for compatibility with NME 6.3 REST API
  - Some function properties have new aliases to improve compatibility with the API output
