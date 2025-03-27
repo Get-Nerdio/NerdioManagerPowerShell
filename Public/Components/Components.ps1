@@ -3146,6 +3146,10 @@ function New-NmeCreateArmHostPoolRequest {
 
 	Azure resource ID of AVD workspace. E.g.: /subscriptions/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx/resourceGroups/your-resource-group-name/providers/Microsoft.DesktopVirtualization/workspaces/your-workspace-name
 
+	.PARAMETER SourceHostPool
+
+	An object of type NmeSourceHostPool. Can be created using New-NmeSourceHostPool
+
 	.PARAMETER PooledParams
 
 	An object of type NmePooledParams. Can be created using New-NmePooledParams
@@ -3170,6 +3174,7 @@ function New-NmeCreateArmHostPoolRequest {
 	[cmdletbinding()]
 	Param(
 		[Parameter(Mandatory=$true)][ValidateScript({if ($_.PSObject.TypeNames -contains "NmeWvdObjectId"){$true} else{throw "$_ is not a NmeWvdObjectId object. Use New-NmeWvdObjectId to create before calling this function"}})][psobject]$WorkspaceId,
+		[ValidateScript({if ($_.PSObject.TypeNames -contains "NmeSourceHostPool"){$true} else{throw "$_ is not a NmeSourceHostPool object. Use New-NmeSourceHostPool to create before calling this function"}})][psobject]$SourceHostPool,
 		[ValidateScript({if ($_.PSObject.TypeNames -contains "NmePooledParams"){$true} else{throw "$_ is not a NmePooledParams object. Use New-NmePooledParams to create before calling this function"}})][psobject]$PooledParams,
 		[ValidateScript({if ($_.PSObject.TypeNames -contains "NmePersonalParams"){$true} else{throw "$_ is not a NmePersonalParams object. Use New-NmePersonalParams to create before calling this function"}})][psobject]$PersonalParams,
 		[string]$Description,
@@ -3179,6 +3184,7 @@ function New-NmeCreateArmHostPoolRequest {
 
 	$PropertyHash = @{}
 	if ($PSBoundParameters.containskey("WorkspaceId")){ $PropertyHash += @{WorkspaceId = $WorkspaceId} }
+	if ($PSBoundParameters.containskey("SourceHostPool")){ $PropertyHash += @{SourceHostPool = $SourceHostPool} }
 	if ($PSBoundParameters.containskey("PooledParams")){ $PropertyHash += @{PooledParams = $PooledParams} }
 	if ($PSBoundParameters.containskey("PersonalParams")){ $PropertyHash += @{PersonalParams = $PersonalParams} }
 	if ($PSBoundParameters.containskey("Description")){ $PropertyHash += @{Description = $Description} }
@@ -5459,6 +5465,10 @@ function New-NmeHostPoolUserSelfServiceModelRest {
 
 	integer. 
 
+	.PARAMETER AllowCreateVm
+
+	boolean. Specify -AllowCreateVm $True or -AllowCreateVm $False. 
+
 	#>
 	[cmdletbinding()]
 	Param(
@@ -5481,7 +5491,8 @@ function New-NmeHostPoolUserSelfServiceModelRest {
 		[bool]$AllowAppInstall,
 		[psobject[]][ValidateScript({$_.PSObject.TypeNames -contains "NmeAnySelfServiceApp_GET"})]$AllowedApps,
 		[bool]$AllowRestrictAutoScale,
-		[int]$MaxAutoScaleRestrictionPeriod
+		[int]$MaxAutoScaleRestrictionPeriod,
+		[bool]$AllowCreateVm
 	)
 
 	$PropertyHash = @{}
@@ -5505,6 +5516,7 @@ function New-NmeHostPoolUserSelfServiceModelRest {
 	if ($PSBoundParameters.containskey("AllowedApps")){ $PropertyHash += @{AllowedApps = $AllowedApps} }
 	if ($PSBoundParameters.containskey("AllowRestrictAutoScale")){ $PropertyHash += @{AllowRestrictAutoScale = $AllowRestrictAutoScale} }
 	if ($PSBoundParameters.containskey("MaxAutoScaleRestrictionPeriod")){ $PropertyHash += @{MaxAutoScaleRestrictionPeriod = $MaxAutoScaleRestrictionPeriod} }
+	if ($PSBoundParameters.containskey("AllowCreateVm")){ $PropertyHash += @{AllowCreateVm = $AllowCreateVm} }
 	$ReturnObject = New-Object -TypeName psobject -Property $PropertyHash
 	$ReturnObject.PSObject.TypeNames.Insert(0, 'NmeHostPoolUserSelfServiceModelRest')
 	$ReturnObject.PSObject.TypeNames.Insert(0, 'NmeHostPoolUserSelfServicePatchModelRest')
@@ -5597,6 +5609,10 @@ function New-NmeHostPoolUserSelfServicePatchModelRest {
 
 	integer. 
 
+	.PARAMETER AllowCreateVm
+
+	boolean. Specify -AllowCreateVm $True or -AllowCreateVm $False. 
+
 	#>
 	[cmdletbinding()]
 	Param(
@@ -5619,7 +5635,8 @@ function New-NmeHostPoolUserSelfServicePatchModelRest {
 		[bool]$AllowAppInstall,
 		[psobject[]][ValidateScript({$_.PSObject.TypeNames -contains "NmeAnySelfServiceApp_POST"})]$AllowedApps,
 		[bool]$AllowRestrictAutoScale,
-		[int]$MaxAutoScaleRestrictionPeriod
+		[int]$MaxAutoScaleRestrictionPeriod,
+		[bool]$AllowCreateVm
 	)
 
 	$PropertyHash = @{}
@@ -5643,6 +5660,7 @@ function New-NmeHostPoolUserSelfServicePatchModelRest {
 	if ($PSBoundParameters.containskey("AllowedApps")){ $PropertyHash += @{AllowedApps = $AllowedApps} }
 	if ($PSBoundParameters.containskey("AllowRestrictAutoScale")){ $PropertyHash += @{AllowRestrictAutoScale = $AllowRestrictAutoScale} }
 	if ($PSBoundParameters.containskey("MaxAutoScaleRestrictionPeriod")){ $PropertyHash += @{MaxAutoScaleRestrictionPeriod = $MaxAutoScaleRestrictionPeriod} }
+	if ($PSBoundParameters.containskey("AllowCreateVm")){ $PropertyHash += @{AllowCreateVm = $AllowCreateVm} }
 	$ReturnObject = New-Object -TypeName psobject -Property $PropertyHash
 	$ReturnObject.PSObject.TypeNames.Insert(0, 'NmeHostPoolUserSelfServicePatchModelRest')
 	$ReturnObject.PSObject.TypeNames.Insert(0, 'NmeHostPoolUserSelfServiceModelRest')
@@ -5787,6 +5805,10 @@ function New-NmeHostPoolVmDeploymentRestModel {
 
 	array. On-demand Capacity Reservation Groups ids
 
+	.PARAMETER PatchOrchestration
+
+	string. Valid values are: Default, Manual, AutomaticByOS, AutomaticByPlatform
+
 	#>
 	[cmdletbinding()]
 	Param(
@@ -5822,7 +5844,8 @@ function New-NmeHostPoolVmDeploymentRestModel {
 		[Parameter(Mandatory=$true)][string[]]$BootDiagStorageAccountsIds,
 		[Parameter(Mandatory=$true)][ValidateScript({if ($_.PSObject.TypeNames -contains "NmeWatermarkingProperties"){$true} else{throw "$_ is not a NmeWatermarkingProperties object. Use New-NmeWatermarkingProperties to create before calling this function"}})][psobject]$Watermarking,
 		[Parameter(Mandatory=$true)][bool]$RunAppPolicies,
-		[Parameter(Mandatory=$true)][string[]]$CapacityReservationGroupsIds
+		[Parameter(Mandatory=$true)][string[]]$CapacityReservationGroupsIds,
+		[Parameter(Mandatory=$true)][ValidateSet("Default","Manual","AutomaticByOS","AutomaticByPlatform")][string]$PatchOrchestration
 	)
 
 	$PropertyHash = @{}
@@ -5859,6 +5882,7 @@ function New-NmeHostPoolVmDeploymentRestModel {
 	if ($PSBoundParameters.containskey("Watermarking")){ $PropertyHash += @{Watermarking = $Watermarking} }
 	if ($PSBoundParameters.containskey("RunAppPolicies")){ $PropertyHash += @{RunAppPolicies = $RunAppPolicies} }
 	if ($PSBoundParameters.containskey("CapacityReservationGroupsIds")){ $PropertyHash += @{CapacityReservationGroupsIds = $CapacityReservationGroupsIds} }
+	if ($PSBoundParameters.containskey("PatchOrchestration")){ $PropertyHash += @{PatchOrchestration = $PatchOrchestration} }
 	$ReturnObject = New-Object -TypeName psobject -Property $PropertyHash
 	$ReturnObject.PSObject.TypeNames.Insert(0, 'NmeHostPoolVmDeploymentRestModel')
 	$ReturnObject.PSObject.TypeNames.Insert(0, 'NmeHostPoolVmDeploymentRestPatchRequest')
@@ -6003,6 +6027,10 @@ function New-NmeHostPoolVmDeploymentRestPatchRequest {
 
 	array. Ids of Proximity Placement Groups where newly created VM can be placed
 
+	.PARAMETER PatchOrchestration
+
+	string. Valid values are: Default, Manual, AutomaticByOS, AutomaticByPlatform
+
 	#>
 	[cmdletbinding()]
 	Param(
@@ -6038,7 +6066,8 @@ function New-NmeHostPoolVmDeploymentRestPatchRequest {
 		[int]$EntraDeviceTimeoutInMinutes,
 		[string[]]$CapacityReservationGroupsIds,
 		[ValidateSet("SCSI","NVMe")][string]$PreferredDiskControllerType,
-		[string[]]$ProximityPlacementGroupIds
+		[string[]]$ProximityPlacementGroupIds,
+		[ValidateSet("Default","Manual","AutomaticByOS","AutomaticByPlatform")][string]$PatchOrchestration
 	)
 
 	$PropertyHash = @{}
@@ -6075,6 +6104,7 @@ function New-NmeHostPoolVmDeploymentRestPatchRequest {
 	if ($PSBoundParameters.containskey("CapacityReservationGroupsIds")){ $PropertyHash += @{CapacityReservationGroupsIds = $CapacityReservationGroupsIds} }
 	if ($PSBoundParameters.containskey("PreferredDiskControllerType")){ $PropertyHash += @{PreferredDiskControllerType = $PreferredDiskControllerType} }
 	if ($PSBoundParameters.containskey("ProximityPlacementGroupIds")){ $PropertyHash += @{ProximityPlacementGroupIds = $ProximityPlacementGroupIds} }
+	if ($PSBoundParameters.containskey("PatchOrchestration")){ $PropertyHash += @{PatchOrchestration = $PatchOrchestration} }
 	$ReturnObject = New-Object -TypeName psobject -Property $PropertyHash
 	$ReturnObject.PSObject.TypeNames.Insert(0, 'NmeHostPoolVmDeploymentRestPatchRequest')
 	$ReturnObject.PSObject.TypeNames.Insert(0, 'NmeHostPoolVmDeploymentRestModel')
@@ -7260,7 +7290,7 @@ function New-NmeNetAppFilesBasicAutoscaleConfig {
 
 	.PARAMETER MaxSizeBuffer
 
-	integer. 
+	number. 
 
 	#>
 	[cmdletbinding()]
@@ -7268,7 +7298,7 @@ function New-NmeNetAppFilesBasicAutoscaleConfig {
 		[Parameter(Mandatory=$true)][ValidateSet("VolumeOnly","VolumeAndPool")][string]$ScalingMode,
 		[Parameter(Mandatory=$true)][float]$MinSizeBuffer,
 		[Parameter(Mandatory=$true)][int]$MaxSizeLimit,
-		[int]$MaxSizeBuffer
+		[Parameter(Mandatory=$true)][float]$MaxSizeBuffer
 	)
 
 	$PropertyHash = @{}
@@ -7550,13 +7580,18 @@ function New-NmeNetAppFilesWorkTimeSetModel {
 
 	integer. 
 
+	.PARAMETER MaxSize
+
+	integer. 
+
 	#>
 	[cmdletbinding()]
 	Param(
 		[Parameter(Mandatory=$true)][ValidateSet(0,1,2,3,4,5,6)][Int[]]$WorkDays,
 		[Parameter(Mandatory=$true)][int]$StartTimeHour,
 		[Parameter(Mandatory=$true)][int]$EndTimeHour,
-		[Parameter(Mandatory=$true)][int]$MinSize
+		[Parameter(Mandatory=$true)][int]$MinSize,
+		[Parameter(Mandatory=$true)][int]$MaxSize
 	)
 
 	$PropertyHash = @{}
@@ -7564,6 +7599,7 @@ function New-NmeNetAppFilesWorkTimeSetModel {
 	if ($PSBoundParameters.containskey("StartTimeHour")){ $PropertyHash += @{StartTimeHour = $StartTimeHour} }
 	if ($PSBoundParameters.containskey("EndTimeHour")){ $PropertyHash += @{EndTimeHour = $EndTimeHour} }
 	if ($PSBoundParameters.containskey("MinSize")){ $PropertyHash += @{MinSize = $MinSize} }
+	if ($PSBoundParameters.containskey("MaxSize")){ $PropertyHash += @{MaxSize = $MaxSize} }
 	$ReturnObject = New-Object -TypeName psobject -Property $PropertyHash
 	$ReturnObject.PSObject.TypeNames.Insert(0, 'NmeNetAppFilesWorkTimeSetModel')
 	Return $ReturnObject	
@@ -8528,6 +8564,10 @@ function New-NmePersonalAutoShrinkRestConfiguration {
 
 	integer. 
 
+	.PARAMETER ScriptedActions
+
+	An array of objects of type NmeScriptedActionOption. Can be created using New-NmeScriptedActionOption
+
 	#>
 	[cmdletbinding()]
 	Param(
@@ -8541,7 +8581,8 @@ function New-NmePersonalAutoShrinkRestConfiguration {
 		[string[]]$AdminNotificationEmails,
 		[string]$NotificationSubjectTemplate,
 		[string]$NotificationTemplate,
-		[int]$NotificationFrequency
+		[int]$NotificationFrequency,
+		[psobject[]][ValidateScript({$_.PSObject.TypeNames -contains "NmeScriptedActionOption"})]$ScriptedActions
 	)
 
 	$PropertyHash = @{}
@@ -8556,6 +8597,7 @@ function New-NmePersonalAutoShrinkRestConfiguration {
 	if ($PSBoundParameters.containskey("NotificationSubjectTemplate")){ $PropertyHash += @{NotificationSubjectTemplate = $NotificationSubjectTemplate} }
 	if ($PSBoundParameters.containskey("NotificationTemplate")){ $PropertyHash += @{NotificationTemplate = $NotificationTemplate} }
 	if ($PSBoundParameters.containskey("NotificationFrequency")){ $PropertyHash += @{NotificationFrequency = $NotificationFrequency} }
+	if ($PSBoundParameters.containskey("ScriptedActions")){ $PropertyHash += @{ScriptedActions = $ScriptedActions} }
 	$ReturnObject = New-Object -TypeName psobject -Property $PropertyHash
 	$ReturnObject.PSObject.TypeNames.Insert(0, 'NmePersonalAutoShrinkRestConfiguration')
 	Return $ReturnObject	
@@ -11564,6 +11606,29 @@ function New-NmeSharedAvdProperties {
 	if ($PSBoundParameters.containskey("LoadBalancing")){ $PropertyHash += @{LoadBalancing = $LoadBalancing} }
 	$ReturnObject = New-Object -TypeName psobject -Property $PropertyHash
 	$ReturnObject.PSObject.TypeNames.Insert(0, 'NmeSharedAvdProperties')
+	Return $ReturnObject	
+}
+function New-NmeSourceHostPool {
+	<#
+
+	.SYNOPSIS
+
+	Creates an object of type NmeSourceHostPool, for use in other Nme module commands
+
+	.PARAMETER Id
+
+	ID of scripted Action
+
+	#>
+	[cmdletbinding()]
+	Param(
+		[Parameter(Mandatory=$true)][string]$Id
+	)
+
+	$PropertyHash = @{}
+	if ($PSBoundParameters.containskey("Id")){ $PropertyHash += @{Id = $Id} }
+	$ReturnObject = New-Object -TypeName psobject -Property $PropertyHash
+	$ReturnObject.PSObject.TypeNames.Insert(0, 'NmeSourceHostPool')
 	Return $ReturnObject	
 }
 function New-NmeTempVmId {
