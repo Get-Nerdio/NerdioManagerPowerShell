@@ -1,0 +1,30 @@
+# Remove-NmeLinkedFileShare
+
+**Endpoint:** `DELETE /api/v1/storage/azure-files/{subscriptionId}/{resourceGroup}/{accountName}/{shareName}/link`
+
+## Description
+
+Unlink File Share
+
+**Output Type:** `Boolean`
+
+## Parameters
+
+| Parameter | Type | Required | Description |
+|-----------|------|----------|-------------|
+| AccountName | String | Yes |  |
+| ResourceGroup | String | Yes |  |
+| ShareName | String | Yes |  |
+| SubscriptionId | String | Yes |  |
+| PassThru | SwitchParameter | No | Returns true when the command succeeds |
+
+## Examples
+
+```powershell
+Remove-NmeLinkedFileShare `
+    -AccountName "<AccountName>" `
+    -ResourceGroup "<ResourceGroup>" `
+    -ShareName "<ShareName>" `
+    -SubscriptionId "<SubscriptionId>"
+```
+
