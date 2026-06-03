@@ -57,6 +57,7 @@ Create an in-memory object for HostPoolVmDeploymentUpdate.
 | ShadowUserAssignments | [IHostPoolAssignment[]](New-NmeHostPoolAssignmentModel.md) | No | Pass as array. |
 | UseAvailabilityZones | Boolean | No |  |
 | UseDedicatedHosts | Boolean | No |  |
+| UserAssignedIdentityIds | Object | No |  |
 | VMTimezone | String | No |  |
 | VTpmEnabled | Boolean | No |  |
 | WatermarkingEnabled | Boolean | No |  |
@@ -126,6 +127,7 @@ $model = New-NmeHostPoolVmDeploymentUpdateModel `
     -ShadowUserAssignments $shadowUserAssignments `
     -UseAvailabilityZones $true `
     -UseDedicatedHosts $true `
+    -UserAssignedIdentityIds "<UserAssignedIdentityIds>" `
     -VMTimezone "<VMTimezone>" `
     -VTpmEnabled $true `
     -WatermarkingEnabled $true `

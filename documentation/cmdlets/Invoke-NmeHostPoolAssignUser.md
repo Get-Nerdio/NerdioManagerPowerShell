@@ -31,7 +31,7 @@ Invoke-NmeHostPoolAssignUser `
     -ResourceGroup "<ResourceGroup>" `
     -SubscriptionId "<SubscriptionId>" `
     -AppGroups @("/subscriptions/e0b52e85-7caf-4260-a772-c0d82e56d407/resourceGroups/resource-group-1/providers/Microsoft.DesktopVirtualization/applicationgroups/app-group-1") `
-    -Groups @("34a1e06d-efb1-4bb3-9c5f-92ea65f6d168") `
-    -Users @("9f642ae1-09a8-4124-992e-c584b4bfd783")
+    -Groups @("e978faca-003e-459a-adb7-d64b69c08eab") `
+    -Users @("c2b1dac2-5c6a-4597-bdbd-ff77c537334c")
 ```
 

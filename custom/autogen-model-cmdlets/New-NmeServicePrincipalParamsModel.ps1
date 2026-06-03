@@ -26,13 +26,16 @@ function New-NmeServicePrincipalParamsModel {
         [Parameter()]
         [string]
         $AppName,
-        [Parameter(Mandatory)]
+        [Parameter()]
         [string]
         $AppSecret,
         [Parameter(Mandatory)]
         [NmePowershell.PSArgumentCompleterAttribute("AzureCloud", "AzureUSGovernment", "AzureChina")]
         [string]
-        $AzureType
+        $AzureType,
+        [Parameter()]
+        [string]
+        $CertificateName
     )
 
     process {
@@ -49,6 +52,9 @@ function New-NmeServicePrincipalParamsModel {
         }
         if ($PSBoundParameters.ContainsKey('AzureType')) {
             $Object.AzureType = $AzureType
+        }
+        if ($PSBoundParameters.ContainsKey('CertificateName')) {
+            $Object.CertificateName = $CertificateName
         }
         return $Object
     }

@@ -19,7 +19,7 @@ Workflow:
 
 | Parameter | Type | Required | Description |
 |-----------|------|----------|-------------|
-| ExportType | String | Yes | Export type (ResourceCostSummary/UserCostSummary/HostPoolSummary) Values: `ResourceCostSummary`, `UserCostSummary`, `HostPoolSummary` |
+| ExportType | String | Yes | Export type (ResourceCostSummary/UserCostSummary/HostPoolSummary/Budget) Values: `ResourceCostSummary`, `UserCostSummary`, `HostPoolSummary`, `Budget` |
 | Id | String | Yes |  |
 | Month | Int32 | Yes |  |
 | ReportType | String | Yes | Report type (Allocated/Unallocated/Uniform) Values: `Uniform`, `Proportional`, `Unallocated` |

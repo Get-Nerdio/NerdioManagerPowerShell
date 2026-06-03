@@ -351,6 +351,13 @@ param(
     ${UseDedicatedHosts},
 
     [Parameter(ParameterSetName='UpdateExpanded')]
+    [AllowEmptyCollection()]
+    [NmePowershell.Category('Body')]
+    [System.String[]]
+    # .
+    ${UserAssignedIdentityIds},
+
+    [Parameter(ParameterSetName='UpdateExpanded')]
     [NmePowershell.Category('Body')]
     [System.String]
     # .

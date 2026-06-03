@@ -64,6 +64,7 @@ Patch host deployment config for ARM host pool
 | ShadowUserAssignments | [IHostPoolAssignment[]](../models/New-NmeHostPoolAssignmentModel.md) | No |  |
 | UseAvailabilityZones | SwitchParameter | No |  |
 | UseDedicatedHosts | SwitchParameter | No |  |
+| UserAssignedIdentityIds | String[] | No |  |
 | VMTimezone | String | No |  |
 | VTpmEnabled | SwitchParameter | No |  |
 | WatermarkingEnabled | SwitchParameter | No |  |

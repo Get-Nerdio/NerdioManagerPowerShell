@@ -50,7 +50,7 @@ New-NmeHostPoolReimageSchedule `
     -HostPoolName "<HostPoolName>" `
     -ResourceGroup "<ResourceGroup>" `
     -ScheduleRecurrenceType "Weekly" `
-    -ScheduleStartDate "04/16/2026 00:00:00" `
+    -ScheduleStartDate "05/09/2026 00:00:00" `
     -ScheduleStartHour 8 `
     -ScheduleStartMinutes 30 `
     -ScheduleTimeZoneId "Central Standard Time" `
@@ -75,7 +75,7 @@ New-NmeHostPoolReimageSchedule `
     -HostPoolName "<HostPoolName>" `
     -ResourceGroup "<ResourceGroup>" `
     -ScheduleRecurrenceType "Monthly" `
-    -ScheduleStartDate "04/16/2026 00:00:00" `
+    -ScheduleStartDate "05/09/2026 00:00:00" `
     -ScheduleStartHour 8 `
     -ScheduleStartMinutes 30 `
     -ScheduleTimeZoneId "Central Standard Time" `

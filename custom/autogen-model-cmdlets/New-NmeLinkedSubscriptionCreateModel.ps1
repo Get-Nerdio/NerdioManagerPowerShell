@@ -39,6 +39,9 @@ function New-NmeLinkedSubscriptionCreateModel {
         [NmePowershell.PSArgumentCompleterAttribute("AzureCloud", "AzureUSGovernment", "AzureChina")]
         [string]
         $ServicePrincipalAzureType,
+        [Parameter()]
+        [string]
+        $ServicePrincipalCertificateName,
         [Parameter(Mandatory)]
         [string]
         $SubscriptionId,
@@ -67,6 +70,9 @@ function New-NmeLinkedSubscriptionCreateModel {
         }
         if ($PSBoundParameters.ContainsKey('ServicePrincipalAzureType')) {
             $Object.ServicePrincipalAzureType = $ServicePrincipalAzureType
+        }
+        if ($PSBoundParameters.ContainsKey('ServicePrincipalCertificateName')) {
+            $Object.ServicePrincipalCertificateName = $ServicePrincipalCertificateName
         }
         if ($PSBoundParameters.ContainsKey('SubscriptionId')) {
             $Object.SubscriptionId = $SubscriptionId

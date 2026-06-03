@@ -3,7 +3,7 @@
 > [!WARNING]
 > **Public Preview**
 >
-> Version 1.0.0-preview of this module is being released as a public preview. Functionality, names, and behaviors may change as we continue to refine and finalize the module.
+> Version 1.1.0-preview of this module is being released as a public preview. Functionality, names, and behaviors may change as we continue to refine and finalize the module.
 >
 > A stable, production-ready release will be announced once the module has been fully validated and finalized.
 

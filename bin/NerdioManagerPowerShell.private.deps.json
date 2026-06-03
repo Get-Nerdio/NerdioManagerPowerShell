@@ -7,7 +7,7 @@
   "targets": {
     ".NETStandard,Version=v2.0": {},
     ".NETStandard,Version=v2.0/": {
-      "NerdioManagerPowerShell.private/1.0.0-preview": {
+      "NerdioManagerPowerShell.private/1.1.0-preview": {
         "dependencies": {
           "Microsoft.CSharp": "4.4.1",
           "PowerShellStandard.Library": "5.1.0"
@@ -35,7 +35,7 @@
     }
   },
   "libraries": {
-    "NerdioManagerPowerShell.private/1.0.0-preview": {
+    "NerdioManagerPowerShell.private/1.1.0-preview": {
       "type": "project",
       "serviceable": false,
       "sha512": ""

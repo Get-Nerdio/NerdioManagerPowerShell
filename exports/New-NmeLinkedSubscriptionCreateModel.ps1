@@ -54,7 +54,12 @@ param(
     [NmePowershell.PSArgumentCompleterAttribute("AzureCloud", "AzureUSGovernment", "AzureChina")]
     [NmePowershell.Category('Body')]
     [System.String]
-    ${ServicePrincipalAzureType}
+    ${ServicePrincipalAzureType},
+
+    [Parameter()]
+    [NmePowershell.Category('Body')]
+    [System.String]
+    ${ServicePrincipalCertificateName}
 )
 
 begin {

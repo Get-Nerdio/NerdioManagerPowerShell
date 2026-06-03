@@ -54,6 +54,16 @@
 | POST | `/api/v1/auto-scale-profile/{profileId}/assignments` | [Set-NmeAutoScaleProfileAssignment](cmdlets/Set-NmeAutoScaleProfileAssignment.md) |
 | DELETE | `/api/v1/auto-scale-profile/{profileId}/assignments/{assignmentId}` | [Remove-NmeAutoScaleProfileAssignment](cmdlets/Remove-NmeAutoScaleProfileAssignment.md) |
 
+## Console Connect
+
+| Method | Endpoint | Cmdlet |
+|--------|----------|--------|
+| GET | `/api/v1/console-connect/regional` | [Get-NmeConsoleConnectRegion](cmdlets/Get-NmeConsoleConnectRegion.md) |
+| DELETE | `/api/v1/console-connect/regional/{region}` | [Disable-NmeConsoleConnectRegion](cmdlets/Disable-NmeConsoleConnectRegion.md) |
+| GET | `/api/v1/console-connect/regional/{region}` | [Get-NmeConsoleConnectRegion](cmdlets/Get-NmeConsoleConnectRegion.md) |
+| PATCH | `/api/v1/console-connect/regional/{region}` | [Update-NmeConsoleConnectRegion](cmdlets/Update-NmeConsoleConnectRegion.md) |
+| POST | `/api/v1/console-connect/regional/{region}` | [Enable-NmeConsoleConnectRegion](cmdlets/Enable-NmeConsoleConnectRegion.md) |
+
 ## Deployments
 
 | Method | Endpoint | Cmdlet |
@@ -152,6 +162,7 @@
 |--------|----------|--------|
 | GET | `/api/v1/job/{jobId}` | [Get-NmeJob](cmdlets/Get-NmeJob.md) |
 | GET | `/api/v1/job/{jobId}/tasks` | [Get-NmeJobTask](cmdlets/Get-NmeJobTask.md) |
+| GET | `/api/v1/job/types` | [Get-NmeJobType](cmdlets/Get-NmeJobType.md) |
 
 ## Networks
 
@@ -160,6 +171,23 @@
 | GET | `/api/v1/networks` | [Get-NmeLinkedNetwork](cmdlets/Get-NmeLinkedNetwork.md) |
 | POST | `/api/v1/networks` | [New-NmeLinkedNetwork](cmdlets/New-NmeLinkedNetwork.md) |
 | DELETE | `/api/v1/networks/{id}` | [Remove-NmeLinkedNetwork](cmdlets/Remove-NmeLinkedNetwork.md) |
+
+## Notifications
+
+| Method | Endpoint | Cmdlet |
+|--------|----------|--------|
+| GET | `/api/v1/notifications/actions` | [Get-NmeNotificationAction](cmdlets/Get-NmeNotificationAction.md) |
+| POST | `/api/v1/notifications/actions` | [New-NmeNotificationAction](cmdlets/New-NmeNotificationAction.md) |
+| DELETE | `/api/v1/notifications/actions/{id}` | [Remove-NmeNotificationAction](cmdlets/Remove-NmeNotificationAction.md) |
+| GET | `/api/v1/notifications/actions/{id}` | [Get-NmeNotificationAction](cmdlets/Get-NmeNotificationAction.md) |
+| PATCH | `/api/v1/notifications/actions/{id}` | [Update-NmeNotificationAction](cmdlets/Update-NmeNotificationAction.md) |
+| GET | `/api/v1/notifications/conditions/nerdio` | [Get-NmeNotificationCondition](cmdlets/Get-NmeNotificationCondition.md) |
+| POST | `/api/v1/notifications/conditions/nerdio` | [New-NmeNotificationCondition](cmdlets/New-NmeNotificationCondition.md) |
+| DELETE | `/api/v1/notifications/conditions/nerdio/{id}` | [Remove-NmeNotificationCondition](cmdlets/Remove-NmeNotificationCondition.md) |
+| GET | `/api/v1/notifications/conditions/nerdio/{id}` | [Get-NmeNotificationCondition](cmdlets/Get-NmeNotificationCondition.md) |
+| PATCH | `/api/v1/notifications/conditions/nerdio/{id}` | [Update-NmeNotificationCondition](cmdlets/Update-NmeNotificationCondition.md) |
+| GET | `/api/v1/notifications/mailboxes` | [Get-NmeLinkedNotificationMailbox](cmdlets/Get-NmeLinkedNotificationMailbox.md) |
+| GET | `/api/v1/notifications/webhooks` | [Get-NmeLinkedNotificationWebhook](cmdlets/Get-NmeLinkedNotificationWebhook.md) |
 
 ## Packages
 
@@ -401,6 +429,8 @@ Model cmdlets create in-memory objects used as parameters for the action cmdlets
 | [New-NmeAzureFilesScalingConfigModel](models/New-NmeAzureFilesScalingConfigModel.md) | Create an in-memory object for AzureFilesScalingConfig. |
 | [New-NmeAzureFilesScalingConfigUpdateModel](models/New-NmeAzureFilesScalingConfigUpdateModel.md) | Create an in-memory object for AzureFilesScalingConfigUpdate. |
 | [New-NmeConsoleConnectConnectionModel](models/New-NmeConsoleConnectConnectionModel.md) | Create an in-memory object for ConsoleConnectConnection. |
+| [New-NmeConsoleConnectRegionEnableModel](models/New-NmeConsoleConnectRegionEnableModel.md) | Create an in-memory object for ConsoleConnectRegionEnable. |
+| [New-NmeConsoleConnectRegionUpdateModel](models/New-NmeConsoleConnectRegionUpdateModel.md) | Create an in-memory object for ConsoleConnectRegionUpdate. |
 | [New-NmeCredentialsModel](models/New-NmeCredentialsModel.md) | Create an in-memory object for Credentials. |
 | [New-NmeCustomScriptScheduleCreateModel](models/New-NmeCustomScriptScheduleCreateModel.md) | Create an in-memory object for CustomScriptScheduleCreate. |
 | [New-NmeDynamicPoolConfigurationModel](models/New-NmeDynamicPoolConfigurationModel.md) | Create an in-memory object for DynamicPoolConfiguration. |
@@ -471,6 +501,20 @@ Model cmdlets create in-memory objects used as parameters for the action cmdlets
 | [New-NmeNetAppFilesScalingConfigModel](models/New-NmeNetAppFilesScalingConfigModel.md) | Create an in-memory object for NetAppFilesScalingConfig. |
 | [New-NmeNetAppFilesScalingConfigUpdateModel](models/New-NmeNetAppFilesScalingConfigUpdateModel.md) | Create an in-memory object for NetAppFilesScalingConfigUpdate. |
 | [New-NmeNetAppFilesWorkTimeSetModel](models/New-NmeNetAppFilesWorkTimeSetModel.md) | Create an in-memory object for NetAppFilesWorkTimeSet. |
+| [New-NmeNotificationActionConditionsModel](models/New-NmeNotificationActionConditionsModel.md) | Create an in-memory object for NotificationActionConditions. |
+| [New-NmeNotificationActionConditionsUpdateModel](models/New-NmeNotificationActionConditionsUpdateModel.md) | Create an in-memory object for NotificationActionConditionsUpdate. |
+| [New-NmeNotificationActionCreateModel](models/New-NmeNotificationActionCreateModel.md) | Create an in-memory object for NotificationActionCreate. |
+| [New-NmeNotificationActionDeliveryModel](models/New-NmeNotificationActionDeliveryModel.md) | Create an in-memory object for NotificationActionDelivery. |
+| [New-NmeNotificationActionDeliveryUpdateModel](models/New-NmeNotificationActionDeliveryUpdateModel.md) | Create an in-memory object for NotificationActionDeliveryUpdate. |
+| [New-NmeNotificationActionEmailDeliveryModel](models/New-NmeNotificationActionEmailDeliveryModel.md) | Create an in-memory object for NotificationActionEmailDelivery. |
+| [New-NmeNotificationActionEmailDeliveryUpdateModel](models/New-NmeNotificationActionEmailDeliveryUpdateModel.md) | Create an in-memory object for NotificationActionEmailDeliveryUpdate. |
+| [New-NmeNotificationActionUpdateModel](models/New-NmeNotificationActionUpdateModel.md) | Create an in-memory object for NotificationActionUpdate. |
+| [New-NmeNotificationActionWebhookDeliveryModel](models/New-NmeNotificationActionWebhookDeliveryModel.md) | Create an in-memory object for NotificationActionWebhookDelivery. |
+| [New-NmeNotificationActionWebhookDeliveryUpdateModel](models/New-NmeNotificationActionWebhookDeliveryUpdateModel.md) | Create an in-memory object for NotificationActionWebhookDeliveryUpdate. |
+| [New-NmeNotificationConditionCreateModel](models/New-NmeNotificationConditionCreateModel.md) | Create an in-memory object for NotificationConditionCreate. |
+| [New-NmeNotificationConditionRunByUserModel](models/New-NmeNotificationConditionRunByUserModel.md) | Create an in-memory object for NotificationConditionRunByUser. |
+| [New-NmeNotificationConditionTargetModel](models/New-NmeNotificationConditionTargetModel.md) | Create an in-memory object for NotificationConditionTarget. |
+| [New-NmeNotificationConditionUpdateModel](models/New-NmeNotificationConditionUpdateModel.md) | Create an in-memory object for NotificationConditionUpdate. |
 | [New-NmeOsDiskPreStageModel](models/New-NmeOsDiskPreStageModel.md) | Create an in-memory object for OsDiskPreStage. |
 | [New-NmePersistentAvdPropertiesModel](models/New-NmePersistentAvdPropertiesModel.md) | Create an in-memory object for PersistentAvdProperties. |
 | [New-NmePersonalAutoGrowConfigurationModel](models/New-NmePersonalAutoGrowConfigurationModel.md) | Create an in-memory object for PersonalAutoGrowConfiguration. |

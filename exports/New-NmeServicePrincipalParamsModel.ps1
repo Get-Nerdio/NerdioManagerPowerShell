@@ -21,11 +21,6 @@ param(
     ${AppId},
 
     [Parameter(Mandatory)]
-    [NmePowershell.Category('Body')]
-    [System.String]
-    ${AppSecret},
-
-    [Parameter(Mandatory)]
     [NmePowershell.PSArgumentCompleterAttribute("AzureCloud", "AzureUSGovernment", "AzureChina")]
     [NmePowershell.Category('Body')]
     [System.String]
@@ -34,7 +29,17 @@ param(
     [Parameter()]
     [NmePowershell.Category('Body')]
     [System.String]
-    ${AppName}
+    ${AppName},
+
+    [Parameter()]
+    [NmePowershell.Category('Body')]
+    [System.String]
+    ${AppSecret},
+
+    [Parameter()]
+    [NmePowershell.Category('Body')]
+    [System.String]
+    ${CertificateName}
 )
 
 begin {

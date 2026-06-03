@@ -126,6 +126,237 @@ end {
 
 <#
 .Synopsis
+Turning off a region frees all licenses used in that region.\n            \nThis method can throw exceptions in the following cases:\n    The user must approve the Console Connect agreement.\n    The user is trying to disable a region that is already disabled.\n    There is already a job for enabling or disabling another region that is waiting to execute or is currently executing.\n            \nThis method returns a job that performs all work required to disable Console Connect\nfor the specified region.\n            \nYou should wait until the job is completed before working with this region.\nYou cannot enable or disable Console Connect for any region while this job is not completed,\nbecause it can cause unexpected issues.\n            \nFor example, if you want to disable Console Connect for a specific region,\nbut there is already a job for enabling or disabling Console Connect for this region,\nyou should wait until that job is completed.\n            \nAfter the job is completed, you can check the region status by using the GET method.
+.Description
+Turning off a region frees all licenses used in that region.\n            \nThis method can throw exceptions in the following cases:\n    The user must approve the Console Connect agreement.\n    The user is trying to disable a region that is already disabled.\n    There is already a job for enabling or disabling another region that is waiting to execute or is currently executing.\n            \nThis method returns a job that performs all work required to disable Console Connect\nfor the specified region.\n            \nYou should wait until the job is completed before working with this region.\nYou cannot enable or disable Console Connect for any region while this job is not completed,\nbecause it can cause unexpected issues.\n            \nFor example, if you want to disable Console Connect for a specific region,\nbut there is already a job for enabling or disabling Console Connect for this region,\nyou should wait until that job is completed.\n            \nAfter the job is completed, you can check the region status by using the GET method.
+
+#>
+function Disable-NmeConsoleConnectRegion {
+[OutputType([NmePowershell.Models.IResponseWithJob])]
+[CmdletBinding(DefaultParameterSetName='Disable', PositionalBinding=$false, SupportsShouldProcess, ConfirmImpact='Medium')]
+param(
+    [Parameter(Mandatory)]
+    [NmePowershell.PSArgumentCompleterAttribute("US", "EU", "CA", "AU")]
+    [NmePowershell.Category('Path')]
+    [System.String]
+    # .
+    ${Region},
+
+    [Parameter(DontShow)]
+    [NmePowershell.Category('Runtime')]
+    [System.Management.Automation.SwitchParameter]
+    # Wait for .NET debugger to attach
+    ${Break},
+
+    [Parameter(DontShow)]
+    [ValidateNotNull()]
+    [NmePowershell.Category('Runtime')]
+    [NmePowershell.Runtime.SendAsyncStep[]]
+    # SendAsync Pipeline Steps to be appended to the front of the pipeline
+    ${HttpPipelineAppend},
+
+    [Parameter(DontShow)]
+    [ValidateNotNull()]
+    [NmePowershell.Category('Runtime')]
+    [NmePowershell.Runtime.SendAsyncStep[]]
+    # SendAsync Pipeline Steps to be prepended to the front of the pipeline
+    ${HttpPipelinePrepend},
+
+    [Parameter(DontShow)]
+    [NmePowershell.Category('Runtime')]
+    [System.Uri]
+    # The URI for the proxy server to use
+    ${Proxy},
+
+    [Parameter(DontShow)]
+    [ValidateNotNull()]
+    [NmePowershell.Category('Runtime')]
+    [System.Management.Automation.PSCredential]
+    # Credentials for a proxy server to use for the remote call
+    ${ProxyCredential},
+
+    [Parameter(DontShow)]
+    [NmePowershell.Category('Runtime')]
+    [System.Management.Automation.SwitchParameter]
+    # Use the default credentials for the proxy
+    ${ProxyUseDefaultCredentials}
+)
+
+begin {
+    try {
+        $outBuffer = $null
+        if ($PSBoundParameters.TryGetValue('OutBuffer', [ref]$outBuffer)) {
+            $PSBoundParameters['OutBuffer'] = 1
+        }
+        $parameterSet = $PSCmdlet.ParameterSetName
+        
+        $testPlayback = $false
+        $PSBoundParameters['HttpPipelinePrepend'] | Foreach-Object { if ($_) { $testPlayback = $testPlayback -or ('NmePowershell.Runtime.PipelineMock' -eq $_.Target.GetType().FullName -and 'Playback' -eq $_.Target.Mode) } }
+
+        $mapping = @{
+            Disable = 'NerdioManagerPowerShell.private\Disable-NmeConsoleConnectRegion_Disable';
+        }
+        $cmdInfo = Get-Command -Name $mapping[$parameterSet]
+        [NmePowershell.Runtime.MessageAttributeHelper]::ProcessCustomAttributesAtRuntime($cmdInfo, $MyInvocation, $parameterSet, $PSCmdlet)
+        [NmePowershell.Runtime.MessageAttributeHelper]::ProcessPreviewMessageAttributesAtRuntime($cmdInfo, $MyInvocation, $parameterSet, $PSCmdlet)
+        $wrappedCmd = $ExecutionContext.InvokeCommand.GetCommand(($mapping[$parameterSet]), [System.Management.Automation.CommandTypes]::Cmdlet)
+        if ($wrappedCmd -eq $null) {
+            $wrappedCmd = $ExecutionContext.InvokeCommand.GetCommand(($mapping[$parameterSet]), [System.Management.Automation.CommandTypes]::Function)
+        }
+        $scriptCmd = {& $wrappedCmd @PSBoundParameters}
+        $steppablePipeline = $scriptCmd.GetSteppablePipeline($MyInvocation.CommandOrigin)
+        $steppablePipeline.Begin($PSCmdlet)
+    } catch {
+
+        throw
+    }
+}
+
+process {
+    try {
+        $steppablePipeline.Process($_)
+    } catch {
+
+        throw
+    }
+
+}
+end {
+    try {
+        $steppablePipeline.End()
+
+    } catch {
+
+        throw
+    }
+} 
+}
+
+<#
+.Synopsis
+Turning on a region takes 25 licenses for that region.\n            \nRequest body:\n    AllowUninstall (optional) - Whether users can uninstall the Console Connect agent.
+Defaults to true if not specified.\n            \nThis method can throw exceptions in the following cases:\n    The user has not approved the Console Connect agreement.\n    The user tries to enable a region that is already enabled.\n    Another Console Connect enable/disable job is already waiting or running.\n            \nThis method returns a job that performs all actions required to enable\nConsole Connect for the specified region.\n            \nYou should wait until the job is completed before working with this region.\nYou also cannot enable or disable Console Connect for any region until the job\nis completed, because this can cause unexpected issues.\n            \nFor example, if you want to disable Console Connect for a specific region,\nbut there is already an enable/disable job for this region, you should wait\nuntil that job is completed.\n            \nAfter the job is completed, you can check the region status by using the GET method.
+.Description
+Turning on a region takes 25 licenses for that region.\n            \nRequest body:\n    AllowUninstall (optional) - Whether users can uninstall the Console Connect agent.
+Defaults to true if not specified.\n            \nThis method can throw exceptions in the following cases:\n    The user has not approved the Console Connect agreement.\n    The user tries to enable a region that is already enabled.\n    Another Console Connect enable/disable job is already waiting or running.\n            \nThis method returns a job that performs all actions required to enable\nConsole Connect for the specified region.\n            \nYou should wait until the job is completed before working with this region.\nYou also cannot enable or disable Console Connect for any region until the job\nis completed, because this can cause unexpected issues.\n            \nFor example, if you want to disable Console Connect for a specific region,\nbut there is already an enable/disable job for this region, you should wait\nuntil that job is completed.\n            \nAfter the job is completed, you can check the region status by using the GET method.
+
+#>
+function Enable-NmeConsoleConnectRegion {
+[OutputType([NmePowershell.Models.IResponseWithJob])]
+[CmdletBinding(DefaultParameterSetName='EnableExpanded', PositionalBinding=$false, SupportsShouldProcess, ConfirmImpact='Medium')]
+param(
+    [Parameter(Mandatory)]
+    [NmePowershell.PSArgumentCompleterAttribute("US", "EU", "CA", "AU")]
+    [NmePowershell.Category('Path')]
+    [System.String]
+    # .
+    ${Region},
+
+    [Parameter(ParameterSetName='Enable', Mandatory, ValueFromPipeline)]
+    [NmePowershell.Category('Body')]
+    [NmePowershell.Models.IConsoleConnectRegionEnable]
+    # .
+    ${Body},
+
+    [Parameter(ParameterSetName='EnableExpanded')]
+    [NmePowershell.Category('Body')]
+    [System.Management.Automation.SwitchParameter]
+    # .
+    ${AllowUninstall},
+
+    [Parameter(DontShow)]
+    [NmePowershell.Category('Runtime')]
+    [System.Management.Automation.SwitchParameter]
+    # Wait for .NET debugger to attach
+    ${Break},
+
+    [Parameter(DontShow)]
+    [ValidateNotNull()]
+    [NmePowershell.Category('Runtime')]
+    [NmePowershell.Runtime.SendAsyncStep[]]
+    # SendAsync Pipeline Steps to be appended to the front of the pipeline
+    ${HttpPipelineAppend},
+
+    [Parameter(DontShow)]
+    [ValidateNotNull()]
+    [NmePowershell.Category('Runtime')]
+    [NmePowershell.Runtime.SendAsyncStep[]]
+    # SendAsync Pipeline Steps to be prepended to the front of the pipeline
+    ${HttpPipelinePrepend},
+
+    [Parameter(DontShow)]
+    [NmePowershell.Category('Runtime')]
+    [System.Uri]
+    # The URI for the proxy server to use
+    ${Proxy},
+
+    [Parameter(DontShow)]
+    [ValidateNotNull()]
+    [NmePowershell.Category('Runtime')]
+    [System.Management.Automation.PSCredential]
+    # Credentials for a proxy server to use for the remote call
+    ${ProxyCredential},
+
+    [Parameter(DontShow)]
+    [NmePowershell.Category('Runtime')]
+    [System.Management.Automation.SwitchParameter]
+    # Use the default credentials for the proxy
+    ${ProxyUseDefaultCredentials}
+)
+
+begin {
+    try {
+        $outBuffer = $null
+        if ($PSBoundParameters.TryGetValue('OutBuffer', [ref]$outBuffer)) {
+            $PSBoundParameters['OutBuffer'] = 1
+        }
+        $parameterSet = $PSCmdlet.ParameterSetName
+        
+        $testPlayback = $false
+        $PSBoundParameters['HttpPipelinePrepend'] | Foreach-Object { if ($_) { $testPlayback = $testPlayback -or ('NmePowershell.Runtime.PipelineMock' -eq $_.Target.GetType().FullName -and 'Playback' -eq $_.Target.Mode) } }
+
+        $mapping = @{
+            Enable = 'NerdioManagerPowerShell.private\Enable-NmeConsoleConnectRegion_Enable';
+            EnableExpanded = 'NerdioManagerPowerShell.private\Enable-NmeConsoleConnectRegion_EnableExpanded';
+        }
+        $cmdInfo = Get-Command -Name $mapping[$parameterSet]
+        [NmePowershell.Runtime.MessageAttributeHelper]::ProcessCustomAttributesAtRuntime($cmdInfo, $MyInvocation, $parameterSet, $PSCmdlet)
+        [NmePowershell.Runtime.MessageAttributeHelper]::ProcessPreviewMessageAttributesAtRuntime($cmdInfo, $MyInvocation, $parameterSet, $PSCmdlet)
+        $wrappedCmd = $ExecutionContext.InvokeCommand.GetCommand(($mapping[$parameterSet]), [System.Management.Automation.CommandTypes]::Cmdlet)
+        if ($wrappedCmd -eq $null) {
+            $wrappedCmd = $ExecutionContext.InvokeCommand.GetCommand(($mapping[$parameterSet]), [System.Management.Automation.CommandTypes]::Function)
+        }
+        $scriptCmd = {& $wrappedCmd @PSBoundParameters}
+        $steppablePipeline = $scriptCmd.GetSteppablePipeline($MyInvocation.CommandOrigin)
+        $steppablePipeline.Begin($PSCmdlet)
+    } catch {
+
+        throw
+    }
+}
+
+process {
+    try {
+        $steppablePipeline.Process($_)
+    } catch {
+
+        throw
+    }
+
+}
+end {
+    try {
+        $steppablePipeline.End()
+
+    } catch {
+
+        throw
+    }
+} 
+}
+
+<#
+.Synopsis
 Get Active Directory configurations
 .Description
 Get Active Directory configurations
@@ -1455,6 +1686,115 @@ begin {
         $mapping = @{
             Get = 'NerdioManagerPowerShell.private\Get-NmeAutoScaleProfile_Get';
             Get1 = 'NerdioManagerPowerShell.private\Get-NmeAutoScaleProfile_Get1';
+        }
+        $cmdInfo = Get-Command -Name $mapping[$parameterSet]
+        [NmePowershell.Runtime.MessageAttributeHelper]::ProcessCustomAttributesAtRuntime($cmdInfo, $MyInvocation, $parameterSet, $PSCmdlet)
+        [NmePowershell.Runtime.MessageAttributeHelper]::ProcessPreviewMessageAttributesAtRuntime($cmdInfo, $MyInvocation, $parameterSet, $PSCmdlet)
+        $wrappedCmd = $ExecutionContext.InvokeCommand.GetCommand(($mapping[$parameterSet]), [System.Management.Automation.CommandTypes]::Cmdlet)
+        if ($wrappedCmd -eq $null) {
+            $wrappedCmd = $ExecutionContext.InvokeCommand.GetCommand(($mapping[$parameterSet]), [System.Management.Automation.CommandTypes]::Function)
+        }
+        $scriptCmd = {& $wrappedCmd @PSBoundParameters}
+        $steppablePipeline = $scriptCmd.GetSteppablePipeline($MyInvocation.CommandOrigin)
+        $steppablePipeline.Begin($PSCmdlet)
+    } catch {
+
+        throw
+    }
+}
+
+process {
+    try {
+        $steppablePipeline.Process($_)
+    } catch {
+
+        throw
+    }
+
+}
+end {
+    try {
+        $steppablePipeline.End()
+
+    } catch {
+
+        throw
+    }
+} 
+}
+
+<#
+.Synopsis
+Get the status of a specific Console Connect region.
+.Description
+Get the status of a specific Console Connect region.
+
+#>
+function Get-NmeConsoleConnectRegion {
+[OutputType([NmePowershell.Models.IConsoleConnectRegionStatus])]
+[CmdletBinding(DefaultParameterSetName='Get1', PositionalBinding=$false)]
+param(
+    [Parameter(ParameterSetName='Get', Mandatory)]
+    [NmePowershell.PSArgumentCompleterAttribute("US", "EU", "CA", "AU")]
+    [NmePowershell.Category('Path')]
+    [System.String]
+    # .
+    ${Region},
+
+    [Parameter(DontShow)]
+    [NmePowershell.Category('Runtime')]
+    [System.Management.Automation.SwitchParameter]
+    # Wait for .NET debugger to attach
+    ${Break},
+
+    [Parameter(DontShow)]
+    [ValidateNotNull()]
+    [NmePowershell.Category('Runtime')]
+    [NmePowershell.Runtime.SendAsyncStep[]]
+    # SendAsync Pipeline Steps to be appended to the front of the pipeline
+    ${HttpPipelineAppend},
+
+    [Parameter(DontShow)]
+    [ValidateNotNull()]
+    [NmePowershell.Category('Runtime')]
+    [NmePowershell.Runtime.SendAsyncStep[]]
+    # SendAsync Pipeline Steps to be prepended to the front of the pipeline
+    ${HttpPipelinePrepend},
+
+    [Parameter(DontShow)]
+    [NmePowershell.Category('Runtime')]
+    [System.Uri]
+    # The URI for the proxy server to use
+    ${Proxy},
+
+    [Parameter(DontShow)]
+    [ValidateNotNull()]
+    [NmePowershell.Category('Runtime')]
+    [System.Management.Automation.PSCredential]
+    # Credentials for a proxy server to use for the remote call
+    ${ProxyCredential},
+
+    [Parameter(DontShow)]
+    [NmePowershell.Category('Runtime')]
+    [System.Management.Automation.SwitchParameter]
+    # Use the default credentials for the proxy
+    ${ProxyUseDefaultCredentials}
+)
+
+begin {
+    try {
+        $outBuffer = $null
+        if ($PSBoundParameters.TryGetValue('OutBuffer', [ref]$outBuffer)) {
+            $PSBoundParameters['OutBuffer'] = 1
+        }
+        $parameterSet = $PSCmdlet.ParameterSetName
+        
+        $testPlayback = $false
+        $PSBoundParameters['HttpPipelinePrepend'] | Foreach-Object { if ($_) { $testPlayback = $testPlayback -or ('NmePowershell.Runtime.PipelineMock' -eq $_.Target.GetType().FullName -and 'Playback' -eq $_.Target.Mode) } }
+
+        $mapping = @{
+            Get = 'NerdioManagerPowerShell.private\Get-NmeConsoleConnectRegion_Get';
+            Get1 = 'NerdioManagerPowerShell.private\Get-NmeConsoleConnectRegion_Get1';
         }
         $cmdInfo = Get-Command -Name $mapping[$parameterSet]
         [NmePowershell.Runtime.MessageAttributeHelper]::ProcessCustomAttributesAtRuntime($cmdInfo, $MyInvocation, $parameterSet, $PSCmdlet)
@@ -5030,6 +5370,107 @@ end {
 
 <#
 .Synopsis
+Get supported job types
+.Description
+Get supported job types
+
+#>
+function Get-NmeJobType {
+[OutputType([NmePowershell.Models.IJobTypeRestModel])]
+[CmdletBinding(DefaultParameterSetName='Get', PositionalBinding=$false)]
+param(
+    [Parameter(DontShow)]
+    [NmePowershell.Category('Runtime')]
+    [System.Management.Automation.SwitchParameter]
+    # Wait for .NET debugger to attach
+    ${Break},
+
+    [Parameter(DontShow)]
+    [ValidateNotNull()]
+    [NmePowershell.Category('Runtime')]
+    [NmePowershell.Runtime.SendAsyncStep[]]
+    # SendAsync Pipeline Steps to be appended to the front of the pipeline
+    ${HttpPipelineAppend},
+
+    [Parameter(DontShow)]
+    [ValidateNotNull()]
+    [NmePowershell.Category('Runtime')]
+    [NmePowershell.Runtime.SendAsyncStep[]]
+    # SendAsync Pipeline Steps to be prepended to the front of the pipeline
+    ${HttpPipelinePrepend},
+
+    [Parameter(DontShow)]
+    [NmePowershell.Category('Runtime')]
+    [System.Uri]
+    # The URI for the proxy server to use
+    ${Proxy},
+
+    [Parameter(DontShow)]
+    [ValidateNotNull()]
+    [NmePowershell.Category('Runtime')]
+    [System.Management.Automation.PSCredential]
+    # Credentials for a proxy server to use for the remote call
+    ${ProxyCredential},
+
+    [Parameter(DontShow)]
+    [NmePowershell.Category('Runtime')]
+    [System.Management.Automation.SwitchParameter]
+    # Use the default credentials for the proxy
+    ${ProxyUseDefaultCredentials}
+)
+
+begin {
+    try {
+        $outBuffer = $null
+        if ($PSBoundParameters.TryGetValue('OutBuffer', [ref]$outBuffer)) {
+            $PSBoundParameters['OutBuffer'] = 1
+        }
+        $parameterSet = $PSCmdlet.ParameterSetName
+        
+        $testPlayback = $false
+        $PSBoundParameters['HttpPipelinePrepend'] | Foreach-Object { if ($_) { $testPlayback = $testPlayback -or ('NmePowershell.Runtime.PipelineMock' -eq $_.Target.GetType().FullName -and 'Playback' -eq $_.Target.Mode) } }
+
+        $mapping = @{
+            Get = 'NerdioManagerPowerShell.private\Get-NmeJobType_Get';
+        }
+        $cmdInfo = Get-Command -Name $mapping[$parameterSet]
+        [NmePowershell.Runtime.MessageAttributeHelper]::ProcessCustomAttributesAtRuntime($cmdInfo, $MyInvocation, $parameterSet, $PSCmdlet)
+        [NmePowershell.Runtime.MessageAttributeHelper]::ProcessPreviewMessageAttributesAtRuntime($cmdInfo, $MyInvocation, $parameterSet, $PSCmdlet)
+        $wrappedCmd = $ExecutionContext.InvokeCommand.GetCommand(($mapping[$parameterSet]), [System.Management.Automation.CommandTypes]::Cmdlet)
+        if ($wrappedCmd -eq $null) {
+            $wrappedCmd = $ExecutionContext.InvokeCommand.GetCommand(($mapping[$parameterSet]), [System.Management.Automation.CommandTypes]::Function)
+        }
+        $scriptCmd = {& $wrappedCmd @PSBoundParameters}
+        $steppablePipeline = $scriptCmd.GetSteppablePipeline($MyInvocation.CommandOrigin)
+        $steppablePipeline.Begin($PSCmdlet)
+    } catch {
+
+        throw
+    }
+}
+
+process {
+    try {
+        $steppablePipeline.Process($_)
+    } catch {
+
+        throw
+    }
+
+}
+end {
+    try {
+        $steppablePipeline.End()
+
+    } catch {
+
+        throw
+    }
+} 
+}
+
+<#
+.Synopsis
 Get job by id
 .Description
 Get job by id
@@ -5199,6 +5640,208 @@ begin {
 
         $mapping = @{
             Get = 'NerdioManagerPowerShell.private\Get-NmeLinkedNetwork_Get';
+        }
+        $cmdInfo = Get-Command -Name $mapping[$parameterSet]
+        [NmePowershell.Runtime.MessageAttributeHelper]::ProcessCustomAttributesAtRuntime($cmdInfo, $MyInvocation, $parameterSet, $PSCmdlet)
+        [NmePowershell.Runtime.MessageAttributeHelper]::ProcessPreviewMessageAttributesAtRuntime($cmdInfo, $MyInvocation, $parameterSet, $PSCmdlet)
+        $wrappedCmd = $ExecutionContext.InvokeCommand.GetCommand(($mapping[$parameterSet]), [System.Management.Automation.CommandTypes]::Cmdlet)
+        if ($wrappedCmd -eq $null) {
+            $wrappedCmd = $ExecutionContext.InvokeCommand.GetCommand(($mapping[$parameterSet]), [System.Management.Automation.CommandTypes]::Function)
+        }
+        $scriptCmd = {& $wrappedCmd @PSBoundParameters}
+        $steppablePipeline = $scriptCmd.GetSteppablePipeline($MyInvocation.CommandOrigin)
+        $steppablePipeline.Begin($PSCmdlet)
+    } catch {
+
+        throw
+    }
+}
+
+process {
+    try {
+        $steppablePipeline.Process($_)
+    } catch {
+
+        throw
+    }
+
+}
+end {
+    try {
+        $steppablePipeline.End()
+
+    } catch {
+
+        throw
+    }
+} 
+}
+
+<#
+.Synopsis
+Get linked mailboxes list.
+.Description
+Get linked mailboxes list.
+
+#>
+function Get-NmeLinkedNotificationMailbox {
+[OutputType([NmePowershell.Models.INotificationMailboxRestModel])]
+[CmdletBinding(DefaultParameterSetName='Get', PositionalBinding=$false)]
+param(
+    [Parameter(DontShow)]
+    [NmePowershell.Category('Runtime')]
+    [System.Management.Automation.SwitchParameter]
+    # Wait for .NET debugger to attach
+    ${Break},
+
+    [Parameter(DontShow)]
+    [ValidateNotNull()]
+    [NmePowershell.Category('Runtime')]
+    [NmePowershell.Runtime.SendAsyncStep[]]
+    # SendAsync Pipeline Steps to be appended to the front of the pipeline
+    ${HttpPipelineAppend},
+
+    [Parameter(DontShow)]
+    [ValidateNotNull()]
+    [NmePowershell.Category('Runtime')]
+    [NmePowershell.Runtime.SendAsyncStep[]]
+    # SendAsync Pipeline Steps to be prepended to the front of the pipeline
+    ${HttpPipelinePrepend},
+
+    [Parameter(DontShow)]
+    [NmePowershell.Category('Runtime')]
+    [System.Uri]
+    # The URI for the proxy server to use
+    ${Proxy},
+
+    [Parameter(DontShow)]
+    [ValidateNotNull()]
+    [NmePowershell.Category('Runtime')]
+    [System.Management.Automation.PSCredential]
+    # Credentials for a proxy server to use for the remote call
+    ${ProxyCredential},
+
+    [Parameter(DontShow)]
+    [NmePowershell.Category('Runtime')]
+    [System.Management.Automation.SwitchParameter]
+    # Use the default credentials for the proxy
+    ${ProxyUseDefaultCredentials}
+)
+
+begin {
+    try {
+        $outBuffer = $null
+        if ($PSBoundParameters.TryGetValue('OutBuffer', [ref]$outBuffer)) {
+            $PSBoundParameters['OutBuffer'] = 1
+        }
+        $parameterSet = $PSCmdlet.ParameterSetName
+        
+        $testPlayback = $false
+        $PSBoundParameters['HttpPipelinePrepend'] | Foreach-Object { if ($_) { $testPlayback = $testPlayback -or ('NmePowershell.Runtime.PipelineMock' -eq $_.Target.GetType().FullName -and 'Playback' -eq $_.Target.Mode) } }
+
+        $mapping = @{
+            Get = 'NerdioManagerPowerShell.private\Get-NmeLinkedNotificationMailbox_Get';
+        }
+        $cmdInfo = Get-Command -Name $mapping[$parameterSet]
+        [NmePowershell.Runtime.MessageAttributeHelper]::ProcessCustomAttributesAtRuntime($cmdInfo, $MyInvocation, $parameterSet, $PSCmdlet)
+        [NmePowershell.Runtime.MessageAttributeHelper]::ProcessPreviewMessageAttributesAtRuntime($cmdInfo, $MyInvocation, $parameterSet, $PSCmdlet)
+        $wrappedCmd = $ExecutionContext.InvokeCommand.GetCommand(($mapping[$parameterSet]), [System.Management.Automation.CommandTypes]::Cmdlet)
+        if ($wrappedCmd -eq $null) {
+            $wrappedCmd = $ExecutionContext.InvokeCommand.GetCommand(($mapping[$parameterSet]), [System.Management.Automation.CommandTypes]::Function)
+        }
+        $scriptCmd = {& $wrappedCmd @PSBoundParameters}
+        $steppablePipeline = $scriptCmd.GetSteppablePipeline($MyInvocation.CommandOrigin)
+        $steppablePipeline.Begin($PSCmdlet)
+    } catch {
+
+        throw
+    }
+}
+
+process {
+    try {
+        $steppablePipeline.Process($_)
+    } catch {
+
+        throw
+    }
+
+}
+end {
+    try {
+        $steppablePipeline.End()
+
+    } catch {
+
+        throw
+    }
+} 
+}
+
+<#
+.Synopsis
+Get linked webhooks list.
+.Description
+Get linked webhooks list.
+
+#>
+function Get-NmeLinkedNotificationWebhook {
+[OutputType([NmePowershell.Models.INotificationWebhookRestModel])]
+[CmdletBinding(DefaultParameterSetName='Get', PositionalBinding=$false)]
+param(
+    [Parameter(DontShow)]
+    [NmePowershell.Category('Runtime')]
+    [System.Management.Automation.SwitchParameter]
+    # Wait for .NET debugger to attach
+    ${Break},
+
+    [Parameter(DontShow)]
+    [ValidateNotNull()]
+    [NmePowershell.Category('Runtime')]
+    [NmePowershell.Runtime.SendAsyncStep[]]
+    # SendAsync Pipeline Steps to be appended to the front of the pipeline
+    ${HttpPipelineAppend},
+
+    [Parameter(DontShow)]
+    [ValidateNotNull()]
+    [NmePowershell.Category('Runtime')]
+    [NmePowershell.Runtime.SendAsyncStep[]]
+    # SendAsync Pipeline Steps to be prepended to the front of the pipeline
+    ${HttpPipelinePrepend},
+
+    [Parameter(DontShow)]
+    [NmePowershell.Category('Runtime')]
+    [System.Uri]
+    # The URI for the proxy server to use
+    ${Proxy},
+
+    [Parameter(DontShow)]
+    [ValidateNotNull()]
+    [NmePowershell.Category('Runtime')]
+    [System.Management.Automation.PSCredential]
+    # Credentials for a proxy server to use for the remote call
+    ${ProxyCredential},
+
+    [Parameter(DontShow)]
+    [NmePowershell.Category('Runtime')]
+    [System.Management.Automation.SwitchParameter]
+    # Use the default credentials for the proxy
+    ${ProxyUseDefaultCredentials}
+)
+
+begin {
+    try {
+        $outBuffer = $null
+        if ($PSBoundParameters.TryGetValue('OutBuffer', [ref]$outBuffer)) {
+            $PSBoundParameters['OutBuffer'] = 1
+        }
+        $parameterSet = $PSCmdlet.ParameterSetName
+        
+        $testPlayback = $false
+        $PSBoundParameters['HttpPipelinePrepend'] | Foreach-Object { if ($_) { $testPlayback = $testPlayback -or ('NmePowershell.Runtime.PipelineMock' -eq $_.Target.GetType().FullName -and 'Playback' -eq $_.Target.Mode) } }
+
+        $mapping = @{
+            Get = 'NerdioManagerPowerShell.private\Get-NmeLinkedNotificationWebhook_Get';
         }
         $cmdInfo = Get-Command -Name $mapping[$parameterSet]
         [NmePowershell.Runtime.MessageAttributeHelper]::ProcessCustomAttributesAtRuntime($cmdInfo, $MyInvocation, $parameterSet, $PSCmdlet)
@@ -5532,6 +6175,222 @@ begin {
 
         $mapping = @{
             Get = 'NerdioManagerPowerShell.private\Get-NmeNetAppFilesAutoscale_Get';
+        }
+        $cmdInfo = Get-Command -Name $mapping[$parameterSet]
+        [NmePowershell.Runtime.MessageAttributeHelper]::ProcessCustomAttributesAtRuntime($cmdInfo, $MyInvocation, $parameterSet, $PSCmdlet)
+        [NmePowershell.Runtime.MessageAttributeHelper]::ProcessPreviewMessageAttributesAtRuntime($cmdInfo, $MyInvocation, $parameterSet, $PSCmdlet)
+        $wrappedCmd = $ExecutionContext.InvokeCommand.GetCommand(($mapping[$parameterSet]), [System.Management.Automation.CommandTypes]::Cmdlet)
+        if ($wrappedCmd -eq $null) {
+            $wrappedCmd = $ExecutionContext.InvokeCommand.GetCommand(($mapping[$parameterSet]), [System.Management.Automation.CommandTypes]::Function)
+        }
+        $scriptCmd = {& $wrappedCmd @PSBoundParameters}
+        $steppablePipeline = $scriptCmd.GetSteppablePipeline($MyInvocation.CommandOrigin)
+        $steppablePipeline.Begin($PSCmdlet)
+    } catch {
+
+        throw
+    }
+}
+
+process {
+    try {
+        $steppablePipeline.Process($_)
+    } catch {
+
+        throw
+    }
+
+}
+end {
+    try {
+        $steppablePipeline.End()
+
+    } catch {
+
+        throw
+    }
+} 
+}
+
+<#
+.Synopsis
+Get notification actions list.
+.Description
+Get notification actions list.
+
+#>
+function Get-NmeNotificationAction {
+[OutputType([NmePowershell.Models.INotificationAction])]
+[CmdletBinding(DefaultParameterSetName='Get', PositionalBinding=$false)]
+param(
+    [Parameter(ParameterSetName='Get1', Mandatory)]
+    [NmePowershell.Category('Path')]
+    [System.Int32]
+    # .
+    ${Id},
+
+    [Parameter(DontShow)]
+    [NmePowershell.Category('Runtime')]
+    [System.Management.Automation.SwitchParameter]
+    # Wait for .NET debugger to attach
+    ${Break},
+
+    [Parameter(DontShow)]
+    [ValidateNotNull()]
+    [NmePowershell.Category('Runtime')]
+    [NmePowershell.Runtime.SendAsyncStep[]]
+    # SendAsync Pipeline Steps to be appended to the front of the pipeline
+    ${HttpPipelineAppend},
+
+    [Parameter(DontShow)]
+    [ValidateNotNull()]
+    [NmePowershell.Category('Runtime')]
+    [NmePowershell.Runtime.SendAsyncStep[]]
+    # SendAsync Pipeline Steps to be prepended to the front of the pipeline
+    ${HttpPipelinePrepend},
+
+    [Parameter(DontShow)]
+    [NmePowershell.Category('Runtime')]
+    [System.Uri]
+    # The URI for the proxy server to use
+    ${Proxy},
+
+    [Parameter(DontShow)]
+    [ValidateNotNull()]
+    [NmePowershell.Category('Runtime')]
+    [System.Management.Automation.PSCredential]
+    # Credentials for a proxy server to use for the remote call
+    ${ProxyCredential},
+
+    [Parameter(DontShow)]
+    [NmePowershell.Category('Runtime')]
+    [System.Management.Automation.SwitchParameter]
+    # Use the default credentials for the proxy
+    ${ProxyUseDefaultCredentials}
+)
+
+begin {
+    try {
+        $outBuffer = $null
+        if ($PSBoundParameters.TryGetValue('OutBuffer', [ref]$outBuffer)) {
+            $PSBoundParameters['OutBuffer'] = 1
+        }
+        $parameterSet = $PSCmdlet.ParameterSetName
+        
+        $testPlayback = $false
+        $PSBoundParameters['HttpPipelinePrepend'] | Foreach-Object { if ($_) { $testPlayback = $testPlayback -or ('NmePowershell.Runtime.PipelineMock' -eq $_.Target.GetType().FullName -and 'Playback' -eq $_.Target.Mode) } }
+
+        $mapping = @{
+            Get = 'NerdioManagerPowerShell.private\Get-NmeNotificationAction_Get';
+            Get1 = 'NerdioManagerPowerShell.private\Get-NmeNotificationAction_Get1';
+        }
+        $cmdInfo = Get-Command -Name $mapping[$parameterSet]
+        [NmePowershell.Runtime.MessageAttributeHelper]::ProcessCustomAttributesAtRuntime($cmdInfo, $MyInvocation, $parameterSet, $PSCmdlet)
+        [NmePowershell.Runtime.MessageAttributeHelper]::ProcessPreviewMessageAttributesAtRuntime($cmdInfo, $MyInvocation, $parameterSet, $PSCmdlet)
+        $wrappedCmd = $ExecutionContext.InvokeCommand.GetCommand(($mapping[$parameterSet]), [System.Management.Automation.CommandTypes]::Cmdlet)
+        if ($wrappedCmd -eq $null) {
+            $wrappedCmd = $ExecutionContext.InvokeCommand.GetCommand(($mapping[$parameterSet]), [System.Management.Automation.CommandTypes]::Function)
+        }
+        $scriptCmd = {& $wrappedCmd @PSBoundParameters}
+        $steppablePipeline = $scriptCmd.GetSteppablePipeline($MyInvocation.CommandOrigin)
+        $steppablePipeline.Begin($PSCmdlet)
+    } catch {
+
+        throw
+    }
+}
+
+process {
+    try {
+        $steppablePipeline.Process($_)
+    } catch {
+
+        throw
+    }
+
+}
+end {
+    try {
+        $steppablePipeline.End()
+
+    } catch {
+
+        throw
+    }
+} 
+}
+
+<#
+.Synopsis
+Get list of Nerdio notification conditions.
+.Description
+Get list of Nerdio notification conditions.
+
+#>
+function Get-NmeNotificationCondition {
+[OutputType([NmePowershell.Models.INotificationCondition])]
+[CmdletBinding(DefaultParameterSetName='Get', PositionalBinding=$false)]
+param(
+    [Parameter(ParameterSetName='Get1', Mandatory)]
+    [NmePowershell.Category('Path')]
+    [System.Int32]
+    # .
+    ${Id},
+
+    [Parameter(DontShow)]
+    [NmePowershell.Category('Runtime')]
+    [System.Management.Automation.SwitchParameter]
+    # Wait for .NET debugger to attach
+    ${Break},
+
+    [Parameter(DontShow)]
+    [ValidateNotNull()]
+    [NmePowershell.Category('Runtime')]
+    [NmePowershell.Runtime.SendAsyncStep[]]
+    # SendAsync Pipeline Steps to be appended to the front of the pipeline
+    ${HttpPipelineAppend},
+
+    [Parameter(DontShow)]
+    [ValidateNotNull()]
+    [NmePowershell.Category('Runtime')]
+    [NmePowershell.Runtime.SendAsyncStep[]]
+    # SendAsync Pipeline Steps to be prepended to the front of the pipeline
+    ${HttpPipelinePrepend},
+
+    [Parameter(DontShow)]
+    [NmePowershell.Category('Runtime')]
+    [System.Uri]
+    # The URI for the proxy server to use
+    ${Proxy},
+
+    [Parameter(DontShow)]
+    [ValidateNotNull()]
+    [NmePowershell.Category('Runtime')]
+    [System.Management.Automation.PSCredential]
+    # Credentials for a proxy server to use for the remote call
+    ${ProxyCredential},
+
+    [Parameter(DontShow)]
+    [NmePowershell.Category('Runtime')]
+    [System.Management.Automation.SwitchParameter]
+    # Use the default credentials for the proxy
+    ${ProxyUseDefaultCredentials}
+)
+
+begin {
+    try {
+        $outBuffer = $null
+        if ($PSBoundParameters.TryGetValue('OutBuffer', [ref]$outBuffer)) {
+            $PSBoundParameters['OutBuffer'] = 1
+        }
+        $parameterSet = $PSCmdlet.ParameterSetName
+        
+        $testPlayback = $false
+        $PSBoundParameters['HttpPipelinePrepend'] | Foreach-Object { if ($_) { $testPlayback = $testPlayback -or ('NmePowershell.Runtime.PipelineMock' -eq $_.Target.GetType().FullName -and 'Playback' -eq $_.Target.Mode) } }
+
+        $mapping = @{
+            Get = 'NerdioManagerPowerShell.private\Get-NmeNotificationCondition_Get';
+            Get1 = 'NerdioManagerPowerShell.private\Get-NmeNotificationCondition_Get1';
         }
         $cmdInfo = Get-Command -Name $mapping[$parameterSet]
         [NmePowershell.Runtime.MessageAttributeHelper]::ProcessCustomAttributesAtRuntime($cmdInfo, $MyInvocation, $parameterSet, $PSCmdlet)
@@ -10415,10 +11274,10 @@ param(
     ${Year},
 
     [Parameter(Mandatory)]
-    [NmePowershell.PSArgumentCompleterAttribute("ResourceCostSummary", "UserCostSummary", "HostPoolSummary")]
+    [NmePowershell.PSArgumentCompleterAttribute("ResourceCostSummary", "UserCostSummary", "HostPoolSummary", "Budget")]
     [NmePowershell.Category('Query')]
     [System.String]
-    # Export type (ResourceCostSummary/UserCostSummary/HostPoolSummary)
+    # Export type (ResourceCostSummary/UserCostSummary/HostPoolSummary/Budget)
     ${ExportType},
 
     [Parameter(Mandatory)]
@@ -13500,6 +14359,12 @@ param(
     # .
     ${ServicePrincipalAzureType},
 
+    [Parameter(ParameterSetName='NewExpanded')]
+    [NmePowershell.Category('Body')]
+    [System.String]
+    # .
+    ${ServicePrincipalCertificateName},
+
     [Parameter(DontShow)]
     [NmePowershell.Category('Runtime')]
     [System.Management.Automation.SwitchParameter]
@@ -13869,6 +14734,322 @@ begin {
         $mapping = @{
             New = 'NerdioManagerPowerShell.private\New-NmeMsixPackage_New';
             NewExpanded = 'NerdioManagerPowerShell.private\New-NmeMsixPackage_NewExpanded';
+        }
+        $cmdInfo = Get-Command -Name $mapping[$parameterSet]
+        [NmePowershell.Runtime.MessageAttributeHelper]::ProcessCustomAttributesAtRuntime($cmdInfo, $MyInvocation, $parameterSet, $PSCmdlet)
+        [NmePowershell.Runtime.MessageAttributeHelper]::ProcessPreviewMessageAttributesAtRuntime($cmdInfo, $MyInvocation, $parameterSet, $PSCmdlet)
+        $wrappedCmd = $ExecutionContext.InvokeCommand.GetCommand(($mapping[$parameterSet]), [System.Management.Automation.CommandTypes]::Cmdlet)
+        if ($wrappedCmd -eq $null) {
+            $wrappedCmd = $ExecutionContext.InvokeCommand.GetCommand(($mapping[$parameterSet]), [System.Management.Automation.CommandTypes]::Function)
+        }
+        $scriptCmd = {& $wrappedCmd @PSBoundParameters}
+        $steppablePipeline = $scriptCmd.GetSteppablePipeline($MyInvocation.CommandOrigin)
+        $steppablePipeline.Begin($PSCmdlet)
+    } catch {
+
+        throw
+    }
+}
+
+process {
+    try {
+        $steppablePipeline.Process($_)
+    } catch {
+
+        throw
+    }
+
+}
+end {
+    try {
+        $steppablePipeline.End()
+
+    } catch {
+
+        throw
+    }
+} 
+}
+
+<#
+.Synopsis
+New notification action.
+.Description
+New notification action.
+
+#>
+function New-NmeNotificationAction {
+[OutputType([NmePowershell.Models.IResponseWithJobAndNotificationAction])]
+[CmdletBinding(DefaultParameterSetName='NewExpanded', PositionalBinding=$false, SupportsShouldProcess, ConfirmImpact='Medium')]
+param(
+    [Parameter(ParameterSetName='New', Mandatory, ValueFromPipeline)]
+    [NmePowershell.Category('Body')]
+    [NmePowershell.Models.INotificationActionCreate]
+    # .
+    ${Body},
+
+    [Parameter(ParameterSetName='NewExpanded', Mandatory)]
+    [AllowEmptyCollection()]
+    [NmePowershell.Category('Body')]
+    [System.Int32[]]
+    # .
+    ${ConditionNerdioConditionIds},
+
+    [Parameter(ParameterSetName='NewExpanded', Mandatory)]
+    [AllowEmptyCollection()]
+    [NmePowershell.PSArgumentCompleterAttribute("None", "EntraIdManager")]
+    [NmePowershell.Category('Body')]
+    [System.String[]]
+    # .
+    ${EmailBuiltInRecipients},
+
+    [Parameter(ParameterSetName='NewExpanded', Mandatory)]
+    [NmePowershell.Category('Body')]
+    [System.Management.Automation.SwitchParameter]
+    # .
+    ${EmailEnable},
+
+    [Parameter(ParameterSetName='NewExpanded', Mandatory)]
+    [AllowEmptyCollection()]
+    [NmePowershell.Category('Body')]
+    [System.String[]]
+    # .
+    ${EmailSendTo},
+
+    [Parameter(ParameterSetName='NewExpanded', Mandatory)]
+    [NmePowershell.Category('Body')]
+    [System.Management.Automation.SwitchParameter]
+    # .
+    ${IncludeTaskDetails},
+
+    [Parameter(ParameterSetName='NewExpanded', Mandatory)]
+    [NmePowershell.Category('Body')]
+    [System.Management.Automation.SwitchParameter]
+    # .
+    ${IsActive},
+
+    [Parameter(ParameterSetName='NewExpanded', Mandatory)]
+    [NmePowershell.Category('Body')]
+    [System.Management.Automation.SwitchParameter]
+    # .
+    ${WebhookEnable},
+
+    [Parameter(ParameterSetName='NewExpanded')]
+    [NmePowershell.Category('Body')]
+    [System.Int32]
+    # .
+    ${EmailMailboxId},
+
+    [Parameter(ParameterSetName='NewExpanded')]
+    [NmePowershell.Category('Body')]
+    [System.Int32]
+    # .
+    ${WebhookId},
+
+    [Parameter(DontShow)]
+    [NmePowershell.Category('Runtime')]
+    [System.Management.Automation.SwitchParameter]
+    # Wait for .NET debugger to attach
+    ${Break},
+
+    [Parameter(DontShow)]
+    [ValidateNotNull()]
+    [NmePowershell.Category('Runtime')]
+    [NmePowershell.Runtime.SendAsyncStep[]]
+    # SendAsync Pipeline Steps to be appended to the front of the pipeline
+    ${HttpPipelineAppend},
+
+    [Parameter(DontShow)]
+    [ValidateNotNull()]
+    [NmePowershell.Category('Runtime')]
+    [NmePowershell.Runtime.SendAsyncStep[]]
+    # SendAsync Pipeline Steps to be prepended to the front of the pipeline
+    ${HttpPipelinePrepend},
+
+    [Parameter(DontShow)]
+    [NmePowershell.Category('Runtime')]
+    [System.Uri]
+    # The URI for the proxy server to use
+    ${Proxy},
+
+    [Parameter(DontShow)]
+    [ValidateNotNull()]
+    [NmePowershell.Category('Runtime')]
+    [System.Management.Automation.PSCredential]
+    # Credentials for a proxy server to use for the remote call
+    ${ProxyCredential},
+
+    [Parameter(DontShow)]
+    [NmePowershell.Category('Runtime')]
+    [System.Management.Automation.SwitchParameter]
+    # Use the default credentials for the proxy
+    ${ProxyUseDefaultCredentials}
+)
+
+begin {
+    try {
+        $outBuffer = $null
+        if ($PSBoundParameters.TryGetValue('OutBuffer', [ref]$outBuffer)) {
+            $PSBoundParameters['OutBuffer'] = 1
+        }
+        $parameterSet = $PSCmdlet.ParameterSetName
+        
+        $testPlayback = $false
+        $PSBoundParameters['HttpPipelinePrepend'] | Foreach-Object { if ($_) { $testPlayback = $testPlayback -or ('NmePowershell.Runtime.PipelineMock' -eq $_.Target.GetType().FullName -and 'Playback' -eq $_.Target.Mode) } }
+
+        $mapping = @{
+            New = 'NerdioManagerPowerShell.private\New-NmeNotificationAction_New';
+            NewExpanded = 'NerdioManagerPowerShell.private\New-NmeNotificationAction_NewExpanded';
+        }
+        $cmdInfo = Get-Command -Name $mapping[$parameterSet]
+        [NmePowershell.Runtime.MessageAttributeHelper]::ProcessCustomAttributesAtRuntime($cmdInfo, $MyInvocation, $parameterSet, $PSCmdlet)
+        [NmePowershell.Runtime.MessageAttributeHelper]::ProcessPreviewMessageAttributesAtRuntime($cmdInfo, $MyInvocation, $parameterSet, $PSCmdlet)
+        $wrappedCmd = $ExecutionContext.InvokeCommand.GetCommand(($mapping[$parameterSet]), [System.Management.Automation.CommandTypes]::Cmdlet)
+        if ($wrappedCmd -eq $null) {
+            $wrappedCmd = $ExecutionContext.InvokeCommand.GetCommand(($mapping[$parameterSet]), [System.Management.Automation.CommandTypes]::Function)
+        }
+        $scriptCmd = {& $wrappedCmd @PSBoundParameters}
+        $steppablePipeline = $scriptCmd.GetSteppablePipeline($MyInvocation.CommandOrigin)
+        $steppablePipeline.Begin($PSCmdlet)
+    } catch {
+
+        throw
+    }
+}
+
+process {
+    try {
+        $steppablePipeline.Process($_)
+    } catch {
+
+        throw
+    }
+
+}
+end {
+    try {
+        $steppablePipeline.End()
+
+    } catch {
+
+        throw
+    }
+} 
+}
+
+<#
+.Synopsis
+New Nerdio notification condition.
+.Description
+New Nerdio notification condition.
+
+#>
+function New-NmeNotificationCondition {
+[OutputType([NmePowershell.Models.IResponseWithJobAndNotificationCondition])]
+[CmdletBinding(DefaultParameterSetName='New', PositionalBinding=$false, SupportsShouldProcess, ConfirmImpact='Medium')]
+param(
+    [Parameter(ParameterSetName='New', Mandatory, ValueFromPipeline)]
+    [NmePowershell.Category('Body')]
+    [NmePowershell.Models.INotificationConditionCreate]
+    # .
+    ${Body},
+
+    [Parameter(ParameterSetName='NewExpanded', Mandatory)]
+    [AllowEmptyCollection()]
+    [NmePowershell.Category('Body')]
+    [System.String[]]
+    # .
+    ${ExclusionKeywords},
+
+    [Parameter(ParameterSetName='NewExpanded', Mandatory)]
+    [NmePowershell.Category('Body')]
+    [System.String]
+    # .
+    ${Name},
+
+    [Parameter(ParameterSetName='NewExpanded', Mandatory)]
+    [AllowEmptyCollection()]
+    [NmePowershell.Category('Body')]
+    [NmePowershell.Models.INotificationConditionRunByUser[]]
+    # .
+    ${RunByUsers},
+
+    [Parameter(ParameterSetName='NewExpanded', Mandatory)]
+    [AllowEmptyCollection()]
+    [NmePowershell.PSArgumentCompleterAttribute("Pending", "Running", "Completed", "Failed", "Cancelled")]
+    [NmePowershell.Category('Body')]
+    [System.String[]]
+    # .
+    ${Statuses},
+
+    [Parameter(ParameterSetName='NewExpanded', Mandatory)]
+    [AllowEmptyCollection()]
+    [NmePowershell.Category('Body')]
+    [NmePowershell.Models.INotificationConditionTarget[]]
+    # .
+    ${Targets},
+
+    [Parameter(ParameterSetName='NewExpanded', Mandatory)]
+    [AllowEmptyCollection()]
+    [NmePowershell.Category('Body')]
+    [System.String[]]
+    # .
+    ${Tasks},
+
+    [Parameter(DontShow)]
+    [NmePowershell.Category('Runtime')]
+    [System.Management.Automation.SwitchParameter]
+    # Wait for .NET debugger to attach
+    ${Break},
+
+    [Parameter(DontShow)]
+    [ValidateNotNull()]
+    [NmePowershell.Category('Runtime')]
+    [NmePowershell.Runtime.SendAsyncStep[]]
+    # SendAsync Pipeline Steps to be appended to the front of the pipeline
+    ${HttpPipelineAppend},
+
+    [Parameter(DontShow)]
+    [ValidateNotNull()]
+    [NmePowershell.Category('Runtime')]
+    [NmePowershell.Runtime.SendAsyncStep[]]
+    # SendAsync Pipeline Steps to be prepended to the front of the pipeline
+    ${HttpPipelinePrepend},
+
+    [Parameter(DontShow)]
+    [NmePowershell.Category('Runtime')]
+    [System.Uri]
+    # The URI for the proxy server to use
+    ${Proxy},
+
+    [Parameter(DontShow)]
+    [ValidateNotNull()]
+    [NmePowershell.Category('Runtime')]
+    [System.Management.Automation.PSCredential]
+    # Credentials for a proxy server to use for the remote call
+    ${ProxyCredential},
+
+    [Parameter(DontShow)]
+    [NmePowershell.Category('Runtime')]
+    [System.Management.Automation.SwitchParameter]
+    # Use the default credentials for the proxy
+    ${ProxyUseDefaultCredentials}
+)
+
+begin {
+    try {
+        $outBuffer = $null
+        if ($PSBoundParameters.TryGetValue('OutBuffer', [ref]$outBuffer)) {
+            $PSBoundParameters['OutBuffer'] = 1
+        }
+        $parameterSet = $PSCmdlet.ParameterSetName
+        
+        $testPlayback = $false
+        $PSBoundParameters['HttpPipelinePrepend'] | Foreach-Object { if ($_) { $testPlayback = $testPlayback -or ('NmePowershell.Runtime.PipelineMock' -eq $_.Target.GetType().FullName -and 'Playback' -eq $_.Target.Mode) } }
+
+        $mapping = @{
+            New = 'NerdioManagerPowerShell.private\New-NmeNotificationCondition_New';
+            NewExpanded = 'NerdioManagerPowerShell.private\New-NmeNotificationCondition_NewExpanded';
         }
         $cmdInfo = Get-Command -Name $mapping[$parameterSet]
         [NmePowershell.Runtime.MessageAttributeHelper]::ProcessCustomAttributesAtRuntime($cmdInfo, $MyInvocation, $parameterSet, $PSCmdlet)
@@ -16755,6 +17936,220 @@ begin {
 
         $mapping = @{
             Remove = 'NerdioManagerPowerShell.private\Remove-NmeLinkedResourceGroup_Remove';
+        }
+        $cmdInfo = Get-Command -Name $mapping[$parameterSet]
+        [NmePowershell.Runtime.MessageAttributeHelper]::ProcessCustomAttributesAtRuntime($cmdInfo, $MyInvocation, $parameterSet, $PSCmdlet)
+        [NmePowershell.Runtime.MessageAttributeHelper]::ProcessPreviewMessageAttributesAtRuntime($cmdInfo, $MyInvocation, $parameterSet, $PSCmdlet)
+        $wrappedCmd = $ExecutionContext.InvokeCommand.GetCommand(($mapping[$parameterSet]), [System.Management.Automation.CommandTypes]::Cmdlet)
+        if ($wrappedCmd -eq $null) {
+            $wrappedCmd = $ExecutionContext.InvokeCommand.GetCommand(($mapping[$parameterSet]), [System.Management.Automation.CommandTypes]::Function)
+        }
+        $scriptCmd = {& $wrappedCmd @PSBoundParameters}
+        $steppablePipeline = $scriptCmd.GetSteppablePipeline($MyInvocation.CommandOrigin)
+        $steppablePipeline.Begin($PSCmdlet)
+    } catch {
+
+        throw
+    }
+}
+
+process {
+    try {
+        $steppablePipeline.Process($_)
+    } catch {
+
+        throw
+    }
+
+}
+end {
+    try {
+        $steppablePipeline.End()
+
+    } catch {
+
+        throw
+    }
+} 
+}
+
+<#
+.Synopsis
+Delete notification action.
+.Description
+Delete notification action.
+
+#>
+function Remove-NmeNotificationAction {
+[OutputType([NmePowershell.Models.IResponseWithJob])]
+[CmdletBinding(DefaultParameterSetName='Remove', PositionalBinding=$false, SupportsShouldProcess, ConfirmImpact='Medium')]
+param(
+    [Parameter(Mandatory)]
+    [NmePowershell.Category('Path')]
+    [System.Int32]
+    # .
+    ${Id},
+
+    [Parameter(DontShow)]
+    [NmePowershell.Category('Runtime')]
+    [System.Management.Automation.SwitchParameter]
+    # Wait for .NET debugger to attach
+    ${Break},
+
+    [Parameter(DontShow)]
+    [ValidateNotNull()]
+    [NmePowershell.Category('Runtime')]
+    [NmePowershell.Runtime.SendAsyncStep[]]
+    # SendAsync Pipeline Steps to be appended to the front of the pipeline
+    ${HttpPipelineAppend},
+
+    [Parameter(DontShow)]
+    [ValidateNotNull()]
+    [NmePowershell.Category('Runtime')]
+    [NmePowershell.Runtime.SendAsyncStep[]]
+    # SendAsync Pipeline Steps to be prepended to the front of the pipeline
+    ${HttpPipelinePrepend},
+
+    [Parameter(DontShow)]
+    [NmePowershell.Category('Runtime')]
+    [System.Uri]
+    # The URI for the proxy server to use
+    ${Proxy},
+
+    [Parameter(DontShow)]
+    [ValidateNotNull()]
+    [NmePowershell.Category('Runtime')]
+    [System.Management.Automation.PSCredential]
+    # Credentials for a proxy server to use for the remote call
+    ${ProxyCredential},
+
+    [Parameter(DontShow)]
+    [NmePowershell.Category('Runtime')]
+    [System.Management.Automation.SwitchParameter]
+    # Use the default credentials for the proxy
+    ${ProxyUseDefaultCredentials}
+)
+
+begin {
+    try {
+        $outBuffer = $null
+        if ($PSBoundParameters.TryGetValue('OutBuffer', [ref]$outBuffer)) {
+            $PSBoundParameters['OutBuffer'] = 1
+        }
+        $parameterSet = $PSCmdlet.ParameterSetName
+        
+        $testPlayback = $false
+        $PSBoundParameters['HttpPipelinePrepend'] | Foreach-Object { if ($_) { $testPlayback = $testPlayback -or ('NmePowershell.Runtime.PipelineMock' -eq $_.Target.GetType().FullName -and 'Playback' -eq $_.Target.Mode) } }
+
+        $mapping = @{
+            Remove = 'NerdioManagerPowerShell.private\Remove-NmeNotificationAction_Remove';
+        }
+        $cmdInfo = Get-Command -Name $mapping[$parameterSet]
+        [NmePowershell.Runtime.MessageAttributeHelper]::ProcessCustomAttributesAtRuntime($cmdInfo, $MyInvocation, $parameterSet, $PSCmdlet)
+        [NmePowershell.Runtime.MessageAttributeHelper]::ProcessPreviewMessageAttributesAtRuntime($cmdInfo, $MyInvocation, $parameterSet, $PSCmdlet)
+        $wrappedCmd = $ExecutionContext.InvokeCommand.GetCommand(($mapping[$parameterSet]), [System.Management.Automation.CommandTypes]::Cmdlet)
+        if ($wrappedCmd -eq $null) {
+            $wrappedCmd = $ExecutionContext.InvokeCommand.GetCommand(($mapping[$parameterSet]), [System.Management.Automation.CommandTypes]::Function)
+        }
+        $scriptCmd = {& $wrappedCmd @PSBoundParameters}
+        $steppablePipeline = $scriptCmd.GetSteppablePipeline($MyInvocation.CommandOrigin)
+        $steppablePipeline.Begin($PSCmdlet)
+    } catch {
+
+        throw
+    }
+}
+
+process {
+    try {
+        $steppablePipeline.Process($_)
+    } catch {
+
+        throw
+    }
+
+}
+end {
+    try {
+        $steppablePipeline.End()
+
+    } catch {
+
+        throw
+    }
+} 
+}
+
+<#
+.Synopsis
+Delete Nerdio notification condition.
+.Description
+Delete Nerdio notification condition.
+
+#>
+function Remove-NmeNotificationCondition {
+[OutputType([NmePowershell.Models.IResponseWithJob])]
+[CmdletBinding(DefaultParameterSetName='Remove', PositionalBinding=$false, SupportsShouldProcess, ConfirmImpact='Medium')]
+param(
+    [Parameter(Mandatory)]
+    [NmePowershell.Category('Path')]
+    [System.Int32]
+    # .
+    ${Id},
+
+    [Parameter(DontShow)]
+    [NmePowershell.Category('Runtime')]
+    [System.Management.Automation.SwitchParameter]
+    # Wait for .NET debugger to attach
+    ${Break},
+
+    [Parameter(DontShow)]
+    [ValidateNotNull()]
+    [NmePowershell.Category('Runtime')]
+    [NmePowershell.Runtime.SendAsyncStep[]]
+    # SendAsync Pipeline Steps to be appended to the front of the pipeline
+    ${HttpPipelineAppend},
+
+    [Parameter(DontShow)]
+    [ValidateNotNull()]
+    [NmePowershell.Category('Runtime')]
+    [NmePowershell.Runtime.SendAsyncStep[]]
+    # SendAsync Pipeline Steps to be prepended to the front of the pipeline
+    ${HttpPipelinePrepend},
+
+    [Parameter(DontShow)]
+    [NmePowershell.Category('Runtime')]
+    [System.Uri]
+    # The URI for the proxy server to use
+    ${Proxy},
+
+    [Parameter(DontShow)]
+    [ValidateNotNull()]
+    [NmePowershell.Category('Runtime')]
+    [System.Management.Automation.PSCredential]
+    # Credentials for a proxy server to use for the remote call
+    ${ProxyCredential},
+
+    [Parameter(DontShow)]
+    [NmePowershell.Category('Runtime')]
+    [System.Management.Automation.SwitchParameter]
+    # Use the default credentials for the proxy
+    ${ProxyUseDefaultCredentials}
+)
+
+begin {
+    try {
+        $outBuffer = $null
+        if ($PSBoundParameters.TryGetValue('OutBuffer', [ref]$outBuffer)) {
+            $PSBoundParameters['OutBuffer'] = 1
+        }
+        $parameterSet = $PSCmdlet.ParameterSetName
+        
+        $testPlayback = $false
+        $PSBoundParameters['HttpPipelinePrepend'] | Foreach-Object { if ($_) { $testPlayback = $testPlayback -or ('NmePowershell.Runtime.PipelineMock' -eq $_.Target.GetType().FullName -and 'Playback' -eq $_.Target.Mode) } }
+
+        $mapping = @{
+            Remove = 'NerdioManagerPowerShell.private\Remove-NmeNotificationCondition_Remove';
         }
         $cmdInfo = Get-Command -Name $mapping[$parameterSet]
         [NmePowershell.Runtime.MessageAttributeHelper]::ProcessCustomAttributesAtRuntime($cmdInfo, $MyInvocation, $parameterSet, $PSCmdlet)
@@ -22164,6 +23559,127 @@ end {
 
 <#
 .Synopsis
+Update the configuration of an already-enabled Console Connect region.\n            \nRequest body:\n    AllowUninstall (required) - Whether users can uninstall the Console Connect agent.\n            \nThis method can throw exceptions in the following cases:\n    The region is not enabled.\n    AllowUninstall is not specified in the request body.\n    AllowUninstall is already set to the specified value.\n            \nThis method returns a job and the updated region status.
+.Description
+Update the configuration of an already-enabled Console Connect region.\n            \nRequest body:\n    AllowUninstall (required) - Whether users can uninstall the Console Connect agent.\n            \nThis method can throw exceptions in the following cases:\n    The region is not enabled.\n    AllowUninstall is not specified in the request body.\n    AllowUninstall is already set to the specified value.\n            \nThis method returns a job and the updated region status.
+
+#>
+function Update-NmeConsoleConnectRegion {
+[OutputType([NmePowershell.Models.IResponseWithJobAndConsoleConnectRegionStatus])]
+[CmdletBinding(DefaultParameterSetName='UpdateExpanded', PositionalBinding=$false, SupportsShouldProcess, ConfirmImpact='Medium')]
+param(
+    [Parameter(Mandatory)]
+    [NmePowershell.PSArgumentCompleterAttribute("US", "EU", "CA", "AU")]
+    [NmePowershell.Category('Path')]
+    [System.String]
+    # .
+    ${Region},
+
+    [Parameter(ParameterSetName='Update', Mandatory, ValueFromPipeline)]
+    [NmePowershell.Category('Body')]
+    [NmePowershell.Models.IConsoleConnectRegionUpdate]
+    # .
+    ${Body},
+
+    [Parameter(ParameterSetName='UpdateExpanded')]
+    [NmePowershell.Category('Body')]
+    [System.Management.Automation.SwitchParameter]
+    # .
+    ${AllowUninstall},
+
+    [Parameter(DontShow)]
+    [NmePowershell.Category('Runtime')]
+    [System.Management.Automation.SwitchParameter]
+    # Wait for .NET debugger to attach
+    ${Break},
+
+    [Parameter(DontShow)]
+    [ValidateNotNull()]
+    [NmePowershell.Category('Runtime')]
+    [NmePowershell.Runtime.SendAsyncStep[]]
+    # SendAsync Pipeline Steps to be appended to the front of the pipeline
+    ${HttpPipelineAppend},
+
+    [Parameter(DontShow)]
+    [ValidateNotNull()]
+    [NmePowershell.Category('Runtime')]
+    [NmePowershell.Runtime.SendAsyncStep[]]
+    # SendAsync Pipeline Steps to be prepended to the front of the pipeline
+    ${HttpPipelinePrepend},
+
+    [Parameter(DontShow)]
+    [NmePowershell.Category('Runtime')]
+    [System.Uri]
+    # The URI for the proxy server to use
+    ${Proxy},
+
+    [Parameter(DontShow)]
+    [ValidateNotNull()]
+    [NmePowershell.Category('Runtime')]
+    [System.Management.Automation.PSCredential]
+    # Credentials for a proxy server to use for the remote call
+    ${ProxyCredential},
+
+    [Parameter(DontShow)]
+    [NmePowershell.Category('Runtime')]
+    [System.Management.Automation.SwitchParameter]
+    # Use the default credentials for the proxy
+    ${ProxyUseDefaultCredentials}
+)
+
+begin {
+    try {
+        $outBuffer = $null
+        if ($PSBoundParameters.TryGetValue('OutBuffer', [ref]$outBuffer)) {
+            $PSBoundParameters['OutBuffer'] = 1
+        }
+        $parameterSet = $PSCmdlet.ParameterSetName
+        
+        $testPlayback = $false
+        $PSBoundParameters['HttpPipelinePrepend'] | Foreach-Object { if ($_) { $testPlayback = $testPlayback -or ('NmePowershell.Runtime.PipelineMock' -eq $_.Target.GetType().FullName -and 'Playback' -eq $_.Target.Mode) } }
+
+        $mapping = @{
+            Update = 'NerdioManagerPowerShell.private\Update-NmeConsoleConnectRegion_Update';
+            UpdateExpanded = 'NerdioManagerPowerShell.private\Update-NmeConsoleConnectRegion_UpdateExpanded';
+        }
+        $cmdInfo = Get-Command -Name $mapping[$parameterSet]
+        [NmePowershell.Runtime.MessageAttributeHelper]::ProcessCustomAttributesAtRuntime($cmdInfo, $MyInvocation, $parameterSet, $PSCmdlet)
+        [NmePowershell.Runtime.MessageAttributeHelper]::ProcessPreviewMessageAttributesAtRuntime($cmdInfo, $MyInvocation, $parameterSet, $PSCmdlet)
+        $wrappedCmd = $ExecutionContext.InvokeCommand.GetCommand(($mapping[$parameterSet]), [System.Management.Automation.CommandTypes]::Cmdlet)
+        if ($wrappedCmd -eq $null) {
+            $wrappedCmd = $ExecutionContext.InvokeCommand.GetCommand(($mapping[$parameterSet]), [System.Management.Automation.CommandTypes]::Function)
+        }
+        $scriptCmd = {& $wrappedCmd @PSBoundParameters}
+        $steppablePipeline = $scriptCmd.GetSteppablePipeline($MyInvocation.CommandOrigin)
+        $steppablePipeline.Begin($PSCmdlet)
+    } catch {
+
+        throw
+    }
+}
+
+process {
+    try {
+        $steppablePipeline.Process($_)
+    } catch {
+
+        throw
+    }
+
+}
+end {
+    try {
+        $steppablePipeline.End()
+
+    } catch {
+
+        throw
+    }
+} 
+}
+
+<#
+.Synopsis
 Enable or disable Azure Files auto-scale
 .Description
 Enable or disable Azure Files auto-scale
@@ -24796,6 +26312,13 @@ param(
     ${UseDedicatedHosts},
 
     [Parameter(ParameterSetName='UpdateExpanded')]
+    [AllowEmptyCollection()]
+    [NmePowershell.Category('Body')]
+    [System.String[]]
+    # .
+    ${UserAssignedIdentityIds},
+
+    [Parameter(ParameterSetName='UpdateExpanded')]
     [NmePowershell.Category('Body')]
     [System.String]
     # .
@@ -25380,6 +26903,334 @@ begin {
         $mapping = @{
             Update = 'NerdioManagerPowerShell.private\Update-NmeNetAppFilesAutoscaleStatus_Update';
             UpdateExpanded = 'NerdioManagerPowerShell.private\Update-NmeNetAppFilesAutoscaleStatus_UpdateExpanded';
+        }
+        $cmdInfo = Get-Command -Name $mapping[$parameterSet]
+        [NmePowershell.Runtime.MessageAttributeHelper]::ProcessCustomAttributesAtRuntime($cmdInfo, $MyInvocation, $parameterSet, $PSCmdlet)
+        [NmePowershell.Runtime.MessageAttributeHelper]::ProcessPreviewMessageAttributesAtRuntime($cmdInfo, $MyInvocation, $parameterSet, $PSCmdlet)
+        $wrappedCmd = $ExecutionContext.InvokeCommand.GetCommand(($mapping[$parameterSet]), [System.Management.Automation.CommandTypes]::Cmdlet)
+        if ($wrappedCmd -eq $null) {
+            $wrappedCmd = $ExecutionContext.InvokeCommand.GetCommand(($mapping[$parameterSet]), [System.Management.Automation.CommandTypes]::Function)
+        }
+        $scriptCmd = {& $wrappedCmd @PSBoundParameters}
+        $steppablePipeline = $scriptCmd.GetSteppablePipeline($MyInvocation.CommandOrigin)
+        $steppablePipeline.Begin($PSCmdlet)
+    } catch {
+
+        throw
+    }
+}
+
+process {
+    try {
+        $steppablePipeline.Process($_)
+    } catch {
+
+        throw
+    }
+
+}
+end {
+    try {
+        $steppablePipeline.End()
+
+    } catch {
+
+        throw
+    }
+} 
+}
+
+<#
+.Synopsis
+Partially update notification action.
+.Description
+Partially update notification action.
+
+#>
+function Update-NmeNotificationAction {
+[OutputType([NmePowershell.Models.IResponseWithJobAndNotificationAction])]
+[CmdletBinding(DefaultParameterSetName='UpdateExpanded', PositionalBinding=$false, SupportsShouldProcess, ConfirmImpact='Medium')]
+param(
+    [Parameter(Mandatory)]
+    [NmePowershell.Category('Path')]
+    [System.Int32]
+    # .
+    ${Id},
+
+    [Parameter(ParameterSetName='Update', Mandatory, ValueFromPipeline)]
+    [NmePowershell.Category('Body')]
+    [NmePowershell.Models.INotificationActionUpdate]
+    # .
+    ${Body},
+
+    [Parameter(ParameterSetName='UpdateExpanded')]
+    [AllowEmptyCollection()]
+    [NmePowershell.Category('Body')]
+    [System.Int32[]]
+    # .
+    ${ConditionNerdioConditionIds},
+
+    [Parameter(ParameterSetName='UpdateExpanded')]
+    [AllowEmptyCollection()]
+    [NmePowershell.PSArgumentCompleterAttribute("None", "EntraIdManager")]
+    [NmePowershell.Category('Body')]
+    [System.String[]]
+    # .
+    ${EmailBuiltInRecipients},
+
+    [Parameter(ParameterSetName='UpdateExpanded')]
+    [NmePowershell.Category('Body')]
+    [System.Management.Automation.SwitchParameter]
+    # .
+    ${EmailEnable},
+
+    [Parameter(ParameterSetName='UpdateExpanded')]
+    [NmePowershell.Category('Body')]
+    [System.Int32]
+    # .
+    ${EmailMailboxId},
+
+    [Parameter(ParameterSetName='UpdateExpanded')]
+    [AllowEmptyCollection()]
+    [NmePowershell.Category('Body')]
+    [System.String[]]
+    # .
+    ${EmailSendTo},
+
+    [Parameter(ParameterSetName='UpdateExpanded')]
+    [NmePowershell.Category('Body')]
+    [System.Management.Automation.SwitchParameter]
+    # .
+    ${IncludeTaskDetails},
+
+    [Parameter(ParameterSetName='UpdateExpanded')]
+    [NmePowershell.Category('Body')]
+    [System.Management.Automation.SwitchParameter]
+    # .
+    ${IsActive},
+
+    [Parameter(ParameterSetName='UpdateExpanded')]
+    [NmePowershell.Category('Body')]
+    [System.Management.Automation.SwitchParameter]
+    # .
+    ${WebhookEnable},
+
+    [Parameter(ParameterSetName='UpdateExpanded')]
+    [NmePowershell.Category('Body')]
+    [System.Int32]
+    # .
+    ${WebhookId},
+
+    [Parameter(DontShow)]
+    [NmePowershell.Category('Runtime')]
+    [System.Management.Automation.SwitchParameter]
+    # Wait for .NET debugger to attach
+    ${Break},
+
+    [Parameter(DontShow)]
+    [ValidateNotNull()]
+    [NmePowershell.Category('Runtime')]
+    [NmePowershell.Runtime.SendAsyncStep[]]
+    # SendAsync Pipeline Steps to be appended to the front of the pipeline
+    ${HttpPipelineAppend},
+
+    [Parameter(DontShow)]
+    [ValidateNotNull()]
+    [NmePowershell.Category('Runtime')]
+    [NmePowershell.Runtime.SendAsyncStep[]]
+    # SendAsync Pipeline Steps to be prepended to the front of the pipeline
+    ${HttpPipelinePrepend},
+
+    [Parameter(DontShow)]
+    [NmePowershell.Category('Runtime')]
+    [System.Uri]
+    # The URI for the proxy server to use
+    ${Proxy},
+
+    [Parameter(DontShow)]
+    [ValidateNotNull()]
+    [NmePowershell.Category('Runtime')]
+    [System.Management.Automation.PSCredential]
+    # Credentials for a proxy server to use for the remote call
+    ${ProxyCredential},
+
+    [Parameter(DontShow)]
+    [NmePowershell.Category('Runtime')]
+    [System.Management.Automation.SwitchParameter]
+    # Use the default credentials for the proxy
+    ${ProxyUseDefaultCredentials}
+)
+
+begin {
+    try {
+        $outBuffer = $null
+        if ($PSBoundParameters.TryGetValue('OutBuffer', [ref]$outBuffer)) {
+            $PSBoundParameters['OutBuffer'] = 1
+        }
+        $parameterSet = $PSCmdlet.ParameterSetName
+        
+        $testPlayback = $false
+        $PSBoundParameters['HttpPipelinePrepend'] | Foreach-Object { if ($_) { $testPlayback = $testPlayback -or ('NmePowershell.Runtime.PipelineMock' -eq $_.Target.GetType().FullName -and 'Playback' -eq $_.Target.Mode) } }
+
+        $mapping = @{
+            Update = 'NerdioManagerPowerShell.private\Update-NmeNotificationAction_Update';
+            UpdateExpanded = 'NerdioManagerPowerShell.private\Update-NmeNotificationAction_UpdateExpanded';
+        }
+        $cmdInfo = Get-Command -Name $mapping[$parameterSet]
+        [NmePowershell.Runtime.MessageAttributeHelper]::ProcessCustomAttributesAtRuntime($cmdInfo, $MyInvocation, $parameterSet, $PSCmdlet)
+        [NmePowershell.Runtime.MessageAttributeHelper]::ProcessPreviewMessageAttributesAtRuntime($cmdInfo, $MyInvocation, $parameterSet, $PSCmdlet)
+        $wrappedCmd = $ExecutionContext.InvokeCommand.GetCommand(($mapping[$parameterSet]), [System.Management.Automation.CommandTypes]::Cmdlet)
+        if ($wrappedCmd -eq $null) {
+            $wrappedCmd = $ExecutionContext.InvokeCommand.GetCommand(($mapping[$parameterSet]), [System.Management.Automation.CommandTypes]::Function)
+        }
+        $scriptCmd = {& $wrappedCmd @PSBoundParameters}
+        $steppablePipeline = $scriptCmd.GetSteppablePipeline($MyInvocation.CommandOrigin)
+        $steppablePipeline.Begin($PSCmdlet)
+    } catch {
+
+        throw
+    }
+}
+
+process {
+    try {
+        $steppablePipeline.Process($_)
+    } catch {
+
+        throw
+    }
+
+}
+end {
+    try {
+        $steppablePipeline.End()
+
+    } catch {
+
+        throw
+    }
+} 
+}
+
+<#
+.Synopsis
+Update Nerdio notification condition.
+.Description
+Update Nerdio notification condition.
+
+#>
+function Update-NmeNotificationCondition {
+[OutputType([NmePowershell.Models.IResponseWithJobAndNotificationCondition])]
+[CmdletBinding(DefaultParameterSetName='UpdateExpanded', PositionalBinding=$false, SupportsShouldProcess, ConfirmImpact='Medium')]
+param(
+    [Parameter(Mandatory)]
+    [NmePowershell.Category('Path')]
+    [System.Int32]
+    # .
+    ${Id},
+
+    [Parameter(ParameterSetName='Update', Mandatory, ValueFromPipeline)]
+    [NmePowershell.Category('Body')]
+    [NmePowershell.Models.INotificationConditionUpdate]
+    # .
+    ${Body},
+
+    [Parameter(ParameterSetName='UpdateExpanded')]
+    [AllowEmptyCollection()]
+    [NmePowershell.Category('Body')]
+    [System.String[]]
+    # .
+    ${ExclusionKeywords},
+
+    [Parameter(ParameterSetName='UpdateExpanded')]
+    [NmePowershell.Category('Body')]
+    [System.String]
+    # .
+    ${Name},
+
+    [Parameter(ParameterSetName='UpdateExpanded')]
+    [AllowEmptyCollection()]
+    [NmePowershell.Category('Body')]
+    [NmePowershell.Models.INotificationConditionRunByUser[]]
+    # .
+    ${RunByUsers},
+
+    [Parameter(ParameterSetName='UpdateExpanded')]
+    [AllowEmptyCollection()]
+    [NmePowershell.PSArgumentCompleterAttribute("Pending", "Running", "Completed", "Failed", "Cancelled")]
+    [NmePowershell.Category('Body')]
+    [System.String[]]
+    # .
+    ${Statuses},
+
+    [Parameter(ParameterSetName='UpdateExpanded')]
+    [AllowEmptyCollection()]
+    [NmePowershell.Category('Body')]
+    [NmePowershell.Models.INotificationConditionTarget[]]
+    # .
+    ${Targets},
+
+    [Parameter(ParameterSetName='UpdateExpanded')]
+    [AllowEmptyCollection()]
+    [NmePowershell.Category('Body')]
+    [System.String[]]
+    # .
+    ${Tasks},
+
+    [Parameter(DontShow)]
+    [NmePowershell.Category('Runtime')]
+    [System.Management.Automation.SwitchParameter]
+    # Wait for .NET debugger to attach
+    ${Break},
+
+    [Parameter(DontShow)]
+    [ValidateNotNull()]
+    [NmePowershell.Category('Runtime')]
+    [NmePowershell.Runtime.SendAsyncStep[]]
+    # SendAsync Pipeline Steps to be appended to the front of the pipeline
+    ${HttpPipelineAppend},
+
+    [Parameter(DontShow)]
+    [ValidateNotNull()]
+    [NmePowershell.Category('Runtime')]
+    [NmePowershell.Runtime.SendAsyncStep[]]
+    # SendAsync Pipeline Steps to be prepended to the front of the pipeline
+    ${HttpPipelinePrepend},
+
+    [Parameter(DontShow)]
+    [NmePowershell.Category('Runtime')]
+    [System.Uri]
+    # The URI for the proxy server to use
+    ${Proxy},
+
+    [Parameter(DontShow)]
+    [ValidateNotNull()]
+    [NmePowershell.Category('Runtime')]
+    [System.Management.Automation.PSCredential]
+    # Credentials for a proxy server to use for the remote call
+    ${ProxyCredential},
+
+    [Parameter(DontShow)]
+    [NmePowershell.Category('Runtime')]
+    [System.Management.Automation.SwitchParameter]
+    # Use the default credentials for the proxy
+    ${ProxyUseDefaultCredentials}
+)
+
+begin {
+    try {
+        $outBuffer = $null
+        if ($PSBoundParameters.TryGetValue('OutBuffer', [ref]$outBuffer)) {
+            $PSBoundParameters['OutBuffer'] = 1
+        }
+        $parameterSet = $PSCmdlet.ParameterSetName
+        
+        $testPlayback = $false
+        $PSBoundParameters['HttpPipelinePrepend'] | Foreach-Object { if ($_) { $testPlayback = $testPlayback -or ('NmePowershell.Runtime.PipelineMock' -eq $_.Target.GetType().FullName -and 'Playback' -eq $_.Target.Mode) } }
+
+        $mapping = @{
+            Update = 'NerdioManagerPowerShell.private\Update-NmeNotificationCondition_Update';
+            UpdateExpanded = 'NerdioManagerPowerShell.private\Update-NmeNotificationCondition_UpdateExpanded';
         }
         $cmdInfo = Get-Command -Name $mapping[$parameterSet]
         [NmePowershell.Runtime.MessageAttributeHelper]::ProcessCustomAttributesAtRuntime($cmdInfo, $MyInvocation, $parameterSet, $PSCmdlet)
@@ -32055,6 +33906,140 @@ end {
 
 <#
 .Synopsis
+Create an in-memory object for ConsoleConnectRegionEnable.
+.Description
+Create an in-memory object for ConsoleConnectRegionEnable.
+
+#>
+function New-NmeConsoleConnectRegionEnableModel {
+[OutputType([NmePowershell.Models.ConsoleConnectRegionEnable])]
+[CmdletBinding(PositionalBinding=$false)]
+param(
+    [Parameter()]
+    [NmePowershell.Category('Body')]
+    [System.Boolean]
+    ${AllowUninstall}
+)
+
+begin {
+    try {
+        $outBuffer = $null
+        if ($PSBoundParameters.TryGetValue('OutBuffer', [ref]$outBuffer)) {
+            $PSBoundParameters['OutBuffer'] = 1
+        }
+        $parameterSet = $PSCmdlet.ParameterSetName
+        
+        $testPlayback = $false
+        $PSBoundParameters['HttpPipelinePrepend'] | Foreach-Object { if ($_) { $testPlayback = $testPlayback -or ('NmePowershell.Runtime.PipelineMock' -eq $_.Target.GetType().FullName -and 'Playback' -eq $_.Target.Mode) } }
+
+        $mapping = @{
+            __AllParameterSets = 'NerdioManagerPowerShell.custom\New-NmeConsoleConnectRegionEnableModel';
+        }
+        $cmdInfo = Get-Command -Name $mapping[$parameterSet]
+        [NmePowershell.Runtime.MessageAttributeHelper]::ProcessCustomAttributesAtRuntime($cmdInfo, $MyInvocation, $parameterSet, $PSCmdlet)
+        [NmePowershell.Runtime.MessageAttributeHelper]::ProcessPreviewMessageAttributesAtRuntime($cmdInfo, $MyInvocation, $parameterSet, $PSCmdlet)
+        $wrappedCmd = $ExecutionContext.InvokeCommand.GetCommand(($mapping[$parameterSet]), [System.Management.Automation.CommandTypes]::Cmdlet)
+        if ($wrappedCmd -eq $null) {
+            $wrappedCmd = $ExecutionContext.InvokeCommand.GetCommand(($mapping[$parameterSet]), [System.Management.Automation.CommandTypes]::Function)
+        }
+        $scriptCmd = {& $wrappedCmd @PSBoundParameters}
+        $steppablePipeline = $scriptCmd.GetSteppablePipeline($MyInvocation.CommandOrigin)
+        $steppablePipeline.Begin($PSCmdlet)
+    } catch {
+
+        throw
+    }
+}
+
+process {
+    try {
+        $steppablePipeline.Process($_)
+    } catch {
+
+        throw
+    }
+
+}
+end {
+    try {
+        $steppablePipeline.End()
+
+    } catch {
+
+        throw
+    }
+} 
+}
+
+<#
+.Synopsis
+Create an in-memory object for ConsoleConnectRegionUpdate.
+.Description
+Create an in-memory object for ConsoleConnectRegionUpdate.
+
+#>
+function New-NmeConsoleConnectRegionUpdateModel {
+[OutputType([NmePowershell.Models.ConsoleConnectRegionUpdate])]
+[CmdletBinding(PositionalBinding=$false)]
+param(
+    [Parameter()]
+    [NmePowershell.Category('Body')]
+    [System.Boolean]
+    ${AllowUninstall}
+)
+
+begin {
+    try {
+        $outBuffer = $null
+        if ($PSBoundParameters.TryGetValue('OutBuffer', [ref]$outBuffer)) {
+            $PSBoundParameters['OutBuffer'] = 1
+        }
+        $parameterSet = $PSCmdlet.ParameterSetName
+        
+        $testPlayback = $false
+        $PSBoundParameters['HttpPipelinePrepend'] | Foreach-Object { if ($_) { $testPlayback = $testPlayback -or ('NmePowershell.Runtime.PipelineMock' -eq $_.Target.GetType().FullName -and 'Playback' -eq $_.Target.Mode) } }
+
+        $mapping = @{
+            __AllParameterSets = 'NerdioManagerPowerShell.custom\New-NmeConsoleConnectRegionUpdateModel';
+        }
+        $cmdInfo = Get-Command -Name $mapping[$parameterSet]
+        [NmePowershell.Runtime.MessageAttributeHelper]::ProcessCustomAttributesAtRuntime($cmdInfo, $MyInvocation, $parameterSet, $PSCmdlet)
+        [NmePowershell.Runtime.MessageAttributeHelper]::ProcessPreviewMessageAttributesAtRuntime($cmdInfo, $MyInvocation, $parameterSet, $PSCmdlet)
+        $wrappedCmd = $ExecutionContext.InvokeCommand.GetCommand(($mapping[$parameterSet]), [System.Management.Automation.CommandTypes]::Cmdlet)
+        if ($wrappedCmd -eq $null) {
+            $wrappedCmd = $ExecutionContext.InvokeCommand.GetCommand(($mapping[$parameterSet]), [System.Management.Automation.CommandTypes]::Function)
+        }
+        $scriptCmd = {& $wrappedCmd @PSBoundParameters}
+        $steppablePipeline = $scriptCmd.GetSteppablePipeline($MyInvocation.CommandOrigin)
+        $steppablePipeline.Begin($PSCmdlet)
+    } catch {
+
+        throw
+    }
+}
+
+process {
+    try {
+        $steppablePipeline.Process($_)
+    } catch {
+
+        throw
+    }
+
+}
+end {
+    try {
+        $steppablePipeline.End()
+
+    } catch {
+
+        throw
+    }
+} 
+}
+
+<#
+.Synopsis
 Create an in-memory object for Credentials.
 .Description
 Create an in-memory object for Credentials.
@@ -37956,6 +39941,11 @@ param(
 
     [Parameter()]
     [NmePowershell.Category('Body')]
+    [System.String[]]
+    ${UserAssignedIdentityIds},
+
+    [Parameter()]
+    [NmePowershell.Category('Body')]
     [System.String]
     ${VMTimezone},
 
@@ -39029,7 +41019,12 @@ param(
     [NmePowershell.PSArgumentCompleterAttribute("AzureCloud", "AzureUSGovernment", "AzureChina")]
     [NmePowershell.Category('Body')]
     [System.String]
-    ${ServicePrincipalAzureType}
+    ${ServicePrincipalAzureType},
+
+    [Parameter()]
+    [NmePowershell.Category('Body')]
+    [System.String]
+    ${ServicePrincipalCertificateName}
 )
 
 begin {
@@ -40217,6 +42212,1188 @@ begin {
 
         $mapping = @{
             __AllParameterSets = 'NerdioManagerPowerShell.custom\New-NmeNetAppFilesWorkTimeSetModel';
+        }
+        $cmdInfo = Get-Command -Name $mapping[$parameterSet]
+        [NmePowershell.Runtime.MessageAttributeHelper]::ProcessCustomAttributesAtRuntime($cmdInfo, $MyInvocation, $parameterSet, $PSCmdlet)
+        [NmePowershell.Runtime.MessageAttributeHelper]::ProcessPreviewMessageAttributesAtRuntime($cmdInfo, $MyInvocation, $parameterSet, $PSCmdlet)
+        $wrappedCmd = $ExecutionContext.InvokeCommand.GetCommand(($mapping[$parameterSet]), [System.Management.Automation.CommandTypes]::Cmdlet)
+        if ($wrappedCmd -eq $null) {
+            $wrappedCmd = $ExecutionContext.InvokeCommand.GetCommand(($mapping[$parameterSet]), [System.Management.Automation.CommandTypes]::Function)
+        }
+        $scriptCmd = {& $wrappedCmd @PSBoundParameters}
+        $steppablePipeline = $scriptCmd.GetSteppablePipeline($MyInvocation.CommandOrigin)
+        $steppablePipeline.Begin($PSCmdlet)
+    } catch {
+
+        throw
+    }
+}
+
+process {
+    try {
+        $steppablePipeline.Process($_)
+    } catch {
+
+        throw
+    }
+
+}
+end {
+    try {
+        $steppablePipeline.End()
+
+    } catch {
+
+        throw
+    }
+} 
+}
+
+<#
+.Synopsis
+Create an in-memory object for NotificationActionConditions.
+.Description
+Create an in-memory object for NotificationActionConditions.
+
+#>
+function New-NmeNotificationActionConditionsModel {
+[OutputType([NmePowershell.Models.NotificationActionConditions])]
+[CmdletBinding(PositionalBinding=$false)]
+param(
+    [Parameter(Mandatory)]
+    [NmePowershell.Category('Body')]
+    [System.Int32[]]
+    ${NerdioConditionIds}
+)
+
+begin {
+    try {
+        $outBuffer = $null
+        if ($PSBoundParameters.TryGetValue('OutBuffer', [ref]$outBuffer)) {
+            $PSBoundParameters['OutBuffer'] = 1
+        }
+        $parameterSet = $PSCmdlet.ParameterSetName
+        
+        $testPlayback = $false
+        $PSBoundParameters['HttpPipelinePrepend'] | Foreach-Object { if ($_) { $testPlayback = $testPlayback -or ('NmePowershell.Runtime.PipelineMock' -eq $_.Target.GetType().FullName -and 'Playback' -eq $_.Target.Mode) } }
+
+        $mapping = @{
+            __AllParameterSets = 'NerdioManagerPowerShell.custom\New-NmeNotificationActionConditionsModel';
+        }
+        $cmdInfo = Get-Command -Name $mapping[$parameterSet]
+        [NmePowershell.Runtime.MessageAttributeHelper]::ProcessCustomAttributesAtRuntime($cmdInfo, $MyInvocation, $parameterSet, $PSCmdlet)
+        [NmePowershell.Runtime.MessageAttributeHelper]::ProcessPreviewMessageAttributesAtRuntime($cmdInfo, $MyInvocation, $parameterSet, $PSCmdlet)
+        $wrappedCmd = $ExecutionContext.InvokeCommand.GetCommand(($mapping[$parameterSet]), [System.Management.Automation.CommandTypes]::Cmdlet)
+        if ($wrappedCmd -eq $null) {
+            $wrappedCmd = $ExecutionContext.InvokeCommand.GetCommand(($mapping[$parameterSet]), [System.Management.Automation.CommandTypes]::Function)
+        }
+        $scriptCmd = {& $wrappedCmd @PSBoundParameters}
+        $steppablePipeline = $scriptCmd.GetSteppablePipeline($MyInvocation.CommandOrigin)
+        $steppablePipeline.Begin($PSCmdlet)
+    } catch {
+
+        throw
+    }
+}
+
+process {
+    try {
+        $steppablePipeline.Process($_)
+    } catch {
+
+        throw
+    }
+
+}
+end {
+    try {
+        $steppablePipeline.End()
+
+    } catch {
+
+        throw
+    }
+} 
+}
+
+<#
+.Synopsis
+Create an in-memory object for NotificationActionConditionsUpdate.
+.Description
+Create an in-memory object for NotificationActionConditionsUpdate.
+
+#>
+function New-NmeNotificationActionConditionsUpdateModel {
+[OutputType([NmePowershell.Models.NotificationActionConditionsUpdate])]
+[CmdletBinding(PositionalBinding=$false)]
+param(
+    [Parameter()]
+    [NmePowershell.Category('Body')]
+    [System.Int32[]]
+    ${NerdioConditionIds}
+)
+
+begin {
+    try {
+        $outBuffer = $null
+        if ($PSBoundParameters.TryGetValue('OutBuffer', [ref]$outBuffer)) {
+            $PSBoundParameters['OutBuffer'] = 1
+        }
+        $parameterSet = $PSCmdlet.ParameterSetName
+        
+        $testPlayback = $false
+        $PSBoundParameters['HttpPipelinePrepend'] | Foreach-Object { if ($_) { $testPlayback = $testPlayback -or ('NmePowershell.Runtime.PipelineMock' -eq $_.Target.GetType().FullName -and 'Playback' -eq $_.Target.Mode) } }
+
+        $mapping = @{
+            __AllParameterSets = 'NerdioManagerPowerShell.custom\New-NmeNotificationActionConditionsUpdateModel';
+        }
+        $cmdInfo = Get-Command -Name $mapping[$parameterSet]
+        [NmePowershell.Runtime.MessageAttributeHelper]::ProcessCustomAttributesAtRuntime($cmdInfo, $MyInvocation, $parameterSet, $PSCmdlet)
+        [NmePowershell.Runtime.MessageAttributeHelper]::ProcessPreviewMessageAttributesAtRuntime($cmdInfo, $MyInvocation, $parameterSet, $PSCmdlet)
+        $wrappedCmd = $ExecutionContext.InvokeCommand.GetCommand(($mapping[$parameterSet]), [System.Management.Automation.CommandTypes]::Cmdlet)
+        if ($wrappedCmd -eq $null) {
+            $wrappedCmd = $ExecutionContext.InvokeCommand.GetCommand(($mapping[$parameterSet]), [System.Management.Automation.CommandTypes]::Function)
+        }
+        $scriptCmd = {& $wrappedCmd @PSBoundParameters}
+        $steppablePipeline = $scriptCmd.GetSteppablePipeline($MyInvocation.CommandOrigin)
+        $steppablePipeline.Begin($PSCmdlet)
+    } catch {
+
+        throw
+    }
+}
+
+process {
+    try {
+        $steppablePipeline.Process($_)
+    } catch {
+
+        throw
+    }
+
+}
+end {
+    try {
+        $steppablePipeline.End()
+
+    } catch {
+
+        throw
+    }
+} 
+}
+
+<#
+.Synopsis
+Create an in-memory object for NotificationActionCreate.
+.Description
+Create an in-memory object for NotificationActionCreate.
+
+#>
+function New-NmeNotificationActionCreateModel {
+[OutputType([NmePowershell.Models.NotificationActionCreate])]
+[CmdletBinding(PositionalBinding=$false)]
+param(
+    [Parameter(Mandatory)]
+    [NmePowershell.Category('Body')]
+    [System.Int32[]]
+    ${ConditionNerdioConditionIds},
+
+    [Parameter(Mandatory)]
+    [NmePowershell.PSArgumentCompleterAttribute("None", "EntraIdManager")]
+    [NmePowershell.Category('Body')]
+    [System.String[]]
+    ${EmailBuiltInRecipients},
+
+    [Parameter(Mandatory)]
+    [NmePowershell.Category('Body')]
+    [System.Boolean]
+    ${EmailEnable},
+
+    [Parameter(Mandatory)]
+    [NmePowershell.Category('Body')]
+    [System.String[]]
+    ${EmailSendTo},
+
+    [Parameter(Mandatory)]
+    [NmePowershell.Category('Body')]
+    [System.Boolean]
+    ${IncludeTaskDetails},
+
+    [Parameter(Mandatory)]
+    [NmePowershell.Category('Body')]
+    [System.Boolean]
+    ${IsActive},
+
+    [Parameter(Mandatory)]
+    [NmePowershell.Category('Body')]
+    [System.Boolean]
+    ${WebhookEnable},
+
+    [Parameter()]
+    [NmePowershell.Category('Body')]
+    [System.Int32]
+    ${EmailMailboxId},
+
+    [Parameter()]
+    [NmePowershell.Category('Body')]
+    [System.Int32]
+    ${WebhookId}
+)
+
+begin {
+    try {
+        $outBuffer = $null
+        if ($PSBoundParameters.TryGetValue('OutBuffer', [ref]$outBuffer)) {
+            $PSBoundParameters['OutBuffer'] = 1
+        }
+        $parameterSet = $PSCmdlet.ParameterSetName
+        
+        $testPlayback = $false
+        $PSBoundParameters['HttpPipelinePrepend'] | Foreach-Object { if ($_) { $testPlayback = $testPlayback -or ('NmePowershell.Runtime.PipelineMock' -eq $_.Target.GetType().FullName -and 'Playback' -eq $_.Target.Mode) } }
+
+        $mapping = @{
+            __AllParameterSets = 'NerdioManagerPowerShell.custom\New-NmeNotificationActionCreateModel';
+        }
+        $cmdInfo = Get-Command -Name $mapping[$parameterSet]
+        [NmePowershell.Runtime.MessageAttributeHelper]::ProcessCustomAttributesAtRuntime($cmdInfo, $MyInvocation, $parameterSet, $PSCmdlet)
+        [NmePowershell.Runtime.MessageAttributeHelper]::ProcessPreviewMessageAttributesAtRuntime($cmdInfo, $MyInvocation, $parameterSet, $PSCmdlet)
+        $wrappedCmd = $ExecutionContext.InvokeCommand.GetCommand(($mapping[$parameterSet]), [System.Management.Automation.CommandTypes]::Cmdlet)
+        if ($wrappedCmd -eq $null) {
+            $wrappedCmd = $ExecutionContext.InvokeCommand.GetCommand(($mapping[$parameterSet]), [System.Management.Automation.CommandTypes]::Function)
+        }
+        $scriptCmd = {& $wrappedCmd @PSBoundParameters}
+        $steppablePipeline = $scriptCmd.GetSteppablePipeline($MyInvocation.CommandOrigin)
+        $steppablePipeline.Begin($PSCmdlet)
+    } catch {
+
+        throw
+    }
+}
+
+process {
+    try {
+        $steppablePipeline.Process($_)
+    } catch {
+
+        throw
+    }
+
+}
+end {
+    try {
+        $steppablePipeline.End()
+
+    } catch {
+
+        throw
+    }
+} 
+}
+
+<#
+.Synopsis
+Create an in-memory object for NotificationActionDelivery.
+.Description
+Create an in-memory object for NotificationActionDelivery.
+
+#>
+function New-NmeNotificationActionDeliveryModel {
+[OutputType([NmePowershell.Models.NotificationActionDelivery])]
+[CmdletBinding(PositionalBinding=$false)]
+param(
+    [Parameter(Mandatory)]
+    [NmePowershell.PSArgumentCompleterAttribute("None", "EntraIdManager")]
+    [NmePowershell.Category('Body')]
+    [System.String[]]
+    ${EmailBuiltInRecipients},
+
+    [Parameter(Mandatory)]
+    [NmePowershell.Category('Body')]
+    [System.Boolean]
+    ${EmailEnable},
+
+    [Parameter(Mandatory)]
+    [NmePowershell.Category('Body')]
+    [System.String[]]
+    ${EmailSendTo},
+
+    [Parameter(Mandatory)]
+    [NmePowershell.Category('Body')]
+    [System.Boolean]
+    ${WebhookEnable},
+
+    [Parameter()]
+    [NmePowershell.Category('Body')]
+    [System.Int32]
+    ${EmailMailboxId},
+
+    [Parameter()]
+    [NmePowershell.Category('Body')]
+    [System.Int32]
+    ${WebhookId}
+)
+
+begin {
+    try {
+        $outBuffer = $null
+        if ($PSBoundParameters.TryGetValue('OutBuffer', [ref]$outBuffer)) {
+            $PSBoundParameters['OutBuffer'] = 1
+        }
+        $parameterSet = $PSCmdlet.ParameterSetName
+        
+        $testPlayback = $false
+        $PSBoundParameters['HttpPipelinePrepend'] | Foreach-Object { if ($_) { $testPlayback = $testPlayback -or ('NmePowershell.Runtime.PipelineMock' -eq $_.Target.GetType().FullName -and 'Playback' -eq $_.Target.Mode) } }
+
+        $mapping = @{
+            __AllParameterSets = 'NerdioManagerPowerShell.custom\New-NmeNotificationActionDeliveryModel';
+        }
+        $cmdInfo = Get-Command -Name $mapping[$parameterSet]
+        [NmePowershell.Runtime.MessageAttributeHelper]::ProcessCustomAttributesAtRuntime($cmdInfo, $MyInvocation, $parameterSet, $PSCmdlet)
+        [NmePowershell.Runtime.MessageAttributeHelper]::ProcessPreviewMessageAttributesAtRuntime($cmdInfo, $MyInvocation, $parameterSet, $PSCmdlet)
+        $wrappedCmd = $ExecutionContext.InvokeCommand.GetCommand(($mapping[$parameterSet]), [System.Management.Automation.CommandTypes]::Cmdlet)
+        if ($wrappedCmd -eq $null) {
+            $wrappedCmd = $ExecutionContext.InvokeCommand.GetCommand(($mapping[$parameterSet]), [System.Management.Automation.CommandTypes]::Function)
+        }
+        $scriptCmd = {& $wrappedCmd @PSBoundParameters}
+        $steppablePipeline = $scriptCmd.GetSteppablePipeline($MyInvocation.CommandOrigin)
+        $steppablePipeline.Begin($PSCmdlet)
+    } catch {
+
+        throw
+    }
+}
+
+process {
+    try {
+        $steppablePipeline.Process($_)
+    } catch {
+
+        throw
+    }
+
+}
+end {
+    try {
+        $steppablePipeline.End()
+
+    } catch {
+
+        throw
+    }
+} 
+}
+
+<#
+.Synopsis
+Create an in-memory object for NotificationActionDeliveryUpdate.
+.Description
+Create an in-memory object for NotificationActionDeliveryUpdate.
+
+#>
+function New-NmeNotificationActionDeliveryUpdateModel {
+[OutputType([NmePowershell.Models.NotificationActionDeliveryUpdate])]
+[CmdletBinding(PositionalBinding=$false)]
+param(
+    [Parameter()]
+    [NmePowershell.PSArgumentCompleterAttribute("None", "EntraIdManager")]
+    [NmePowershell.Category('Body')]
+    [System.String[]]
+    ${EmailBuiltInRecipients},
+
+    [Parameter()]
+    [NmePowershell.Category('Body')]
+    [System.Boolean]
+    ${EmailEnable},
+
+    [Parameter()]
+    [NmePowershell.Category('Body')]
+    [System.Int32]
+    ${EmailMailboxId},
+
+    [Parameter()]
+    [NmePowershell.Category('Body')]
+    [System.String[]]
+    ${EmailSendTo},
+
+    [Parameter()]
+    [NmePowershell.Category('Body')]
+    [System.Boolean]
+    ${WebhookEnable},
+
+    [Parameter()]
+    [NmePowershell.Category('Body')]
+    [System.Int32]
+    ${WebhookId}
+)
+
+begin {
+    try {
+        $outBuffer = $null
+        if ($PSBoundParameters.TryGetValue('OutBuffer', [ref]$outBuffer)) {
+            $PSBoundParameters['OutBuffer'] = 1
+        }
+        $parameterSet = $PSCmdlet.ParameterSetName
+        
+        $testPlayback = $false
+        $PSBoundParameters['HttpPipelinePrepend'] | Foreach-Object { if ($_) { $testPlayback = $testPlayback -or ('NmePowershell.Runtime.PipelineMock' -eq $_.Target.GetType().FullName -and 'Playback' -eq $_.Target.Mode) } }
+
+        $mapping = @{
+            __AllParameterSets = 'NerdioManagerPowerShell.custom\New-NmeNotificationActionDeliveryUpdateModel';
+        }
+        $cmdInfo = Get-Command -Name $mapping[$parameterSet]
+        [NmePowershell.Runtime.MessageAttributeHelper]::ProcessCustomAttributesAtRuntime($cmdInfo, $MyInvocation, $parameterSet, $PSCmdlet)
+        [NmePowershell.Runtime.MessageAttributeHelper]::ProcessPreviewMessageAttributesAtRuntime($cmdInfo, $MyInvocation, $parameterSet, $PSCmdlet)
+        $wrappedCmd = $ExecutionContext.InvokeCommand.GetCommand(($mapping[$parameterSet]), [System.Management.Automation.CommandTypes]::Cmdlet)
+        if ($wrappedCmd -eq $null) {
+            $wrappedCmd = $ExecutionContext.InvokeCommand.GetCommand(($mapping[$parameterSet]), [System.Management.Automation.CommandTypes]::Function)
+        }
+        $scriptCmd = {& $wrappedCmd @PSBoundParameters}
+        $steppablePipeline = $scriptCmd.GetSteppablePipeline($MyInvocation.CommandOrigin)
+        $steppablePipeline.Begin($PSCmdlet)
+    } catch {
+
+        throw
+    }
+}
+
+process {
+    try {
+        $steppablePipeline.Process($_)
+    } catch {
+
+        throw
+    }
+
+}
+end {
+    try {
+        $steppablePipeline.End()
+
+    } catch {
+
+        throw
+    }
+} 
+}
+
+<#
+.Synopsis
+Create an in-memory object for NotificationActionEmailDelivery.
+.Description
+Create an in-memory object for NotificationActionEmailDelivery.
+
+#>
+function New-NmeNotificationActionEmailDeliveryModel {
+[OutputType([NmePowershell.Models.NotificationActionEmailDelivery])]
+[CmdletBinding(PositionalBinding=$false)]
+param(
+    [Parameter(Mandatory)]
+    [NmePowershell.PSArgumentCompleterAttribute("None", "EntraIdManager")]
+    [NmePowershell.Category('Body')]
+    [System.String[]]
+    ${BuiltInRecipients},
+
+    [Parameter(Mandatory)]
+    [NmePowershell.Category('Body')]
+    [System.Boolean]
+    ${Enable},
+
+    [Parameter(Mandatory)]
+    [NmePowershell.Category('Body')]
+    [System.String[]]
+    ${SendTo},
+
+    [Parameter()]
+    [NmePowershell.Category('Body')]
+    [System.Int32]
+    ${MailboxId}
+)
+
+begin {
+    try {
+        $outBuffer = $null
+        if ($PSBoundParameters.TryGetValue('OutBuffer', [ref]$outBuffer)) {
+            $PSBoundParameters['OutBuffer'] = 1
+        }
+        $parameterSet = $PSCmdlet.ParameterSetName
+        
+        $testPlayback = $false
+        $PSBoundParameters['HttpPipelinePrepend'] | Foreach-Object { if ($_) { $testPlayback = $testPlayback -or ('NmePowershell.Runtime.PipelineMock' -eq $_.Target.GetType().FullName -and 'Playback' -eq $_.Target.Mode) } }
+
+        $mapping = @{
+            __AllParameterSets = 'NerdioManagerPowerShell.custom\New-NmeNotificationActionEmailDeliveryModel';
+        }
+        $cmdInfo = Get-Command -Name $mapping[$parameterSet]
+        [NmePowershell.Runtime.MessageAttributeHelper]::ProcessCustomAttributesAtRuntime($cmdInfo, $MyInvocation, $parameterSet, $PSCmdlet)
+        [NmePowershell.Runtime.MessageAttributeHelper]::ProcessPreviewMessageAttributesAtRuntime($cmdInfo, $MyInvocation, $parameterSet, $PSCmdlet)
+        $wrappedCmd = $ExecutionContext.InvokeCommand.GetCommand(($mapping[$parameterSet]), [System.Management.Automation.CommandTypes]::Cmdlet)
+        if ($wrappedCmd -eq $null) {
+            $wrappedCmd = $ExecutionContext.InvokeCommand.GetCommand(($mapping[$parameterSet]), [System.Management.Automation.CommandTypes]::Function)
+        }
+        $scriptCmd = {& $wrappedCmd @PSBoundParameters}
+        $steppablePipeline = $scriptCmd.GetSteppablePipeline($MyInvocation.CommandOrigin)
+        $steppablePipeline.Begin($PSCmdlet)
+    } catch {
+
+        throw
+    }
+}
+
+process {
+    try {
+        $steppablePipeline.Process($_)
+    } catch {
+
+        throw
+    }
+
+}
+end {
+    try {
+        $steppablePipeline.End()
+
+    } catch {
+
+        throw
+    }
+} 
+}
+
+<#
+.Synopsis
+Create an in-memory object for NotificationActionEmailDeliveryUpdate.
+.Description
+Create an in-memory object for NotificationActionEmailDeliveryUpdate.
+
+#>
+function New-NmeNotificationActionEmailDeliveryUpdateModel {
+[OutputType([NmePowershell.Models.NotificationActionEmailDeliveryUpdate])]
+[CmdletBinding(PositionalBinding=$false)]
+param(
+    [Parameter()]
+    [NmePowershell.PSArgumentCompleterAttribute("None", "EntraIdManager")]
+    [NmePowershell.Category('Body')]
+    [System.String[]]
+    ${BuiltInRecipients},
+
+    [Parameter()]
+    [NmePowershell.Category('Body')]
+    [System.Boolean]
+    ${Enable},
+
+    [Parameter()]
+    [NmePowershell.Category('Body')]
+    [System.Int32]
+    ${MailboxId},
+
+    [Parameter()]
+    [NmePowershell.Category('Body')]
+    [System.String[]]
+    ${SendTo}
+)
+
+begin {
+    try {
+        $outBuffer = $null
+        if ($PSBoundParameters.TryGetValue('OutBuffer', [ref]$outBuffer)) {
+            $PSBoundParameters['OutBuffer'] = 1
+        }
+        $parameterSet = $PSCmdlet.ParameterSetName
+        
+        $testPlayback = $false
+        $PSBoundParameters['HttpPipelinePrepend'] | Foreach-Object { if ($_) { $testPlayback = $testPlayback -or ('NmePowershell.Runtime.PipelineMock' -eq $_.Target.GetType().FullName -and 'Playback' -eq $_.Target.Mode) } }
+
+        $mapping = @{
+            __AllParameterSets = 'NerdioManagerPowerShell.custom\New-NmeNotificationActionEmailDeliveryUpdateModel';
+        }
+        $cmdInfo = Get-Command -Name $mapping[$parameterSet]
+        [NmePowershell.Runtime.MessageAttributeHelper]::ProcessCustomAttributesAtRuntime($cmdInfo, $MyInvocation, $parameterSet, $PSCmdlet)
+        [NmePowershell.Runtime.MessageAttributeHelper]::ProcessPreviewMessageAttributesAtRuntime($cmdInfo, $MyInvocation, $parameterSet, $PSCmdlet)
+        $wrappedCmd = $ExecutionContext.InvokeCommand.GetCommand(($mapping[$parameterSet]), [System.Management.Automation.CommandTypes]::Cmdlet)
+        if ($wrappedCmd -eq $null) {
+            $wrappedCmd = $ExecutionContext.InvokeCommand.GetCommand(($mapping[$parameterSet]), [System.Management.Automation.CommandTypes]::Function)
+        }
+        $scriptCmd = {& $wrappedCmd @PSBoundParameters}
+        $steppablePipeline = $scriptCmd.GetSteppablePipeline($MyInvocation.CommandOrigin)
+        $steppablePipeline.Begin($PSCmdlet)
+    } catch {
+
+        throw
+    }
+}
+
+process {
+    try {
+        $steppablePipeline.Process($_)
+    } catch {
+
+        throw
+    }
+
+}
+end {
+    try {
+        $steppablePipeline.End()
+
+    } catch {
+
+        throw
+    }
+} 
+}
+
+<#
+.Synopsis
+Create an in-memory object for NotificationActionUpdate.
+.Description
+Create an in-memory object for NotificationActionUpdate.
+
+#>
+function New-NmeNotificationActionUpdateModel {
+[OutputType([NmePowershell.Models.NotificationActionUpdate])]
+[CmdletBinding(PositionalBinding=$false)]
+param(
+    [Parameter()]
+    [NmePowershell.Category('Body')]
+    [System.Int32[]]
+    ${ConditionNerdioConditionIds},
+
+    [Parameter()]
+    [NmePowershell.PSArgumentCompleterAttribute("None", "EntraIdManager")]
+    [NmePowershell.Category('Body')]
+    [System.String[]]
+    ${EmailBuiltInRecipients},
+
+    [Parameter()]
+    [NmePowershell.Category('Body')]
+    [System.Boolean]
+    ${EmailEnable},
+
+    [Parameter()]
+    [NmePowershell.Category('Body')]
+    [System.Int32]
+    ${EmailMailboxId},
+
+    [Parameter()]
+    [NmePowershell.Category('Body')]
+    [System.String[]]
+    ${EmailSendTo},
+
+    [Parameter()]
+    [NmePowershell.Category('Body')]
+    [System.Boolean]
+    ${IncludeTaskDetails},
+
+    [Parameter()]
+    [NmePowershell.Category('Body')]
+    [System.Boolean]
+    ${IsActive},
+
+    [Parameter()]
+    [NmePowershell.Category('Body')]
+    [System.Boolean]
+    ${WebhookEnable},
+
+    [Parameter()]
+    [NmePowershell.Category('Body')]
+    [System.Int32]
+    ${WebhookId}
+)
+
+begin {
+    try {
+        $outBuffer = $null
+        if ($PSBoundParameters.TryGetValue('OutBuffer', [ref]$outBuffer)) {
+            $PSBoundParameters['OutBuffer'] = 1
+        }
+        $parameterSet = $PSCmdlet.ParameterSetName
+        
+        $testPlayback = $false
+        $PSBoundParameters['HttpPipelinePrepend'] | Foreach-Object { if ($_) { $testPlayback = $testPlayback -or ('NmePowershell.Runtime.PipelineMock' -eq $_.Target.GetType().FullName -and 'Playback' -eq $_.Target.Mode) } }
+
+        $mapping = @{
+            __AllParameterSets = 'NerdioManagerPowerShell.custom\New-NmeNotificationActionUpdateModel';
+        }
+        $cmdInfo = Get-Command -Name $mapping[$parameterSet]
+        [NmePowershell.Runtime.MessageAttributeHelper]::ProcessCustomAttributesAtRuntime($cmdInfo, $MyInvocation, $parameterSet, $PSCmdlet)
+        [NmePowershell.Runtime.MessageAttributeHelper]::ProcessPreviewMessageAttributesAtRuntime($cmdInfo, $MyInvocation, $parameterSet, $PSCmdlet)
+        $wrappedCmd = $ExecutionContext.InvokeCommand.GetCommand(($mapping[$parameterSet]), [System.Management.Automation.CommandTypes]::Cmdlet)
+        if ($wrappedCmd -eq $null) {
+            $wrappedCmd = $ExecutionContext.InvokeCommand.GetCommand(($mapping[$parameterSet]), [System.Management.Automation.CommandTypes]::Function)
+        }
+        $scriptCmd = {& $wrappedCmd @PSBoundParameters}
+        $steppablePipeline = $scriptCmd.GetSteppablePipeline($MyInvocation.CommandOrigin)
+        $steppablePipeline.Begin($PSCmdlet)
+    } catch {
+
+        throw
+    }
+}
+
+process {
+    try {
+        $steppablePipeline.Process($_)
+    } catch {
+
+        throw
+    }
+
+}
+end {
+    try {
+        $steppablePipeline.End()
+
+    } catch {
+
+        throw
+    }
+} 
+}
+
+<#
+.Synopsis
+Create an in-memory object for NotificationActionWebhookDelivery.
+.Description
+Create an in-memory object for NotificationActionWebhookDelivery.
+
+#>
+function New-NmeNotificationActionWebhookDeliveryModel {
+[OutputType([NmePowershell.Models.NotificationActionWebhookDelivery])]
+[CmdletBinding(PositionalBinding=$false)]
+param(
+    [Parameter(Mandatory)]
+    [NmePowershell.Category('Body')]
+    [System.Boolean]
+    ${Enable},
+
+    [Parameter()]
+    [NmePowershell.Category('Body')]
+    [System.Int32]
+    ${Id}
+)
+
+begin {
+    try {
+        $outBuffer = $null
+        if ($PSBoundParameters.TryGetValue('OutBuffer', [ref]$outBuffer)) {
+            $PSBoundParameters['OutBuffer'] = 1
+        }
+        $parameterSet = $PSCmdlet.ParameterSetName
+        
+        $testPlayback = $false
+        $PSBoundParameters['HttpPipelinePrepend'] | Foreach-Object { if ($_) { $testPlayback = $testPlayback -or ('NmePowershell.Runtime.PipelineMock' -eq $_.Target.GetType().FullName -and 'Playback' -eq $_.Target.Mode) } }
+
+        $mapping = @{
+            __AllParameterSets = 'NerdioManagerPowerShell.custom\New-NmeNotificationActionWebhookDeliveryModel';
+        }
+        $cmdInfo = Get-Command -Name $mapping[$parameterSet]
+        [NmePowershell.Runtime.MessageAttributeHelper]::ProcessCustomAttributesAtRuntime($cmdInfo, $MyInvocation, $parameterSet, $PSCmdlet)
+        [NmePowershell.Runtime.MessageAttributeHelper]::ProcessPreviewMessageAttributesAtRuntime($cmdInfo, $MyInvocation, $parameterSet, $PSCmdlet)
+        $wrappedCmd = $ExecutionContext.InvokeCommand.GetCommand(($mapping[$parameterSet]), [System.Management.Automation.CommandTypes]::Cmdlet)
+        if ($wrappedCmd -eq $null) {
+            $wrappedCmd = $ExecutionContext.InvokeCommand.GetCommand(($mapping[$parameterSet]), [System.Management.Automation.CommandTypes]::Function)
+        }
+        $scriptCmd = {& $wrappedCmd @PSBoundParameters}
+        $steppablePipeline = $scriptCmd.GetSteppablePipeline($MyInvocation.CommandOrigin)
+        $steppablePipeline.Begin($PSCmdlet)
+    } catch {
+
+        throw
+    }
+}
+
+process {
+    try {
+        $steppablePipeline.Process($_)
+    } catch {
+
+        throw
+    }
+
+}
+end {
+    try {
+        $steppablePipeline.End()
+
+    } catch {
+
+        throw
+    }
+} 
+}
+
+<#
+.Synopsis
+Create an in-memory object for NotificationActionWebhookDeliveryUpdate.
+.Description
+Create an in-memory object for NotificationActionWebhookDeliveryUpdate.
+
+#>
+function New-NmeNotificationActionWebhookDeliveryUpdateModel {
+[OutputType([NmePowershell.Models.NotificationActionWebhookDeliveryUpdate])]
+[CmdletBinding(PositionalBinding=$false)]
+param(
+    [Parameter()]
+    [NmePowershell.Category('Body')]
+    [System.Boolean]
+    ${Enable},
+
+    [Parameter()]
+    [NmePowershell.Category('Body')]
+    [System.Int32]
+    ${Id}
+)
+
+begin {
+    try {
+        $outBuffer = $null
+        if ($PSBoundParameters.TryGetValue('OutBuffer', [ref]$outBuffer)) {
+            $PSBoundParameters['OutBuffer'] = 1
+        }
+        $parameterSet = $PSCmdlet.ParameterSetName
+        
+        $testPlayback = $false
+        $PSBoundParameters['HttpPipelinePrepend'] | Foreach-Object { if ($_) { $testPlayback = $testPlayback -or ('NmePowershell.Runtime.PipelineMock' -eq $_.Target.GetType().FullName -and 'Playback' -eq $_.Target.Mode) } }
+
+        $mapping = @{
+            __AllParameterSets = 'NerdioManagerPowerShell.custom\New-NmeNotificationActionWebhookDeliveryUpdateModel';
+        }
+        $cmdInfo = Get-Command -Name $mapping[$parameterSet]
+        [NmePowershell.Runtime.MessageAttributeHelper]::ProcessCustomAttributesAtRuntime($cmdInfo, $MyInvocation, $parameterSet, $PSCmdlet)
+        [NmePowershell.Runtime.MessageAttributeHelper]::ProcessPreviewMessageAttributesAtRuntime($cmdInfo, $MyInvocation, $parameterSet, $PSCmdlet)
+        $wrappedCmd = $ExecutionContext.InvokeCommand.GetCommand(($mapping[$parameterSet]), [System.Management.Automation.CommandTypes]::Cmdlet)
+        if ($wrappedCmd -eq $null) {
+            $wrappedCmd = $ExecutionContext.InvokeCommand.GetCommand(($mapping[$parameterSet]), [System.Management.Automation.CommandTypes]::Function)
+        }
+        $scriptCmd = {& $wrappedCmd @PSBoundParameters}
+        $steppablePipeline = $scriptCmd.GetSteppablePipeline($MyInvocation.CommandOrigin)
+        $steppablePipeline.Begin($PSCmdlet)
+    } catch {
+
+        throw
+    }
+}
+
+process {
+    try {
+        $steppablePipeline.Process($_)
+    } catch {
+
+        throw
+    }
+
+}
+end {
+    try {
+        $steppablePipeline.End()
+
+    } catch {
+
+        throw
+    }
+} 
+}
+
+<#
+.Synopsis
+Create an in-memory object for NotificationConditionCreate.
+.Description
+Create an in-memory object for NotificationConditionCreate.
+
+#>
+function New-NmeNotificationConditionCreateModel {
+[OutputType([NmePowershell.Models.NotificationConditionCreate])]
+[CmdletBinding(PositionalBinding=$false)]
+param(
+    [Parameter(Mandatory)]
+    [NmePowershell.Category('Body')]
+    [System.String[]]
+    ${ExclusionKeywords},
+
+    [Parameter(Mandatory)]
+    [NmePowershell.Category('Body')]
+    [System.String]
+    ${Name},
+
+    [Parameter(Mandatory)]
+    [NmePowershell.Category('Body')]
+    [NmePowershell.Models.INotificationConditionRunByUser[]]
+    # 
+    ${RunByUsers},
+
+    [Parameter(Mandatory)]
+    [NmePowershell.PSArgumentCompleterAttribute("Pending", "Running", "Completed", "Failed", "Cancelled")]
+    [NmePowershell.Category('Body')]
+    [System.String[]]
+    ${Statuses},
+
+    [Parameter(Mandatory)]
+    [NmePowershell.Category('Body')]
+    [NmePowershell.Models.INotificationConditionTarget[]]
+    # 
+    ${Targets},
+
+    [Parameter(Mandatory)]
+    [NmePowershell.Category('Body')]
+    [System.String[]]
+    ${Tasks}
+)
+
+begin {
+    try {
+        $outBuffer = $null
+        if ($PSBoundParameters.TryGetValue('OutBuffer', [ref]$outBuffer)) {
+            $PSBoundParameters['OutBuffer'] = 1
+        }
+        $parameterSet = $PSCmdlet.ParameterSetName
+        
+        $testPlayback = $false
+        $PSBoundParameters['HttpPipelinePrepend'] | Foreach-Object { if ($_) { $testPlayback = $testPlayback -or ('NmePowershell.Runtime.PipelineMock' -eq $_.Target.GetType().FullName -and 'Playback' -eq $_.Target.Mode) } }
+
+        $mapping = @{
+            __AllParameterSets = 'NerdioManagerPowerShell.custom\New-NmeNotificationConditionCreateModel';
+        }
+        $cmdInfo = Get-Command -Name $mapping[$parameterSet]
+        [NmePowershell.Runtime.MessageAttributeHelper]::ProcessCustomAttributesAtRuntime($cmdInfo, $MyInvocation, $parameterSet, $PSCmdlet)
+        [NmePowershell.Runtime.MessageAttributeHelper]::ProcessPreviewMessageAttributesAtRuntime($cmdInfo, $MyInvocation, $parameterSet, $PSCmdlet)
+        $wrappedCmd = $ExecutionContext.InvokeCommand.GetCommand(($mapping[$parameterSet]), [System.Management.Automation.CommandTypes]::Cmdlet)
+        if ($wrappedCmd -eq $null) {
+            $wrappedCmd = $ExecutionContext.InvokeCommand.GetCommand(($mapping[$parameterSet]), [System.Management.Automation.CommandTypes]::Function)
+        }
+        $scriptCmd = {& $wrappedCmd @PSBoundParameters}
+        $steppablePipeline = $scriptCmd.GetSteppablePipeline($MyInvocation.CommandOrigin)
+        $steppablePipeline.Begin($PSCmdlet)
+    } catch {
+
+        throw
+    }
+}
+
+process {
+    try {
+        $steppablePipeline.Process($_)
+    } catch {
+
+        throw
+    }
+
+}
+end {
+    try {
+        $steppablePipeline.End()
+
+    } catch {
+
+        throw
+    }
+} 
+}
+
+<#
+.Synopsis
+Create an in-memory object for NotificationConditionRunByUser.
+.Description
+Create an in-memory object for NotificationConditionRunByUser.
+
+#>
+function New-NmeNotificationConditionRunByUserModel {
+[OutputType([NmePowershell.Models.NotificationConditionRunByUser])]
+[CmdletBinding(PositionalBinding=$false)]
+param(
+    [Parameter(Mandatory)]
+    [NmePowershell.PSArgumentCompleterAttribute("User", "System", "RestApi")]
+    [NmePowershell.Category('Body')]
+    [System.String]
+    ${UserType},
+
+    [Parameter(Mandatory)]
+    [NmePowershell.Category('Body')]
+    [System.String]
+    ${Username}
+)
+
+begin {
+    try {
+        $outBuffer = $null
+        if ($PSBoundParameters.TryGetValue('OutBuffer', [ref]$outBuffer)) {
+            $PSBoundParameters['OutBuffer'] = 1
+        }
+        $parameterSet = $PSCmdlet.ParameterSetName
+        
+        $testPlayback = $false
+        $PSBoundParameters['HttpPipelinePrepend'] | Foreach-Object { if ($_) { $testPlayback = $testPlayback -or ('NmePowershell.Runtime.PipelineMock' -eq $_.Target.GetType().FullName -and 'Playback' -eq $_.Target.Mode) } }
+
+        $mapping = @{
+            __AllParameterSets = 'NerdioManagerPowerShell.custom\New-NmeNotificationConditionRunByUserModel';
+        }
+        $cmdInfo = Get-Command -Name $mapping[$parameterSet]
+        [NmePowershell.Runtime.MessageAttributeHelper]::ProcessCustomAttributesAtRuntime($cmdInfo, $MyInvocation, $parameterSet, $PSCmdlet)
+        [NmePowershell.Runtime.MessageAttributeHelper]::ProcessPreviewMessageAttributesAtRuntime($cmdInfo, $MyInvocation, $parameterSet, $PSCmdlet)
+        $wrappedCmd = $ExecutionContext.InvokeCommand.GetCommand(($mapping[$parameterSet]), [System.Management.Automation.CommandTypes]::Cmdlet)
+        if ($wrappedCmd -eq $null) {
+            $wrappedCmd = $ExecutionContext.InvokeCommand.GetCommand(($mapping[$parameterSet]), [System.Management.Automation.CommandTypes]::Function)
+        }
+        $scriptCmd = {& $wrappedCmd @PSBoundParameters}
+        $steppablePipeline = $scriptCmd.GetSteppablePipeline($MyInvocation.CommandOrigin)
+        $steppablePipeline.Begin($PSCmdlet)
+    } catch {
+
+        throw
+    }
+}
+
+process {
+    try {
+        $steppablePipeline.Process($_)
+    } catch {
+
+        throw
+    }
+
+}
+end {
+    try {
+        $steppablePipeline.End()
+
+    } catch {
+
+        throw
+    }
+} 
+}
+
+<#
+.Synopsis
+Create an in-memory object for NotificationConditionTarget.
+.Description
+Create an in-memory object for NotificationConditionTarget.
+
+#>
+function New-NmeNotificationConditionTargetModel {
+[OutputType([NmePowershell.Models.NotificationConditionTarget])]
+[CmdletBinding(PositionalBinding=$false)]
+param(
+    [Parameter(Mandatory)]
+    [NmePowershell.PSArgumentCompleterAttribute("Workspace", "HostPool", "WorkspaceAny", "HostPoolAny")]
+    [NmePowershell.Category('Body')]
+    [System.String]
+    ${Scope},
+
+    [Parameter()]
+    [NmePowershell.Category('Body')]
+    [System.String]
+    ${Value}
+)
+
+begin {
+    try {
+        $outBuffer = $null
+        if ($PSBoundParameters.TryGetValue('OutBuffer', [ref]$outBuffer)) {
+            $PSBoundParameters['OutBuffer'] = 1
+        }
+        $parameterSet = $PSCmdlet.ParameterSetName
+        
+        $testPlayback = $false
+        $PSBoundParameters['HttpPipelinePrepend'] | Foreach-Object { if ($_) { $testPlayback = $testPlayback -or ('NmePowershell.Runtime.PipelineMock' -eq $_.Target.GetType().FullName -and 'Playback' -eq $_.Target.Mode) } }
+
+        $mapping = @{
+            __AllParameterSets = 'NerdioManagerPowerShell.custom\New-NmeNotificationConditionTargetModel';
+        }
+        $cmdInfo = Get-Command -Name $mapping[$parameterSet]
+        [NmePowershell.Runtime.MessageAttributeHelper]::ProcessCustomAttributesAtRuntime($cmdInfo, $MyInvocation, $parameterSet, $PSCmdlet)
+        [NmePowershell.Runtime.MessageAttributeHelper]::ProcessPreviewMessageAttributesAtRuntime($cmdInfo, $MyInvocation, $parameterSet, $PSCmdlet)
+        $wrappedCmd = $ExecutionContext.InvokeCommand.GetCommand(($mapping[$parameterSet]), [System.Management.Automation.CommandTypes]::Cmdlet)
+        if ($wrappedCmd -eq $null) {
+            $wrappedCmd = $ExecutionContext.InvokeCommand.GetCommand(($mapping[$parameterSet]), [System.Management.Automation.CommandTypes]::Function)
+        }
+        $scriptCmd = {& $wrappedCmd @PSBoundParameters}
+        $steppablePipeline = $scriptCmd.GetSteppablePipeline($MyInvocation.CommandOrigin)
+        $steppablePipeline.Begin($PSCmdlet)
+    } catch {
+
+        throw
+    }
+}
+
+process {
+    try {
+        $steppablePipeline.Process($_)
+    } catch {
+
+        throw
+    }
+
+}
+end {
+    try {
+        $steppablePipeline.End()
+
+    } catch {
+
+        throw
+    }
+} 
+}
+
+<#
+.Synopsis
+Create an in-memory object for NotificationConditionUpdate.
+.Description
+Create an in-memory object for NotificationConditionUpdate.
+
+#>
+function New-NmeNotificationConditionUpdateModel {
+[OutputType([NmePowershell.Models.NotificationConditionUpdate])]
+[CmdletBinding(PositionalBinding=$false)]
+param(
+    [Parameter()]
+    [NmePowershell.Category('Body')]
+    [System.String[]]
+    ${ExclusionKeywords},
+
+    [Parameter()]
+    [NmePowershell.Category('Body')]
+    [System.String]
+    ${Name},
+
+    [Parameter()]
+    [NmePowershell.Category('Body')]
+    [NmePowershell.Models.INotificationConditionRunByUser[]]
+    # 
+    ${RunByUsers},
+
+    [Parameter()]
+    [NmePowershell.PSArgumentCompleterAttribute("Pending", "Running", "Completed", "Failed", "Cancelled")]
+    [NmePowershell.Category('Body')]
+    [System.String[]]
+    ${Statuses},
+
+    [Parameter()]
+    [NmePowershell.Category('Body')]
+    [NmePowershell.Models.INotificationConditionTarget[]]
+    # 
+    ${Targets},
+
+    [Parameter()]
+    [NmePowershell.Category('Body')]
+    [System.String[]]
+    ${Tasks}
+)
+
+begin {
+    try {
+        $outBuffer = $null
+        if ($PSBoundParameters.TryGetValue('OutBuffer', [ref]$outBuffer)) {
+            $PSBoundParameters['OutBuffer'] = 1
+        }
+        $parameterSet = $PSCmdlet.ParameterSetName
+        
+        $testPlayback = $false
+        $PSBoundParameters['HttpPipelinePrepend'] | Foreach-Object { if ($_) { $testPlayback = $testPlayback -or ('NmePowershell.Runtime.PipelineMock' -eq $_.Target.GetType().FullName -and 'Playback' -eq $_.Target.Mode) } }
+
+        $mapping = @{
+            __AllParameterSets = 'NerdioManagerPowerShell.custom\New-NmeNotificationConditionUpdateModel';
         }
         $cmdInfo = Get-Command -Name $mapping[$parameterSet]
         [NmePowershell.Runtime.MessageAttributeHelper]::ProcessCustomAttributesAtRuntime($cmdInfo, $MyInvocation, $parameterSet, $PSCmdlet)
@@ -43511,11 +46688,6 @@ param(
     ${AppId},
 
     [Parameter(Mandatory)]
-    [NmePowershell.Category('Body')]
-    [System.String]
-    ${AppSecret},
-
-    [Parameter(Mandatory)]
     [NmePowershell.PSArgumentCompleterAttribute("AzureCloud", "AzureUSGovernment", "AzureChina")]
     [NmePowershell.Category('Body')]
     [System.String]
@@ -43524,7 +46696,17 @@ param(
     [Parameter()]
     [NmePowershell.Category('Body')]
     [System.String]
-    ${AppName}
+    ${AppName},
+
+    [Parameter()]
+    [NmePowershell.Category('Body')]
+    [System.String]
+    ${AppSecret},
+
+    [Parameter()]
+    [NmePowershell.Category('Body')]
+    [System.String]
+    ${CertificateName}
 )
 
 begin {

@@ -16,6 +16,7 @@ Create an in-memory object for LinkedSubscriptionCreate.
 | ServicePrincipalAppName | String | No |  |
 | ServicePrincipalAppSecret | String | No |  |
 | ServicePrincipalAzureType | String | No | Values: `AzureCloud`, `AzureUSGovernment`, `AzureChina` |
+| ServicePrincipalCertificateName | String | No |  |
 
 ## Usage
 

@@ -173,6 +173,9 @@ function New-NmeHostPoolVmDeploymentUpdateModel {
         [bool]
         $UseDedicatedHosts,
         [Parameter()]
+        [string[]]
+        $UserAssignedIdentityIds,
+        [Parameter()]
         [string]
         $VMTimezone,
         [Parameter()]
@@ -344,6 +347,9 @@ function New-NmeHostPoolVmDeploymentUpdateModel {
         }
         if ($PSBoundParameters.ContainsKey('UseDedicatedHosts')) {
             $Object.UseDedicatedHosts = $UseDedicatedHosts
+        }
+        if ($PSBoundParameters.ContainsKey('UserAssignedIdentityIds')) {
+            $Object.UserAssignedIdentityIds = $UserAssignedIdentityIds
         }
         if ($PSBoundParameters.ContainsKey('VMTimezone')) {
             $Object.VMTimezone = $VMTimezone

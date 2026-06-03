@@ -273,6 +273,11 @@ param(
 
     [Parameter()]
     [NmePowershell.Category('Body')]
+    [System.String[]]
+    ${UserAssignedIdentityIds},
+
+    [Parameter()]
+    [NmePowershell.Category('Body')]
     [System.String]
     ${VMTimezone},
 

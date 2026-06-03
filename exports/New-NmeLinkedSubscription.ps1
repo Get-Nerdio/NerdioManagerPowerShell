@@ -70,6 +70,12 @@ param(
     # .
     ${ServicePrincipalAzureType},
 
+    [Parameter(ParameterSetName='NewExpanded')]
+    [NmePowershell.Category('Body')]
+    [System.String]
+    # .
+    ${ServicePrincipalCertificateName},
+
     [Parameter(DontShow)]
     [NmePowershell.Category('Runtime')]
     [System.Management.Automation.SwitchParameter]

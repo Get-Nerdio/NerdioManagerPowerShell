@@ -42,10 +42,10 @@ param(
     ${Year},
 
     [Parameter(Mandatory)]
-    [NmePowershell.PSArgumentCompleterAttribute("ResourceCostSummary", "UserCostSummary", "HostPoolSummary")]
+    [NmePowershell.PSArgumentCompleterAttribute("ResourceCostSummary", "UserCostSummary", "HostPoolSummary", "Budget")]
     [NmePowershell.Category('Query')]
     [System.String]
-    # Export type (ResourceCostSummary/UserCostSummary/HostPoolSummary)
+    # Export type (ResourceCostSummary/UserCostSummary/HostPoolSummary/Budget)
     ${ExportType},
 
     [Parameter(Mandatory)]
