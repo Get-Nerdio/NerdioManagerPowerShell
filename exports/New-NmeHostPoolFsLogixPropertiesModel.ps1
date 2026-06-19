@@ -85,6 +85,8 @@ param(
     [Parameter()]
     [NmePowershell.Category('Body')]
     [System.String]
+    # FSLogix version.
+    #         null means "use the latest stable version".
     ${FsLogixVersion},
 
     [Parameter()]

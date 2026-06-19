@@ -57,7 +57,9 @@ function New-NmeSessionHostCreateParamsModel {
         [Parameter()]
         [string]
         $UserToAssign,
-        [Parameter(Mandatory)]
+        [Parameter(Mandatory, HelpMessage="Define the name assigning behaviour.
+        false: Host will have name with the exact 'Name' value;
+        true:  Host will have name with the 'Name-{????}' value.")]
         [bool]
         $VMIdAddSuffix,
         [Parameter(Mandatory)]

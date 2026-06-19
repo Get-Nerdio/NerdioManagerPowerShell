@@ -1,7 +1,7 @@
 @{
   GUID = '6b34a792-4773-4786-8711-fd3987b174cc'
   RootModule = './NerdioManagerPowerShell.psm1'
-  ModuleVersion = '1.1.0'
+  ModuleVersion = '1.1.1'
   CompatiblePSEditions = 'Core', 'Desktop'
   Author = 'Nerdio, Inc.'
   CompanyName = 'Nerdio, Inc.'

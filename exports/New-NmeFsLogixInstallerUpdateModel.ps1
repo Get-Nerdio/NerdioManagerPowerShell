@@ -18,11 +18,15 @@ param(
     [Parameter()]
     [NmePowershell.Category('Body')]
     [System.Boolean]
+    # This option is used to force the re-installation of the FSLogix agent and applications.
+    # This will install selected FSLogix Version.
     ${ForceUpdate},
 
     [Parameter()]
     [NmePowershell.Category('Body')]
     [System.String]
+    # FsLogix installer version.
+    # Empty string means "use the latest stable version".
     ${Version}
 )
 

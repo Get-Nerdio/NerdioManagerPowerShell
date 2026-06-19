@@ -13,7 +13,7 @@ Create portal notification
 | Parameter | Type | Required | Description |
 |-----------|------|----------|-------------|
 | HtmlText | String | Yes |  |
-| Type | String | Yes | Values: `UserSelfServiceGlobal`, `UserSelfServiceHostPool`, `AdminConsoleGlobal` |
+| Type | String | Yes | Values: `UserSelfServiceGlobal`, `UserSelfServiceHostPool`, `AdminConsoleGlobal`, `LicenseUsageNotice`, `LicenseComplianceWarning` |
 | HostPoolId | String | No |  |
 | PeriodEndDate | DateTime | No |  |
 | PeriodStartDate | DateTime | No |  |

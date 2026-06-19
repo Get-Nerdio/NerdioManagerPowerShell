@@ -24,7 +24,7 @@ This method returns a job and the updated region status.
 
 | Parameter | Type | Required | Description |
 |-----------|------|----------|-------------|
-| Region | String | Yes | Values: `US`, `EU`, `CA`, `AU` |
+| Region | String | Yes | Values: `US`, `EU`, `CA`, `AU`, `UK` |
 | AllowUninstall | SwitchParameter | No |  |
 
 ## Examples

@@ -70,7 +70,7 @@ function New-NmeArmHostPoolPropertiesModel {
         [Parameter()]
         [int]
         $SecondaryWindowHour,
-        [Parameter()]
+        [Parameter(HelpMessage="Auto-start host on connect.")]
         [bool]
         $StartVMOnConnect,
         [Parameter()]

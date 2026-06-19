@@ -20,22 +20,37 @@ function New-NmeHostPoolSessionTimeoutModel {
     [CmdletBinding(PositionalBinding=$false)]
     Param(
 
-        [Parameter()]
+        [Parameter(HelpMessage="Log off, instead of disconnecting, ACTIVE and IDLE sessions.
+        null: not configured;
+        -1: disabled (property will be removed from registry);
+        1: enabled.")]
         [int]
         $FresetBroken,
         [Parameter(Mandatory)]
         [bool]
         $IsSessionTimeoutsEnabled,
-        [Parameter()]
+        [Parameter(HelpMessage="Disconnect ACTIVE sessions after.
+        null: not configured;
+        -1: disabled (property will be removed from registry);
+        0: never.")]
         [int]
         $MaxConnectionTime,
-        [Parameter()]
+        [Parameter(HelpMessage="Log off DISCONNECTED sessions after.
+        null: not configured;
+        -1: disabled (property will be removed from registry);
+        0: never.")]
         [int]
         $MaxDisconnectionTime,
-        [Parameter()]
+        [Parameter(HelpMessage="Disconnect IDLE sessions after.
+        null: not configured;
+        -1: disabled (property will be removed from registry);
+        0: never.")]
         [int]
         $MaxIdleTime,
-        [Parameter()]
+        [Parameter(HelpMessage="Log off empty RemoteApp sessions after.
+        null: not configured;
+        -1: disabled (property will be removed from registry);
+        0: immediately.")]
         [int]
         $RemoteAppLogoffTimeLimit
     )

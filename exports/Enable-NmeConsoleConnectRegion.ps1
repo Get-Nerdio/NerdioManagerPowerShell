@@ -18,7 +18,7 @@ function Enable-NmeConsoleConnectRegion {
 [CmdletBinding(DefaultParameterSetName='EnableExpanded', PositionalBinding=$false, SupportsShouldProcess, ConfirmImpact='Medium')]
 param(
     [Parameter(Mandatory)]
-    [NmePowershell.PSArgumentCompleterAttribute("US", "EU", "CA", "AU")]
+    [NmePowershell.PSArgumentCompleterAttribute("US", "EU", "CA", "AU", "UK")]
     [NmePowershell.Category('Path')]
     [System.String]
     # .

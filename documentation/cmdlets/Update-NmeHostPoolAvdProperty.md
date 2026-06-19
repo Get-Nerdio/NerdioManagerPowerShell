@@ -30,7 +30,7 @@ Update AVD properties for ARM host pool
 | PrimaryWindowHour | Int32 | No |  |
 | SecondaryWindowDayOfWeek | Int32 | No | Values: `0`, `1`, `2`, `3`, `4`, `5`, `6` |
 | SecondaryWindowHour | Int32 | No |  |
-| StartVMOnConnect | SwitchParameter | No |  |
+| StartVMOnConnect | SwitchParameter | No | Auto-start host on connect |
 | ValidationEnv | SwitchParameter | No |  |
 
 ## Examples

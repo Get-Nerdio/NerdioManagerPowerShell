@@ -84,7 +84,7 @@ param(
     [Parameter(ParameterSetName='NewExpanded', Mandatory)]
     [NmePowershell.Category('Body')]
     [System.Management.Automation.SwitchParameter]
-    # .
+    # Define the name assigning behaviour.false: Host will have name with the exact 'Name' value;true: Host will have name with the 'Name-{????}' value.
     ${VMIdAddSuffix},
 
     [Parameter(ParameterSetName='NewExpanded', Mandatory)]

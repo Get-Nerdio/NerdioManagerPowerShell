@@ -49,7 +49,8 @@ function New-NmeHostPoolFsLogixPropertiesModel {
         [Parameter(Mandatory)]
         [bool]
         $ForceUpdate,
-        [Parameter()]
+        [Parameter(HelpMessage="FSLogix version.
+        null means `"use the latest stable version`".")]
         [string]
         $FsLogixVersion,
         [Parameter()]

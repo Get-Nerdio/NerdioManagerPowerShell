@@ -39,7 +39,7 @@ If NetworkId and/or Subnet is not specified, default network will be used
 ```powershell
 New-NmeMsixPackage `
     -ImageName "ImageName" `
-    -LocationId "668a4ebd-ca45-4149-b352-a1f987049450" `
+    -LocationId "590aae24-5d81-4b74-9ac8-564d9931b4ed" `
     -PackageLinks @("link to a file in somewhere") `
     -TempVMParamDiskSize 0 `
     -TempVMParamImage "<TempVMParamImage>" `

@@ -20,7 +20,9 @@ function New-NmeVmObjectIdModel {
     [CmdletBinding(PositionalBinding=$false)]
     Param(
 
-        [Parameter(Mandatory)]
+        [Parameter(Mandatory, HelpMessage="Define the name assigning behaviour.
+        false: Host will have name with the exact 'Name' value;
+        true:  Host will have name with the 'Name-{????}' value.")]
         [bool]
         $AddSuffix,
         [Parameter(Mandatory)]

@@ -24,13 +24,14 @@ param(
     [Parameter(ParameterSetName='NewExpanded', Mandatory)]
     [NmePowershell.Category('Body')]
     [System.Management.Automation.SwitchParameter]
-    # .
+    # Enable FSLogix Cloud Cache.
+    # See this Microsoft doc for more info.https://learn.microsoft.com/en-us/fslogix/concepts-fslogix-cloud-cache
     ${CloudCache},
 
     [Parameter(ParameterSetName='NewExpanded', Mandatory)]
     [NmePowershell.Category('Body')]
     [System.Management.Automation.SwitchParameter]
-    # .
+    # Enable Entra ID Kerberos functionality and Entra ID account credentials loading.
     ${EntraIdKerberos},
 
     [Parameter(ParameterSetName='NewExpanded', Mandatory)]
@@ -43,13 +44,15 @@ param(
     [Parameter(ParameterSetName='NewExpanded', Mandatory)]
     [NmePowershell.Category('Body')]
     [System.Management.Automation.SwitchParameter]
-    # .
+    # This option is used to force the re-installation of the FSLogix agent and applications.
+    # This will install selected FSLogix Version.
     ${InstallerForceUpdate},
 
     [Parameter(ParameterSetName='NewExpanded', Mandatory)]
     [NmePowershell.Category('Body')]
     [System.String]
-    # .
+    # FsLogix installer version.
+    # Empty string means "use the latest stable version".
     ${InstallerVersion},
 
     [Parameter(ParameterSetName='NewExpanded', Mandatory)]
@@ -80,7 +83,8 @@ param(
     [Parameter(ParameterSetName='NewExpanded', Mandatory)]
     [NmePowershell.Category('Body')]
     [System.Management.Automation.SwitchParameter]
-    # .
+    # Use storage account blob containers to store users profiles.
+    # These containers will be accessed using storage account access keys.
     ${PageBlobs},
 
     [Parameter(ParameterSetName='NewExpanded', Mandatory)]
@@ -99,7 +103,7 @@ param(
     [Parameter(ParameterSetName='NewExpanded', Mandatory)]
     [NmePowershell.Category('Body')]
     [System.String]
-    # .
+    # See this Microsoft doc for more info.https://learn.microsoft.com/en-us/fslogix/concepts-redirections-xml
     ${RedirectionsXml},
 
     [Parameter(ParameterSetName='NewExpanded')]

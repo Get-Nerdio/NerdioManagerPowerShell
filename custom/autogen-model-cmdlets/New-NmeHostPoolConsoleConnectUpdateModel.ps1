@@ -24,7 +24,7 @@ function New-NmeHostPoolConsoleConnectUpdateModel {
         [bool]
         $Enable,
         [Parameter()]
-        [NmePowershell.PSArgumentCompleterAttribute("US", "EU", "CA", "AU")]
+        [NmePowershell.PSArgumentCompleterAttribute("US", "EU", "CA", "AU", "UK")]
         [string]
         $Region
     )

@@ -23,16 +23,16 @@ function New-NmeWatermarkingPropertiesModel {
         [Parameter(Mandatory)]
         [bool]
         $Enabled,
-        [Parameter(Mandatory)]
+        [Parameter(Mandatory, HelpMessage="Determines the distance between the QR codes in percent.")]
         [int]
         $HeightFactor,
-        [Parameter(Mandatory)]
+        [Parameter(Mandatory, HelpMessage="Determines the distance between the QR codes in percent.")]
         [int]
         $Opacity,
-        [Parameter(Mandatory)]
+        [Parameter(Mandatory, HelpMessage="The size in pixels of each QR code dot.")]
         [int]
         $Scale,
-        [Parameter(Mandatory)]
+        [Parameter(Mandatory, HelpMessage="Determines the distance between the QR codes in percent.")]
         [int]
         $WidthFactor
     )

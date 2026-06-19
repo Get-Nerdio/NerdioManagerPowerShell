@@ -20,10 +20,10 @@ function New-NmeFsLogixInstallerModel {
     [CmdletBinding(PositionalBinding=$false)]
     Param(
 
-        [Parameter(Mandatory)]
+        [Parameter(Mandatory, HelpMessage="This option is used to force the re-installation of the FSLogix agent and applications. This will install selected FSLogix Version.")]
         [bool]
         $ForceUpdate,
-        [Parameter(Mandatory)]
+        [Parameter(Mandatory, HelpMessage="FsLogix installer version. Empty string means `"use the latest stable version`".")]
         [string]
         $Version
     )

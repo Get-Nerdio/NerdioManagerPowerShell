@@ -23,26 +23,46 @@ param(
     [Parameter()]
     [NmePowershell.Category('Body')]
     [System.Int32]
+    # Log off, instead of disconnecting, ACTIVE and IDLE sessions.
+    #         null: not configured;
+    #         -1: disabled (property will be removed from registry);
+    #         1: enabled.
     ${FresetBroken},
 
     [Parameter()]
     [NmePowershell.Category('Body')]
     [System.Int32]
+    # Disconnect ACTIVE sessions after.
+    #         null: not configured;
+    #         -1: disabled (property will be removed from registry);
+    #         0: never.
     ${MaxConnectionTime},
 
     [Parameter()]
     [NmePowershell.Category('Body')]
     [System.Int32]
+    # Log off DISCONNECTED sessions after.
+    #         null: not configured;
+    #         -1: disabled (property will be removed from registry);
+    #         0: never.
     ${MaxDisconnectionTime},
 
     [Parameter()]
     [NmePowershell.Category('Body')]
     [System.Int32]
+    # Disconnect IDLE sessions after.
+    #         null: not configured;
+    #         -1: disabled (property will be removed from registry);
+    #         0: never.
     ${MaxIdleTime},
 
     [Parameter()]
     [NmePowershell.Category('Body')]
     [System.Int32]
+    # Log off empty RemoteApp sessions after.
+    #         null: not configured;
+    #         -1: disabled (property will be removed from registry);
+    #         0: immediately.
     ${RemoteAppLogoffTimeLimit}
 )
 

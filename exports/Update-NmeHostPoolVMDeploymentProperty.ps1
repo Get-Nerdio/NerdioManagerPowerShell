@@ -42,34 +42,34 @@ param(
     [Parameter(ParameterSetName='UpdateExpanded')]
     [NmePowershell.Category('Body')]
     [System.Management.Automation.SwitchParameter]
-    # .
+    # Enforce a password prompt for users logging on to Remote Desktop Services
     ${AlwaysPromptForPassword},
 
     [Parameter(ParameterSetName='UpdateExpanded')]
     [AllowEmptyCollection()]
     [NmePowershell.Category('Body')]
     [System.String[]]
-    # .
+    # Application Security Group ID to associate with session host NICs
     ${ApplicationSecurityGroupIds},
 
     [Parameter(ParameterSetName='UpdateExpanded')]
     [NmePowershell.Category('Body')]
     [System.Management.Automation.SwitchParameter]
-    # .
+    # Is host boot diagnostics enabled?
     ${BootDiagEnabled},
 
     [Parameter(ParameterSetName='UpdateExpanded')]
     [AllowEmptyCollection()]
     [NmePowershell.Category('Body')]
     [System.String[]]
-    # .
+    # List storage account IDs for boot diagnostics, if custom accounts are used.
     ${BootDiagStorageAccountsIds},
 
     [Parameter(ParameterSetName='UpdateExpanded')]
     [AllowEmptyCollection()]
     [NmePowershell.Category('Body')]
     [System.String[]]
-    # .
+    # On-demand Capacity Reservation Groups ids
     ${CapacityReservationGroupsIds},
 
     [Parameter(ParameterSetName='UpdateExpanded')]
@@ -82,111 +82,113 @@ param(
     [Parameter(ParameterSetName='UpdateExpanded')]
     [NmePowershell.Category('Body')]
     [System.Int32]
-    # .
+    # Compliance timeout in hours.
+    # Supported values are 1-24 hours.
     ${ComplianceTimeout},
 
     [Parameter(ParameterSetName='UpdateExpanded')]
     [NmePowershell.Category('Body')]
     [System.Management.Automation.SwitchParameter]
-    # .
+    # Is confidential disk encryption enabled?
     ${ConfidentialDiskEncryption},
 
     [Parameter(ParameterSetName='UpdateExpanded')]
     [NmePowershell.Category('Body')]
     [System.String]
-    # .
+    # Host Group resource id
     ${DedicatedHostGroupId},
 
     [Parameter(ParameterSetName='UpdateExpanded')]
     [NmePowershell.Category('Body')]
     [System.String]
-    # .
+    # Host resource id
     ${DedicatedHostId},
 
     [Parameter(ParameterSetName='UpdateExpanded')]
     [AllowEmptyCollection()]
     [NmePowershell.Category('Body')]
     [System.String[]]
-    # .
+    # List of disk encryption set IDs for customer managed keys
     ${DiskEncryptionSetsIds},
 
     [Parameter(ParameterSetName='UpdateExpanded')]
     [NmePowershell.Category('Body')]
     [System.Management.Automation.SwitchParameter]
-    # .
+    # Enable App-V client service if host pool is assigned to App Attach packages containing App-V package
     ${EnableAppvClientService},
 
     [Parameter(ParameterSetName='UpdateExpanded')]
     [NmePowershell.Category('Body')]
     [System.Management.Automation.SwitchParameter]
-    # .
+    # Enable H.265 encoding on supported VM sizes
     ${EnableHevc},
 
     [Parameter(ParameterSetName='UpdateExpanded')]
     [NmePowershell.Category('Body')]
     [System.Management.Automation.SwitchParameter]
-    # .
+    # Enable time zone redirection
     ${EnableTimezoneRedirection},
 
     [Parameter(ParameterSetName='UpdateExpanded')]
     [NmePowershell.Category('Body')]
     [System.Management.Automation.SwitchParameter]
-    # .
+    # Enable automatic deallocation of stopped VMs
     ${EnableVMDeallocation},
 
     [Parameter(ParameterSetName='UpdateExpanded')]
     [NmePowershell.Category('Body')]
     [System.Management.Automation.SwitchParameter]
-    # .
+    # Is encryption at host enabled?
     ${EncryptionAtHost},
 
     [Parameter(ParameterSetName='UpdateExpanded')]
     [NmePowershell.Category('Body')]
     [System.Int32]
-    # .
+    # Entra groups timeout in minutes
     ${EntraDeviceTimeoutInMinutes},
 
     [Parameter(ParameterSetName='UpdateExpanded')]
     [AllowEmptyCollection()]
     [NmePowershell.Category('Body')]
     [System.String[]]
-    # .
+    # Default hostpool groups.
+    # New session hosts will be assigned to these groups by default.
     ${EntraIdGroups},
 
     [Parameter(ParameterSetName='UpdateExpanded')]
     [NmePowershell.Category('Body')]
     [System.Management.Automation.SwitchParameter]
-    # .
+    # Restart VM at the end of creation
     ${ForceVMRestart},
 
     [Parameter(ParameterSetName='UpdateExpanded')]
     [NmePowershell.Category('Body')]
     [System.Management.Automation.SwitchParameter]
-    # .
+    # Install App Attach certificates if any
     ${InstallCertificates},
 
     [Parameter(ParameterSetName='UpdateExpanded')]
     [NmePowershell.Category('Body')]
     [System.Management.Automation.SwitchParameter]
-    # .
+    # Install GPU drivers if VM have discrete GPU card
     ${InstallGpuDrivers},
 
     [Parameter(ParameterSetName='UpdateExpanded')]
     [NmePowershell.Category('Body')]
     [System.Management.Automation.SwitchParameter]
-    # .
+    # Allow integrity monitoring if Trusted launch or Confidential security type is enabled
     ${IntegrityMonitoring},
 
     [Parameter(ParameterSetName='UpdateExpanded')]
     [NmePowershell.Category('Body')]
     [System.Management.Automation.SwitchParameter]
-    # .
+    # Use accelerated networking when possible
     ${IsAcceleratedNetworkingEnabled},
 
     [Parameter(ParameterSetName='UpdateExpanded')]
     [NmePowershell.Category('Body')]
     [System.Management.Automation.SwitchParameter]
-    # .
+    # Allow session shadowing for non-admin users
     ${IsShadowUsersEnabled},
 
     [Parameter(ParameterSetName='UpdateExpanded')]
@@ -302,7 +304,7 @@ param(
     [AllowEmptyCollection()]
     [NmePowershell.Category('Body')]
     [System.String[]]
-    # .
+    # Ids of Proximity Placement Groups where newly created VM can be placed
     ${ProximityPlacementGroupIds},
 
     [Parameter(ParameterSetName='UpdateExpanded')]
@@ -315,13 +317,13 @@ param(
     [Parameter(ParameterSetName='UpdateExpanded')]
     [NmePowershell.Category('Body')]
     [System.Management.Automation.SwitchParameter]
-    # .
+    # Scripted actions configuration
     ${RunAppPolicies},
 
     [Parameter(ParameterSetName='UpdateExpanded')]
     [NmePowershell.Category('Body')]
     [System.Management.Automation.SwitchParameter]
-    # .
+    # Allow secure boot if Trusted launch or Confidential security type is enabled
     ${SecureBootEnabled},
 
     [Parameter(ParameterSetName='UpdateExpanded')]
@@ -335,38 +337,39 @@ param(
     [AllowEmptyCollection()]
     [NmePowershell.Category('Body')]
     [NmePowershell.Models.IHostPoolAssignment[]]
-    # .
+    # Allow session shadowing for following non-admin users and groups
     ${ShadowUserAssignments},
 
     [Parameter(ParameterSetName='UpdateExpanded')]
     [NmePowershell.Category('Body')]
     [System.Management.Automation.SwitchParameter]
-    # .
+    # Distribute VMs across availability zones in the azure region
     ${UseAvailabilityZones},
 
     [Parameter(ParameterSetName='UpdateExpanded')]
     [NmePowershell.Category('Body')]
     [System.Management.Automation.SwitchParameter]
-    # .
+    # Place VMs on Dedicated Hosts
     ${UseDedicatedHosts},
 
     [Parameter(ParameterSetName='UpdateExpanded')]
     [AllowEmptyCollection()]
     [NmePowershell.Category('Body')]
     [System.String[]]
-    # .
+    # User-assigned managed identity ARM IDs to attach to session host VMs.Null = no change.
+    # Empty list = remove all.At most one identity per tenant.
     ${UserAssignedIdentityIds},
 
     [Parameter(ParameterSetName='UpdateExpanded')]
     [NmePowershell.Category('Body')]
     [System.String]
-    # .
+    # Set windows timezone on VM
     ${VMTimezone},
 
     [Parameter(ParameterSetName='UpdateExpanded')]
     [NmePowershell.Category('Body')]
     [System.Management.Automation.SwitchParameter]
-    # .
+    # Allow VTpm if Trusted launch or Confidential security type is enabled
     ${VTpmEnabled},
 
     [Parameter(ParameterSetName='UpdateExpanded')]
@@ -378,25 +381,25 @@ param(
     [Parameter(ParameterSetName='UpdateExpanded')]
     [NmePowershell.Category('Body')]
     [System.Int32]
-    # .
+    # Determines the distance between the QR codes in percent
     ${WatermarkingHeightFactor},
 
     [Parameter(ParameterSetName='UpdateExpanded')]
     [NmePowershell.Category('Body')]
     [System.Int32]
-    # .
+    # Determines the distance between the QR codes in percent
     ${WatermarkingOpacity},
 
     [Parameter(ParameterSetName='UpdateExpanded')]
     [NmePowershell.Category('Body')]
     [System.Int32]
-    # .
+    # The size in pixels of each QR code dot
     ${WatermarkingScale},
 
     [Parameter(ParameterSetName='UpdateExpanded')]
     [NmePowershell.Category('Body')]
     [System.Int32]
-    # .
+    # Determines the distance between the QR codes in percent
     ${WatermarkingWidthFactor},
 
     [Parameter(DontShow)]

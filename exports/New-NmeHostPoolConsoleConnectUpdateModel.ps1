@@ -21,7 +21,7 @@ param(
     ${Enable},
 
     [Parameter()]
-    [NmePowershell.PSArgumentCompleterAttribute("US", "EU", "CA", "AU")]
+    [NmePowershell.PSArgumentCompleterAttribute("US", "EU", "CA", "AU", "UK")]
     [NmePowershell.Category('Body')]
     [System.String]
     ${Region}

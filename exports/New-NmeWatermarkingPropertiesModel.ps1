@@ -23,21 +23,25 @@ param(
     [Parameter(Mandatory)]
     [NmePowershell.Category('Body')]
     [System.Int32]
+    # Determines the distance between the QR codes in percent.
     ${HeightFactor},
 
     [Parameter(Mandatory)]
     [NmePowershell.Category('Body')]
     [System.Int32]
+    # Determines the distance between the QR codes in percent.
     ${Opacity},
 
     [Parameter(Mandatory)]
     [NmePowershell.Category('Body')]
     [System.Int32]
+    # The size in pixels of each QR code dot.
     ${Scale},
 
     [Parameter(Mandatory)]
     [NmePowershell.Category('Body')]
     [System.Int32]
+    # Determines the distance between the QR codes in percent.
     ${WidthFactor}
 )
 

@@ -49,7 +49,7 @@ param(
     [Parameter(ParameterSetName='SetExpanded', Mandatory)]
     [NmePowershell.Category('Body')]
     [System.Management.Automation.SwitchParameter]
-    # .
+    # Update existing AVD object and VMs
     ${UpdateObjects},
 
     [Parameter(DontShow)]

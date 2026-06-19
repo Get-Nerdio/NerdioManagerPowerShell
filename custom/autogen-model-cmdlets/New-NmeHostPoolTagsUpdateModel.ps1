@@ -23,7 +23,7 @@ function New-NmeHostPoolTagsUpdateModel {
         [Parameter(Mandatory, HelpMessage="Dictionary of <string>.")]
         [NmePowershell.Models.IHostPoolTagsUpdateTags]
         $Tags,
-        [Parameter(Mandatory)]
+        [Parameter(Mandatory, HelpMessage="Update existing AVD object and VMs.")]
         [bool]
         $UpdateObjects
     )

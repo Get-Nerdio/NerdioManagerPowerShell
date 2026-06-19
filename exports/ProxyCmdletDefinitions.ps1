@@ -136,7 +136,7 @@ function Disable-NmeConsoleConnectRegion {
 [CmdletBinding(DefaultParameterSetName='Disable', PositionalBinding=$false, SupportsShouldProcess, ConfirmImpact='Medium')]
 param(
     [Parameter(Mandatory)]
-    [NmePowershell.PSArgumentCompleterAttribute("US", "EU", "CA", "AU")]
+    [NmePowershell.PSArgumentCompleterAttribute("US", "EU", "CA", "AU", "UK")]
     [NmePowershell.Category('Path')]
     [System.String]
     # .
@@ -246,7 +246,7 @@ function Enable-NmeConsoleConnectRegion {
 [CmdletBinding(DefaultParameterSetName='EnableExpanded', PositionalBinding=$false, SupportsShouldProcess, ConfirmImpact='Medium')]
 param(
     [Parameter(Mandatory)]
-    [NmePowershell.PSArgumentCompleterAttribute("US", "EU", "CA", "AU")]
+    [NmePowershell.PSArgumentCompleterAttribute("US", "EU", "CA", "AU", "UK")]
     [NmePowershell.Category('Path')]
     [System.String]
     # .
@@ -1735,7 +1735,7 @@ function Get-NmeConsoleConnectRegion {
 [CmdletBinding(DefaultParameterSetName='Get1', PositionalBinding=$false)]
 param(
     [Parameter(ParameterSetName='Get', Mandatory)]
-    [NmePowershell.PSArgumentCompleterAttribute("US", "EU", "CA", "AU")]
+    [NmePowershell.PSArgumentCompleterAttribute("US", "EU", "CA", "AU", "UK")]
     [NmePowershell.Category('Path')]
     [System.String]
     # .
@@ -12689,13 +12689,14 @@ param(
     [Parameter(ParameterSetName='NewExpanded', Mandatory)]
     [NmePowershell.Category('Body')]
     [System.Management.Automation.SwitchParameter]
-    # .
+    # Enable FSLogix Cloud Cache.
+    # See this Microsoft doc for more info.https://learn.microsoft.com/en-us/fslogix/concepts-fslogix-cloud-cache
     ${CloudCache},
 
     [Parameter(ParameterSetName='NewExpanded', Mandatory)]
     [NmePowershell.Category('Body')]
     [System.Management.Automation.SwitchParameter]
-    # .
+    # Enable Entra ID Kerberos functionality and Entra ID account credentials loading.
     ${EntraIdKerberos},
 
     [Parameter(ParameterSetName='NewExpanded', Mandatory)]
@@ -12708,13 +12709,15 @@ param(
     [Parameter(ParameterSetName='NewExpanded', Mandatory)]
     [NmePowershell.Category('Body')]
     [System.Management.Automation.SwitchParameter]
-    # .
+    # This option is used to force the re-installation of the FSLogix agent and applications.
+    # This will install selected FSLogix Version.
     ${InstallerForceUpdate},
 
     [Parameter(ParameterSetName='NewExpanded', Mandatory)]
     [NmePowershell.Category('Body')]
     [System.String]
-    # .
+    # FsLogix installer version.
+    # Empty string means "use the latest stable version".
     ${InstallerVersion},
 
     [Parameter(ParameterSetName='NewExpanded', Mandatory)]
@@ -12745,7 +12748,8 @@ param(
     [Parameter(ParameterSetName='NewExpanded', Mandatory)]
     [NmePowershell.Category('Body')]
     [System.Management.Automation.SwitchParameter]
-    # .
+    # Use storage account blob containers to store users profiles.
+    # These containers will be accessed using storage account access keys.
     ${PageBlobs},
 
     [Parameter(ParameterSetName='NewExpanded', Mandatory)]
@@ -12764,7 +12768,7 @@ param(
     [Parameter(ParameterSetName='NewExpanded', Mandatory)]
     [NmePowershell.Category('Body')]
     [System.String]
-    # .
+    # See this Microsoft doc for more info.https://learn.microsoft.com/en-us/fslogix/concepts-redirections-xml
     ${RedirectionsXml},
 
     [Parameter(ParameterSetName='NewExpanded')]
@@ -15111,7 +15115,7 @@ param(
     ${HtmlText},
 
     [Parameter(ParameterSetName='NewExpanded', Mandatory)]
-    [NmePowershell.PSArgumentCompleterAttribute("UserSelfServiceGlobal", "UserSelfServiceHostPool", "AdminConsoleGlobal")]
+    [NmePowershell.PSArgumentCompleterAttribute("UserSelfServiceGlobal", "UserSelfServiceHostPool", "AdminConsoleGlobal", "LicenseUsageNotice", "LicenseComplianceWarning")]
     [NmePowershell.Category('Body')]
     [System.String]
     # .
@@ -15944,7 +15948,7 @@ param(
     [Parameter(ParameterSetName='NewExpanded', Mandatory)]
     [NmePowershell.Category('Body')]
     [System.Management.Automation.SwitchParameter]
-    # .
+    # Define the name assigning behaviour.false: Host will have name with the exact 'Name' value;true: Host will have name with the 'Name-{????}' value.
     ${VMIdAddSuffix},
 
     [Parameter(ParameterSetName='NewExpanded', Mandatory)]
@@ -21479,31 +21483,31 @@ param(
     [Parameter(ParameterSetName='SetExpanded')]
     [NmePowershell.Category('Body')]
     [System.Int32]
-    # .
+    # Log off, instead of disconnecting, ACTIVE and IDLE sessions.null: not configured;-1: disabled (property will be removed from registry);1: enabled
     ${FresetBroken},
 
     [Parameter(ParameterSetName='SetExpanded')]
     [NmePowershell.Category('Body')]
     [System.Int32]
-    # .
+    # Disconnect ACTIVE sessions after.null: not configured;-1: disabled (property will be removed from registry);0: never
     ${MaxConnectionTime},
 
     [Parameter(ParameterSetName='SetExpanded')]
     [NmePowershell.Category('Body')]
     [System.Int32]
-    # .
+    # Log off DISCONNECTED sessions after.null: not configured;-1: disabled (property will be removed from registry);0: never
     ${MaxDisconnectionTime},
 
     [Parameter(ParameterSetName='SetExpanded')]
     [NmePowershell.Category('Body')]
     [System.Int32]
-    # .
+    # Disconnect IDLE sessions after.null: not configured;-1: disabled (property will be removed from registry);0: never
     ${MaxIdleTime},
 
     [Parameter(ParameterSetName='SetExpanded')]
     [NmePowershell.Category('Body')]
     [System.Int32]
-    # .
+    # Log off empty RemoteApp sessions after.null: not configured;-1: disabled (property will be removed from registry);0: immediately
     ${RemoteAppLogoffTimeLimit},
 
     [Parameter(DontShow)]
@@ -21642,7 +21646,7 @@ param(
     [Parameter(ParameterSetName='SetExpanded', Mandatory)]
     [NmePowershell.Category('Body')]
     [System.Management.Automation.SwitchParameter]
-    # .
+    # Update existing AVD object and VMs
     ${UpdateObjects},
 
     [Parameter(DontShow)]
@@ -23569,7 +23573,7 @@ function Update-NmeConsoleConnectRegion {
 [CmdletBinding(DefaultParameterSetName='UpdateExpanded', PositionalBinding=$false, SupportsShouldProcess, ConfirmImpact='Medium')]
 param(
     [Parameter(Mandatory)]
-    [NmePowershell.PSArgumentCompleterAttribute("US", "EU", "CA", "AU")]
+    [NmePowershell.PSArgumentCompleterAttribute("US", "EU", "CA", "AU", "UK")]
     [NmePowershell.Category('Path')]
     [System.String]
     # .
@@ -23955,7 +23959,8 @@ param(
     [Parameter(ParameterSetName='UpdateExpanded')]
     [NmePowershell.Category('Body')]
     [System.Management.Automation.SwitchParameter]
-    # .
+    # Enable FSLogix Cloud Cache.
+    # See this Microsoft doc for more info.https://learn.microsoft.com/en-us/fslogix/concepts-fslogix-cloud-cache
     ${CloudCache},
 
     [Parameter(ParameterSetName='UpdateExpanded')]
@@ -23979,7 +23984,7 @@ param(
     [Parameter(ParameterSetName='UpdateExpanded')]
     [NmePowershell.Category('Body')]
     [System.Management.Automation.SwitchParameter]
-    # .
+    # Enable Entra ID Kerberos functionality and Entra ID account credentials loading.
     ${EntraIdKerberos},
 
     [Parameter(ParameterSetName='UpdateExpanded')]
@@ -23999,13 +24004,15 @@ param(
     [Parameter(ParameterSetName='UpdateExpanded')]
     [NmePowershell.Category('Body')]
     [System.Management.Automation.SwitchParameter]
-    # .
+    # This option is used to force the re-installation of the FSLogix agent and applications.
+    # This will install selected FSLogix Version.
     ${InstallerForceUpdate},
 
     [Parameter(ParameterSetName='UpdateExpanded')]
     [NmePowershell.Category('Body')]
     [System.String]
-    # .
+    # FsLogix installer version.
+    # Empty string means "use the latest stable version".
     ${InstallerVersion},
 
     [Parameter(ParameterSetName='UpdateExpanded')]
@@ -24049,7 +24056,8 @@ param(
     [Parameter(ParameterSetName='UpdateExpanded')]
     [NmePowershell.Category('Body')]
     [System.Management.Automation.SwitchParameter]
-    # .
+    # Use storage account blob containers to store users profiles.
+    # These containers will be accessed using storage account access keys.
     ${PageBlobs},
 
     [Parameter(ParameterSetName='UpdateExpanded')]
@@ -24068,7 +24076,7 @@ param(
     [Parameter(ParameterSetName='UpdateExpanded')]
     [NmePowershell.Category('Body')]
     [System.String]
-    # .
+    # See this Microsoft doc for more info.https://learn.microsoft.com/en-us/fslogix/concepts-redirections-xml
     ${RedirectionsXml},
 
     [Parameter(DontShow)]
@@ -24699,7 +24707,7 @@ param(
     [Parameter(ParameterSetName='UpdateExpanded')]
     [NmePowershell.Category('Body')]
     [System.Management.Automation.SwitchParameter]
-    # .
+    # Auto-start host on connect
     ${StartVMOnConnect},
 
     [Parameter(ParameterSetName='UpdateExpanded')]
@@ -24980,7 +24988,7 @@ param(
     ${Enable},
 
     [Parameter(ParameterSetName='UpdateExpanded')]
-    [NmePowershell.PSArgumentCompleterAttribute("US", "EU", "CA", "AU")]
+    [NmePowershell.PSArgumentCompleterAttribute("US", "EU", "CA", "AU", "UK")]
     [NmePowershell.Category('Body')]
     [System.String]
     # .
@@ -26003,34 +26011,34 @@ param(
     [Parameter(ParameterSetName='UpdateExpanded')]
     [NmePowershell.Category('Body')]
     [System.Management.Automation.SwitchParameter]
-    # .
+    # Enforce a password prompt for users logging on to Remote Desktop Services
     ${AlwaysPromptForPassword},
 
     [Parameter(ParameterSetName='UpdateExpanded')]
     [AllowEmptyCollection()]
     [NmePowershell.Category('Body')]
     [System.String[]]
-    # .
+    # Application Security Group ID to associate with session host NICs
     ${ApplicationSecurityGroupIds},
 
     [Parameter(ParameterSetName='UpdateExpanded')]
     [NmePowershell.Category('Body')]
     [System.Management.Automation.SwitchParameter]
-    # .
+    # Is host boot diagnostics enabled?
     ${BootDiagEnabled},
 
     [Parameter(ParameterSetName='UpdateExpanded')]
     [AllowEmptyCollection()]
     [NmePowershell.Category('Body')]
     [System.String[]]
-    # .
+    # List storage account IDs for boot diagnostics, if custom accounts are used.
     ${BootDiagStorageAccountsIds},
 
     [Parameter(ParameterSetName='UpdateExpanded')]
     [AllowEmptyCollection()]
     [NmePowershell.Category('Body')]
     [System.String[]]
-    # .
+    # On-demand Capacity Reservation Groups ids
     ${CapacityReservationGroupsIds},
 
     [Parameter(ParameterSetName='UpdateExpanded')]
@@ -26043,111 +26051,113 @@ param(
     [Parameter(ParameterSetName='UpdateExpanded')]
     [NmePowershell.Category('Body')]
     [System.Int32]
-    # .
+    # Compliance timeout in hours.
+    # Supported values are 1-24 hours.
     ${ComplianceTimeout},
 
     [Parameter(ParameterSetName='UpdateExpanded')]
     [NmePowershell.Category('Body')]
     [System.Management.Automation.SwitchParameter]
-    # .
+    # Is confidential disk encryption enabled?
     ${ConfidentialDiskEncryption},
 
     [Parameter(ParameterSetName='UpdateExpanded')]
     [NmePowershell.Category('Body')]
     [System.String]
-    # .
+    # Host Group resource id
     ${DedicatedHostGroupId},
 
     [Parameter(ParameterSetName='UpdateExpanded')]
     [NmePowershell.Category('Body')]
     [System.String]
-    # .
+    # Host resource id
     ${DedicatedHostId},
 
     [Parameter(ParameterSetName='UpdateExpanded')]
     [AllowEmptyCollection()]
     [NmePowershell.Category('Body')]
     [System.String[]]
-    # .
+    # List of disk encryption set IDs for customer managed keys
     ${DiskEncryptionSetsIds},
 
     [Parameter(ParameterSetName='UpdateExpanded')]
     [NmePowershell.Category('Body')]
     [System.Management.Automation.SwitchParameter]
-    # .
+    # Enable App-V client service if host pool is assigned to App Attach packages containing App-V package
     ${EnableAppvClientService},
 
     [Parameter(ParameterSetName='UpdateExpanded')]
     [NmePowershell.Category('Body')]
     [System.Management.Automation.SwitchParameter]
-    # .
+    # Enable H.265 encoding on supported VM sizes
     ${EnableHevc},
 
     [Parameter(ParameterSetName='UpdateExpanded')]
     [NmePowershell.Category('Body')]
     [System.Management.Automation.SwitchParameter]
-    # .
+    # Enable time zone redirection
     ${EnableTimezoneRedirection},
 
     [Parameter(ParameterSetName='UpdateExpanded')]
     [NmePowershell.Category('Body')]
     [System.Management.Automation.SwitchParameter]
-    # .
+    # Enable automatic deallocation of stopped VMs
     ${EnableVMDeallocation},
 
     [Parameter(ParameterSetName='UpdateExpanded')]
     [NmePowershell.Category('Body')]
     [System.Management.Automation.SwitchParameter]
-    # .
+    # Is encryption at host enabled?
     ${EncryptionAtHost},
 
     [Parameter(ParameterSetName='UpdateExpanded')]
     [NmePowershell.Category('Body')]
     [System.Int32]
-    # .
+    # Entra groups timeout in minutes
     ${EntraDeviceTimeoutInMinutes},
 
     [Parameter(ParameterSetName='UpdateExpanded')]
     [AllowEmptyCollection()]
     [NmePowershell.Category('Body')]
     [System.String[]]
-    # .
+    # Default hostpool groups.
+    # New session hosts will be assigned to these groups by default.
     ${EntraIdGroups},
 
     [Parameter(ParameterSetName='UpdateExpanded')]
     [NmePowershell.Category('Body')]
     [System.Management.Automation.SwitchParameter]
-    # .
+    # Restart VM at the end of creation
     ${ForceVMRestart},
 
     [Parameter(ParameterSetName='UpdateExpanded')]
     [NmePowershell.Category('Body')]
     [System.Management.Automation.SwitchParameter]
-    # .
+    # Install App Attach certificates if any
     ${InstallCertificates},
 
     [Parameter(ParameterSetName='UpdateExpanded')]
     [NmePowershell.Category('Body')]
     [System.Management.Automation.SwitchParameter]
-    # .
+    # Install GPU drivers if VM have discrete GPU card
     ${InstallGpuDrivers},
 
     [Parameter(ParameterSetName='UpdateExpanded')]
     [NmePowershell.Category('Body')]
     [System.Management.Automation.SwitchParameter]
-    # .
+    # Allow integrity monitoring if Trusted launch or Confidential security type is enabled
     ${IntegrityMonitoring},
 
     [Parameter(ParameterSetName='UpdateExpanded')]
     [NmePowershell.Category('Body')]
     [System.Management.Automation.SwitchParameter]
-    # .
+    # Use accelerated networking when possible
     ${IsAcceleratedNetworkingEnabled},
 
     [Parameter(ParameterSetName='UpdateExpanded')]
     [NmePowershell.Category('Body')]
     [System.Management.Automation.SwitchParameter]
-    # .
+    # Allow session shadowing for non-admin users
     ${IsShadowUsersEnabled},
 
     [Parameter(ParameterSetName='UpdateExpanded')]
@@ -26263,7 +26273,7 @@ param(
     [AllowEmptyCollection()]
     [NmePowershell.Category('Body')]
     [System.String[]]
-    # .
+    # Ids of Proximity Placement Groups where newly created VM can be placed
     ${ProximityPlacementGroupIds},
 
     [Parameter(ParameterSetName='UpdateExpanded')]
@@ -26276,13 +26286,13 @@ param(
     [Parameter(ParameterSetName='UpdateExpanded')]
     [NmePowershell.Category('Body')]
     [System.Management.Automation.SwitchParameter]
-    # .
+    # Scripted actions configuration
     ${RunAppPolicies},
 
     [Parameter(ParameterSetName='UpdateExpanded')]
     [NmePowershell.Category('Body')]
     [System.Management.Automation.SwitchParameter]
-    # .
+    # Allow secure boot if Trusted launch or Confidential security type is enabled
     ${SecureBootEnabled},
 
     [Parameter(ParameterSetName='UpdateExpanded')]
@@ -26296,38 +26306,39 @@ param(
     [AllowEmptyCollection()]
     [NmePowershell.Category('Body')]
     [NmePowershell.Models.IHostPoolAssignment[]]
-    # .
+    # Allow session shadowing for following non-admin users and groups
     ${ShadowUserAssignments},
 
     [Parameter(ParameterSetName='UpdateExpanded')]
     [NmePowershell.Category('Body')]
     [System.Management.Automation.SwitchParameter]
-    # .
+    # Distribute VMs across availability zones in the azure region
     ${UseAvailabilityZones},
 
     [Parameter(ParameterSetName='UpdateExpanded')]
     [NmePowershell.Category('Body')]
     [System.Management.Automation.SwitchParameter]
-    # .
+    # Place VMs on Dedicated Hosts
     ${UseDedicatedHosts},
 
     [Parameter(ParameterSetName='UpdateExpanded')]
     [AllowEmptyCollection()]
     [NmePowershell.Category('Body')]
     [System.String[]]
-    # .
+    # User-assigned managed identity ARM IDs to attach to session host VMs.Null = no change.
+    # Empty list = remove all.At most one identity per tenant.
     ${UserAssignedIdentityIds},
 
     [Parameter(ParameterSetName='UpdateExpanded')]
     [NmePowershell.Category('Body')]
     [System.String]
-    # .
+    # Set windows timezone on VM
     ${VMTimezone},
 
     [Parameter(ParameterSetName='UpdateExpanded')]
     [NmePowershell.Category('Body')]
     [System.Management.Automation.SwitchParameter]
-    # .
+    # Allow VTpm if Trusted launch or Confidential security type is enabled
     ${VTpmEnabled},
 
     [Parameter(ParameterSetName='UpdateExpanded')]
@@ -26339,25 +26350,25 @@ param(
     [Parameter(ParameterSetName='UpdateExpanded')]
     [NmePowershell.Category('Body')]
     [System.Int32]
-    # .
+    # Determines the distance between the QR codes in percent
     ${WatermarkingHeightFactor},
 
     [Parameter(ParameterSetName='UpdateExpanded')]
     [NmePowershell.Category('Body')]
     [System.Int32]
-    # .
+    # Determines the distance between the QR codes in percent
     ${WatermarkingOpacity},
 
     [Parameter(ParameterSetName='UpdateExpanded')]
     [NmePowershell.Category('Body')]
     [System.Int32]
-    # .
+    # The size in pixels of each QR code dot
     ${WatermarkingScale},
 
     [Parameter(ParameterSetName='UpdateExpanded')]
     [NmePowershell.Category('Body')]
     [System.Int32]
-    # .
+    # Determines the distance between the QR codes in percent
     ${WatermarkingWidthFactor},
 
     [Parameter(DontShow)]
@@ -30100,6 +30111,7 @@ param(
     [Parameter()]
     [NmePowershell.Category('Body')]
     [System.Boolean]
+    # Auto-start host on connect.
     ${StartVMOnConnect},
 
     [Parameter()]
@@ -35445,11 +35457,15 @@ param(
     [Parameter(Mandatory)]
     [NmePowershell.Category('Body')]
     [System.Boolean]
+    # This option is used to force the re-installation of the FSLogix agent and applications.
+    # This will install selected FSLogix Version.
     ${ForceUpdate},
 
     [Parameter(Mandatory)]
     [NmePowershell.Category('Body')]
     [System.String]
+    # FsLogix installer version.
+    # Empty string means "use the latest stable version".
     ${Version}
 )
 
@@ -35517,11 +35533,15 @@ param(
     [Parameter()]
     [NmePowershell.Category('Body')]
     [System.Boolean]
+    # This option is used to force the re-installation of the FSLogix agent and applications.
+    # This will install selected FSLogix Version.
     ${ForceUpdate},
 
     [Parameter()]
     [NmePowershell.Category('Body')]
     [System.String]
+    # FsLogix installer version.
+    # Empty string means "use the latest stable version".
     ${Version}
 )
 
@@ -35735,11 +35755,15 @@ param(
     [Parameter(Mandatory)]
     [NmePowershell.Category('Body')]
     [System.Boolean]
+    # Enable FSLogix Cloud Cache.
+    # See this Microsoft doc for more info.
+    #         https://learn.microsoft.com/en-us/fslogix/concepts-fslogix-cloud-cache.
     ${CloudCache},
 
     [Parameter(Mandatory)]
     [NmePowershell.Category('Body')]
     [System.Boolean]
+    # Enable Entra ID Kerberos functionality and Entra ID account credentials loading.
     ${EntraIdKerberos},
 
     [Parameter(Mandatory)]
@@ -35751,11 +35775,15 @@ param(
     [Parameter(Mandatory)]
     [NmePowershell.Category('Body')]
     [System.Boolean]
+    # This option is used to force the re-installation of the FSLogix agent and applications.
+    # This will install selected FSLogix Version.
     ${InstallerForceUpdate},
 
     [Parameter(Mandatory)]
     [NmePowershell.Category('Body')]
     [System.String]
+    # FsLogix installer version.
+    # Empty string means "use the latest stable version".
     ${InstallerVersion},
 
     [Parameter(Mandatory)]
@@ -35781,6 +35809,8 @@ param(
     [Parameter(Mandatory)]
     [NmePowershell.Category('Body')]
     [System.Boolean]
+    # Use storage account blob containers to store users profiles.
+    # These containers will be accessed using storage account access keys.
     ${PageBlobs},
 
     [Parameter(Mandatory)]
@@ -35796,6 +35826,8 @@ param(
     [Parameter(Mandatory)]
     [NmePowershell.Category('Body')]
     [System.String]
+    # See this Microsoft doc for more info.
+    #         https://learn.microsoft.com/en-us/fslogix/concepts-redirections-xml.
     ${RedirectionsXml},
 
     [Parameter()]
@@ -35916,6 +35948,9 @@ param(
     [Parameter()]
     [NmePowershell.Category('Body')]
     [System.Boolean]
+    # Enable FSLogix Cloud Cache.
+    # See this Microsoft doc for more info.
+    #         https://learn.microsoft.com/en-us/fslogix/concepts-fslogix-cloud-cache.
     ${CloudCache},
 
     [Parameter()]
@@ -35936,6 +35971,7 @@ param(
     [Parameter()]
     [NmePowershell.Category('Body')]
     [System.Boolean]
+    # Enable Entra ID Kerberos functionality and Entra ID account credentials loading.
     ${EntraIdKerberos},
 
     [Parameter()]
@@ -35952,11 +35988,15 @@ param(
     [Parameter()]
     [NmePowershell.Category('Body')]
     [System.Boolean]
+    # This option is used to force the re-installation of the FSLogix agent and applications.
+    # This will install selected FSLogix Version.
     ${InstallerForceUpdate},
 
     [Parameter()]
     [NmePowershell.Category('Body')]
     [System.String]
+    # FsLogix installer version.
+    # Empty string means "use the latest stable version".
     ${InstallerVersion},
 
     [Parameter()]
@@ -35993,6 +36033,8 @@ param(
     [Parameter()]
     [NmePowershell.Category('Body')]
     [System.Boolean]
+    # Use storage account blob containers to store users profiles.
+    # These containers will be accessed using storage account access keys.
     ${PageBlobs},
 
     [Parameter()]
@@ -36008,6 +36050,8 @@ param(
     [Parameter()]
     [NmePowershell.Category('Body')]
     [System.String]
+    # See this Microsoft doc for more info.
+    #         https://learn.microsoft.com/en-us/fslogix/concepts-redirections-xml.
     ${RedirectionsXml}
 )
 
@@ -36075,11 +36119,15 @@ param(
     [Parameter(Mandatory)]
     [NmePowershell.Category('Body')]
     [System.Boolean]
+    # Enable FSLogix Cloud Cache.
+    # See this Microsoft doc for more info.
+    #         https://learn.microsoft.com/en-us/fslogix/concepts-fslogix-cloud-cache.
     ${CloudCache},
 
     [Parameter(Mandatory)]
     [NmePowershell.Category('Body')]
     [System.Boolean]
+    # Enable Entra ID Kerberos functionality and Entra ID account credentials loading.
     ${EntraIdKerberos},
 
     [Parameter(Mandatory)]
@@ -36091,11 +36139,15 @@ param(
     [Parameter(Mandatory)]
     [NmePowershell.Category('Body')]
     [System.Boolean]
+    # This option is used to force the re-installation of the FSLogix agent and applications.
+    # This will install selected FSLogix Version.
     ${InstallerForceUpdate},
 
     [Parameter(Mandatory)]
     [NmePowershell.Category('Body')]
     [System.String]
+    # FsLogix installer version.
+    # Empty string means "use the latest stable version".
     ${InstallerVersion},
 
     [Parameter(Mandatory)]
@@ -36111,6 +36163,8 @@ param(
     [Parameter(Mandatory)]
     [NmePowershell.Category('Body')]
     [System.Boolean]
+    # Use storage account blob containers to store users profiles.
+    # These containers will be accessed using storage account access keys.
     ${PageBlobs},
 
     [Parameter(Mandatory)]
@@ -36126,6 +36180,8 @@ param(
     [Parameter(Mandatory)]
     [NmePowershell.Category('Body')]
     [System.String]
+    # See this Microsoft doc for more info.
+    #         https://learn.microsoft.com/en-us/fslogix/concepts-redirections-xml.
     ${RedirectionsXml},
 
     [Parameter()]
@@ -36246,6 +36302,9 @@ param(
     [Parameter()]
     [NmePowershell.Category('Body')]
     [System.Boolean]
+    # Enable FSLogix Cloud Cache.
+    # See this Microsoft doc for more info.
+    #         https://learn.microsoft.com/en-us/fslogix/concepts-fslogix-cloud-cache.
     ${CloudCache},
 
     [Parameter()]
@@ -36266,6 +36325,7 @@ param(
     [Parameter()]
     [NmePowershell.Category('Body')]
     [System.Boolean]
+    # Enable Entra ID Kerberos functionality and Entra ID account credentials loading.
     ${EntraIdKerberos},
 
     [Parameter()]
@@ -36282,11 +36342,15 @@ param(
     [Parameter()]
     [NmePowershell.Category('Body')]
     [System.Boolean]
+    # This option is used to force the re-installation of the FSLogix agent and applications.
+    # This will install selected FSLogix Version.
     ${InstallerForceUpdate},
 
     [Parameter()]
     [NmePowershell.Category('Body')]
     [System.String]
+    # FsLogix installer version.
+    # Empty string means "use the latest stable version".
     ${InstallerVersion},
 
     [Parameter()]
@@ -36313,6 +36377,8 @@ param(
     [Parameter()]
     [NmePowershell.Category('Body')]
     [System.Boolean]
+    # Use storage account blob containers to store users profiles.
+    # These containers will be accessed using storage account access keys.
     ${PageBlobs},
 
     [Parameter()]
@@ -36328,6 +36394,8 @@ param(
     [Parameter()]
     [NmePowershell.Category('Body')]
     [System.String]
+    # See this Microsoft doc for more info.
+    #         https://learn.microsoft.com/en-us/fslogix/concepts-redirections-xml.
     ${RedirectionsXml}
 )
 
@@ -37041,7 +37109,7 @@ param(
     ${Enable},
 
     [Parameter()]
-    [NmePowershell.PSArgumentCompleterAttribute("US", "EU", "CA", "AU")]
+    [NmePowershell.PSArgumentCompleterAttribute("US", "EU", "CA", "AU", "UK")]
     [NmePowershell.Category('Body')]
     [System.String]
     ${Region}
@@ -37692,6 +37760,8 @@ param(
     [Parameter()]
     [NmePowershell.Category('Body')]
     [System.String]
+    # FSLogix version.
+    #         null means "use the latest stable version".
     ${FsLogixVersion},
 
     [Parameter()]
@@ -39163,26 +39233,46 @@ param(
     [Parameter()]
     [NmePowershell.Category('Body')]
     [System.Int32]
+    # Log off, instead of disconnecting, ACTIVE and IDLE sessions.
+    #         null: not configured;
+    #         -1: disabled (property will be removed from registry);
+    #         1: enabled.
     ${FresetBroken},
 
     [Parameter()]
     [NmePowershell.Category('Body')]
     [System.Int32]
+    # Disconnect ACTIVE sessions after.
+    #         null: not configured;
+    #         -1: disabled (property will be removed from registry);
+    #         0: never.
     ${MaxConnectionTime},
 
     [Parameter()]
     [NmePowershell.Category('Body')]
     [System.Int32]
+    # Log off DISCONNECTED sessions after.
+    #         null: not configured;
+    #         -1: disabled (property will be removed from registry);
+    #         0: never.
     ${MaxDisconnectionTime},
 
     [Parameter()]
     [NmePowershell.Category('Body')]
     [System.Int32]
+    # Disconnect IDLE sessions after.
+    #         null: not configured;
+    #         -1: disabled (property will be removed from registry);
+    #         0: never.
     ${MaxIdleTime},
 
     [Parameter()]
     [NmePowershell.Category('Body')]
     [System.Int32]
+    # Log off empty RemoteApp sessions after.
+    #         null: not configured;
+    #         -1: disabled (property will be removed from registry);
+    #         0: immediately.
     ${RemoteAppLogoffTimeLimit}
 )
 
@@ -39339,6 +39429,7 @@ param(
     [Parameter(Mandatory)]
     [NmePowershell.Category('Body')]
     [System.Boolean]
+    # Update existing AVD object and VMs.
     ${UpdateObjects}
 )
 
@@ -39686,26 +39777,31 @@ param(
     [Parameter()]
     [NmePowershell.Category('Body')]
     [System.Boolean]
+    # Enforce a password prompt for users logging on to Remote Desktop Services.
     ${AlwaysPromptForPassword},
 
     [Parameter()]
     [NmePowershell.Category('Body')]
     [System.String[]]
+    # Application Security Group ID to associate with session host NICs.
     ${ApplicationSecurityGroupIds},
 
     [Parameter()]
     [NmePowershell.Category('Body')]
     [System.Boolean]
+    # Is host boot diagnostics enabled?.
     ${BootDiagEnabled},
 
     [Parameter()]
     [NmePowershell.Category('Body')]
     [System.String[]]
+    # List storage account IDs for boot diagnostics, if custom accounts are used.
     ${BootDiagStorageAccountsIds},
 
     [Parameter()]
     [NmePowershell.Category('Body')]
     [System.String[]]
+    # On-demand Capacity Reservation Groups ids.
     ${CapacityReservationGroupsIds},
 
     [Parameter()]
@@ -39717,91 +39813,111 @@ param(
     [Parameter()]
     [NmePowershell.Category('Body')]
     [System.Int32]
+    # Compliance timeout in hours.
+    # Supported values are 1-24 hours.
     ${ComplianceTimeout},
 
     [Parameter()]
     [NmePowershell.Category('Body')]
     [System.Boolean]
+    # Is confidential disk encryption enabled?.
     ${ConfidentialDiskEncryption},
 
     [Parameter()]
     [NmePowershell.Category('Body')]
     [System.String]
+    # Host Group resource id.
     ${DedicatedHostGroupId},
 
     [Parameter()]
     [NmePowershell.Category('Body')]
     [System.String]
+    # Host resource id.
     ${DedicatedHostId},
 
     [Parameter()]
     [NmePowershell.Category('Body')]
     [System.String[]]
+    # List of disk encryption set IDs for customer managed keys.
     ${DiskEncryptionSetsIds},
 
     [Parameter()]
     [NmePowershell.Category('Body')]
     [System.Boolean]
+    # Enable App-V client service if host pool is assigned to App Attach packages containing App-V package.
     ${EnableAppvClientService},
 
     [Parameter()]
     [NmePowershell.Category('Body')]
     [System.Boolean]
+    # Enable H.265 encoding on supported VM sizes.
     ${EnableHevc},
 
     [Parameter()]
     [NmePowershell.Category('Body')]
     [System.Boolean]
+    # Enable time zone redirection.
     ${EnableTimezoneRedirection},
 
     [Parameter()]
     [NmePowershell.Category('Body')]
     [System.Boolean]
+    # Enable automatic deallocation of stopped VMs.
     ${EnableVMDeallocation},
 
     [Parameter()]
     [NmePowershell.Category('Body')]
     [System.Boolean]
+    # Is encryption at host enabled?.
     ${EncryptionAtHost},
 
     [Parameter()]
     [NmePowershell.Category('Body')]
     [System.Int32]
+    # Entra groups timeout in minutes.
     ${EntraDeviceTimeoutInMinutes},
 
     [Parameter()]
     [NmePowershell.Category('Body')]
     [System.String[]]
+    # Default hostpool groups.
+    # New session hosts will be assigned to these groups by default.
     ${EntraIdGroups},
 
     [Parameter()]
     [NmePowershell.Category('Body')]
     [System.Boolean]
+    # Restart VM at the end of creation.
     ${ForceVMRestart},
 
     [Parameter()]
     [NmePowershell.Category('Body')]
     [System.Boolean]
+    # Install App Attach certificates if any.
     ${InstallCertificates},
 
     [Parameter()]
     [NmePowershell.Category('Body')]
     [System.Boolean]
+    # Install GPU drivers if VM have discrete GPU card.
     ${InstallGpuDrivers},
 
     [Parameter()]
     [NmePowershell.Category('Body')]
     [System.Boolean]
+    # Allow integrity monitoring if Trusted launch or Confidential security type is enabled.
     ${IntegrityMonitoring},
 
     [Parameter()]
     [NmePowershell.Category('Body')]
     [System.Boolean]
+    # Use accelerated networking when possible.
     ${IsAcceleratedNetworkingEnabled},
 
     [Parameter()]
     [NmePowershell.Category('Body')]
     [System.Boolean]
+    # Allow session shadowing for non-admin users.
     ${IsShadowUsersEnabled},
 
     [Parameter()]
@@ -39899,6 +40015,7 @@ param(
     [Parameter()]
     [NmePowershell.Category('Body')]
     [System.String[]]
+    # Ids of Proximity Placement Groups where newly created VM can be placed.
     ${ProximityPlacementGroupIds},
 
     [Parameter()]
@@ -39910,11 +40027,13 @@ param(
     [Parameter()]
     [NmePowershell.Category('Body')]
     [System.Boolean]
+    # Scripted actions configuration.
     ${RunAppPolicies},
 
     [Parameter()]
     [NmePowershell.Category('Body')]
     [System.Boolean]
+    # Allow secure boot if Trusted launch or Confidential security type is enabled.
     ${SecureBootEnabled},
 
     [Parameter()]
@@ -39926,32 +40045,40 @@ param(
     [Parameter()]
     [NmePowershell.Category('Body')]
     [NmePowershell.Models.IHostPoolAssignment[]]
-    # 
+    # Allow session shadowing for following non-admin users and groups.
     ${ShadowUserAssignments},
 
     [Parameter()]
     [NmePowershell.Category('Body')]
     [System.Boolean]
+    # Distribute VMs across availability zones in the azure region.
     ${UseAvailabilityZones},
 
     [Parameter()]
     [NmePowershell.Category('Body')]
     [System.Boolean]
+    # Place VMs on Dedicated Hosts.
     ${UseDedicatedHosts},
 
     [Parameter()]
     [NmePowershell.Category('Body')]
     [System.String[]]
+    # User-assigned managed identity ARM IDs to attach to session host VMs.
+    #         Null = no change.
+    # Empty list = remove all.
+    #         At most one identity per tenant.
     ${UserAssignedIdentityIds},
 
     [Parameter()]
     [NmePowershell.Category('Body')]
     [System.String]
+    # Set windows timezone on VM.
     ${VMTimezone},
 
     [Parameter()]
     [NmePowershell.Category('Body')]
     [System.Boolean]
+    # Allow VTpm if Trusted launch or Confidential security type is enabled.
     ${VTpmEnabled},
 
     [Parameter()]
@@ -39962,21 +40089,25 @@ param(
     [Parameter()]
     [NmePowershell.Category('Body')]
     [System.Int32]
+    # Determines the distance between the QR codes in percent.
     ${WatermarkingHeightFactor},
 
     [Parameter()]
     [NmePowershell.Category('Body')]
     [System.Int32]
+    # Determines the distance between the QR codes in percent.
     ${WatermarkingOpacity},
 
     [Parameter()]
     [NmePowershell.Category('Body')]
     [System.Int32]
+    # The size in pixels of each QR code dot.
     ${WatermarkingScale},
 
     [Parameter()]
     [NmePowershell.Category('Body')]
     [System.Int32]
+    # Determines the distance between the QR codes in percent.
     ${WatermarkingWidthFactor}
 )
 
@@ -43864,7 +43995,7 @@ param(
     ${HtmlText},
 
     [Parameter(Mandatory)]
-    [NmePowershell.PSArgumentCompleterAttribute("UserSelfServiceGlobal", "UserSelfServiceHostPool", "AdminConsoleGlobal")]
+    [NmePowershell.PSArgumentCompleterAttribute("UserSelfServiceGlobal", "UserSelfServiceHostPool", "AdminConsoleGlobal", "LicenseUsageNotice", "LicenseComplianceWarning")]
     [NmePowershell.Category('Body')]
     [System.String]
     ${Type},
@@ -46875,6 +47006,9 @@ param(
     [Parameter(Mandatory)]
     [NmePowershell.Category('Body')]
     [System.Boolean]
+    # Define the name assigning behaviour.
+    #         false: Host will have name with the exact 'Name' value;
+    #         true:  Host will have name with the 'Name-{????}' value.
     ${VMIdAddSuffix},
 
     [Parameter(Mandatory)]
@@ -47029,6 +47163,9 @@ param(
     [Parameter(Mandatory)]
     [NmePowershell.Category('Body')]
     [System.Boolean]
+    # Define the name assigning behaviour.
+    #         false: Host will have name with the exact 'Name' value;
+    #         true:  Host will have name with the 'Name-{????}' value.
     ${VMIdAddSuffix},
 
     [Parameter(Mandatory)]
@@ -47168,6 +47305,9 @@ param(
     [Parameter(Mandatory)]
     [NmePowershell.Category('Body')]
     [System.Boolean]
+    # Define the name assigning behaviour.
+    #         false: Host will have name with the exact 'Name' value;
+    #         true:  Host will have name with the 'Name-{????}' value.
     ${VMIdAddSuffix},
 
     [Parameter(Mandatory)]
@@ -49598,6 +49738,9 @@ param(
     [Parameter(Mandatory)]
     [NmePowershell.Category('Body')]
     [System.Boolean]
+    # Define the name assigning behaviour.
+    #         false: Host will have name with the exact 'Name' value;
+    #         true:  Host will have name with the 'Name-{????}' value.
     ${AddSuffix},
 
     [Parameter(Mandatory)]
@@ -50020,21 +50163,25 @@ param(
     [Parameter(Mandatory)]
     [NmePowershell.Category('Body')]
     [System.Int32]
+    # Determines the distance between the QR codes in percent.
     ${HeightFactor},
 
     [Parameter(Mandatory)]
     [NmePowershell.Category('Body')]
     [System.Int32]
+    # Determines the distance between the QR codes in percent.
     ${Opacity},
 
     [Parameter(Mandatory)]
     [NmePowershell.Category('Body')]
     [System.Int32]
+    # The size in pixels of each QR code dot.
     ${Scale},
 
     [Parameter(Mandatory)]
     [NmePowershell.Category('Body')]
     [System.Int32]
+    # Determines the distance between the QR codes in percent.
     ${WidthFactor}
 )
 

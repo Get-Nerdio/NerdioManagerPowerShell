@@ -18,7 +18,7 @@ Get the status of a specific Console Connect region.
 
 | Parameter | Type | Required | Description |
 |-----------|------|----------|-------------|
-| Region | String | Yes | Values: `US`, `EU`, `CA`, `AU` |
+| Region | String | Yes | Values: `US`, `EU`, `CA`, `AU`, `UK` |
 
 ## Examples
 

@@ -24,6 +24,7 @@ param(
     [Parameter(Mandatory)]
     [NmePowershell.Category('Body')]
     [System.Boolean]
+    # Update existing AVD object and VMs.
     ${UpdateObjects}
 )
 

@@ -28,7 +28,7 @@ When "AddSuffix" is true the host name will follow "Prefix" name forming.
 | HostVMSize | String | Yes |  |
 | ResourceGroup | String | Yes |  |
 | SubscriptionId | String | Yes |  |
-| VMIdAddSuffix | SwitchParameter | Yes |  |
+| VMIdAddSuffix | SwitchParameter | Yes | Define the name assigning behaviour.false: Host will have name with the exact 'Name' value;true: Host will have name with the 'Name-{????}' value. |
 | VMIdName | String | Yes |  |
 | VMIdResourceGroup | String | Yes |  |
 | VMIdSubscriptionId | String | Yes |  |

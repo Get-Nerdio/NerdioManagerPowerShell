@@ -15,30 +15,30 @@ Patch host deployment config for ARM host pool
 | HostPoolName | String | Yes |  |
 | ResourceGroup | String | Yes |  |
 | SubscriptionId | String | Yes |  |
-| AlwaysPromptForPassword | SwitchParameter | No |  |
-| ApplicationSecurityGroupIds | String[] | No |  |
-| BootDiagEnabled | SwitchParameter | No |  |
-| BootDiagStorageAccountsIds | String[] | No |  |
-| CapacityReservationGroupsIds | String[] | No |  |
+| AlwaysPromptForPassword | SwitchParameter | No | Enforce a password prompt for users logging on to Remote Desktop Services |
+| ApplicationSecurityGroupIds | String[] | No | Application Security Group ID to associate with session host NICs |
+| BootDiagEnabled | SwitchParameter | No | Is host boot diagnostics enabled? |
+| BootDiagStorageAccountsIds | String[] | No | List storage account IDs for boot diagnostics, if custom accounts are used. |
+| CapacityReservationGroupsIds | String[] | No | On-demand Capacity Reservation Groups ids |
 | ComplianceEnforcement | String | No | Values: `None`, `CompliancePoliciesOnly`, `AllIntunePolicies` |
-| ComplianceTimeout | Int32 | No |  |
-| ConfidentialDiskEncryption | SwitchParameter | No |  |
-| DedicatedHostGroupId | String | No |  |
-| DedicatedHostId | String | No |  |
-| DiskEncryptionSetsIds | String[] | No |  |
-| EnableAppvClientService | SwitchParameter | No |  |
-| EnableHevc | SwitchParameter | No |  |
-| EnableTimezoneRedirection | SwitchParameter | No |  |
-| EnableVMDeallocation | SwitchParameter | No |  |
-| EncryptionAtHost | SwitchParameter | No |  |
-| EntraDeviceTimeoutInMinutes | Int32 | No |  |
-| EntraIdGroups | String[] | No |  |
-| ForceVMRestart | SwitchParameter | No |  |
-| InstallCertificates | SwitchParameter | No |  |
-| InstallGpuDrivers | SwitchParameter | No |  |
-| IntegrityMonitoring | SwitchParameter | No |  |
-| IsAcceleratedNetworkingEnabled | SwitchParameter | No |  |
-| IsShadowUsersEnabled | SwitchParameter | No |  |
+| ComplianceTimeout | Int32 | No | Compliance timeout in hours. |
+| ConfidentialDiskEncryption | SwitchParameter | No | Is confidential disk encryption enabled? |
+| DedicatedHostGroupId | String | No | Host Group resource id |
+| DedicatedHostId | String | No | Host resource id |
+| DiskEncryptionSetsIds | String[] | No | List of disk encryption set IDs for customer managed keys |
+| EnableAppvClientService | SwitchParameter | No | Enable App-V client service if host pool is assigned to App Attach packages containing App-V package |
+| EnableHevc | SwitchParameter | No | Enable H.265 encoding on supported VM sizes |
+| EnableTimezoneRedirection | SwitchParameter | No | Enable time zone redirection |
+| EnableVMDeallocation | SwitchParameter | No | Enable automatic deallocation of stopped VMs |
+| EncryptionAtHost | SwitchParameter | No | Is encryption at host enabled? |
+| EntraDeviceTimeoutInMinutes | Int32 | No | Entra groups timeout in minutes |
+| EntraIdGroups | String[] | No | Default hostpool groups. |
+| ForceVMRestart | SwitchParameter | No | Restart VM at the end of creation |
+| InstallCertificates | SwitchParameter | No | Install App Attach certificates if any |
+| InstallGpuDrivers | SwitchParameter | No | Install GPU drivers if VM have discrete GPU card |
+| IntegrityMonitoring | SwitchParameter | No | Allow integrity monitoring if Trusted launch or Confidential security type is enabled |
+| IsAcceleratedNetworkingEnabled | SwitchParameter | No | Use accelerated networking when possible |
+| IsShadowUsersEnabled | SwitchParameter | No | Allow session shadowing for non-admin users |
 | OnCreateActiveDirectoryId | Int32 | No |  |
 | OnCreateEnabled | SwitchParameter | No |  |
 | OnCreateScriptedActions | [IScriptedActionOption[]](../models/New-NmeScriptedActionOptionModel.md) | No |  |
@@ -56,22 +56,22 @@ Patch host deployment config for ARM host pool
 | OnStopScriptedActions | [IScriptedActionOption[]](../models/New-NmeScriptedActionOptionModel.md) | No |  |
 | PatchOrchestration | String | No | Values: `Default`, `Manual`, `AutomaticByOS`, `AutomaticByPlatform` |
 | PreferredDiskControllerType | String | No | Values: `SCSI`, `NVMe` |
-| ProximityPlacementGroupIds | String[] | No |  |
+| ProximityPlacementGroupIds | String[] | No | Ids of Proximity Placement Groups where newly created VM can be placed |
 | RdpShortpath | String | No | Values: `DoNothing`, `ForceEnable`, `ForceDisable` |
-| RunAppPolicies | SwitchParameter | No |  |
-| SecureBootEnabled | SwitchParameter | No |  |
+| RunAppPolicies | SwitchParameter | No | Scripted actions configuration |
+| SecureBootEnabled | SwitchParameter | No | Allow secure boot if Trusted launch or Confidential security type is enabled |
 | SecurityType | String | No | Values: `None`, `TrustedLaunch`, `Confidential` |
-| ShadowUserAssignments | [IHostPoolAssignment[]](../models/New-NmeHostPoolAssignmentModel.md) | No |  |
-| UseAvailabilityZones | SwitchParameter | No |  |
-| UseDedicatedHosts | SwitchParameter | No |  |
-| UserAssignedIdentityIds | String[] | No |  |
-| VMTimezone | String | No |  |
-| VTpmEnabled | SwitchParameter | No |  |
+| ShadowUserAssignments | [IHostPoolAssignment[]](../models/New-NmeHostPoolAssignmentModel.md) | No | Allow session shadowing for following non-admin users and groups |
+| UseAvailabilityZones | SwitchParameter | No | Distribute VMs across availability zones in the azure region |
+| UseDedicatedHosts | SwitchParameter | No | Place VMs on Dedicated Hosts |
+| UserAssignedIdentityIds | String[] | No | User-assigned managed identity ARM IDs to attach to session host VMs.Null = no change. |
+| VMTimezone | String | No | Set windows timezone on VM |
+| VTpmEnabled | SwitchParameter | No | Allow VTpm if Trusted launch or Confidential security type is enabled |
 | WatermarkingEnabled | SwitchParameter | No |  |
-| WatermarkingHeightFactor | Int32 | No |  |
-| WatermarkingOpacity | Int32 | No |  |
-| WatermarkingScale | Int32 | No |  |
-| WatermarkingWidthFactor | Int32 | No |  |
+| WatermarkingHeightFactor | Int32 | No | Determines the distance between the QR codes in percent |
+| WatermarkingOpacity | Int32 | No | Determines the distance between the QR codes in percent |
+| WatermarkingScale | Int32 | No | The size in pixels of each QR code dot |
+| WatermarkingWidthFactor | Int32 | No | Determines the distance between the QR codes in percent |
 
 ## Examples
 

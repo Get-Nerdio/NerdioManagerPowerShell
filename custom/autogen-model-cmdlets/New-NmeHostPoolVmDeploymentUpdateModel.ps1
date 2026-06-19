@@ -20,77 +20,77 @@ function New-NmeHostPoolVmDeploymentUpdateModel {
     [CmdletBinding(PositionalBinding=$false)]
     Param(
 
-        [Parameter()]
+        [Parameter(HelpMessage="Enforce a password prompt for users logging on to Remote Desktop Services.")]
         [bool]
         $AlwaysPromptForPassword,
-        [Parameter()]
+        [Parameter(HelpMessage="Application Security Group ID to associate with session host NICs.")]
         [string[]]
         $ApplicationSecurityGroupIds,
-        [Parameter()]
+        [Parameter(HelpMessage="Is host boot diagnostics enabled?.")]
         [bool]
         $BootDiagEnabled,
-        [Parameter()]
+        [Parameter(HelpMessage="List storage account IDs for boot diagnostics, if custom accounts are used.")]
         [string[]]
         $BootDiagStorageAccountsIds,
-        [Parameter()]
+        [Parameter(HelpMessage="On-demand Capacity Reservation Groups ids.")]
         [string[]]
         $CapacityReservationGroupsIds,
         [Parameter()]
         [NmePowershell.PSArgumentCompleterAttribute("None", "CompliancePoliciesOnly", "AllIntunePolicies")]
         [string]
         $ComplianceEnforcement,
-        [Parameter()]
+        [Parameter(HelpMessage="Compliance timeout in hours. Supported values are 1-24 hours.")]
         [int]
         $ComplianceTimeout,
-        [Parameter()]
+        [Parameter(HelpMessage="Is confidential disk encryption enabled?.")]
         [bool]
         $ConfidentialDiskEncryption,
-        [Parameter()]
+        [Parameter(HelpMessage="Host Group resource id.")]
         [string]
         $DedicatedHostGroupId,
-        [Parameter()]
+        [Parameter(HelpMessage="Host resource id.")]
         [string]
         $DedicatedHostId,
-        [Parameter()]
+        [Parameter(HelpMessage="List of disk encryption set IDs for customer managed keys.")]
         [string[]]
         $DiskEncryptionSetsIds,
-        [Parameter()]
+        [Parameter(HelpMessage="Enable App-V client service if host pool is assigned to App Attach packages containing App-V package.")]
         [bool]
         $EnableAppvClientService,
-        [Parameter()]
+        [Parameter(HelpMessage="Enable H.265 encoding on supported VM sizes.")]
         [bool]
         $EnableHevc,
-        [Parameter()]
+        [Parameter(HelpMessage="Enable time zone redirection.")]
         [bool]
         $EnableTimezoneRedirection,
-        [Parameter()]
+        [Parameter(HelpMessage="Enable automatic deallocation of stopped VMs.")]
         [bool]
         $EnableVMDeallocation,
-        [Parameter()]
+        [Parameter(HelpMessage="Is encryption at host enabled?.")]
         [bool]
         $EncryptionAtHost,
-        [Parameter()]
+        [Parameter(HelpMessage="Entra groups timeout in minutes.")]
         [int]
         $EntraDeviceTimeoutInMinutes,
-        [Parameter()]
+        [Parameter(HelpMessage="Default hostpool groups. New session hosts will be assigned to these groups by default.")]
         [string[]]
         $EntraIdGroups,
-        [Parameter()]
+        [Parameter(HelpMessage="Restart VM at the end of creation.")]
         [bool]
         $ForceVMRestart,
-        [Parameter()]
+        [Parameter(HelpMessage="Install App Attach certificates if any.")]
         [bool]
         $InstallCertificates,
-        [Parameter()]
+        [Parameter(HelpMessage="Install GPU drivers if VM have discrete GPU card.")]
         [bool]
         $InstallGpuDrivers,
-        [Parameter()]
+        [Parameter(HelpMessage="Allow integrity monitoring if Trusted launch or Confidential security type is enabled.")]
         [bool]
         $IntegrityMonitoring,
-        [Parameter()]
+        [Parameter(HelpMessage="Use accelerated networking when possible.")]
         [bool]
         $IsAcceleratedNetworkingEnabled,
-        [Parameter()]
+        [Parameter(HelpMessage="Allow session shadowing for non-admin users.")]
         [bool]
         $IsShadowUsersEnabled,
         [Parameter()]
@@ -146,54 +146,56 @@ function New-NmeHostPoolVmDeploymentUpdateModel {
         [NmePowershell.PSArgumentCompleterAttribute("SCSI", "NVMe")]
         [string]
         $PreferredDiskControllerType,
-        [Parameter()]
+        [Parameter(HelpMessage="Ids of Proximity Placement Groups where newly created VM can be placed.")]
         [string[]]
         $ProximityPlacementGroupIds,
         [Parameter()]
         [NmePowershell.PSArgumentCompleterAttribute("DoNothing", "ForceEnable", "ForceDisable")]
         [string]
         $RdpShortpath,
-        [Parameter()]
+        [Parameter(HelpMessage="Scripted actions configuration.")]
         [bool]
         $RunAppPolicies,
-        [Parameter()]
+        [Parameter(HelpMessage="Allow secure boot if Trusted launch or Confidential security type is enabled.")]
         [bool]
         $SecureBootEnabled,
         [Parameter()]
         [NmePowershell.PSArgumentCompleterAttribute("None", "TrustedLaunch", "Confidential")]
         [string]
         $SecurityType,
-        [Parameter()]
+        [Parameter(HelpMessage="Allow session shadowing for following non-admin users and groups.")]
         [NmePowershell.Models.IHostPoolAssignment[]]
         $ShadowUserAssignments,
-        [Parameter()]
+        [Parameter(HelpMessage="Distribute VMs across availability zones in the azure region.")]
         [bool]
         $UseAvailabilityZones,
-        [Parameter()]
+        [Parameter(HelpMessage="Place VMs on Dedicated Hosts.")]
         [bool]
         $UseDedicatedHosts,
-        [Parameter()]
+        [Parameter(HelpMessage="User-assigned managed identity ARM IDs to attach to session host VMs.
+        Null = no change. Empty list = remove all.
+        At most one identity per tenant.")]
         [string[]]
         $UserAssignedIdentityIds,
-        [Parameter()]
+        [Parameter(HelpMessage="Set windows timezone on VM.")]
         [string]
         $VMTimezone,
-        [Parameter()]
+        [Parameter(HelpMessage="Allow VTpm if Trusted launch or Confidential security type is enabled.")]
         [bool]
         $VTpmEnabled,
         [Parameter()]
         [bool]
         $WatermarkingEnabled,
-        [Parameter()]
+        [Parameter(HelpMessage="Determines the distance between the QR codes in percent.")]
         [int]
         $WatermarkingHeightFactor,
-        [Parameter()]
+        [Parameter(HelpMessage="Determines the distance between the QR codes in percent.")]
         [int]
         $WatermarkingOpacity,
-        [Parameter()]
+        [Parameter(HelpMessage="The size in pixels of each QR code dot.")]
         [int]
         $WatermarkingScale,
-        [Parameter()]
+        [Parameter(HelpMessage="Determines the distance between the QR codes in percent.")]
         [int]
         $WatermarkingWidthFactor
     )

@@ -98,6 +98,7 @@ param(
     [Parameter()]
     [NmePowershell.Category('Body')]
     [System.Boolean]
+    # Auto-start host on connect.
     ${StartVMOnConnect},
 
     [Parameter()]

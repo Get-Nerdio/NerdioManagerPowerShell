@@ -27,7 +27,8 @@ function New-NmeFsLogixPropertiesModel {
         [NmePowershell.PSArgumentCompleterAttribute("None", "Apply")]
         [string]
         $AppServiceRegistryOptionRegistryOptionsMode,
-        [Parameter(Mandatory)]
+        [Parameter(Mandatory, HelpMessage="Enable FSLogix Cloud Cache. See this Microsoft doc for more info.
+        https://learn.microsoft.com/en-us/fslogix/concepts-fslogix-cloud-cache.")]
         [bool]
         $CloudCache,
         [Parameter()]
@@ -39,7 +40,7 @@ function New-NmeFsLogixPropertiesModel {
         [Parameter()]
         [string]
         $CloudCacheRegistryOptionProfileContainer,
-        [Parameter(Mandatory)]
+        [Parameter(Mandatory, HelpMessage="Enable Entra ID Kerberos functionality and Entra ID account credentials loading.")]
         [bool]
         $EntraIdKerberos,
         [Parameter()]
@@ -49,10 +50,10 @@ function New-NmeFsLogixPropertiesModel {
         [NmePowershell.PSArgumentCompleterAttribute("None", "Admins")]
         [string]
         $ExclusionMode,
-        [Parameter(Mandatory)]
+        [Parameter(Mandatory, HelpMessage="This option is used to force the re-installation of the FSLogix agent and applications. This will install selected FSLogix Version.")]
         [bool]
         $InstallerForceUpdate,
-        [Parameter(Mandatory)]
+        [Parameter(Mandatory, HelpMessage="FsLogix installer version. Empty string means `"use the latest stable version`".")]
         [string]
         $InstallerVersion,
         [Parameter()]
@@ -68,7 +69,7 @@ function New-NmeFsLogixPropertiesModel {
         [Parameter(Mandatory)]
         [string]
         $OfficeContainerOptions,
-        [Parameter(Mandatory)]
+        [Parameter(Mandatory, HelpMessage="Use storage account blob containers to store users profiles. These containers will be accessed using storage account access keys.")]
         [bool]
         $PageBlobs,
         [Parameter(Mandatory)]
@@ -77,7 +78,8 @@ function New-NmeFsLogixPropertiesModel {
         [Parameter(Mandatory)]
         [string]
         $ProfileContainerOptions,
-        [Parameter(Mandatory)]
+        [Parameter(Mandatory, HelpMessage="See this Microsoft doc for more info.
+        https://learn.microsoft.com/en-us/fslogix/concepts-redirections-xml.")]
         [string]
         $RedirectionsXml
     )

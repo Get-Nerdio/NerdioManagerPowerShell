@@ -1,5 +1,13 @@
 # Changelog
 
+## 1.1.1-preview
+
+- Added field descriptions
+- Added UK region support to Console Connect cmdlets
+
+> [!NOTE]
+> Compatible with NME 8.0.1 REST API
+
 ## 1.1.0-preview
 
 ### New cmdlets

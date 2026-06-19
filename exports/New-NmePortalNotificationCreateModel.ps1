@@ -21,7 +21,7 @@ param(
     ${HtmlText},
 
     [Parameter(Mandatory)]
-    [NmePowershell.PSArgumentCompleterAttribute("UserSelfServiceGlobal", "UserSelfServiceHostPool", "AdminConsoleGlobal")]
+    [NmePowershell.PSArgumentCompleterAttribute("UserSelfServiceGlobal", "UserSelfServiceHostPool", "AdminConsoleGlobal", "LicenseUsageNotice", "LicenseComplianceWarning")]
     [NmePowershell.Category('Body')]
     [System.String]
     ${Type},

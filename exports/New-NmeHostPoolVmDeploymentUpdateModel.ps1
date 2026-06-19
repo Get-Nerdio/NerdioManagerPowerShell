@@ -18,26 +18,31 @@ param(
     [Parameter()]
     [NmePowershell.Category('Body')]
     [System.Boolean]
+    # Enforce a password prompt for users logging on to Remote Desktop Services.
     ${AlwaysPromptForPassword},
 
     [Parameter()]
     [NmePowershell.Category('Body')]
     [System.String[]]
+    # Application Security Group ID to associate with session host NICs.
     ${ApplicationSecurityGroupIds},
 
     [Parameter()]
     [NmePowershell.Category('Body')]
     [System.Boolean]
+    # Is host boot diagnostics enabled?.
     ${BootDiagEnabled},
 
     [Parameter()]
     [NmePowershell.Category('Body')]
     [System.String[]]
+    # List storage account IDs for boot diagnostics, if custom accounts are used.
     ${BootDiagStorageAccountsIds},
 
     [Parameter()]
     [NmePowershell.Category('Body')]
     [System.String[]]
+    # On-demand Capacity Reservation Groups ids.
     ${CapacityReservationGroupsIds},
 
     [Parameter()]
@@ -49,91 +54,111 @@ param(
     [Parameter()]
     [NmePowershell.Category('Body')]
     [System.Int32]
+    # Compliance timeout in hours.
+    # Supported values are 1-24 hours.
     ${ComplianceTimeout},
 
     [Parameter()]
     [NmePowershell.Category('Body')]
     [System.Boolean]
+    # Is confidential disk encryption enabled?.
     ${ConfidentialDiskEncryption},
 
     [Parameter()]
     [NmePowershell.Category('Body')]
     [System.String]
+    # Host Group resource id.
     ${DedicatedHostGroupId},
 
     [Parameter()]
     [NmePowershell.Category('Body')]
     [System.String]
+    # Host resource id.
     ${DedicatedHostId},
 
     [Parameter()]
     [NmePowershell.Category('Body')]
     [System.String[]]
+    # List of disk encryption set IDs for customer managed keys.
     ${DiskEncryptionSetsIds},
 
     [Parameter()]
     [NmePowershell.Category('Body')]
     [System.Boolean]
+    # Enable App-V client service if host pool is assigned to App Attach packages containing App-V package.
     ${EnableAppvClientService},
 
     [Parameter()]
     [NmePowershell.Category('Body')]
     [System.Boolean]
+    # Enable H.265 encoding on supported VM sizes.
     ${EnableHevc},
 
     [Parameter()]
     [NmePowershell.Category('Body')]
     [System.Boolean]
+    # Enable time zone redirection.
     ${EnableTimezoneRedirection},
 
     [Parameter()]
     [NmePowershell.Category('Body')]
     [System.Boolean]
+    # Enable automatic deallocation of stopped VMs.
     ${EnableVMDeallocation},
 
     [Parameter()]
     [NmePowershell.Category('Body')]
     [System.Boolean]
+    # Is encryption at host enabled?.
     ${EncryptionAtHost},
 
     [Parameter()]
     [NmePowershell.Category('Body')]
     [System.Int32]
+    # Entra groups timeout in minutes.
     ${EntraDeviceTimeoutInMinutes},
 
     [Parameter()]
     [NmePowershell.Category('Body')]
     [System.String[]]
+    # Default hostpool groups.
+    # New session hosts will be assigned to these groups by default.
     ${EntraIdGroups},
 
     [Parameter()]
     [NmePowershell.Category('Body')]
     [System.Boolean]
+    # Restart VM at the end of creation.
     ${ForceVMRestart},
 
     [Parameter()]
     [NmePowershell.Category('Body')]
     [System.Boolean]
+    # Install App Attach certificates if any.
     ${InstallCertificates},
 
     [Parameter()]
     [NmePowershell.Category('Body')]
     [System.Boolean]
+    # Install GPU drivers if VM have discrete GPU card.
     ${InstallGpuDrivers},
 
     [Parameter()]
     [NmePowershell.Category('Body')]
     [System.Boolean]
+    # Allow integrity monitoring if Trusted launch or Confidential security type is enabled.
     ${IntegrityMonitoring},
 
     [Parameter()]
     [NmePowershell.Category('Body')]
     [System.Boolean]
+    # Use accelerated networking when possible.
     ${IsAcceleratedNetworkingEnabled},
 
     [Parameter()]
     [NmePowershell.Category('Body')]
     [System.Boolean]
+    # Allow session shadowing for non-admin users.
     ${IsShadowUsersEnabled},
 
     [Parameter()]
@@ -231,6 +256,7 @@ param(
     [Parameter()]
     [NmePowershell.Category('Body')]
     [System.String[]]
+    # Ids of Proximity Placement Groups where newly created VM can be placed.
     ${ProximityPlacementGroupIds},
 
     [Parameter()]
@@ -242,11 +268,13 @@ param(
     [Parameter()]
     [NmePowershell.Category('Body')]
     [System.Boolean]
+    # Scripted actions configuration.
     ${RunAppPolicies},
 
     [Parameter()]
     [NmePowershell.Category('Body')]
     [System.Boolean]
+    # Allow secure boot if Trusted launch or Confidential security type is enabled.
     ${SecureBootEnabled},
 
     [Parameter()]
@@ -258,32 +286,40 @@ param(
     [Parameter()]
     [NmePowershell.Category('Body')]
     [NmePowershell.Models.IHostPoolAssignment[]]
-    # 
+    # Allow session shadowing for following non-admin users and groups.
     ${ShadowUserAssignments},
 
     [Parameter()]
     [NmePowershell.Category('Body')]
     [System.Boolean]
+    # Distribute VMs across availability zones in the azure region.
     ${UseAvailabilityZones},
 
     [Parameter()]
     [NmePowershell.Category('Body')]
     [System.Boolean]
+    # Place VMs on Dedicated Hosts.
     ${UseDedicatedHosts},
 
     [Parameter()]
     [NmePowershell.Category('Body')]
     [System.String[]]
+    # User-assigned managed identity ARM IDs to attach to session host VMs.
+    #         Null = no change.
+    # Empty list = remove all.
+    #         At most one identity per tenant.
     ${UserAssignedIdentityIds},
 
     [Parameter()]
     [NmePowershell.Category('Body')]
     [System.String]
+    # Set windows timezone on VM.
     ${VMTimezone},
 
     [Parameter()]
     [NmePowershell.Category('Body')]
     [System.Boolean]
+    # Allow VTpm if Trusted launch or Confidential security type is enabled.
     ${VTpmEnabled},
 
     [Parameter()]
@@ -294,21 +330,25 @@ param(
     [Parameter()]
     [NmePowershell.Category('Body')]
     [System.Int32]
+    # Determines the distance between the QR codes in percent.
     ${WatermarkingHeightFactor},
 
     [Parameter()]
     [NmePowershell.Category('Body')]
     [System.Int32]
+    # Determines the distance between the QR codes in percent.
     ${WatermarkingOpacity},
 
     [Parameter()]
     [NmePowershell.Category('Body')]
     [System.Int32]
+    # The size in pixels of each QR code dot.
     ${WatermarkingScale},
 
     [Parameter()]
     [NmePowershell.Category('Body')]
     [System.Int32]
+    # Determines the distance between the QR codes in percent.
     ${WatermarkingWidthFactor}
 )
 

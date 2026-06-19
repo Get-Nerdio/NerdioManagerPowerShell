@@ -36,7 +36,7 @@ function New-NmePortalNotificationCreateModel {
         [string]
         $PeriodTimeZoneId,
         [Parameter(Mandatory)]
-        [NmePowershell.PSArgumentCompleterAttribute("UserSelfServiceGlobal", "UserSelfServiceHostPool", "AdminConsoleGlobal")]
+        [NmePowershell.PSArgumentCompleterAttribute("UserSelfServiceGlobal", "UserSelfServiceHostPool", "AdminConsoleGlobal", "LicenseUsageNotice", "LicenseComplianceWarning")]
         [string]
         $Type
     )

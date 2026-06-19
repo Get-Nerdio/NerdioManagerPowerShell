@@ -137,7 +137,7 @@ param(
     [Parameter(ParameterSetName='UpdateExpanded')]
     [NmePowershell.Category('Body')]
     [System.Management.Automation.SwitchParameter]
-    # .
+    # Auto-start host on connect
     ${StartVMOnConnect},
 
     [Parameter(ParameterSetName='UpdateExpanded')]

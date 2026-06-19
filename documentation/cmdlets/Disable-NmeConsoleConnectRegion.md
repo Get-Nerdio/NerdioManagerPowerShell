@@ -32,7 +32,7 @@ After the job is completed, you can check the region status by using the GET met
 
 | Parameter | Type | Required | Description |
 |-----------|------|----------|-------------|
-| Region | String | Yes | Values: `US`, `EU`, `CA`, `AU` |
+| Region | String | Yes | Values: `US`, `EU`, `CA`, `AU`, `UK` |
 
 ## Examples
 

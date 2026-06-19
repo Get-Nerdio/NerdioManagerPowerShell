@@ -9,7 +9,7 @@ Create an in-memory object for HostPoolConsoleConnectUpdate.
 | Parameter | Type | Required | Description |
 |-----------|------|----------|-------------|
 | Enable | Boolean | No |  |
-| Region | String | No | Values: `US`, `EU`, `CA`, `AU` |
+| Region | String | No | Values: `US`, `EU`, `CA`, `AU`, `UK` |
 
 ## Usage
 

@@ -16,7 +16,7 @@ Update custom tags for ARM host pool
 | ResourceGroup | String | Yes |  |
 | SubscriptionId | String | Yes |  |
 | Tags | Hashtable | Yes | Key is Azure tag name, value is tag value |
-| UpdateObjects | SwitchParameter | Yes |  |
+| UpdateObjects | SwitchParameter | Yes | Update existing AVD object and VMs |
 
 ## Examples
 
