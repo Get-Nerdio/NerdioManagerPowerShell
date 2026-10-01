@@ -15,11 +15,6 @@ Create an in-memory object for ImageFromLibraryCreate.
 ## Usage
 
 ```powershell
-$scriptedActions = New-NmeScriptedActionOptionModel `
-    -GroupParams @{} `
-    -Id 0 `
-    -Params @{} `
-    -Type "Action"
 $jobPayload = New-NmeImageFromLibraryCreateParamsModel `
     -ApplicationsTarget "Clone" `
     -DiskSize 0 `
@@ -28,7 +23,6 @@ $jobPayload = New-NmeImageFromLibraryCreateParamsModel `
     -ImageIdSubscriptionId "<ImageIdSubscriptionId>" `
     -NetworkId "<NetworkId>" `
     -ScriptedActionTarget "Clone" `
-    -ScriptedActions $scriptedActions `
     -SourceImageId "<SourceImageId>" `
     -StorageType "<StorageType>" `
     -Subnet "<Subnet>" `

@@ -9,7 +9,6 @@ Create an in-memory object for RunbookScriptedActionSchedule.
 | Parameter | Type | Required | Description |
 |-----------|------|----------|-------------|
 | ConfigMinutesToWait | Int32 | Yes |  |
-| ConfigParamsBindings | IRunbookScriptedActionRunParamsBindings | Yes |  |
 | ConfigSubscriptionId | String | Yes |  |
 | ScheduleRecurrenceType | String | Yes | Values: `Once`, `Daily`, `Weekly`, `Monthly`, `Hourly`, `PatchTuesday` |
 | ScheduleStartDate | DateTime | Yes |  |
@@ -17,6 +16,7 @@ Create an in-memory object for RunbookScriptedActionSchedule.
 | ScheduleStartMinutes | Int32 | Yes |  |
 | ScheduleTimeZoneId | String | Yes |  |
 | ConfigAdConfigId | Int32 | No |  |
+| ConfigParamsBindings | IRunbookScriptedActionRunParamsBindings | No |  |
 | ScheduleDayOfWeek | Int32 | No | Values: `0`, `1`, `2`, `3`, `4`, `5`, `6` |
 | ScheduleDayOfWeekNumber | String | No | Values: `First`, `Second`, `Third`, `Fourth`, `Last` |
 | ScheduleDescription | String | No |  |
@@ -28,7 +28,6 @@ Create an in-memory object for RunbookScriptedActionSchedule.
 ```powershell
 $model = New-NmeRunbookScriptedActionScheduleModel `
     -ConfigMinutesToWait 0 `
-    -ConfigParamsBindings @{} `
     -ConfigSubscriptionId "<ConfigSubscriptionId>" `
     -ScheduleRecurrenceType "Once" `
     -ScheduleStartDate "2024-01-01T00:00:00Z" `

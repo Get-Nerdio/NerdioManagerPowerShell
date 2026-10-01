@@ -14,9 +14,9 @@ Create secure variable
 |-----------|------|----------|-------------|
 | AssignmentRequired | SwitchParameter | Yes |  |
 | Name | String | Yes |  |
-| ScriptedActions | Int32[] | Yes |  |
 | ShellAppAccessible | SwitchParameter | Yes |  |
 | Value | String | Yes |  |
+| ScriptedActions | Int32[] | No |  |
 
 ## Examples
 
@@ -24,8 +24,8 @@ Create secure variable
 New-NmeSecureVariable `
     -AssignmentRequired `
     -Name "Variable1" `
-    -ScriptedActions @(1, 2, 3) `
     -ShellAppAccessible `
-    -Value "secret_value"
+    -Value "secret_value" `
+    -ScriptedActions @(1, 2, 3)
 ```
 

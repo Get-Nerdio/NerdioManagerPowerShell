@@ -112,6 +112,15 @@
 | GET | `/api/v1/desktop-image/{subscriptionId}/{resourceGroup}/{name}/set-as-image/schedule-v2/{scheduleId}` | [Get-NmeDesktopImageSetAsImageSchedule](cmdlets/Get-NmeDesktopImageSetAsImageSchedule.md) |
 | POST | `/api/v1/desktop-image/create-from-library` | [New-NmeDesktopImageFromLibrary](cmdlets/New-NmeDesktopImageFromLibrary.md) |
 
+## Entra ID Tenants
+
+| Method | Endpoint | Cmdlet |
+|--------|----------|--------|
+| GET | `/api/v1/entra-id-tenants` | [Get-NmeEntraIdTenant](cmdlets/Get-NmeEntraIdTenant.md) |
+| POST | `/api/v1/entra-id-tenants` | [New-NmeEntraIdTenant](cmdlets/New-NmeEntraIdTenant.md) |
+| DELETE | `/api/v1/entra-id-tenants/{tenantId}` | [Remove-NmeEntraIdTenant](cmdlets/Remove-NmeEntraIdTenant.md) |
+| PATCH | `/api/v1/entra-id-tenants/{tenantId}` | [Update-NmeEntraIdTenant](cmdlets/Update-NmeEntraIdTenant.md) |
+
 ## FSLogix
 
 | Method | Endpoint | Cmdlet |
@@ -537,6 +546,8 @@ Model cmdlets create in-memory objects used as parameters for the action cmdlets
 | [New-NmeDedicatedHostGroupLinkModel](models/New-NmeDedicatedHostGroupLinkModel.md) | Create an in-memory object for DedicatedHostGroupLink. |
 | [New-NmeDynamicPoolConfigurationModel](models/New-NmeDynamicPoolConfigurationModel.md) | Create an in-memory object for DynamicPoolConfiguration. |
 | [New-NmeDynamicPoolTriggerInfoModel](models/New-NmeDynamicPoolTriggerInfoModel.md) | Create an in-memory object for DynamicPoolTriggerInfo. |
+| [New-NmeEntraIdTenantCreateModel](models/New-NmeEntraIdTenantCreateModel.md) | Create an in-memory object for EntraIdTenantCreate. |
+| [New-NmeEntraIdTenantUpdateModel](models/New-NmeEntraIdTenantUpdateModel.md) | Create an in-memory object for EntraIdTenantUpdate. |
 | [New-NmeExtensionsConfigurationModel](models/New-NmeExtensionsConfigurationModel.md) | Create an in-memory object for ExtensionsConfiguration. |
 | [New-NmeFsLogixCloudCacheRegistrySettingsModel](models/New-NmeFsLogixCloudCacheRegistrySettingsModel.md) | Create an in-memory object for FsLogixCloudCacheRegistrySettings. |
 | [New-NmeFsLogixCloudCacheRegistrySettingsUpdateModel](models/New-NmeFsLogixCloudCacheRegistrySettingsUpdateModel.md) | Create an in-memory object for FsLogixCloudCacheRegistrySettingsUpdate. |

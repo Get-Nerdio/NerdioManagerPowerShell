@@ -10,9 +10,9 @@ Create an in-memory object for SecureVariableCreateOrUpdate.
 |-----------|------|----------|-------------|
 | AssignmentRequired | Boolean | Yes |  |
 | Name | String | Yes |  |
-| ScriptedActions | Object | Yes |  |
 | ShellAppAccessible | Boolean | Yes |  |
 | Value | String | Yes |  |
+| ScriptedActions | Object | No |  |
 
 ## Usage
 
@@ -20,7 +20,6 @@ Create an in-memory object for SecureVariableCreateOrUpdate.
 $model = New-NmeSecureVariableCreateOrUpdateModel `
     -AssignmentRequired $true `
     -Name "<Name>" `
-    -ScriptedActions "<ScriptedActions>" `
     -ShellAppAccessible $true `
     -Value "<Value>"
 ```

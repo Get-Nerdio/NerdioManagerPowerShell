@@ -1,5 +1,40 @@
 # Changelog
 
+## 1.3.1-preview
+
+### New cmdlets
+
+#### Entra ID Tenants
+- `Get-NmeEntraIdTenant`
+- `New-NmeEntraIdTenant`
+- `Update-NmeEntraIdTenant`
+- `Remove-NmeEntraIdTenant`
+
+### Changes to existing cmdlets
+- `Invoke-NmeDesktopImageSetAsImage` - `JobPayloadScriptedActions` is no longer mandatory
+- `Invoke-NmeHostPoolRunScript` - `ConfigScriptedActions` is no longer mandatory
+- `Invoke-NmeRunbookScriptedActionRun` - `ParamsBindings` is no longer mandatory
+- `New-NmeHostPoolRunScriptSchedule` - `ConfigScriptedActions` is no longer mandatory
+- `Set-NmeHostPoolRunScriptSchedule` - `ConfigScriptedActions` is no longer mandatory
+- `New-NmeRunbookScriptedActionsSchedule` - `ConfigParamsBindings` is no longer mandatory
+- `Set-NmeRunbookScriptedActionsSchedule` - `ConfigParamsBindings` is no longer mandatory
+- `New-NmeNotificationCondition` - `ExclusionKeywords`, `RunByUsers`, `Statuses`, `Targets`, and `Tasks` are no longer mandatory
+- `New-NmeSecureVariable` - `ScriptedActions` is no longer mandatory
+- `New-NmeHostPoolScriptRunModel` - `ConfigScriptedActions` is no longer mandatory
+- `New-NmeHostPoolScriptRunParamsModel` - `ConfigScriptedActions` is no longer mandatory
+- `New-NmeHostPoolScriptScheduleModel` - `ConfigScriptedActions` is no longer mandatory
+- `New-NmeImageFromLibraryCreateParamsModel` - `ScriptedActions` is no longer mandatory
+- `New-NmeNotificationConditionCreateModel` - `ExclusionKeywords`, `RunByUsers`, `Statuses`, `Targets`, and `Tasks` are no longer mandatory
+- `New-NmeRunbookScriptedActionRunModel` - `ParamsBindings` is no longer mandatory
+- `New-NmeRunbookScriptedActionScheduleModel` - `ConfigParamsBindings` is no longer mandatory
+- `New-NmeScriptRunParamsModel` - `ScriptedActions` is no longer mandatory
+- `New-NmeSecureVariableCreateOrUpdateModel` - `ScriptedActions` is no longer mandatory
+- `New-NmeSetAsImageModel` - `JobPayloadScriptedActions` is no longer mandatory
+- `New-NmeSetAsImageParamsModel` - `ScriptedActions` is no longer mandatory
+
+> [!NOTE]
+> Compatible with NME 8.2.1 REST API
+
 ## 1.3.0-preview
 
 ### New cmdlets

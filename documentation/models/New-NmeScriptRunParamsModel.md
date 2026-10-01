@@ -8,8 +8,8 @@ Create an in-memory object for ScriptRunParams.
 
 | Parameter | Type | Required | Description |
 |-----------|------|----------|-------------|
-| ScriptedActions | [IScriptedActionOption[]](New-NmeScriptedActionOptionModel.md) | Yes | Pass as array. |
 | ActiveDirectoryId | Int32 | No |  |
+| ScriptedActions | [IScriptedActionOption[]](New-NmeScriptedActionOptionModel.md) | No | Pass as array. |
 
 ## Usage
 
@@ -20,6 +20,7 @@ $scriptedActions = New-NmeScriptedActionOptionModel `
     -Params @{} `
     -Type "Action"
 $model = New-NmeScriptRunParamsModel `
+    -ActiveDirectoryId 0 `
     -ScriptedActions $scriptedActions
 ```
 

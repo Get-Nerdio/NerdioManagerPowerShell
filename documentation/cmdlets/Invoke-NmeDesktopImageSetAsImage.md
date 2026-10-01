@@ -13,7 +13,6 @@ Power off and set as image
 | Parameter | Type | Required | Description |
 |-----------|------|----------|-------------|
 | JobPayloadApplicationsTarget | String | Yes | Values: `Clone`, `Source` |
-| JobPayloadScriptedActions | [IScriptedActionOption[]](../models/New-NmeScriptedActionOptionModel.md) | Yes |  |
 | JobPayloadScriptedActionTarget | String | Yes | Values: `Clone`, `Source` |
 | Name | String | Yes |  |
 | ResourceGroup | String | Yes |  |
@@ -33,6 +32,7 @@ Power off and set as image
 | JobPayloadInstallCertificates | SwitchParameter | No |  |
 | JobPayloadPowerOnVM | SwitchParameter | No |  |
 | JobPayloadRetainOldImage | SwitchParameter | No |  |
+| JobPayloadScriptedActions | [IScriptedActionOption[]](../models/New-NmeScriptedActionOptionModel.md) | No |  |
 | JobPayloadSkipRemoveProfiles | SwitchParameter | No |  |
 | JobPayloadTags | Hashtable | No | Key is Azure tag name, value is tag value |
 
@@ -48,7 +48,6 @@ $jobPayloadScriptedActions = New-NmeScriptedActionOptionModel `
     -Type "Action"
 Invoke-NmeDesktopImageSetAsImage `
     -JobPayloadApplicationsTarget "Clone" `
-    -JobPayloadScriptedActions @($jobPayloadScriptedActions) `
     -JobPayloadScriptedActionTarget "Clone" `
     -Name "<Name>" `
     -ResourceGroup "<ResourceGroup>" `
@@ -56,7 +55,8 @@ Invoke-NmeDesktopImageSetAsImage `
     -FailurePolicyCleanup `
     -FailurePolicyRestart `
     -JobPayloadChangelog "Executed scripted action with ID = 1" `
-    -JobPayloadPowerOnVM
+    -JobPayloadPowerOnVM `
+    -JobPayloadScriptedActions @($jobPayloadScriptedActions)
 ```
 
 ### Example 2: Set as image creating image in Azure compute gallery
@@ -69,7 +69,6 @@ $jobPayloadScriptedActions = New-NmeScriptedActionOptionModel `
     -Type "Action"
 Invoke-NmeDesktopImageSetAsImage `
     -JobPayloadApplicationsTarget "Clone" `
-    -JobPayloadScriptedActions @($jobPayloadScriptedActions) `
     -JobPayloadScriptedActionTarget "Clone" `
     -Name "<Name>" `
     -ResourceGroup "<ResourceGroup>" `
@@ -81,7 +80,8 @@ Invoke-NmeDesktopImageSetAsImage `
     -GalleryImageReplicaCount 4 `
     -GalleryImageTargetRegions @("eastus2", "centralus") `
     -GalleryImageVersionIncrementType "Major" `
-    -JobPayloadChangelog "Created new gallery image version"
+    -JobPayloadChangelog "Created new gallery image version" `
+    -JobPayloadScriptedActions @($jobPayloadScriptedActions)
 ```
 
 ### Example 3: Set as image with installing certificates, enabling App-V client service and retaining old image as backup
@@ -94,7 +94,6 @@ $jobPayloadScriptedActions = New-NmeScriptedActionOptionModel `
     -Type "Action"
 Invoke-NmeDesktopImageSetAsImage `
     -JobPayloadApplicationsTarget "Clone" `
-    -JobPayloadScriptedActions @($jobPayloadScriptedActions) `
     -JobPayloadScriptedActionTarget "Clone" `
     -Name "<Name>" `
     -ResourceGroup "<ResourceGroup>" `
@@ -104,6 +103,7 @@ Invoke-NmeDesktopImageSetAsImage `
     -JobPayloadEnableAppvClientService `
     -JobPayloadInstallCertificates `
     -JobPayloadPowerOnVM `
-    -JobPayloadRetainOldImage
+    -JobPayloadRetainOldImage `
+    -JobPayloadScriptedActions @($jobPayloadScriptedActions)
 ```
 

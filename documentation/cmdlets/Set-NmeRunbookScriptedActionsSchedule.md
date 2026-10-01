@@ -13,7 +13,6 @@ Update scheduled Azure runbook scripted action execution in Automation account
 | Parameter | Type | Required | Description |
 |-----------|------|----------|-------------|
 | ConfigMinutesToWait | Int32 | Yes |  |
-| ConfigParamsBindings | Hashtable | Yes | Key is parameter name, value is `@{value = "..."; isSecure = $false}` |
 | ConfigSubscriptionId | String | Yes |  |
 | Id | Int32 | Yes |  |
 | ScheduleId | Int32 | Yes |  |
@@ -23,6 +22,7 @@ Update scheduled Azure runbook scripted action execution in Automation account
 | ScheduleStartMinutes | Int32 | Yes |  |
 | ScheduleTimeZoneId | String | Yes |  |
 | ConfigAdConfigId | Int32 | No |  |
+| ConfigParamsBindings | Hashtable | No | Key is parameter name, value is `@{value = "..."; isSecure = $false}` |
 | ScheduleDayOfWeek | Int32 | No | Values: `0`, `1`, `2`, `3`, `4`, `5`, `6` |
 | ScheduleDayOfWeekNumber | String | No | Values: `First`, `Second`, `Third`, `Fourth`, `Last` |
 | ScheduleDescription | String | No |  |
@@ -34,7 +34,6 @@ Update scheduled Azure runbook scripted action execution in Automation account
 ```powershell
 Set-NmeRunbookScriptedActionsSchedule `
     -ConfigMinutesToWait 0 `
-    -ConfigParamsBindings @{} `
     -ConfigSubscriptionId "<ConfigSubscriptionId>" `
     -Id 0 `
     -ScheduleId 0 `

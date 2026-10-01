@@ -16,7 +16,6 @@ Run script on ARM host pool session hosts' VMs
 | BulkJobParamExcludeNotRunning | SwitchParameter | Yes |  |
 | BulkJobParamRestartVms | SwitchParameter | Yes |  |
 | BulkJobParamTaskParallelism | Int32 | Yes |  |
-| ConfigScriptedActions | [IScriptedActionOption[]](../models/New-NmeScriptedActionOptionModel.md) | Yes |  |
 | HostPoolName | String | Yes |  |
 | ResourceGroup | String | Yes |  |
 | SubscriptionId | String | Yes |  |
@@ -25,23 +24,18 @@ Run script on ARM host pool session hosts' VMs
 | BulkJobParamMinutesBeforeRemove | Int32 | No |  |
 | BulkJobParamSessionHostsToProcessNames | String[] | No |  |
 | ConfigActiveDirectoryId | Int32 | No |  |
+| ConfigScriptedActions | [IScriptedActionOption[]](../models/New-NmeScriptedActionOptionModel.md) | No |  |
 | FailurePolicyCleanup | SwitchParameter | No |  |
 | FailurePolicyRestart | SwitchParameter | No |  |
 
 ## Examples
 
 ```powershell
-$configScriptedActions = New-NmeScriptedActionOptionModel `
-    -GroupParams @{} `
-    -Id 0 `
-    -Params @{} `
-    -Type "Action"
 Invoke-NmeHostPoolRunScript `
     -BulkJobParamCountFailedTaskToStopWork 0 `
     -BulkJobParamExcludeNotRunning `
     -BulkJobParamRestartVms `
     -BulkJobParamTaskParallelism 0 `
-    -ConfigScriptedActions @($configScriptedActions) `
     -HostPoolName "<HostPoolName>" `
     -ResourceGroup "<ResourceGroup>" `
     -SubscriptionId "<SubscriptionId>"

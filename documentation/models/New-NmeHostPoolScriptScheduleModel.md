@@ -12,7 +12,6 @@ Create an in-memory object for HostPoolScriptSchedule.
 | BulkJobParamExcludeNotRunning | Boolean | Yes |  |
 | BulkJobParamRestartVms | Boolean | Yes |  |
 | BulkJobParamTaskParallelism | Int32 | Yes |  |
-| ConfigScriptedActions | [IScriptedActionOption[]](New-NmeScriptedActionOptionModel.md) | Yes | Pass as array. |
 | ScheduleRecurrenceType | String | Yes | Values: `Once`, `Daily`, `Weekly`, `Monthly`, `Hourly`, `PatchTuesday` |
 | ScheduleStartDate | DateTime | Yes |  |
 | ScheduleStartHour | Int32 | Yes |  |
@@ -22,6 +21,7 @@ Create an in-memory object for HostPoolScriptSchedule.
 | BulkJobParamMessage | String | No |  |
 | BulkJobParamMinutesBeforeRemove | Int32 | No |  |
 | ConfigActiveDirectoryId | Int32 | No |  |
+| ConfigScriptedActions | [IScriptedActionOption[]](New-NmeScriptedActionOptionModel.md) | No | Pass as array. |
 | ScheduleDayOfWeek | Int32 | No | Values: `0`, `1`, `2`, `3`, `4`, `5`, `6` |
 | ScheduleDayOfWeekNumber | String | No | Values: `First`, `Second`, `Third`, `Fourth`, `Last` |
 | ScheduleDescription | String | No |  |
@@ -31,17 +31,11 @@ Create an in-memory object for HostPoolScriptSchedule.
 ## Usage
 
 ```powershell
-$configScriptedActions = New-NmeScriptedActionOptionModel `
-    -GroupParams @{} `
-    -Id 0 `
-    -Params @{} `
-    -Type "Action"
 $model = New-NmeHostPoolScriptScheduleModel `
     -BulkJobParamCountFailedTaskToStopWork 0 `
     -BulkJobParamExcludeNotRunning $true `
     -BulkJobParamRestartVms $true `
     -BulkJobParamTaskParallelism 0 `
-    -ConfigScriptedActions $configScriptedActions `
     -ScheduleRecurrenceType "Once" `
     -ScheduleStartDate "2024-01-01T00:00:00Z" `
     -ScheduleStartHour 0 `

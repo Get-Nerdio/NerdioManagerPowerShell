@@ -21,11 +21,6 @@ Create desktop image from Azure library
 ### Example 1: Create image with standard security type
 
 ```powershell
-$scriptedActions = New-NmeScriptedActionOptionModel `
-    -GroupParams @{} `
-    -Id 0 `
-    -Params @{} `
-    -Type "Action"
 $jobPayload = New-NmeImageFromLibraryCreateParamsModel `
     -ApplicationsTarget "Clone" `
     -DiskSize 0 `
@@ -34,7 +29,6 @@ $jobPayload = New-NmeImageFromLibraryCreateParamsModel `
     -ImageIdSubscriptionId "<ImageIdSubscriptionId>" `
     -NetworkId "<NetworkId>" `
     -ScriptedActionTarget "Clone" `
-    -ScriptedActions $scriptedActions `
     -SourceImageId "<SourceImageId>" `
     -StorageType "<StorageType>" `
     -Subnet "<Subnet>" `
@@ -48,11 +42,6 @@ New-NmeDesktopImageFromLibrary `
 ### Example 2: Create image with trusted launch in Azure compute gallery, with encryption at host enabled
 
 ```powershell
-$scriptedActions = New-NmeScriptedActionOptionModel `
-    -GroupParams @{} `
-    -Id 0 `
-    -Params @{} `
-    -Type "Action"
 $jobPayload = New-NmeImageFromLibraryCreateParamsModel `
     -ApplicationsTarget "Clone" `
     -DiskSize 0 `
@@ -61,7 +50,6 @@ $jobPayload = New-NmeImageFromLibraryCreateParamsModel `
     -ImageIdSubscriptionId "<ImageIdSubscriptionId>" `
     -NetworkId "<NetworkId>" `
     -ScriptedActionTarget "Clone" `
-    -ScriptedActions $scriptedActions `
     -SourceImageId "<SourceImageId>" `
     -StorageType "<StorageType>" `
     -Subnet "<Subnet>" `
@@ -75,11 +63,6 @@ New-NmeDesktopImageFromLibrary `
 ### Example 3: Create image with confidential security type in Azure compute gallery
 
 ```powershell
-$scriptedActions = New-NmeScriptedActionOptionModel `
-    -GroupParams @{} `
-    -Id 0 `
-    -Params @{} `
-    -Type "Action"
 $jobPayload = New-NmeImageFromLibraryCreateParamsModel `
     -ApplicationsTarget "Clone" `
     -DiskSize 0 `
@@ -88,7 +71,6 @@ $jobPayload = New-NmeImageFromLibraryCreateParamsModel `
     -ImageIdSubscriptionId "<ImageIdSubscriptionId>" `
     -NetworkId "<NetworkId>" `
     -ScriptedActionTarget "Clone" `
-    -ScriptedActions $scriptedActions `
     -SourceImageId "<SourceImageId>" `
     -StorageType "<StorageType>" `
     -Subnet "<Subnet>" `

@@ -15,7 +15,6 @@ Create an in-memory object for ImageFromLibraryCreateParams.
 | ImageIdSubscriptionId | String | Yes |  |
 | NetworkId | String | Yes |  |
 | ScriptedActionTarget | String | Yes | Values: `Clone`, `Source` |
-| ScriptedActions | [IScriptedActionOption[]](New-NmeScriptedActionOptionModel.md) | Yes | Pass as array. |
 | SourceImageId | String | Yes |  |
 | StorageType | String | Yes |  |
 | Subnet | String | Yes |  |
@@ -38,6 +37,7 @@ Create an in-memory object for ImageFromLibraryCreateParams.
 | LocalAdminCredentialsPassword | String | No |  |
 | LocalAdminCredentialsUserName | String | No |  |
 | NoImageObjectRequired | Boolean | No |  |
+| ScriptedActions | [IScriptedActionOption[]](New-NmeScriptedActionOptionModel.md) | No | Pass as array. |
 | SecurityProfileConfidentialDiskEncryption | Boolean | No |  |
 | SecurityProfileDiskEncryptionSetsIds | Object | No |  |
 | SecurityProfileEncryptionAtHost | Boolean | No |  |
@@ -53,11 +53,6 @@ Create an in-memory object for ImageFromLibraryCreateParams.
 ## Usage
 
 ```powershell
-$scriptedActions = New-NmeScriptedActionOptionModel `
-    -GroupParams @{} `
-    -Id 0 `
-    -Params @{} `
-    -Type "Action"
 $model = New-NmeImageFromLibraryCreateParamsModel `
     -ApplicationsTarget "Clone" `
     -DiskSize 0 `
@@ -66,7 +61,6 @@ $model = New-NmeImageFromLibraryCreateParamsModel `
     -ImageIdSubscriptionId "<ImageIdSubscriptionId>" `
     -NetworkId "<NetworkId>" `
     -ScriptedActionTarget "Clone" `
-    -ScriptedActions $scriptedActions `
     -SourceImageId "<SourceImageId>" `
     -StorageType "<StorageType>" `
     -Subnet "<Subnet>" `

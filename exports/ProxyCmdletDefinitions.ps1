@@ -2518,6 +2518,107 @@ end {
 
 <#
 .Synopsis
+
+.Description
+
+
+#>
+function Get-NmeEntraIdTenant {
+[OutputType([NmePowershell.Models.IEntraIdTenant])]
+[CmdletBinding(DefaultParameterSetName='Get', PositionalBinding=$false)]
+param(
+    [Parameter(DontShow)]
+    [NmePowershell.Category('Runtime')]
+    [System.Management.Automation.SwitchParameter]
+    # Wait for .NET debugger to attach
+    ${Break},
+
+    [Parameter(DontShow)]
+    [ValidateNotNull()]
+    [NmePowershell.Category('Runtime')]
+    [NmePowershell.Runtime.SendAsyncStep[]]
+    # SendAsync Pipeline Steps to be appended to the front of the pipeline
+    ${HttpPipelineAppend},
+
+    [Parameter(DontShow)]
+    [ValidateNotNull()]
+    [NmePowershell.Category('Runtime')]
+    [NmePowershell.Runtime.SendAsyncStep[]]
+    # SendAsync Pipeline Steps to be prepended to the front of the pipeline
+    ${HttpPipelinePrepend},
+
+    [Parameter(DontShow)]
+    [NmePowershell.Category('Runtime')]
+    [System.Uri]
+    # The URI for the proxy server to use
+    ${Proxy},
+
+    [Parameter(DontShow)]
+    [ValidateNotNull()]
+    [NmePowershell.Category('Runtime')]
+    [System.Management.Automation.PSCredential]
+    # Credentials for a proxy server to use for the remote call
+    ${ProxyCredential},
+
+    [Parameter(DontShow)]
+    [NmePowershell.Category('Runtime')]
+    [System.Management.Automation.SwitchParameter]
+    # Use the default credentials for the proxy
+    ${ProxyUseDefaultCredentials}
+)
+
+begin {
+    try {
+        $outBuffer = $null
+        if ($PSBoundParameters.TryGetValue('OutBuffer', [ref]$outBuffer)) {
+            $PSBoundParameters['OutBuffer'] = 1
+        }
+        $parameterSet = $PSCmdlet.ParameterSetName
+        
+        $testPlayback = $false
+        $PSBoundParameters['HttpPipelinePrepend'] | Foreach-Object { if ($_) { $testPlayback = $testPlayback -or ('NmePowershell.Runtime.PipelineMock' -eq $_.Target.GetType().FullName -and 'Playback' -eq $_.Target.Mode) } }
+
+        $mapping = @{
+            Get = 'NerdioManagerPowerShell.private\Get-NmeEntraIdTenant_Get';
+        }
+        $cmdInfo = Get-Command -Name $mapping[$parameterSet]
+        [NmePowershell.Runtime.MessageAttributeHelper]::ProcessCustomAttributesAtRuntime($cmdInfo, $MyInvocation, $parameterSet, $PSCmdlet)
+        [NmePowershell.Runtime.MessageAttributeHelper]::ProcessPreviewMessageAttributesAtRuntime($cmdInfo, $MyInvocation, $parameterSet, $PSCmdlet)
+        $wrappedCmd = $ExecutionContext.InvokeCommand.GetCommand(($mapping[$parameterSet]), [System.Management.Automation.CommandTypes]::Cmdlet)
+        if ($wrappedCmd -eq $null) {
+            $wrappedCmd = $ExecutionContext.InvokeCommand.GetCommand(($mapping[$parameterSet]), [System.Management.Automation.CommandTypes]::Function)
+        }
+        $scriptCmd = {& $wrappedCmd @PSBoundParameters}
+        $steppablePipeline = $scriptCmd.GetSteppablePipeline($MyInvocation.CommandOrigin)
+        $steppablePipeline.Begin($PSCmdlet)
+    } catch {
+
+        throw
+    }
+}
+
+process {
+    try {
+        $steppablePipeline.Process($_)
+    } catch {
+
+        throw
+    }
+
+}
+end {
+    try {
+        $steppablePipeline.End()
+
+    } catch {
+
+        throw
+    }
+} 
+}
+
+<#
+.Synopsis
 Get Azure Files auto-scale
 .Description
 Get Azure Files auto-scale
@@ -10512,7 +10613,7 @@ Power off and set as image
 #>
 function Invoke-NmeDesktopImageSetAsImage {
 [OutputType([NmePowershell.Models.IResponseWithJob])]
-[CmdletBinding(DefaultParameterSetName='Invoke', PositionalBinding=$false, SupportsShouldProcess, ConfirmImpact='Medium')]
+[CmdletBinding(DefaultParameterSetName='InvokeExpanded', PositionalBinding=$false, SupportsShouldProcess, ConfirmImpact='Medium')]
 param(
     [Parameter(Mandatory)]
     [NmePowershell.Category('Path')]
@@ -10551,13 +10652,6 @@ param(
     [System.String]
     # .
     ${JobPayloadScriptedActionTarget},
-
-    [Parameter(ParameterSetName='InvokeExpanded', Mandatory)]
-    [AllowEmptyCollection()]
-    [NmePowershell.Category('Body')]
-    [NmePowershell.Models.IScriptedActionOption[]]
-    # .
-    ${JobPayloadScriptedActions},
 
     [Parameter(ParameterSetName='InvokeExpanded')]
     [NmePowershell.Category('Body')]
@@ -10652,6 +10746,13 @@ param(
     [System.Management.Automation.SwitchParameter]
     # .
     ${JobPayloadRetainOldImage},
+
+    [Parameter(ParameterSetName='InvokeExpanded')]
+    [AllowEmptyCollection()]
+    [NmePowershell.Category('Body')]
+    [NmePowershell.Models.IScriptedActionOption[]]
+    # .
+    ${JobPayloadScriptedActions},
 
     [Parameter(ParameterSetName='InvokeExpanded')]
     [NmePowershell.Category('Body')]
@@ -11275,7 +11376,7 @@ Run script on ARM host pool session hosts' VMs
 #>
 function Invoke-NmeHostPoolRunScript {
 [OutputType([NmePowershell.Models.IResponseWithJob])]
-[CmdletBinding(DefaultParameterSetName='Invoke', PositionalBinding=$false, SupportsShouldProcess, ConfirmImpact='Medium')]
+[CmdletBinding(DefaultParameterSetName='InvokeExpanded', PositionalBinding=$false, SupportsShouldProcess, ConfirmImpact='Medium')]
 param(
     [Parameter(Mandatory)]
     [NmePowershell.Category('Path')]
@@ -11325,13 +11426,6 @@ param(
     # .
     ${BulkJobParamTaskParallelism},
 
-    [Parameter(ParameterSetName='InvokeExpanded', Mandatory)]
-    [AllowEmptyCollection()]
-    [NmePowershell.Category('Body')]
-    [NmePowershell.Models.IScriptedActionOption[]]
-    # .
-    ${ConfigScriptedActions},
-
     [Parameter(ParameterSetName='InvokeExpanded')]
     [NmePowershell.Category('Body')]
     [System.Management.Automation.SwitchParameter]
@@ -11362,6 +11456,13 @@ param(
     [System.Int32]
     # .
     ${ConfigActiveDirectoryId},
+
+    [Parameter(ParameterSetName='InvokeExpanded')]
+    [AllowEmptyCollection()]
+    [NmePowershell.Category('Body')]
+    [NmePowershell.Models.IScriptedActionOption[]]
+    # .
+    ${ConfigScriptedActions},
 
     [Parameter(ParameterSetName='InvokeExpanded')]
     [NmePowershell.Category('Body')]
@@ -11794,13 +11895,6 @@ param(
 
     [Parameter(ParameterSetName='InvokeExpanded', Mandatory)]
     [NmePowershell.Category('Body')]
-    [NmePowershell.Runtime.Info(Required, PossibleTypes=([NmePowershell.Models.IRunbookScriptedActionRunParamsBindings]))]
-    [System.Collections.Hashtable]
-    # Dictionary of <ScriptedActionParamBinding>
-    ${ParamsBindings},
-
-    [Parameter(ParameterSetName='InvokeExpanded', Mandatory)]
-    [NmePowershell.Category('Body')]
     [System.String]
     # .
     ${SubscriptionId},
@@ -11810,6 +11904,13 @@ param(
     [System.Int32]
     # .
     ${AdConfigId},
+
+    [Parameter(ParameterSetName='InvokeExpanded')]
+    [NmePowershell.Category('Body')]
+    [NmePowershell.Runtime.Info(PossibleTypes=([NmePowershell.Models.IRunbookScriptedActionRunParamsBindings]))]
+    [System.Collections.Hashtable]
+    # Dictionary of <ScriptedActionParamBinding>
+    ${ParamsBindings},
 
     [Parameter(DontShow)]
     [NmePowershell.Category('Runtime')]
@@ -14453,6 +14554,163 @@ end {
 
 <#
 .Synopsis
+Link an Entra ID tenant
+.Description
+Link an Entra ID tenant
+
+#>
+function New-NmeEntraIdTenant {
+[OutputType([NmePowershell.Models.IResponseWithJobAndEntraIdTenant])]
+[CmdletBinding(DefaultParameterSetName='NewExpanded', PositionalBinding=$false, SupportsShouldProcess, ConfirmImpact='Medium')]
+param(
+    [Parameter(ParameterSetName='New', Mandatory, ValueFromPipeline)]
+    [NmePowershell.Category('Body')]
+    [NmePowershell.Models.IEntraIdTenantCreate]
+    # .
+    ${Body},
+
+    [Parameter(ParameterSetName='NewExpanded', Mandatory)]
+    [NmePowershell.Category('Body')]
+    [System.String]
+    # .
+    ${TenantId},
+
+    [Parameter(ParameterSetName='NewExpanded')]
+    [NmePowershell.Category('Body')]
+    [System.String]
+    # .
+    ${ClientAppId},
+
+    [Parameter(ParameterSetName='NewExpanded')]
+    [NmePowershell.Category('Body')]
+    [System.String]
+    # .
+    ${FriendlyName},
+
+    [Parameter(ParameterSetName='NewExpanded')]
+    [NmePowershell.Category('Body')]
+    [System.String]
+    # .
+    ${ServicePrincipalAppId},
+
+    [Parameter(ParameterSetName='NewExpanded')]
+    [NmePowershell.Category('Body')]
+    [System.String]
+    # .
+    ${ServicePrincipalAppName},
+
+    [Parameter(ParameterSetName='NewExpanded')]
+    [NmePowershell.Category('Body')]
+    [System.String]
+    # .
+    ${ServicePrincipalAppSecret},
+
+    [Parameter(ParameterSetName='NewExpanded')]
+    [NmePowershell.PSArgumentCompleterAttribute("AzureCloud", "AzureUSGovernment", "AzureChina")]
+    [NmePowershell.Category('Body')]
+    [System.String]
+    # .
+    ${ServicePrincipalAzureType},
+
+    [Parameter(ParameterSetName='NewExpanded')]
+    [NmePowershell.Category('Body')]
+    [System.String]
+    # .
+    ${ServicePrincipalCertificateName},
+
+    [Parameter(DontShow)]
+    [NmePowershell.Category('Runtime')]
+    [System.Management.Automation.SwitchParameter]
+    # Wait for .NET debugger to attach
+    ${Break},
+
+    [Parameter(DontShow)]
+    [ValidateNotNull()]
+    [NmePowershell.Category('Runtime')]
+    [NmePowershell.Runtime.SendAsyncStep[]]
+    # SendAsync Pipeline Steps to be appended to the front of the pipeline
+    ${HttpPipelineAppend},
+
+    [Parameter(DontShow)]
+    [ValidateNotNull()]
+    [NmePowershell.Category('Runtime')]
+    [NmePowershell.Runtime.SendAsyncStep[]]
+    # SendAsync Pipeline Steps to be prepended to the front of the pipeline
+    ${HttpPipelinePrepend},
+
+    [Parameter(DontShow)]
+    [NmePowershell.Category('Runtime')]
+    [System.Uri]
+    # The URI for the proxy server to use
+    ${Proxy},
+
+    [Parameter(DontShow)]
+    [ValidateNotNull()]
+    [NmePowershell.Category('Runtime')]
+    [System.Management.Automation.PSCredential]
+    # Credentials for a proxy server to use for the remote call
+    ${ProxyCredential},
+
+    [Parameter(DontShow)]
+    [NmePowershell.Category('Runtime')]
+    [System.Management.Automation.SwitchParameter]
+    # Use the default credentials for the proxy
+    ${ProxyUseDefaultCredentials}
+)
+
+begin {
+    try {
+        $outBuffer = $null
+        if ($PSBoundParameters.TryGetValue('OutBuffer', [ref]$outBuffer)) {
+            $PSBoundParameters['OutBuffer'] = 1
+        }
+        $parameterSet = $PSCmdlet.ParameterSetName
+        
+        $testPlayback = $false
+        $PSBoundParameters['HttpPipelinePrepend'] | Foreach-Object { if ($_) { $testPlayback = $testPlayback -or ('NmePowershell.Runtime.PipelineMock' -eq $_.Target.GetType().FullName -and 'Playback' -eq $_.Target.Mode) } }
+
+        $mapping = @{
+            New = 'NerdioManagerPowerShell.private\New-NmeEntraIdTenant_New';
+            NewExpanded = 'NerdioManagerPowerShell.private\New-NmeEntraIdTenant_NewExpanded';
+        }
+        $cmdInfo = Get-Command -Name $mapping[$parameterSet]
+        [NmePowershell.Runtime.MessageAttributeHelper]::ProcessCustomAttributesAtRuntime($cmdInfo, $MyInvocation, $parameterSet, $PSCmdlet)
+        [NmePowershell.Runtime.MessageAttributeHelper]::ProcessPreviewMessageAttributesAtRuntime($cmdInfo, $MyInvocation, $parameterSet, $PSCmdlet)
+        $wrappedCmd = $ExecutionContext.InvokeCommand.GetCommand(($mapping[$parameterSet]), [System.Management.Automation.CommandTypes]::Cmdlet)
+        if ($wrappedCmd -eq $null) {
+            $wrappedCmd = $ExecutionContext.InvokeCommand.GetCommand(($mapping[$parameterSet]), [System.Management.Automation.CommandTypes]::Function)
+        }
+        $scriptCmd = {& $wrappedCmd @PSBoundParameters}
+        $steppablePipeline = $scriptCmd.GetSteppablePipeline($MyInvocation.CommandOrigin)
+        $steppablePipeline.Begin($PSCmdlet)
+    } catch {
+
+        throw
+    }
+}
+
+process {
+    try {
+        $steppablePipeline.Process($_)
+    } catch {
+
+        throw
+    }
+
+}
+end {
+    try {
+        $steppablePipeline.End()
+
+    } catch {
+
+        throw
+    }
+} 
+}
+
+<#
+.Synopsis
 New a new FSLogix profile with certain parameters
 .Description
 New a new FSLogix profile with certain parameters
@@ -15230,7 +15488,7 @@ Schedule script execution on ARM host pool session hosts' VMs
 #>
 function New-NmeHostPoolRunScriptSchedule {
 [OutputType([NmePowershell.Models.IRunScriptScheduledBulkJobParams])]
-[CmdletBinding(DefaultParameterSetName='New', PositionalBinding=$false, SupportsShouldProcess, ConfirmImpact='Medium')]
+[CmdletBinding(DefaultParameterSetName='NewExpanded', PositionalBinding=$false, SupportsShouldProcess, ConfirmImpact='Medium')]
 param(
     [Parameter(Mandatory)]
     [NmePowershell.Category('Path')]
@@ -15279,13 +15537,6 @@ param(
     [System.Int32]
     # .
     ${BulkJobParamTaskParallelism},
-
-    [Parameter(ParameterSetName='NewExpanded', Mandatory)]
-    [AllowEmptyCollection()]
-    [NmePowershell.Category('Body')]
-    [NmePowershell.Models.IScriptedActionOption[]]
-    # .
-    ${ConfigScriptedActions},
 
     [Parameter(ParameterSetName='NewExpanded', Mandatory)]
     [NmePowershell.PSArgumentCompleterAttribute("Once", "Daily", "Weekly", "Monthly", "Hourly", "PatchTuesday")]
@@ -15341,6 +15592,13 @@ param(
     [System.Int32]
     # .
     ${ConfigActiveDirectoryId},
+
+    [Parameter(ParameterSetName='NewExpanded')]
+    [AllowEmptyCollection()]
+    [NmePowershell.Category('Body')]
+    [NmePowershell.Models.IScriptedActionOption[]]
+    # .
+    ${ConfigScriptedActions},
 
     [Parameter(ParameterSetName='NewExpanded')]
     [NmePowershell.PSArgumentCompleterAttribute("0", "1", "2", "3", "4", "5", "6")]
@@ -17690,7 +17948,7 @@ New Nerdio notification condition.
 #>
 function New-NmeNotificationCondition {
 [OutputType([NmePowershell.Models.IResponseWithJobAndNotificationCondition])]
-[CmdletBinding(DefaultParameterSetName='New', PositionalBinding=$false, SupportsShouldProcess, ConfirmImpact='Medium')]
+[CmdletBinding(DefaultParameterSetName='NewExpanded', PositionalBinding=$false, SupportsShouldProcess, ConfirmImpact='Medium')]
 param(
     [Parameter(ParameterSetName='New', Mandatory, ValueFromPipeline)]
     [NmePowershell.Category('Body')]
@@ -17699,26 +17957,26 @@ param(
     ${Body},
 
     [Parameter(ParameterSetName='NewExpanded', Mandatory)]
+    [NmePowershell.Category('Body')]
+    [System.String]
+    # .
+    ${Name},
+
+    [Parameter(ParameterSetName='NewExpanded')]
     [AllowEmptyCollection()]
     [NmePowershell.Category('Body')]
     [System.String[]]
     # .
     ${ExclusionKeywords},
 
-    [Parameter(ParameterSetName='NewExpanded', Mandatory)]
-    [NmePowershell.Category('Body')]
-    [System.String]
-    # .
-    ${Name},
-
-    [Parameter(ParameterSetName='NewExpanded', Mandatory)]
+    [Parameter(ParameterSetName='NewExpanded')]
     [AllowEmptyCollection()]
     [NmePowershell.Category('Body')]
     [NmePowershell.Models.INotificationConditionRunByUser[]]
     # .
     ${RunByUsers},
 
-    [Parameter(ParameterSetName='NewExpanded', Mandatory)]
+    [Parameter(ParameterSetName='NewExpanded')]
     [AllowEmptyCollection()]
     [NmePowershell.PSArgumentCompleterAttribute("Pending", "Running", "Completed", "Failed", "Cancelled")]
     [NmePowershell.Category('Body')]
@@ -17726,14 +17984,14 @@ param(
     # .
     ${Statuses},
 
-    [Parameter(ParameterSetName='NewExpanded', Mandatory)]
+    [Parameter(ParameterSetName='NewExpanded')]
     [AllowEmptyCollection()]
     [NmePowershell.Category('Body')]
     [NmePowershell.Models.INotificationConditionTarget[]]
     # .
     ${Targets},
 
-    [Parameter(ParameterSetName='NewExpanded', Mandatory)]
+    [Parameter(ParameterSetName='NewExpanded')]
     [AllowEmptyCollection()]
     [NmePowershell.Category('Body')]
     [System.String[]]
@@ -18007,13 +18265,6 @@ param(
 
     [Parameter(ParameterSetName='NewExpanded', Mandatory)]
     [NmePowershell.Category('Body')]
-    [NmePowershell.Runtime.Info(Required, PossibleTypes=([NmePowershell.Models.IRunbookScriptedActionRunParamsBindings]))]
-    [System.Collections.Hashtable]
-    # Dictionary of <ScriptedActionParamBinding>
-    ${ConfigParamsBindings},
-
-    [Parameter(ParameterSetName='NewExpanded', Mandatory)]
-    [NmePowershell.Category('Body')]
     [System.String]
     # .
     ${ConfigSubscriptionId},
@@ -18054,6 +18305,13 @@ param(
     [System.Int32]
     # .
     ${ConfigAdConfigId},
+
+    [Parameter(ParameterSetName='NewExpanded')]
+    [NmePowershell.Category('Body')]
+    [NmePowershell.Runtime.Info(PossibleTypes=([NmePowershell.Models.IRunbookScriptedActionRunParamsBindings]))]
+    [System.Collections.Hashtable]
+    # Dictionary of <ScriptedActionParamBinding>
+    ${ConfigParamsBindings},
 
     [Parameter(ParameterSetName='NewExpanded')]
     [NmePowershell.PSArgumentCompleterAttribute("0", "1", "2", "3", "4", "5", "6")]
@@ -18497,13 +18755,6 @@ param(
     ${Name},
 
     [Parameter(ParameterSetName='NewExpanded', Mandatory)]
-    [AllowEmptyCollection()]
-    [NmePowershell.Category('Body')]
-    [System.Int32[]]
-    # .
-    ${ScriptedActions},
-
-    [Parameter(ParameterSetName='NewExpanded', Mandatory)]
     [NmePowershell.Category('Body')]
     [System.Management.Automation.SwitchParameter]
     # .
@@ -18514,6 +18765,13 @@ param(
     [System.String]
     # .
     ${Value},
+
+    [Parameter(ParameterSetName='NewExpanded')]
+    [AllowEmptyCollection()]
+    [NmePowershell.Category('Body')]
+    [System.Int32[]]
+    # .
+    ${ScriptedActions},
 
     [Parameter(DontShow)]
     [NmePowershell.Category('Runtime')]
@@ -20239,6 +20497,113 @@ begin {
 
         $mapping = @{
             Remove = 'NerdioManagerPowerShell.private\Remove-NmeDesktopImageRunScriptSchedule_Remove';
+        }
+        $cmdInfo = Get-Command -Name $mapping[$parameterSet]
+        [NmePowershell.Runtime.MessageAttributeHelper]::ProcessCustomAttributesAtRuntime($cmdInfo, $MyInvocation, $parameterSet, $PSCmdlet)
+        [NmePowershell.Runtime.MessageAttributeHelper]::ProcessPreviewMessageAttributesAtRuntime($cmdInfo, $MyInvocation, $parameterSet, $PSCmdlet)
+        $wrappedCmd = $ExecutionContext.InvokeCommand.GetCommand(($mapping[$parameterSet]), [System.Management.Automation.CommandTypes]::Cmdlet)
+        if ($wrappedCmd -eq $null) {
+            $wrappedCmd = $ExecutionContext.InvokeCommand.GetCommand(($mapping[$parameterSet]), [System.Management.Automation.CommandTypes]::Function)
+        }
+        $scriptCmd = {& $wrappedCmd @PSBoundParameters}
+        $steppablePipeline = $scriptCmd.GetSteppablePipeline($MyInvocation.CommandOrigin)
+        $steppablePipeline.Begin($PSCmdlet)
+    } catch {
+
+        throw
+    }
+}
+
+process {
+    try {
+        $steppablePipeline.Process($_)
+    } catch {
+
+        throw
+    }
+
+}
+end {
+    try {
+        $steppablePipeline.End()
+
+    } catch {
+
+        throw
+    }
+} 
+}
+
+<#
+.Synopsis
+Unlink an Entra ID tenant
+.Description
+Unlink an Entra ID tenant
+
+#>
+function Remove-NmeEntraIdTenant {
+[OutputType([NmePowershell.Models.IResponseWithJob])]
+[CmdletBinding(DefaultParameterSetName='Remove', PositionalBinding=$false, SupportsShouldProcess, ConfirmImpact='Medium')]
+param(
+    [Parameter(Mandatory)]
+    [NmePowershell.Category('Path')]
+    [System.String]
+    # .
+    ${TenantId},
+
+    [Parameter(DontShow)]
+    [NmePowershell.Category('Runtime')]
+    [System.Management.Automation.SwitchParameter]
+    # Wait for .NET debugger to attach
+    ${Break},
+
+    [Parameter(DontShow)]
+    [ValidateNotNull()]
+    [NmePowershell.Category('Runtime')]
+    [NmePowershell.Runtime.SendAsyncStep[]]
+    # SendAsync Pipeline Steps to be appended to the front of the pipeline
+    ${HttpPipelineAppend},
+
+    [Parameter(DontShow)]
+    [ValidateNotNull()]
+    [NmePowershell.Category('Runtime')]
+    [NmePowershell.Runtime.SendAsyncStep[]]
+    # SendAsync Pipeline Steps to be prepended to the front of the pipeline
+    ${HttpPipelinePrepend},
+
+    [Parameter(DontShow)]
+    [NmePowershell.Category('Runtime')]
+    [System.Uri]
+    # The URI for the proxy server to use
+    ${Proxy},
+
+    [Parameter(DontShow)]
+    [ValidateNotNull()]
+    [NmePowershell.Category('Runtime')]
+    [System.Management.Automation.PSCredential]
+    # Credentials for a proxy server to use for the remote call
+    ${ProxyCredential},
+
+    [Parameter(DontShow)]
+    [NmePowershell.Category('Runtime')]
+    [System.Management.Automation.SwitchParameter]
+    # Use the default credentials for the proxy
+    ${ProxyUseDefaultCredentials}
+)
+
+begin {
+    try {
+        $outBuffer = $null
+        if ($PSBoundParameters.TryGetValue('OutBuffer', [ref]$outBuffer)) {
+            $PSBoundParameters['OutBuffer'] = 1
+        }
+        $parameterSet = $PSCmdlet.ParameterSetName
+        
+        $testPlayback = $false
+        $PSBoundParameters['HttpPipelinePrepend'] | Foreach-Object { if ($_) { $testPlayback = $testPlayback -or ('NmePowershell.Runtime.PipelineMock' -eq $_.Target.GetType().FullName -and 'Playback' -eq $_.Target.Mode) } }
+
+        $mapping = @{
+            Remove = 'NerdioManagerPowerShell.private\Remove-NmeEntraIdTenant_Remove';
         }
         $cmdInfo = Get-Command -Name $mapping[$parameterSet]
         [NmePowershell.Runtime.MessageAttributeHelper]::ProcessCustomAttributesAtRuntime($cmdInfo, $MyInvocation, $parameterSet, $PSCmdlet)
@@ -25142,7 +25507,7 @@ Set scheduled script execution on ARM host pool session hosts' VMs
 #>
 function Set-NmeHostPoolRunScriptSchedule {
 [OutputType([NmePowershell.Models.IRunScriptScheduledBulkJobParams])]
-[CmdletBinding(DefaultParameterSetName='Set', PositionalBinding=$false, SupportsShouldProcess, ConfirmImpact='Medium')]
+[CmdletBinding(DefaultParameterSetName='SetExpanded', PositionalBinding=$false, SupportsShouldProcess, ConfirmImpact='Medium')]
 param(
     [Parameter(Mandatory)]
     [NmePowershell.Category('Path')]
@@ -25199,13 +25564,6 @@ param(
     ${BulkJobParamTaskParallelism},
 
     [Parameter(ParameterSetName='SetExpanded', Mandatory)]
-    [AllowEmptyCollection()]
-    [NmePowershell.Category('Body')]
-    [NmePowershell.Models.IScriptedActionOption[]]
-    # .
-    ${ConfigScriptedActions},
-
-    [Parameter(ParameterSetName='SetExpanded', Mandatory)]
     [NmePowershell.PSArgumentCompleterAttribute("Once", "Daily", "Weekly", "Monthly", "Hourly", "PatchTuesday")]
     [NmePowershell.Category('Body')]
     [System.String]
@@ -25259,6 +25617,13 @@ param(
     [System.Int32]
     # .
     ${ConfigActiveDirectoryId},
+
+    [Parameter(ParameterSetName='SetExpanded')]
+    [AllowEmptyCollection()]
+    [NmePowershell.Category('Body')]
+    [NmePowershell.Models.IScriptedActionOption[]]
+    # .
+    ${ConfigScriptedActions},
 
     [Parameter(ParameterSetName='SetExpanded')]
     [NmePowershell.PSArgumentCompleterAttribute("0", "1", "2", "3", "4", "5", "6")]
@@ -26520,13 +26885,6 @@ param(
 
     [Parameter(ParameterSetName='SetExpanded', Mandatory)]
     [NmePowershell.Category('Body')]
-    [NmePowershell.Runtime.Info(Required, PossibleTypes=([NmePowershell.Models.IRunbookScriptedActionRunParamsBindings]))]
-    [System.Collections.Hashtable]
-    # Dictionary of <ScriptedActionParamBinding>
-    ${ConfigParamsBindings},
-
-    [Parameter(ParameterSetName='SetExpanded', Mandatory)]
-    [NmePowershell.Category('Body')]
     [System.String]
     # .
     ${ConfigSubscriptionId},
@@ -26567,6 +26925,13 @@ param(
     [System.Int32]
     # .
     ${ConfigAdConfigId},
+
+    [Parameter(ParameterSetName='SetExpanded')]
+    [NmePowershell.Category('Body')]
+    [NmePowershell.Runtime.Info(PossibleTypes=([NmePowershell.Models.IRunbookScriptedActionRunParamsBindings]))]
+    [System.Collections.Hashtable]
+    # Dictionary of <ScriptedActionParamBinding>
+    ${ConfigParamsBindings},
 
     [Parameter(ParameterSetName='SetExpanded')]
     [NmePowershell.PSArgumentCompleterAttribute("0", "1", "2", "3", "4", "5", "6")]
@@ -27748,6 +28113,163 @@ begin {
         $mapping = @{
             Update = 'NerdioManagerPowerShell.private\Update-NmeConsoleConnectRegion_Update';
             UpdateExpanded = 'NerdioManagerPowerShell.private\Update-NmeConsoleConnectRegion_UpdateExpanded';
+        }
+        $cmdInfo = Get-Command -Name $mapping[$parameterSet]
+        [NmePowershell.Runtime.MessageAttributeHelper]::ProcessCustomAttributesAtRuntime($cmdInfo, $MyInvocation, $parameterSet, $PSCmdlet)
+        [NmePowershell.Runtime.MessageAttributeHelper]::ProcessPreviewMessageAttributesAtRuntime($cmdInfo, $MyInvocation, $parameterSet, $PSCmdlet)
+        $wrappedCmd = $ExecutionContext.InvokeCommand.GetCommand(($mapping[$parameterSet]), [System.Management.Automation.CommandTypes]::Cmdlet)
+        if ($wrappedCmd -eq $null) {
+            $wrappedCmd = $ExecutionContext.InvokeCommand.GetCommand(($mapping[$parameterSet]), [System.Management.Automation.CommandTypes]::Function)
+        }
+        $scriptCmd = {& $wrappedCmd @PSBoundParameters}
+        $steppablePipeline = $scriptCmd.GetSteppablePipeline($MyInvocation.CommandOrigin)
+        $steppablePipeline.Begin($PSCmdlet)
+    } catch {
+
+        throw
+    }
+}
+
+process {
+    try {
+        $steppablePipeline.Process($_)
+    } catch {
+
+        throw
+    }
+
+}
+end {
+    try {
+        $steppablePipeline.End()
+
+    } catch {
+
+        throw
+    }
+} 
+}
+
+<#
+.Synopsis
+Update a linked Entra ID tenant
+.Description
+Update a linked Entra ID tenant
+
+#>
+function Update-NmeEntraIdTenant {
+[OutputType([NmePowershell.Models.IResponseWithJobAndEntraIdTenant])]
+[CmdletBinding(DefaultParameterSetName='UpdateExpanded', PositionalBinding=$false, SupportsShouldProcess, ConfirmImpact='Medium')]
+param(
+    [Parameter(Mandatory)]
+    [NmePowershell.Category('Path')]
+    [System.String]
+    # .
+    ${TenantId},
+
+    [Parameter(ParameterSetName='Update', Mandatory, ValueFromPipeline)]
+    [NmePowershell.Category('Body')]
+    [NmePowershell.Models.IEntraIdTenantUpdate]
+    # .
+    ${Body},
+
+    [Parameter(ParameterSetName='UpdateExpanded')]
+    [NmePowershell.Category('Body')]
+    [System.String]
+    # .
+    ${ClientAppId},
+
+    [Parameter(ParameterSetName='UpdateExpanded')]
+    [NmePowershell.Category('Body')]
+    [System.String]
+    # .
+    ${FriendlyName},
+
+    [Parameter(ParameterSetName='UpdateExpanded')]
+    [NmePowershell.Category('Body')]
+    [System.String]
+    # .
+    ${ServicePrincipalAppId},
+
+    [Parameter(ParameterSetName='UpdateExpanded')]
+    [NmePowershell.Category('Body')]
+    [System.String]
+    # .
+    ${ServicePrincipalAppName},
+
+    [Parameter(ParameterSetName='UpdateExpanded')]
+    [NmePowershell.Category('Body')]
+    [System.String]
+    # .
+    ${ServicePrincipalAppSecret},
+
+    [Parameter(ParameterSetName='UpdateExpanded')]
+    [NmePowershell.PSArgumentCompleterAttribute("AzureCloud", "AzureUSGovernment", "AzureChina")]
+    [NmePowershell.Category('Body')]
+    [System.String]
+    # .
+    ${ServicePrincipalAzureType},
+
+    [Parameter(ParameterSetName='UpdateExpanded')]
+    [NmePowershell.Category('Body')]
+    [System.String]
+    # .
+    ${ServicePrincipalCertificateName},
+
+    [Parameter(DontShow)]
+    [NmePowershell.Category('Runtime')]
+    [System.Management.Automation.SwitchParameter]
+    # Wait for .NET debugger to attach
+    ${Break},
+
+    [Parameter(DontShow)]
+    [ValidateNotNull()]
+    [NmePowershell.Category('Runtime')]
+    [NmePowershell.Runtime.SendAsyncStep[]]
+    # SendAsync Pipeline Steps to be appended to the front of the pipeline
+    ${HttpPipelineAppend},
+
+    [Parameter(DontShow)]
+    [ValidateNotNull()]
+    [NmePowershell.Category('Runtime')]
+    [NmePowershell.Runtime.SendAsyncStep[]]
+    # SendAsync Pipeline Steps to be prepended to the front of the pipeline
+    ${HttpPipelinePrepend},
+
+    [Parameter(DontShow)]
+    [NmePowershell.Category('Runtime')]
+    [System.Uri]
+    # The URI for the proxy server to use
+    ${Proxy},
+
+    [Parameter(DontShow)]
+    [ValidateNotNull()]
+    [NmePowershell.Category('Runtime')]
+    [System.Management.Automation.PSCredential]
+    # Credentials for a proxy server to use for the remote call
+    ${ProxyCredential},
+
+    [Parameter(DontShow)]
+    [NmePowershell.Category('Runtime')]
+    [System.Management.Automation.SwitchParameter]
+    # Use the default credentials for the proxy
+    ${ProxyUseDefaultCredentials}
+)
+
+begin {
+    try {
+        $outBuffer = $null
+        if ($PSBoundParameters.TryGetValue('OutBuffer', [ref]$outBuffer)) {
+            $PSBoundParameters['OutBuffer'] = 1
+        }
+        $parameterSet = $PSCmdlet.ParameterSetName
+        
+        $testPlayback = $false
+        $PSBoundParameters['HttpPipelinePrepend'] | Foreach-Object { if ($_) { $testPlayback = $testPlayback -or ('NmePowershell.Runtime.PipelineMock' -eq $_.Target.GetType().FullName -and 'Playback' -eq $_.Target.Mode) } }
+
+        $mapping = @{
+            Update = 'NerdioManagerPowerShell.private\Update-NmeEntraIdTenant_Update';
+            UpdateExpanded = 'NerdioManagerPowerShell.private\Update-NmeEntraIdTenant_UpdateExpanded';
         }
         $cmdInfo = Get-Command -Name $mapping[$parameterSet]
         [NmePowershell.Runtime.MessageAttributeHelper]::ProcessCustomAttributesAtRuntime($cmdInfo, $MyInvocation, $parameterSet, $PSCmdlet)
@@ -40674,6 +41196,207 @@ end {
 
 <#
 .Synopsis
+Create an in-memory object for EntraIdTenantCreate.
+.Description
+Create an in-memory object for EntraIdTenantCreate.
+
+#>
+function New-NmeEntraIdTenantCreateModel {
+[OutputType([NmePowershell.Models.EntraIdTenantCreate])]
+[CmdletBinding(PositionalBinding=$false)]
+param(
+    [Parameter(Mandatory)]
+    [NmePowershell.Category('Body')]
+    [System.String]
+    ${TenantId},
+
+    [Parameter()]
+    [NmePowershell.Category('Body')]
+    [System.String]
+    ${ClientAppId},
+
+    [Parameter()]
+    [NmePowershell.Category('Body')]
+    [System.String]
+    ${FriendlyName},
+
+    [Parameter()]
+    [NmePowershell.Category('Body')]
+    [System.String]
+    ${ServicePrincipalAppId},
+
+    [Parameter()]
+    [NmePowershell.Category('Body')]
+    [System.String]
+    ${ServicePrincipalAppName},
+
+    [Parameter()]
+    [NmePowershell.Category('Body')]
+    [System.String]
+    ${ServicePrincipalAppSecret},
+
+    [Parameter()]
+    [NmePowershell.PSArgumentCompleterAttribute("AzureCloud", "AzureUSGovernment", "AzureChina")]
+    [NmePowershell.Category('Body')]
+    [System.String]
+    ${ServicePrincipalAzureType},
+
+    [Parameter()]
+    [NmePowershell.Category('Body')]
+    [System.String]
+    ${ServicePrincipalCertificateName}
+)
+
+begin {
+    try {
+        $outBuffer = $null
+        if ($PSBoundParameters.TryGetValue('OutBuffer', [ref]$outBuffer)) {
+            $PSBoundParameters['OutBuffer'] = 1
+        }
+        $parameterSet = $PSCmdlet.ParameterSetName
+        
+        $testPlayback = $false
+        $PSBoundParameters['HttpPipelinePrepend'] | Foreach-Object { if ($_) { $testPlayback = $testPlayback -or ('NmePowershell.Runtime.PipelineMock' -eq $_.Target.GetType().FullName -and 'Playback' -eq $_.Target.Mode) } }
+
+        $mapping = @{
+            __AllParameterSets = 'NerdioManagerPowerShell.custom\New-NmeEntraIdTenantCreateModel';
+        }
+        $cmdInfo = Get-Command -Name $mapping[$parameterSet]
+        [NmePowershell.Runtime.MessageAttributeHelper]::ProcessCustomAttributesAtRuntime($cmdInfo, $MyInvocation, $parameterSet, $PSCmdlet)
+        [NmePowershell.Runtime.MessageAttributeHelper]::ProcessPreviewMessageAttributesAtRuntime($cmdInfo, $MyInvocation, $parameterSet, $PSCmdlet)
+        $wrappedCmd = $ExecutionContext.InvokeCommand.GetCommand(($mapping[$parameterSet]), [System.Management.Automation.CommandTypes]::Cmdlet)
+        if ($wrappedCmd -eq $null) {
+            $wrappedCmd = $ExecutionContext.InvokeCommand.GetCommand(($mapping[$parameterSet]), [System.Management.Automation.CommandTypes]::Function)
+        }
+        $scriptCmd = {& $wrappedCmd @PSBoundParameters}
+        $steppablePipeline = $scriptCmd.GetSteppablePipeline($MyInvocation.CommandOrigin)
+        $steppablePipeline.Begin($PSCmdlet)
+    } catch {
+
+        throw
+    }
+}
+
+process {
+    try {
+        $steppablePipeline.Process($_)
+    } catch {
+
+        throw
+    }
+
+}
+end {
+    try {
+        $steppablePipeline.End()
+
+    } catch {
+
+        throw
+    }
+} 
+}
+
+<#
+.Synopsis
+Create an in-memory object for EntraIdTenantUpdate.
+.Description
+Create an in-memory object for EntraIdTenantUpdate.
+
+#>
+function New-NmeEntraIdTenantUpdateModel {
+[OutputType([NmePowershell.Models.EntraIdTenantUpdate])]
+[CmdletBinding(PositionalBinding=$false)]
+param(
+    [Parameter()]
+    [NmePowershell.Category('Body')]
+    [System.String]
+    ${ClientAppId},
+
+    [Parameter()]
+    [NmePowershell.Category('Body')]
+    [System.String]
+    ${FriendlyName},
+
+    [Parameter()]
+    [NmePowershell.Category('Body')]
+    [System.String]
+    ${ServicePrincipalAppId},
+
+    [Parameter()]
+    [NmePowershell.Category('Body')]
+    [System.String]
+    ${ServicePrincipalAppName},
+
+    [Parameter()]
+    [NmePowershell.Category('Body')]
+    [System.String]
+    ${ServicePrincipalAppSecret},
+
+    [Parameter()]
+    [NmePowershell.PSArgumentCompleterAttribute("AzureCloud", "AzureUSGovernment", "AzureChina")]
+    [NmePowershell.Category('Body')]
+    [System.String]
+    ${ServicePrincipalAzureType},
+
+    [Parameter()]
+    [NmePowershell.Category('Body')]
+    [System.String]
+    ${ServicePrincipalCertificateName}
+)
+
+begin {
+    try {
+        $outBuffer = $null
+        if ($PSBoundParameters.TryGetValue('OutBuffer', [ref]$outBuffer)) {
+            $PSBoundParameters['OutBuffer'] = 1
+        }
+        $parameterSet = $PSCmdlet.ParameterSetName
+        
+        $testPlayback = $false
+        $PSBoundParameters['HttpPipelinePrepend'] | Foreach-Object { if ($_) { $testPlayback = $testPlayback -or ('NmePowershell.Runtime.PipelineMock' -eq $_.Target.GetType().FullName -and 'Playback' -eq $_.Target.Mode) } }
+
+        $mapping = @{
+            __AllParameterSets = 'NerdioManagerPowerShell.custom\New-NmeEntraIdTenantUpdateModel';
+        }
+        $cmdInfo = Get-Command -Name $mapping[$parameterSet]
+        [NmePowershell.Runtime.MessageAttributeHelper]::ProcessCustomAttributesAtRuntime($cmdInfo, $MyInvocation, $parameterSet, $PSCmdlet)
+        [NmePowershell.Runtime.MessageAttributeHelper]::ProcessPreviewMessageAttributesAtRuntime($cmdInfo, $MyInvocation, $parameterSet, $PSCmdlet)
+        $wrappedCmd = $ExecutionContext.InvokeCommand.GetCommand(($mapping[$parameterSet]), [System.Management.Automation.CommandTypes]::Cmdlet)
+        if ($wrappedCmd -eq $null) {
+            $wrappedCmd = $ExecutionContext.InvokeCommand.GetCommand(($mapping[$parameterSet]), [System.Management.Automation.CommandTypes]::Function)
+        }
+        $scriptCmd = {& $wrappedCmd @PSBoundParameters}
+        $steppablePipeline = $scriptCmd.GetSteppablePipeline($MyInvocation.CommandOrigin)
+        $steppablePipeline.Begin($PSCmdlet)
+    } catch {
+
+        throw
+    }
+}
+
+process {
+    try {
+        $steppablePipeline.Process($_)
+    } catch {
+
+        throw
+    }
+
+}
+end {
+    try {
+        $steppablePipeline.End()
+
+    } catch {
+
+        throw
+    }
+} 
+}
+
+<#
+.Synopsis
 Create an in-memory object for ExtensionsConfiguration.
 .Description
 Create an in-memory object for ExtensionsConfiguration.
@@ -45501,12 +46224,6 @@ param(
     [System.Int32]
     ${BulkJobParamTaskParallelism},
 
-    [Parameter(Mandatory)]
-    [NmePowershell.Category('Body')]
-    [NmePowershell.Models.IScriptedActionOption[]]
-    # 
-    ${ConfigScriptedActions},
-
     [Parameter()]
     [NmePowershell.Category('Body')]
     [System.Boolean]
@@ -45531,6 +46248,12 @@ param(
     [NmePowershell.Category('Body')]
     [System.Int32]
     ${ConfigActiveDirectoryId},
+
+    [Parameter()]
+    [NmePowershell.Category('Body')]
+    [NmePowershell.Models.IScriptedActionOption[]]
+    # 
+    ${ConfigScriptedActions},
 
     [Parameter()]
     [NmePowershell.Category('Body')]
@@ -45624,12 +46347,6 @@ param(
     [System.Int32]
     ${BulkJobParamTaskParallelism},
 
-    [Parameter(Mandatory)]
-    [NmePowershell.Category('Body')]
-    [NmePowershell.Models.IScriptedActionOption[]]
-    # 
-    ${ConfigScriptedActions},
-
     [Parameter()]
     [NmePowershell.Category('Body')]
     [System.Boolean]
@@ -45653,7 +46370,13 @@ param(
     [Parameter()]
     [NmePowershell.Category('Body')]
     [System.Int32]
-    ${ConfigActiveDirectoryId}
+    ${ConfigActiveDirectoryId},
+
+    [Parameter()]
+    [NmePowershell.Category('Body')]
+    [NmePowershell.Models.IScriptedActionOption[]]
+    # 
+    ${ConfigScriptedActions}
 )
 
 begin {
@@ -45738,12 +46461,6 @@ param(
     ${BulkJobParamTaskParallelism},
 
     [Parameter(Mandatory)]
-    [NmePowershell.Category('Body')]
-    [NmePowershell.Models.IScriptedActionOption[]]
-    # 
-    ${ConfigScriptedActions},
-
-    [Parameter(Mandatory)]
     [NmePowershell.PSArgumentCompleterAttribute("Once", "Daily", "Weekly", "Monthly", "Hourly", "PatchTuesday")]
     [NmePowershell.Category('Body')]
     [System.String]
@@ -45788,6 +46505,12 @@ param(
     [NmePowershell.Category('Body')]
     [System.Int32]
     ${ConfigActiveDirectoryId},
+
+    [Parameter()]
+    [NmePowershell.Category('Body')]
+    [NmePowershell.Models.IScriptedActionOption[]]
+    # 
+    ${ConfigScriptedActions},
 
     [Parameter()]
     [NmePowershell.PSArgumentCompleterAttribute("0", "1", "2", "3", "4", "5", "6")]
@@ -48156,12 +48879,6 @@ param(
 
     [Parameter(Mandatory)]
     [NmePowershell.Category('Body')]
-    [NmePowershell.Models.IScriptedActionOption[]]
-    # 
-    ${ScriptedActions},
-
-    [Parameter(Mandatory)]
-    [NmePowershell.Category('Body')]
     [System.String]
     ${SourceImageId},
 
@@ -48272,6 +48989,12 @@ param(
     [NmePowershell.Category('Body')]
     [System.Boolean]
     ${NoImageObjectRequired},
+
+    [Parameter()]
+    [NmePowershell.Category('Body')]
+    [NmePowershell.Models.IScriptedActionOption[]]
+    # 
+    ${ScriptedActions},
 
     [Parameter()]
     [NmePowershell.Category('Body')]
@@ -51106,33 +51829,33 @@ function New-NmeNotificationConditionCreateModel {
 param(
     [Parameter(Mandatory)]
     [NmePowershell.Category('Body')]
-    [System.String[]]
-    ${ExclusionKeywords},
-
-    [Parameter(Mandatory)]
-    [NmePowershell.Category('Body')]
     [System.String]
     ${Name},
 
-    [Parameter(Mandatory)]
+    [Parameter()]
+    [NmePowershell.Category('Body')]
+    [System.String[]]
+    ${ExclusionKeywords},
+
+    [Parameter()]
     [NmePowershell.Category('Body')]
     [NmePowershell.Models.INotificationConditionRunByUser[]]
     # 
     ${RunByUsers},
 
-    [Parameter(Mandatory)]
+    [Parameter()]
     [NmePowershell.PSArgumentCompleterAttribute("Pending", "Running", "Completed", "Failed", "Cancelled")]
     [NmePowershell.Category('Body')]
     [System.String[]]
     ${Statuses},
 
-    [Parameter(Mandatory)]
+    [Parameter()]
     [NmePowershell.Category('Body')]
     [NmePowershell.Models.INotificationConditionTarget[]]
     # 
     ${Targets},
 
-    [Parameter(Mandatory)]
+    [Parameter()]
     [NmePowershell.Category('Body')]
     [System.String[]]
     ${Tasks}
@@ -53218,19 +53941,19 @@ param(
 
     [Parameter(Mandatory)]
     [NmePowershell.Category('Body')]
-    [NmePowershell.Models.IRunbookScriptedActionRunParamsBindings]
-    # Dictionary of <ScriptedActionParamBinding>.
-    ${ParamsBindings},
-
-    [Parameter(Mandatory)]
-    [NmePowershell.Category('Body')]
     [System.String]
     ${SubscriptionId},
 
     [Parameter()]
     [NmePowershell.Category('Body')]
     [System.Int32]
-    ${AdConfigId}
+    ${AdConfigId},
+
+    [Parameter()]
+    [NmePowershell.Category('Body')]
+    [NmePowershell.Models.IRunbookScriptedActionRunParamsBindings]
+    # Dictionary of <ScriptedActionParamBinding>.
+    ${ParamsBindings}
 )
 
 begin {
@@ -53301,12 +54024,6 @@ param(
 
     [Parameter(Mandatory)]
     [NmePowershell.Category('Body')]
-    [NmePowershell.Models.IRunbookScriptedActionRunParamsBindings]
-    # Dictionary of <ScriptedActionParamBinding>.
-    ${ConfigParamsBindings},
-
-    [Parameter(Mandatory)]
-    [NmePowershell.Category('Body')]
     [System.String]
     ${ConfigSubscriptionId},
 
@@ -53340,6 +54057,12 @@ param(
     [NmePowershell.Category('Body')]
     [System.Int32]
     ${ConfigAdConfigId},
+
+    [Parameter()]
+    [NmePowershell.Category('Body')]
+    [NmePowershell.Models.IRunbookScriptedActionRunParamsBindings]
+    # Dictionary of <ScriptedActionParamBinding>.
+    ${ConfigParamsBindings},
 
     [Parameter()]
     [NmePowershell.PSArgumentCompleterAttribute("0", "1", "2", "3", "4", "5", "6")]
@@ -54696,16 +55419,16 @@ function New-NmeScriptRunParamsModel {
 [OutputType([NmePowershell.Models.ScriptRunParams])]
 [CmdletBinding(PositionalBinding=$false)]
 param(
-    [Parameter(Mandatory)]
-    [NmePowershell.Category('Body')]
-    [NmePowershell.Models.IScriptedActionOption[]]
-    # 
-    ${ScriptedActions},
-
     [Parameter()]
     [NmePowershell.Category('Body')]
     [System.Int32]
-    ${ActiveDirectoryId}
+    ${ActiveDirectoryId},
+
+    [Parameter()]
+    [NmePowershell.Category('Body')]
+    [NmePowershell.Models.IScriptedActionOption[]]
+    # 
+    ${ScriptedActions}
 )
 
 begin {
@@ -54781,18 +55504,18 @@ param(
 
     [Parameter(Mandatory)]
     [NmePowershell.Category('Body')]
-    [System.Int32[]]
-    ${ScriptedActions},
-
-    [Parameter(Mandatory)]
-    [NmePowershell.Category('Body')]
     [System.Boolean]
     ${ShellAppAccessible},
 
     [Parameter(Mandatory)]
     [NmePowershell.Category('Body')]
     [System.String]
-    ${Value}
+    ${Value},
+
+    [Parameter()]
+    [NmePowershell.Category('Body')]
+    [System.Int32[]]
+    ${ScriptedActions}
 )
 
 begin {
@@ -55848,12 +56571,6 @@ param(
     [System.String]
     ${JobPayloadScriptedActionTarget},
 
-    [Parameter(Mandatory)]
-    [NmePowershell.Category('Body')]
-    [NmePowershell.Models.IScriptedActionOption[]]
-    # 
-    ${JobPayloadScriptedActions},
-
     [Parameter()]
     [NmePowershell.Category('Body')]
     [System.Boolean]
@@ -55931,6 +56648,12 @@ param(
     [NmePowershell.Category('Body')]
     [System.Boolean]
     ${JobPayloadRetainOldImage},
+
+    [Parameter()]
+    [NmePowershell.Category('Body')]
+    [NmePowershell.Models.IScriptedActionOption[]]
+    # 
+    ${JobPayloadScriptedActions},
 
     [Parameter()]
     [NmePowershell.Category('Body')]
@@ -56017,12 +56740,6 @@ param(
     [System.String]
     ${ScriptedActionTarget},
 
-    [Parameter(Mandatory)]
-    [NmePowershell.Category('Body')]
-    [NmePowershell.Models.IScriptedActionOption[]]
-    # 
-    ${ScriptedActions},
-
     [Parameter()]
     [NmePowershell.Category('Body')]
     [System.String]
@@ -56090,6 +56807,12 @@ param(
     [NmePowershell.Category('Body')]
     [System.Boolean]
     ${RetainOldImage},
+
+    [Parameter()]
+    [NmePowershell.Category('Body')]
+    [NmePowershell.Models.IScriptedActionOption[]]
+    # 
+    ${ScriptedActions},
 
     [Parameter()]
     [NmePowershell.Category('Body')]
@@ -58871,10 +59594,10 @@ end {
 }
 
 # SIG # Begin signature block
-# MIIvWAYJKoZIhvcNAQcCoIIvSTCCL0UCAQExDzANBglghkgBZQMEAgEFADB5Bgor
+# MIIvWQYJKoZIhvcNAQcCoIIvSjCCL0YCAQExDzANBglghkgBZQMEAgEFADB5Bgor
 # BgEEAYI3AgEEoGswaTA0BgorBgEEAYI3AgEeMCYCAwEAAAQQH8w7YFlLCE63JNLG
-# KX7zUQIBAAIBAAIBAAIBAAIBADAxMA0GCWCGSAFlAwQCAQUABCC5mmLiW12FWebW
-# gccpOZIDgKmadf0iJFz6/BI2CPbdYKCCFAUwggWQMIIDeKADAgECAhAFmxtXno4h
+# KX7zUQIBAAIBAAIBAAIBAAIBADAxMA0GCWCGSAFlAwQCAQUABCBw2WEPttt7AJyG
+# rwgH3EC2SJJkyfn9MlEMiGxDTHWAAaCCFAUwggWQMIIDeKADAgECAhAFmxtXno4h
 # MuI5B72nd3VcMA0GCSqGSIb3DQEBDAUAMGIxCzAJBgNVBAYTAlVTMRUwEwYDVQQK
 # EwxEaWdpQ2VydCBJbmMxGTAXBgNVBAsTEHd3dy5kaWdpY2VydC5jb20xITAfBgNV
 # BAMTGERpZ2lDZXJ0IFRydXN0ZWQgUm9vdCBHNDAeFw0xMzA4MDExMjAwMDBaFw0z
@@ -58981,147 +59704,147 @@ end {
 # lrRSz2F5fq69O7+imnHedVAUAN4gixuOLBJQMpSJ+YUs9mSlR8wnCCO5wp5kRnKT
 # nNXyx6apTwr/ij5YPsH72iApunlJq/ashQd1e8P6ZTcerVXdUHr9Lr3n92sVky+/
 # r3Le9IJlhnCQVjAdMsJ9WKa9IkOzC2sgHLe5Ea59kZO0BR/9PXFNyXsB5SAX9pGZ
-# Ymvvxj8r7PzbSci8A4e6MYIaqTCCGqUCAQEwfTBpMQswCQYDVQQGEwJVUzEXMBUG
+# Ymvvxj8r7PzbSci8A4e6MYIaqjCCGqYCAQEwfTBpMQswCQYDVQQGEwJVUzEXMBUG
 # A1UEChMORGlnaUNlcnQsIEluYy4xQTA/BgNVBAMTOERpZ2lDZXJ0IFRydXN0ZWQg
 # RzQgQ29kZSBTaWduaW5nIFJTQTQwOTYgU0hBMzg0IDIwMjEgQ0ExAhALDOX/BzyG
 # PKP6JnAWOAwdMA0GCWCGSAFlAwQCAQUAoIGEMBgGCisGAQQBgjcCAQwxCjAIoAKA
 # AKECgAAwGQYJKoZIhvcNAQkDMQwGCisGAQQBgjcCAQQwHAYKKwYBBAGCNwIBCzEO
-# MAwGCisGAQQBgjcCARUwLwYJKoZIhvcNAQkEMSIEINVwNWPS2B/hRhwH3+as2au0
-# un3C/6Vme0fHqQe66Ep0MA0GCSqGSIb3DQEBAQUABIICABosnUM1sLo0ojEe+0U/
-# GYcYcTQPaaUwJxUx3rz3cYgjzRTf2i4RqW8efv/+KBxVG5WxRUeqh0DZGKxhVaiK
-# ifQPEif/guZzsfLU5zpsri5r9Thj5kuwaBTOSryIYjWBNs5aFs8ub5YjA7V7G8ON
-# 7MqXYFhi+BKFeIkV9LcPAWMH9vL15f/WD8ZZwAqOKBvdpXbhxB11R41XMW16zoTs
-# ZCDtazUxbBWyJBRCFhCfRKlbiEfVd5uvs7+RV/Wvb38ITtpgg9KlRVSTLX13XUj0
-# fblg27jMJG+t/x/mRWQHw4l6PPpPweluQLAAlQSKmRs5r9snbm0Z5QZ5YI46aRKT
-# b5lrgRaUmH9niDFJ+U2P6P0c60f9mtx5+/YWGBFzrEBokBKRIOMY/B4/Q7gm/WmV
-# 4QBvmzQ8thUl9YirAuqsGyECaOtBed+jG64rtM7hAGrn0GR8Ym/Xc4M7vQGwAgYM
-# s0NiNnuBZu1tPoLgSraoDMyW+mkz+PXNSIRQ5jzdwhLze9t90L+JsBYoyuQ/loJJ
-# uCDnnFmIK+NqQ32NtCDQSMdAuyVXgG7pRE6PY/U/OwsHPIx97pTRtIkzV+xRPYve
-# inmVYVNkLnLUru8Nt+8QASCvomhM7D4GqDidAzTH+jZFfFN6mEBi+e/m0SLKxJHW
-# PxS8J2MwqIodJrD38REG/3wPoYIXdjCCF3IGCisGAQQBgjcDAwExghdiMIIXXgYJ
-# KoZIhvcNAQcCoIIXTzCCF0sCAQMxDzANBglghkgBZQMEAgEFADB3BgsqhkiG9w0B
-# CRABBKBoBGYwZAIBAQYJYIZIAYb9bAcBMDEwDQYJYIZIAWUDBAIBBQAEIFPcsSzm
-# T7TAwmAfdGCSwq9qwJAuukH0VXgvgNmP0N84AhBUpFqTke+Aql0ue6vZo9I1GA8y
-# MDI2MDkxMTEyMjMxMlqgghM6MIIG7TCCBNWgAwIBAgIQCE/cM09+RU7bww+P+ZIY
-# NTANBgkqhkiG9w0BAQsFADBpMQswCQYDVQQGEwJVUzEXMBUGA1UEChMORGlnaUNl
-# cnQsIEluYy4xQTA/BgNVBAMTOERpZ2lDZXJ0IFRydXN0ZWQgRzQgVGltZVN0YW1w
-# aW5nIFJTQTQwOTYgU0hBMjU2IDIwMjUgQ0ExMB4XDTI2MDgwNTAwMDAwMFoXDTM3
-# MTEwNDIzNTk1OVowYzELMAkGA1UEBhMCVVMxFzAVBgNVBAoTDkRpZ2lDZXJ0LCBJ
-# bmMuMTswOQYDVQQDEzJEaWdpQ2VydCBTSEEyNTYgUlNBNDA5NiBUaW1lc3RhbXAg
-# UmVzcG9uZGVyIDIwMjYgMTCCAiIwDQYJKoZIhvcNAQEBBQADggIPADCCAgoCggIB
-# ALZ7pvLJ/s1K+NSbTGWz/TjGMPh8CQ6RucZCLv5anHzWJjF/NWJrFIhy24fcpKXl
-# gRiky4WAawDfU3YP0BMxt9l3Dm5oCG5Z69AqEN1kgHg2epx+l+lZBcmJCcN0ASUR
-# ML5uFIS80sZsDwO3BSkUxDjLJhBI+qiZP3aixAC/qEGLjsBNlLol9VZ7pfGEXiMl
-# neJIC5/YKuizVzNFKZZEeoy/0B8Zm+nzKBgSWG52lCO1w+nCg6XpCtklTJXeIg28
-# 3hw7TmmsZXR+SMbjbrEOvZ3fP2VxIgeR28Y90ZStd3F9VuA5RVynb/whITPAo9b7
-# 5Zr4Ta6Mj3URm26QZYMn/FnbuTegcoRcFEZ9FOqM5T6MTdtr/n74lIT/ug0eeOzm
-# Z6QTFg33otX+bFRsIolvykE1jive4PuESaT8zzVeFWDAMDtozNgLctkGD1ZjkEyZ
-# tJrLl5ya0m5doH/ScpaZCZVl6pNUOCybMc/kxC6EAmSJY24L0yYKD1Nkddsnb/It
-# VKi/2nXpQNMu1PT5prW83vV8d67WowuUs0HdY4H8AMLGvdL/WHEj3ZnqMqAQQP9u
-# 3Ai9t+5eQ02GDwy0ODjdzi0xlp70W+ow63/0++YDEX1M0iwgUHwbrJvfpklkZQvw
-# 3+kv3vUPItdwroczk9icflf55W1zOEKAcJVAIXpcMCU9AgMBAAGjggGVMIIBkTAM
-# BgNVHRMBAf8EAjAAMB0GA1UdDgQWBBQUyWOKMC7USvtulPPm40B+9ezN4jAfBgNV
-# HSMEGDAWgBTvb1NK6eQGfHrK4pBW9i/USezLTjAOBgNVHQ8BAf8EBAMCB4AwFgYD
-# VR0lAQH/BAwwCgYIKwYBBQUHAwgwgZUGCCsGAQUFBwEBBIGIMIGFMCQGCCsGAQUF
-# BzABhhhodHRwOi8vb2NzcC5kaWdpY2VydC5jb20wXQYIKwYBBQUHMAKGUWh0dHA6
-# Ly9jYWNlcnRzLmRpZ2ljZXJ0LmNvbS9EaWdpQ2VydFRydXN0ZWRHNFRpbWVTdGFt
-# cGluZ1JTQTQwOTZTSEEyNTYyMDI1Q0ExLmNydDBfBgNVHR8EWDBWMFSgUqBQhk5o
-# dHRwOi8vY3JsMy5kaWdpY2VydC5jb20vRGlnaUNlcnRUcnVzdGVkRzRUaW1lU3Rh
-# bXBpbmdSU0E0MDk2U0hBMjU2MjAyNUNBMS5jcmwwIAYDVR0gBBkwFzAIBgZngQwB
-# BAIwCwYJYIZIAYb9bAcBMA0GCSqGSIb3DQEBCwUAA4ICAQCNxTphHp1SCt+ZrAmA
-# fn0oQLFr0mLywSLaDXQIENoyKqxrFbJblzCVP/pkXmwXOdrOpWygLzlT12os5ipD
-# Cy35RBCg2UMeApEtrfGhz45F4Wt4WGdNdIbRWt3YTYJmpR+b7lr4d7Uwn+H600u4
-# D7RnOGf8Wj4UNgAdZkfHhHv1mx9EVh71SJelcEN/oORSjXzdjfw1iZH9d8Nh/thn
-# 6hH23d+VsPAr6GAYyzSA02nXD1nYLI7Ijmiv+xLCiYC41DSFYL3GhTiy0PxpawPt
-# GRyaBVGzq+UiTfM8pD7KVyF5aQyWP4KhVGUUTnmm/RlYJoW3TiXA/+t0YcT2oRVB
-# m3JETjajHug2AL+v5jhtKVnd3D0rbHXEu27o+Q8p4sEWPMqKDB+qbceb6T/6WcwT
-# wXmQ9lOCLLYcsQeSWmvKqzpAec9etE14jOQAzLKWdE3w/TCaKtLRaRT7LCkRYVnh
-# A2D73FLje1O5b3HR5eHs0NzU/+xX7NbEdcofy0W3Wdwd1XOqtlpg/JgwtKfZM5dq
-# O94lbUveOiJBI+xZEbGRsMNbXmMREUTgu+Oca7Y73MPWcslIx2VhkSKSXjDbD6rg
-# g39H5Mh7QfieAIjWagkJNt68Yfim6cjEzVSiLSeZfdkr5dtFPTW6jATlWJdYeeDR
-# GCyatf8R1hSjzSvdN8yWQPT9gzCCBrQwggScoAMCAQICEA3HrFcF/yGZLkBDIgw6
-# SYYwDQYJKoZIhvcNAQELBQAwYjELMAkGA1UEBhMCVVMxFTATBgNVBAoTDERpZ2lD
-# ZXJ0IEluYzEZMBcGA1UECxMQd3d3LmRpZ2ljZXJ0LmNvbTEhMB8GA1UEAxMYRGln
-# aUNlcnQgVHJ1c3RlZCBSb290IEc0MB4XDTI1MDUwNzAwMDAwMFoXDTM4MDExNDIz
-# NTk1OVowaTELMAkGA1UEBhMCVVMxFzAVBgNVBAoTDkRpZ2lDZXJ0LCBJbmMuMUEw
-# PwYDVQQDEzhEaWdpQ2VydCBUcnVzdGVkIEc0IFRpbWVTdGFtcGluZyBSU0E0MDk2
-# IFNIQTI1NiAyMDI1IENBMTCCAiIwDQYJKoZIhvcNAQEBBQADggIPADCCAgoCggIB
-# ALR4MdMKmEFyvjxGwBysddujRmh0tFEXnU2tjQ2UtZmWgyxU7UNqEY81FzJsQqr5
-# G7A6c+Gh/qm8Xi4aPCOo2N8S9SLrC6Kbltqn7SWCWgzbNfiR+2fkHUiljNOqnIVD
-# /gG3SYDEAd4dg2dDGpeZGKe+42DFUF0mR/vtLa4+gKPsYfwEu7EEbkC9+0F2w4QJ
-# LVSTEG8yAR2CQWIM1iI5PHg62IVwxKSpO0XaF9DPfNBKS7Zazch8NF5vp7eaZ2CV
-# NxpqumzTCNSOxm+SAWSuIr21Qomb+zzQWKhxKTVVgtmUPAW35xUUFREmDrMxSNlr
-# /NsJyUXzdtFUUt4aS4CEeIY8y9IaaGBpPNXKFifinT7zL2gdFpBP9qh8SdLnEut/
-# GcalNeJQ55IuwnKCgs+nrpuQNfVmUB5KlCX3ZA4x5HHKS+rqBvKWxdCyQEEGcbLe
-# 1b8Aw4wJkhU1JrPsFfxW1gaou30yZ46t4Y9F20HHfIY4/6vHespYMQmUiote8lad
-# jS/nJ0+k6MvqzfpzPDOy5y6gqztiT96Fv/9bH7mQyogxG9QEPHrPV6/7umw052Ak
-# yiLA6tQbZl1KhBtTasySkuJDpsZGKdlsjg4u70EwgWbVRSX1Wd4+zoFpp4Ra+MlK
-# M2baoD6x0VR4RjSpWM8o5a6D8bpfm4CLKczsG7ZrIGNTAgMBAAGjggFdMIIBWTAS
-# BgNVHRMBAf8ECDAGAQH/AgEAMB0GA1UdDgQWBBTvb1NK6eQGfHrK4pBW9i/USezL
-# TjAfBgNVHSMEGDAWgBTs1+OC0nFdZEzfLmc/57qYrhwPTzAOBgNVHQ8BAf8EBAMC
-# AYYwEwYDVR0lBAwwCgYIKwYBBQUHAwgwdwYIKwYBBQUHAQEEazBpMCQGCCsGAQUF
-# BzABhhhodHRwOi8vb2NzcC5kaWdpY2VydC5jb20wQQYIKwYBBQUHMAKGNWh0dHA6
-# Ly9jYWNlcnRzLmRpZ2ljZXJ0LmNvbS9EaWdpQ2VydFRydXN0ZWRSb290RzQuY3J0
-# MEMGA1UdHwQ8MDowOKA2oDSGMmh0dHA6Ly9jcmwzLmRpZ2ljZXJ0LmNvbS9EaWdp
-# Q2VydFRydXN0ZWRSb290RzQuY3JsMCAGA1UdIAQZMBcwCAYGZ4EMAQQCMAsGCWCG
-# SAGG/WwHATANBgkqhkiG9w0BAQsFAAOCAgEAF877FoAc/gc9EXZxML2+C8i1NKZ/
-# zdCHxYgaMH9Pw5tcBnPw6O6FTGNpoV2V4wzSUGvI9NAzaoQk97frPBtIj+ZLzdp+
-# yXdhOP4hCFATuNT+ReOPK0mCefSG+tXqGpYZ3essBS3q8nL2UwM+NMvEuBd/2vmd
-# YxDCvwzJv2sRUoKEfJ+nN57mQfQXwcAEGCvRR2qKtntujB71WPYAgwPyWLKu6Rna
-# ID/B0ba2H3LUiwDRAXx1Neq9ydOal95CHfmTnM4I+ZI2rVQfjXQA1WSjjf4J2a7j
-# LzWGNqNX+DF0SQzHU0pTi4dBwp9nEC8EAqoxW6q17r0z0noDjs6+BFo+z7bKSBwZ
-# XTRNivYuve3L2oiKNqetRHdqfMTCW/NmKLJ9M+MtucVGyOxiDf06VXxyKkOirv6o
-# 02OoXN4bFzK0vlNMsvhlqgF2puE6FndlENSmE+9JGYxOGLS/D284NHNboDGcmWXf
-# wXRy4kbu4QFhOm0xJuF2EZAOk5eCkhSxZON3rGlHqhpB/8MluDezooIs8CVnrpHM
-# iD2wL40mm53+/j7tFaxYKIqL0Q4ssd8xHZnIn/7GELH3IdvG2XlM9q7WP/UwgOkw
-# /HQtyRN62JK4S1C8uw3PdBunvAZapsiI5YKdvlarEvf8EA+8hcpSM9LHJmyrxaFt
-# oza2zNaQ9k+5t1wwggWNMIIEdaADAgECAhAOmxiO+dAt5+/bUOIIQBhaMA0GCSqG
-# SIb3DQEBDAUAMGUxCzAJBgNVBAYTAlVTMRUwEwYDVQQKEwxEaWdpQ2VydCBJbmMx
-# GTAXBgNVBAsTEHd3dy5kaWdpY2VydC5jb20xJDAiBgNVBAMTG0RpZ2lDZXJ0IEFz
-# c3VyZWQgSUQgUm9vdCBDQTAeFw0yMjA4MDEwMDAwMDBaFw0zMTExMDkyMzU5NTla
-# MGIxCzAJBgNVBAYTAlVTMRUwEwYDVQQKEwxEaWdpQ2VydCBJbmMxGTAXBgNVBAsT
-# EHd3dy5kaWdpY2VydC5jb20xITAfBgNVBAMTGERpZ2lDZXJ0IFRydXN0ZWQgUm9v
-# dCBHNDCCAiIwDQYJKoZIhvcNAQEBBQADggIPADCCAgoCggIBAL/mkHNo3rvkXUo8
-# MCIwaTPswqclLskhPfKK2FnC4SmnPVirdprNrnsbhA3EMB/zG6Q4FutWxpdtHauy
-# efLKEdLkX9YFPFIPUh/GnhWlfr6fqVcWWVVyr2iTcMKyunWZanMylNEQRBAu34Lz
-# B4TmdDttceItDBvuINXJIB1jKS3O7F5OyJP4IWGbNOsFxl7sWxq868nPzaw0QF+x
-# embud8hIqGZXV59UWI4MK7dPpzDZVu7Ke13jrclPXuU15zHL2pNe3I6PgNq2kZhA
-# kHnDeMe2scS1ahg4AxCN2NQ3pC4FfYj1gj4QkXCrVYJBMtfbBHMqbpEBfCFM1Lyu
-# GwN1XXhm2ToxRJozQL8I11pJpMLmqaBn3aQnvKFPObURWBf3JFxGj2T3wWmIdph2
-# PVldQnaHiZdpekjw4KISG2aadMreSx7nDmOu5tTvkpI6nj3cAORFJYm2mkQZK37A
-# lLTSYW3rM9nF30sEAMx9HJXDj/chsrIRt7t/8tWMcCxBYKqxYxhElRp2Yn72gLD7
-# 6GSmM9GJB+G9t+ZDpBi4pncB4Q+UDCEdslQpJYls5Q5SUUd0viastkF13nqsX40/
-# ybzTQRESW+UQUOsxxcpyFiIJ33xMdT9j7CFfxCBRa2+xq4aLT8LWRV+dIPyhHsXA
-# j6KxfgommfXkaS+YHS312amyHeUbAgMBAAGjggE6MIIBNjAPBgNVHRMBAf8EBTAD
-# AQH/MB0GA1UdDgQWBBTs1+OC0nFdZEzfLmc/57qYrhwPTzAfBgNVHSMEGDAWgBRF
-# 66Kv9JLLgjEtUYunpyGd823IDzAOBgNVHQ8BAf8EBAMCAYYweQYIKwYBBQUHAQEE
-# bTBrMCQGCCsGAQUFBzABhhhodHRwOi8vb2NzcC5kaWdpY2VydC5jb20wQwYIKwYB
-# BQUHMAKGN2h0dHA6Ly9jYWNlcnRzLmRpZ2ljZXJ0LmNvbS9EaWdpQ2VydEFzc3Vy
-# ZWRJRFJvb3RDQS5jcnQwRQYDVR0fBD4wPDA6oDigNoY0aHR0cDovL2NybDMuZGln
-# aWNlcnQuY29tL0RpZ2lDZXJ0QXNzdXJlZElEUm9vdENBLmNybDARBgNVHSAECjAI
-# MAYGBFUdIAAwDQYJKoZIhvcNAQEMBQADggEBAHCgv0NcVec4X6CjdBs9thbX979X
-# B72arKGHLOyFXqkauyL4hxppVCLtpIh3bb0aFPQTSnovLbc47/T/gLn4offyct4k
-# vFIDyE7QKt76LVbP+fT3rDB6mouyXtTP0UNEm0Mh65ZyoUi0mcudT6cGAxN3J0TU
-# 53/oWajwvy8LpunyNDzs9wPHh6jSTEAZNUZqaVSwuKFWjuyk1T3osdz9HNj0d1pc
-# VIxv76FQPfx2CWiEn2/K2yCNNWAcAgPLILCsWKAOQGPFmCLBsln1VWvPJ6tsds5v
-# Iy30fnFqI2si/xK4VC0nftg62fC2h5b9W9FcrBjDTZ9ztwGpn1eqXijiuZQxggN8
-# MIIDeAIBATB9MGkxCzAJBgNVBAYTAlVTMRcwFQYDVQQKEw5EaWdpQ2VydCwgSW5j
-# LjFBMD8GA1UEAxM4RGlnaUNlcnQgVHJ1c3RlZCBHNCBUaW1lU3RhbXBpbmcgUlNB
-# NDA5NiBTSEEyNTYgMjAyNSBDQTECEAhP3DNPfkVO28MPj/mSGDUwDQYJYIZIAWUD
-# BAIBBQCggdEwGgYJKoZIhvcNAQkDMQ0GCyqGSIb3DQEJEAEEMBwGCSqGSIb3DQEJ
-# BTEPFw0yNjA5MTExMjIzMTJaMCsGCyqGSIb3DQEJEAIMMRwwGjAYMBYEFFHZq9oD
-# SXPYT0JmrKSCSOazacQ5MC8GCSqGSIb3DQEJBDEiBCD1rFzAkNrTioIZLwGKIN5E
-# 3UrxWulTUs7p+U5CmJNiqzA3BgsqhkiG9w0BCRACLzEoMCYwJDAiBCAtoJ2n9BMf
-# n+cttsXm6cllZ1WvBD8ep0LMDSEg4UHr/DANBgkqhkiG9w0BAQEFAASCAgACOFTh
-# WWpLJE3GYp2kC1O3Wi7CgCrmy5pbRuhjBast4rmBOLlpX9G7aSTeJhvsGCc+kxuJ
-# Xjx9ybBABgrz0FG0XyBJnHaLipTJrLyo13fY8ZvvuEC8f9w/UPsbkaMV4vpgsnli
-# 9Gc7ujJiT2dVMCthGtzElbj+Q6Pv8y0ihHA3QwHeGVJ1BB2Ww2NHWhBb8qwHUE21
-# VNHAhTcBOtmVd80Iv8tC/pZS9AhH6G4GBjJJJHGSzBuONlrMdD3PuUAooDb8QB0Z
-# c+fQh1Jt1taXQ5mXrX0YmHuG9hdWQHBZWRHDsrSAOaMP3NZ6TzRhVHz8Z9z1eLdK
-# MFYcIqmhd+i3gR4B591VerQFm+WJ3Va3faQqsiOpBx+2fV5EQ0ovXF/o7l5kllEq
-# mE5g7gSIY7iT+uqOzphZkwC1hLaKLQFqHj9CvsxUjvPhYYDSWG3hCxuIsckdKwms
-# 92M+Vth8kG7g5hsaHs3+FANi734FWtMXWbJvNx31nSz5qpE5SQKl8BX7ohn3gF8A
-# RI2tGeEHb4fSPpO+GP/L9VSSluuMh7hAzMydKNea3dop0P19ACrrelqu8ZVsFq4n
-# Sh7gDImpszDnFXKJcFI5gl46tiwBNudVhlwoO0NPnn6Jcv+SQYokbHocW8b2JVB0
-# rQuPg9yAN+xxEJIwvg3PB1fOX03MSOp0L0b06w==
+# MAwGCisGAQQBgjcCARUwLwYJKoZIhvcNAQkEMSIEIMKQZyDY1cvBC4clfGANe3ns
+# WfMA/Nkvf3xvlROL6J5lMA0GCSqGSIb3DQEBAQUABIICAInfNx6KOAnwAEEFggOn
+# C1JGpl5lezDSwS2u/eOPDJIgsA/1yaaqnK3vEKscA3ReQ/kNOvBh3E/dL7dgi3bd
+# VMWlwiYnIkNamqgDm/Q7lYyyABkDs7EIeBzZTsSKZyLseRzaJBkOIBxDewul21nq
+# cWQkA4iQ2WDViapsLYiS/KvrGi4aLzcKJmblZ9CfPWNfHuaI5OvPTGYDLPcAENiA
+# DB6QDESxJ+SuZp1N3x3rDUloud04GNYIVeaRoO5gYlrLclEcTxYZrMupDbANqzZZ
+# lLF+J9ip09udeMSw/UpjzfGGuys/UNZpBZGtf/0vuYzmZGR6M/wOMK7rtyBawwqy
+# 8FaPbHHITq2hlQhBRIasDShTtoVNUnWCzn2/MYQlJOfXQ9Jn2ybDrzJSc2IJDaR8
+# Yiylbjv8YHov1DwztTEq5CxhlCRE2V6HcG8W1x+O4FrAycUCBer9onkIVCqAvLSc
+# 7KCkpii6tY9Ce35mlL9qxDTwj2ALMG+N7kWI5iv5vYQEVuGk+cRCzXibObrUo6lb
+# byYznK7QE9D0tsPB1HD7bZnoiXRCYBc1Vq1G0dKnRuW1FwBphw4L3d7RVN/3q4l+
+# 4gVK437t+KyN5xcVUrDKKRKKfxN59wr/38ykFLm3ouBwhdBd8h71bN5h/dJt9cdP
+# aAjoxOluXmpq9ebf5FoHRYZnoYIXdzCCF3MGCisGAQQBgjcDAwExghdjMIIXXwYJ
+# KoZIhvcNAQcCoIIXUDCCF0wCAQMxDzANBglghkgBZQMEAgEFADB4BgsqhkiG9w0B
+# CRABBKBpBGcwZQIBAQYJYIZIAYb9bAcBMDEwDQYJYIZIAWUDBAIBBQAEICrF7Wui
+# HrwAt/xQoKoBT4F4JX88xm86+E1HltyCVSnVAhEAo6qJplrdvVorvvpgGcDERBgP
+# MjAyNjEwMDExMTEzNDlaoIITOjCCBu0wggTVoAMCAQICEAhP3DNPfkVO28MPj/mS
+# GDUwDQYJKoZIhvcNAQELBQAwaTELMAkGA1UEBhMCVVMxFzAVBgNVBAoTDkRpZ2lD
+# ZXJ0LCBJbmMuMUEwPwYDVQQDEzhEaWdpQ2VydCBUcnVzdGVkIEc0IFRpbWVTdGFt
+# cGluZyBSU0E0MDk2IFNIQTI1NiAyMDI1IENBMTAeFw0yNjA4MDUwMDAwMDBaFw0z
+# NzExMDQyMzU5NTlaMGMxCzAJBgNVBAYTAlVTMRcwFQYDVQQKEw5EaWdpQ2VydCwg
+# SW5jLjE7MDkGA1UEAxMyRGlnaUNlcnQgU0hBMjU2IFJTQTQwOTYgVGltZXN0YW1w
+# IFJlc3BvbmRlciAyMDI2IDEwggIiMA0GCSqGSIb3DQEBAQUAA4ICDwAwggIKAoIC
+# AQC2e6byyf7NSvjUm0xls/04xjD4fAkOkbnGQi7+Wpx81iYxfzViaxSIctuH3KSl
+# 5YEYpMuFgGsA31N2D9ATMbfZdw5uaAhuWevQKhDdZIB4NnqcfpfpWQXJiQnDdAEl
+# ETC+bhSEvNLGbA8DtwUpFMQ4yyYQSPqomT92osQAv6hBi47ATZS6JfVWe6XxhF4j
+# JZ3iSAuf2Cros1czRSmWRHqMv9AfGZvp8ygYElhudpQjtcPpwoOl6QrZJUyV3iIN
+# vN4cO05prGV0fkjG426xDr2d3z9lcSIHkdvGPdGUrXdxfVbgOUVcp2/8ISEzwKPW
+# ++Wa+E2ujI91EZtukGWDJ/xZ27k3oHKEXBRGfRTqjOU+jE3ba/5++JSE/7oNHnjs
+# 5mekExYN96LV/mxUbCKJb8pBNY4r3uD7hEmk/M81XhVgwDA7aMzYC3LZBg9WY5BM
+# mbSay5ecmtJuXaB/0nKWmQmVZeqTVDgsmzHP5MQuhAJkiWNuC9MmCg9TZHXbJ2/y
+# LVSov9p16UDTLtT0+aa1vN71fHeu1qMLlLNB3WOB/ADCxr3S/1hxI92Z6jKgEED/
+# btwIvbfuXkNNhg8MtDg43c4tMZae9FvqMOt/9PvmAxF9TNIsIFB8G6yb36ZJZGUL
+# 8N/pL971DyLXcK6HM5PYnH5X+eVtczhCgHCVQCF6XDAlPQIDAQABo4IBlTCCAZEw
+# DAYDVR0TAQH/BAIwADAdBgNVHQ4EFgQUFMljijAu1Er7bpTz5uNAfvXszeIwHwYD
+# VR0jBBgwFoAU729TSunkBnx6yuKQVvYv1Ensy04wDgYDVR0PAQH/BAQDAgeAMBYG
+# A1UdJQEB/wQMMAoGCCsGAQUFBwMIMIGVBggrBgEFBQcBAQSBiDCBhTAkBggrBgEF
+# BQcwAYYYaHR0cDovL29jc3AuZGlnaWNlcnQuY29tMF0GCCsGAQUFBzAChlFodHRw
+# Oi8vY2FjZXJ0cy5kaWdpY2VydC5jb20vRGlnaUNlcnRUcnVzdGVkRzRUaW1lU3Rh
+# bXBpbmdSU0E0MDk2U0hBMjU2MjAyNUNBMS5jcnQwXwYDVR0fBFgwVjBUoFKgUIZO
+# aHR0cDovL2NybDMuZGlnaWNlcnQuY29tL0RpZ2lDZXJ0VHJ1c3RlZEc0VGltZVN0
+# YW1waW5nUlNBNDA5NlNIQTI1NjIwMjVDQTEuY3JsMCAGA1UdIAQZMBcwCAYGZ4EM
+# AQQCMAsGCWCGSAGG/WwHATANBgkqhkiG9w0BAQsFAAOCAgEAjcU6YR6dUgrfmawJ
+# gH59KECxa9Ji8sEi2g10CBDaMiqsaxWyW5cwlT/6ZF5sFznazqVsoC85U9dqLOYq
+# Qwst+UQQoNlDHgKRLa3xoc+OReFreFhnTXSG0Vrd2E2CZqUfm+5a+He1MJ/h+tNL
+# uA+0Zzhn/Fo+FDYAHWZHx4R79ZsfRFYe9UiXpXBDf6DkUo183Y38NYmR/XfDYf7Y
+# Z+oR9t3flbDwK+hgGMs0gNNp1w9Z2CyOyI5or/sSwomAuNQ0hWC9xoU4stD8aWsD
+# 7RkcmgVRs6vlIk3zPKQ+ylcheWkMlj+CoVRlFE55pv0ZWCaFt04lwP/rdGHE9qEV
+# QZtyRE42ox7oNgC/r+Y4bSlZ3dw9K2x1xLtu6PkPKeLBFjzKigwfqm3Hm+k/+lnM
+# E8F5kPZTgiy2HLEHklpryqs6QHnPXrRNeIzkAMyylnRN8P0wmirS0WkU+ywpEWFZ
+# 4QNg+9xS43tTuW9x0eXh7NDc1P/sV+zWxHXKH8tFt1ncHdVzqrZaYPyYMLSn2TOX
+# ajveJW1L3joiQSPsWRGxkbDDW15jERFE4LvjnGu2O9zD1nLJSMdlYZEikl4w2w+q
+# 4IN/R+TIe0H4ngCI1moJCTbevGH4punIxM1Uoi0nmX3ZK+XbRT01uowE5ViXWHng
+# 0RgsmrX/EdYUo80r3TfMlkD0/YMwgga0MIIEnKADAgECAhANx6xXBf8hmS5AQyIM
+# OkmGMA0GCSqGSIb3DQEBCwUAMGIxCzAJBgNVBAYTAlVTMRUwEwYDVQQKEwxEaWdp
+# Q2VydCBJbmMxGTAXBgNVBAsTEHd3dy5kaWdpY2VydC5jb20xITAfBgNVBAMTGERp
+# Z2lDZXJ0IFRydXN0ZWQgUm9vdCBHNDAeFw0yNTA1MDcwMDAwMDBaFw0zODAxMTQy
+# MzU5NTlaMGkxCzAJBgNVBAYTAlVTMRcwFQYDVQQKEw5EaWdpQ2VydCwgSW5jLjFB
+# MD8GA1UEAxM4RGlnaUNlcnQgVHJ1c3RlZCBHNCBUaW1lU3RhbXBpbmcgUlNBNDA5
+# NiBTSEEyNTYgMjAyNSBDQTEwggIiMA0GCSqGSIb3DQEBAQUAA4ICDwAwggIKAoIC
+# AQC0eDHTCphBcr48RsAcrHXbo0ZodLRRF51NrY0NlLWZloMsVO1DahGPNRcybEKq
+# +RuwOnPhof6pvF4uGjwjqNjfEvUi6wuim5bap+0lgloM2zX4kftn5B1IpYzTqpyF
+# Q/4Bt0mAxAHeHYNnQxqXmRinvuNgxVBdJkf77S2uPoCj7GH8BLuxBG5AvftBdsOE
+# CS1UkxBvMgEdgkFiDNYiOTx4OtiFcMSkqTtF2hfQz3zQSku2Ws3IfDReb6e3mmdg
+# lTcaarps0wjUjsZvkgFkriK9tUKJm/s80FiocSk1VYLZlDwFt+cVFBURJg6zMUjZ
+# a/zbCclF83bRVFLeGkuAhHiGPMvSGmhgaTzVyhYn4p0+8y9oHRaQT/aofEnS5xLr
+# fxnGpTXiUOeSLsJygoLPp66bkDX1ZlAeSpQl92QOMeRxykvq6gbylsXQskBBBnGy
+# 3tW/AMOMCZIVNSaz7BX8VtYGqLt9MmeOreGPRdtBx3yGOP+rx3rKWDEJlIqLXvJW
+# nY0v5ydPpOjL6s36czwzsucuoKs7Yk/ehb//Wx+5kMqIMRvUBDx6z1ev+7psNOdg
+# JMoiwOrUG2ZdSoQbU2rMkpLiQ6bGRinZbI4OLu9BMIFm1UUl9VnePs6BaaeEWvjJ
+# SjNm2qA+sdFUeEY0qVjPKOWug/G6X5uAiynM7Bu2ayBjUwIDAQABo4IBXTCCAVkw
+# EgYDVR0TAQH/BAgwBgEB/wIBADAdBgNVHQ4EFgQU729TSunkBnx6yuKQVvYv1Ens
+# y04wHwYDVR0jBBgwFoAU7NfjgtJxXWRM3y5nP+e6mK4cD08wDgYDVR0PAQH/BAQD
+# AgGGMBMGA1UdJQQMMAoGCCsGAQUFBwMIMHcGCCsGAQUFBwEBBGswaTAkBggrBgEF
+# BQcwAYYYaHR0cDovL29jc3AuZGlnaWNlcnQuY29tMEEGCCsGAQUFBzAChjVodHRw
+# Oi8vY2FjZXJ0cy5kaWdpY2VydC5jb20vRGlnaUNlcnRUcnVzdGVkUm9vdEc0LmNy
+# dDBDBgNVHR8EPDA6MDigNqA0hjJodHRwOi8vY3JsMy5kaWdpY2VydC5jb20vRGln
+# aUNlcnRUcnVzdGVkUm9vdEc0LmNybDAgBgNVHSAEGTAXMAgGBmeBDAEEAjALBglg
+# hkgBhv1sBwEwDQYJKoZIhvcNAQELBQADggIBABfO+xaAHP4HPRF2cTC9vgvItTSm
+# f83Qh8WIGjB/T8ObXAZz8OjuhUxjaaFdleMM0lBryPTQM2qEJPe36zwbSI/mS83a
+# fsl3YTj+IQhQE7jU/kXjjytJgnn0hvrV6hqWGd3rLAUt6vJy9lMDPjTLxLgXf9r5
+# nWMQwr8Myb9rEVKChHyfpzee5kH0F8HABBgr0UdqirZ7bowe9Vj2AIMD8liyrukZ
+# 2iA/wdG2th9y1IsA0QF8dTXqvcnTmpfeQh35k5zOCPmSNq1UH410ANVko43+Cdmu
+# 4y81hjajV/gxdEkMx1NKU4uHQcKfZxAvBAKqMVuqte69M9J6A47OvgRaPs+2ykgc
+# GV00TYr2Lr3ty9qIijanrUR3anzEwlvzZiiyfTPjLbnFRsjsYg39OlV8cipDoq7+
+# qNNjqFzeGxcytL5TTLL4ZaoBdqbhOhZ3ZRDUphPvSRmMThi0vw9vODRzW6AxnJll
+# 38F0cuJG7uEBYTptMSbhdhGQDpOXgpIUsWTjd6xpR6oaQf/DJbg3s6KCLPAlZ66R
+# zIg9sC+NJpud/v4+7RWsWCiKi9EOLLHfMR2ZyJ/+xhCx9yHbxtl5TPau1j/1MIDp
+# MPx0LckTetiSuEtQvLsNz3Qbp7wGWqbIiOWCnb5WqxL3/BAPvIXKUjPSxyZsq8Wh
+# baM2tszWkPZPubdcMIIFjTCCBHWgAwIBAgIQDpsYjvnQLefv21DiCEAYWjANBgkq
+# hkiG9w0BAQwFADBlMQswCQYDVQQGEwJVUzEVMBMGA1UEChMMRGlnaUNlcnQgSW5j
+# MRkwFwYDVQQLExB3d3cuZGlnaWNlcnQuY29tMSQwIgYDVQQDExtEaWdpQ2VydCBB
+# c3N1cmVkIElEIFJvb3QgQ0EwHhcNMjIwODAxMDAwMDAwWhcNMzExMTA5MjM1OTU5
+# WjBiMQswCQYDVQQGEwJVUzEVMBMGA1UEChMMRGlnaUNlcnQgSW5jMRkwFwYDVQQL
+# ExB3d3cuZGlnaWNlcnQuY29tMSEwHwYDVQQDExhEaWdpQ2VydCBUcnVzdGVkIFJv
+# b3QgRzQwggIiMA0GCSqGSIb3DQEBAQUAA4ICDwAwggIKAoICAQC/5pBzaN675F1K
+# PDAiMGkz7MKnJS7JIT3yithZwuEppz1Yq3aaza57G4QNxDAf8xukOBbrVsaXbR2r
+# snnyyhHS5F/WBTxSD1Ifxp4VpX6+n6lXFllVcq9ok3DCsrp1mWpzMpTREEQQLt+C
+# 8weE5nQ7bXHiLQwb7iDVySAdYyktzuxeTsiT+CFhmzTrBcZe7FsavOvJz82sNEBf
+# sXpm7nfISKhmV1efVFiODCu3T6cw2Vbuyntd463JT17lNecxy9qTXtyOj4DatpGY
+# QJB5w3jHtrHEtWoYOAMQjdjUN6QuBX2I9YI+EJFwq1WCQTLX2wRzKm6RAXwhTNS8
+# rhsDdV14Ztk6MUSaM0C/CNdaSaTC5qmgZ92kJ7yhTzm1EVgX9yRcRo9k98FpiHaY
+# dj1ZXUJ2h4mXaXpI8OCiEhtmmnTK3kse5w5jrubU75KSOp493ADkRSWJtppEGSt+
+# wJS00mFt6zPZxd9LBADMfRyVw4/3IbKyEbe7f/LVjHAsQWCqsWMYRJUadmJ+9oCw
+# ++hkpjPRiQfhvbfmQ6QYuKZ3AeEPlAwhHbJUKSWJbOUOUlFHdL4mrLZBdd56rF+N
+# P8m800ERElvlEFDrMcXKchYiCd98THU/Y+whX8QgUWtvsauGi0/C1kVfnSD8oR7F
+# wI+isX4KJpn15GkvmB0t9dmpsh3lGwIDAQABo4IBOjCCATYwDwYDVR0TAQH/BAUw
+# AwEB/zAdBgNVHQ4EFgQU7NfjgtJxXWRM3y5nP+e6mK4cD08wHwYDVR0jBBgwFoAU
+# Reuir/SSy4IxLVGLp6chnfNtyA8wDgYDVR0PAQH/BAQDAgGGMHkGCCsGAQUFBwEB
+# BG0wazAkBggrBgEFBQcwAYYYaHR0cDovL29jc3AuZGlnaWNlcnQuY29tMEMGCCsG
+# AQUFBzAChjdodHRwOi8vY2FjZXJ0cy5kaWdpY2VydC5jb20vRGlnaUNlcnRBc3N1
+# cmVkSURSb290Q0EuY3J0MEUGA1UdHwQ+MDwwOqA4oDaGNGh0dHA6Ly9jcmwzLmRp
+# Z2ljZXJ0LmNvbS9EaWdpQ2VydEFzc3VyZWRJRFJvb3RDQS5jcmwwEQYDVR0gBAow
+# CDAGBgRVHSAAMA0GCSqGSIb3DQEBDAUAA4IBAQBwoL9DXFXnOF+go3QbPbYW1/e/
+# Vwe9mqyhhyzshV6pGrsi+IcaaVQi7aSId229GhT0E0p6Ly23OO/0/4C5+KH38nLe
+# JLxSA8hO0Cre+i1Wz/n096wwepqLsl7Uz9FDRJtDIeuWcqFItJnLnU+nBgMTdydE
+# 1Od/6Fmo8L8vC6bp8jQ87PcDx4eo0kxAGTVGamlUsLihVo7spNU96LHc/RzY9Hda
+# XFSMb++hUD38dglohJ9vytsgjTVgHAIDyyCwrFigDkBjxZgiwbJZ9VVrzyerbHbO
+# byMt9H5xaiNrIv8SuFQtJ37YOtnwtoeW/VvRXKwYw02fc7cBqZ9Xql4o4rmUMYID
+# fDCCA3gCAQEwfTBpMQswCQYDVQQGEwJVUzEXMBUGA1UEChMORGlnaUNlcnQsIElu
+# Yy4xQTA/BgNVBAMTOERpZ2lDZXJ0IFRydXN0ZWQgRzQgVGltZVN0YW1waW5nIFJT
+# QTQwOTYgU0hBMjU2IDIwMjUgQ0ExAhAIT9wzT35FTtvDD4/5khg1MA0GCWCGSAFl
+# AwQCAQUAoIHRMBoGCSqGSIb3DQEJAzENBgsqhkiG9w0BCRABBDAcBgkqhkiG9w0B
+# CQUxDxcNMjYxMDAxMTExMzQ5WjArBgsqhkiG9w0BCRACDDEcMBowGDAWBBRR2ava
+# A0lz2E9CZqykgkjms2nEOTAvBgkqhkiG9w0BCQQxIgQgMsHuvUBZDNCP6oAzWRwW
+# 47UCFuwXckzW2C+xt0JIPbEwNwYLKoZIhvcNAQkQAi8xKDAmMCQwIgQgLaCdp/QT
+# H5/nLbbF5unJZWdVrwQ/HqdCzA0hIOFB6/wwDQYJKoZIhvcNAQEBBQAEggIALGDY
+# O5NDTMPBQxZpTpS/0rOO1CvwFN2AFjdrUN1rT3F3WJ4mbnjkpurQPXxCBDcnHTMR
+# rZj5F39/qd9Kw3DNmWNnJri64xq0XsjMxpyO/lrl0Rc0KfJxS6Ek+ny0I+hafwXd
+# rAJ/W2oNiOeSYjvqCgp6j65qBEexBkZfZqK9iGsqrpLJ0K1RsOZ9toT624emFCpR
+# taC4hT9n8ID48M+J00cwC3NGs9SyBGEmLHPeUBm7kAXNB+wxIW9gkfFeCponLRea
+# R03gNvIXx1p1k7XawmGPi/1/sqaFHs0sX51laH7h0n4S4dsBaO0tPxQBbowE1F0b
+# 0hkyO/yCXJc3mx9d6Xxi058C6l+fi0M4NKvbEf41geaDP+aFRJqF4DSK502VhdjT
+# X7EBws8cbseEIWoYIVOt6xhYmlLbBU/G31EvrZZ4FgV/B4issDFV2jYmgsLJ9/Ic
+# Bl6wPgMvWiNHoetrYPHcJw3B+5lZxy+3ytxdBBHMXpaqFlorBJzkrTAw/SjHyiyL
+# UXKIsfk9vAtrQjVGofpaVLgbSw8nN8p/9w/6xv0FDxsX4MeCyJWtKuED6nxb68bL
+# VCZogTIrkAplCJ58htBO4IoeiHlxvdOkwjrM0MVJ3p6AnIVLf+bWJeIcDq0zq5+3
+# Siycyj2rOC6wlXjtv3uCcldJ2/+GO98CZl8tMSk=
 # SIG # End signature block

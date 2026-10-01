@@ -12,27 +12,16 @@ Create Nerdio notification condition.
 
 | Parameter | Type | Required | Description |
 |-----------|------|----------|-------------|
-| ExclusionKeywords | String[] | Yes |  |
 | Name | String | Yes |  |
-| RunByUsers | [INotificationConditionRunByUser[]](../models/New-NmeNotificationConditionRunByUserModel.md) | Yes |  |
-| Statuses | String[] | Yes | Values: `Pending`, `Running`, `Completed`, `Failed`, `Cancelled` |
-| Targets | [INotificationConditionTarget[]](../models/New-NmeNotificationConditionTargetModel.md) | Yes |  |
-| Tasks | String[] | Yes |  |
+| ExclusionKeywords | String[] | No |  |
+| RunByUsers | [INotificationConditionRunByUser[]](../models/New-NmeNotificationConditionRunByUserModel.md) | No |  |
+| Statuses | String[] | No | Values: `Pending`, `Running`, `Completed`, `Failed`, `Cancelled` |
+| Targets | [INotificationConditionTarget[]](../models/New-NmeNotificationConditionTargetModel.md) | No |  |
+| Tasks | String[] | No |  |
 
 ## Examples
 
 ```powershell
-$runByUsers = New-NmeNotificationConditionRunByUserModel `
-    -UserType "User" `
-    -Username "<Username>"
-$targets = New-NmeNotificationConditionTargetModel `
-    -Scope "Workspace"
-New-NmeNotificationCondition `
-    -ExclusionKeywords @("<ExclusionKeywords>") `
-    -Name "<Name>" `
-    -RunByUsers @($runByUsers) `
-    -Statuses "Pending" `
-    -Targets @($targets) `
-    -Tasks @("<Tasks>")
+New-NmeNotificationCondition -Name "<Name>"
 ```
 

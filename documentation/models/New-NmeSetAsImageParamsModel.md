@@ -10,7 +10,6 @@ Create an in-memory object for SetAsImageParams.
 |-----------|------|----------|-------------|
 | ApplicationsTarget | String | Yes | Values: `Clone`, `Source` |
 | ScriptedActionTarget | String | Yes | Values: `Clone`, `Source` |
-| ScriptedActions | [IScriptedActionOption[]](New-NmeScriptedActionOptionModel.md) | Yes | Pass as array. |
 | Changelog | String | No |  |
 | EnableAppvClientService | Boolean | No |  |
 | GalleryImageGalleryId | String | No |  |
@@ -24,20 +23,15 @@ Create an in-memory object for SetAsImageParams.
 | InstallCertificates | Boolean | No |  |
 | PowerOnVM | Boolean | No |  |
 | RetainOldImage | Boolean | No |  |
+| ScriptedActions | [IScriptedActionOption[]](New-NmeScriptedActionOptionModel.md) | No | Pass as array. |
 | SkipRemoveProfiles | Boolean | No |  |
 | Tags | ISetAsImageParamsTags | No |  |
 
 ## Usage
 
 ```powershell
-$scriptedActions = New-NmeScriptedActionOptionModel `
-    -GroupParams @{} `
-    -Id 0 `
-    -Params @{} `
-    -Type "Action"
 $model = New-NmeSetAsImageParamsModel `
     -ApplicationsTarget "Clone" `
-    -ScriptedActionTarget "Clone" `
-    -ScriptedActions $scriptedActions
+    -ScriptedActionTarget "Clone"
 ```
 

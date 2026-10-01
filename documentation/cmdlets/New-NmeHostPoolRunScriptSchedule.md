@@ -16,7 +16,6 @@ Schedule script execution on ARM host pool session hosts' VMs
 | BulkJobParamExcludeNotRunning | SwitchParameter | Yes |  |
 | BulkJobParamRestartVms | SwitchParameter | Yes |  |
 | BulkJobParamTaskParallelism | Int32 | Yes |  |
-| ConfigScriptedActions | [IScriptedActionOption[]](../models/New-NmeScriptedActionOptionModel.md) | Yes |  |
 | HostPoolName | String | Yes |  |
 | ResourceGroup | String | Yes |  |
 | ScheduleRecurrenceType | String | Yes | Values: `Once`, `Daily`, `Weekly`, `Monthly`, `Hourly`, `PatchTuesday` |
@@ -29,6 +28,7 @@ Schedule script execution on ARM host pool session hosts' VMs
 | BulkJobParamMessage | String | No |  |
 | BulkJobParamMinutesBeforeRemove | Int32 | No |  |
 | ConfigActiveDirectoryId | Int32 | No |  |
+| ConfigScriptedActions | [IScriptedActionOption[]](../models/New-NmeScriptedActionOptionModel.md) | No |  |
 | ScheduleDayOfWeek | Int32 | No | Values: `0`, `1`, `2`, `3`, `4`, `5`, `6` |
 | ScheduleDayOfWeekNumber | String | No | Values: `First`, `Second`, `Third`, `Fourth`, `Last` |
 | ScheduleDescription | String | No |  |
@@ -38,17 +38,11 @@ Schedule script execution on ARM host pool session hosts' VMs
 ## Examples
 
 ```powershell
-$configScriptedActions = New-NmeScriptedActionOptionModel `
-    -GroupParams @{} `
-    -Id 0 `
-    -Params @{} `
-    -Type "Action"
 New-NmeHostPoolRunScriptSchedule `
     -BulkJobParamCountFailedTaskToStopWork 0 `
     -BulkJobParamExcludeNotRunning `
     -BulkJobParamRestartVms `
     -BulkJobParamTaskParallelism 0 `
-    -ConfigScriptedActions @($configScriptedActions) `
     -HostPoolName "<HostPoolName>" `
     -ResourceGroup "<ResourceGroup>" `
     -ScheduleRecurrenceType "Once" `

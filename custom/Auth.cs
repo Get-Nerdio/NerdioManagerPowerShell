@@ -42,7 +42,7 @@ namespace NmePowershell
 
     public partial class Module
     {
-        private const string UserAgent = "Nerdio-PowerShell/1.3.0-preview";
+        private const string UserAgent = "Nerdio-PowerShell/1.3.1-preview";
 
         partial void CustomInit()
         {

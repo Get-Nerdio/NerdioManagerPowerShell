@@ -10,7 +10,6 @@ Create an in-memory object for SetAsImage.
 |-----------|------|----------|-------------|
 | JobPayloadApplicationsTarget | String | Yes | Values: `Clone`, `Source` |
 | JobPayloadScriptedActionTarget | String | Yes | Values: `Clone`, `Source` |
-| JobPayloadScriptedActions | [IScriptedActionOption[]](New-NmeScriptedActionOptionModel.md) | Yes | Pass as array. |
 | FailurePolicyCleanup | Boolean | No |  |
 | FailurePolicyRestart | Boolean | No |  |
 | GalleryImageGalleryId | String | No |  |
@@ -26,20 +25,15 @@ Create an in-memory object for SetAsImage.
 | JobPayloadInstallCertificates | Boolean | No |  |
 | JobPayloadPowerOnVM | Boolean | No |  |
 | JobPayloadRetainOldImage | Boolean | No |  |
+| JobPayloadScriptedActions | [IScriptedActionOption[]](New-NmeScriptedActionOptionModel.md) | No | Pass as array. |
 | JobPayloadSkipRemoveProfiles | Boolean | No |  |
 | JobPayloadTags | ISetAsImageParamsTags | No |  |
 
 ## Usage
 
 ```powershell
-$jobPayloadScriptedActions = New-NmeScriptedActionOptionModel `
-    -GroupParams @{} `
-    -Id 0 `
-    -Params @{} `
-    -Type "Action"
 $model = New-NmeSetAsImageModel `
     -JobPayloadApplicationsTarget "Clone" `
-    -JobPayloadScriptedActionTarget "Clone" `
-    -JobPayloadScriptedActions $jobPayloadScriptedActions
+    -JobPayloadScriptedActionTarget "Clone"
 ```
 

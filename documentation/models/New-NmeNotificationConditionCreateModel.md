@@ -8,27 +8,17 @@ Create an in-memory object for NotificationConditionCreate.
 
 | Parameter | Type | Required | Description |
 |-----------|------|----------|-------------|
-| ExclusionKeywords | Object | Yes |  |
 | Name | String | Yes |  |
-| RunByUsers | [INotificationConditionRunByUser[]](New-NmeNotificationConditionRunByUserModel.md) | Yes | Pass as array. |
-| Statuses | Object | Yes | Values: `Pending`, `Running`, `Completed`, `Failed`, `Cancelled` |
-| Targets | [INotificationConditionTarget[]](New-NmeNotificationConditionTargetModel.md) | Yes | Pass as array. |
-| Tasks | Object | Yes |  |
+| ExclusionKeywords | Object | No |  |
+| RunByUsers | [INotificationConditionRunByUser[]](New-NmeNotificationConditionRunByUserModel.md) | No | Pass as array. |
+| Statuses | Object | No | Values: `Pending`, `Running`, `Completed`, `Failed`, `Cancelled` |
+| Targets | [INotificationConditionTarget[]](New-NmeNotificationConditionTargetModel.md) | No | Pass as array. |
+| Tasks | Object | No |  |
 
 ## Usage
 
 ```powershell
-$runByUsers = New-NmeNotificationConditionRunByUserModel `
-    -UserType "User" `
-    -Username "<Username>"
-$targets = New-NmeNotificationConditionTargetModel `
-    -Scope "Workspace"
 $model = New-NmeNotificationConditionCreateModel `
-    -ExclusionKeywords "<ExclusionKeywords>" `
-    -Name "<Name>" `
-    -RunByUsers $runByUsers `
-    -Statuses "Pending" `
-    -Targets $targets `
-    -Tasks "<Tasks>"
+    -Name "<Name>"
 ```
 

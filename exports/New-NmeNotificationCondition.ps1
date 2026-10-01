@@ -13,7 +13,7 @@ New Nerdio notification condition.
 #>
 function New-NmeNotificationCondition {
 [OutputType([NmePowershell.Models.IResponseWithJobAndNotificationCondition])]
-[CmdletBinding(DefaultParameterSetName='New', PositionalBinding=$false, SupportsShouldProcess, ConfirmImpact='Medium')]
+[CmdletBinding(DefaultParameterSetName='NewExpanded', PositionalBinding=$false, SupportsShouldProcess, ConfirmImpact='Medium')]
 param(
     [Parameter(ParameterSetName='New', Mandatory, ValueFromPipeline)]
     [NmePowershell.Category('Body')]
@@ -22,26 +22,26 @@ param(
     ${Body},
 
     [Parameter(ParameterSetName='NewExpanded', Mandatory)]
+    [NmePowershell.Category('Body')]
+    [System.String]
+    # .
+    ${Name},
+
+    [Parameter(ParameterSetName='NewExpanded')]
     [AllowEmptyCollection()]
     [NmePowershell.Category('Body')]
     [System.String[]]
     # .
     ${ExclusionKeywords},
 
-    [Parameter(ParameterSetName='NewExpanded', Mandatory)]
-    [NmePowershell.Category('Body')]
-    [System.String]
-    # .
-    ${Name},
-
-    [Parameter(ParameterSetName='NewExpanded', Mandatory)]
+    [Parameter(ParameterSetName='NewExpanded')]
     [AllowEmptyCollection()]
     [NmePowershell.Category('Body')]
     [NmePowershell.Models.INotificationConditionRunByUser[]]
     # .
     ${RunByUsers},
 
-    [Parameter(ParameterSetName='NewExpanded', Mandatory)]
+    [Parameter(ParameterSetName='NewExpanded')]
     [AllowEmptyCollection()]
     [NmePowershell.PSArgumentCompleterAttribute("Pending", "Running", "Completed", "Failed", "Cancelled")]
     [NmePowershell.Category('Body')]
@@ -49,14 +49,14 @@ param(
     # .
     ${Statuses},
 
-    [Parameter(ParameterSetName='NewExpanded', Mandatory)]
+    [Parameter(ParameterSetName='NewExpanded')]
     [AllowEmptyCollection()]
     [NmePowershell.Category('Body')]
     [NmePowershell.Models.INotificationConditionTarget[]]
     # .
     ${Targets},
 
-    [Parameter(ParameterSetName='NewExpanded', Mandatory)]
+    [Parameter(ParameterSetName='NewExpanded')]
     [AllowEmptyCollection()]
     [NmePowershell.Category('Body')]
     [System.String[]]
@@ -157,8 +157,8 @@ end {
 # SIG # Begin signature block
 # MIIvWAYJKoZIhvcNAQcCoIIvSTCCL0UCAQExDzANBglghkgBZQMEAgEFADB5Bgor
 # BgEEAYI3AgEEoGswaTA0BgorBgEEAYI3AgEeMCYCAwEAAAQQH8w7YFlLCE63JNLG
-# KX7zUQIBAAIBAAIBAAIBAAIBADAxMA0GCWCGSAFlAwQCAQUABCB+R3tcfaBRtF77
-# Wh8l2YI5MTEt8tkybYxIxv56t16oXaCCFAUwggWQMIIDeKADAgECAhAFmxtXno4h
+# KX7zUQIBAAIBAAIBAAIBAAIBADAxMA0GCWCGSAFlAwQCAQUABCDotjOrnivw7QIg
+# hn6spPiwDR5xaC/8YdL9vvQvdhAV76CCFAUwggWQMIIDeKADAgECAhAFmxtXno4h
 # MuI5B72nd3VcMA0GCSqGSIb3DQEBDAUAMGIxCzAJBgNVBAYTAlVTMRUwEwYDVQQK
 # EwxEaWdpQ2VydCBJbmMxGTAXBgNVBAsTEHd3dy5kaWdpY2VydC5jb20xITAfBgNV
 # BAMTGERpZ2lDZXJ0IFRydXN0ZWQgUm9vdCBHNDAeFw0xMzA4MDExMjAwMDBaFw0z
@@ -270,23 +270,23 @@ end {
 # RzQgQ29kZSBTaWduaW5nIFJTQTQwOTYgU0hBMzg0IDIwMjEgQ0ExAhALDOX/BzyG
 # PKP6JnAWOAwdMA0GCWCGSAFlAwQCAQUAoIGEMBgGCisGAQQBgjcCAQwxCjAIoAKA
 # AKECgAAwGQYJKoZIhvcNAQkDMQwGCisGAQQBgjcCAQQwHAYKKwYBBAGCNwIBCzEO
-# MAwGCisGAQQBgjcCARUwLwYJKoZIhvcNAQkEMSIEIBqAAPkWz84PaglbehFcL0eK
-# SrSGy8cMC3IuMWOj0lDJMA0GCSqGSIb3DQEBAQUABIICAEPDGx9NqhMDffZ211MA
-# jJS87xjH3FB3AL6HpeaqZe33JgzjPpHa9UJAgxIAJY76d9ZtaEB6egJ+eNey9jIC
-# i+Y6Cp6kPmQflakQaX6qJ5kl24mgcGoGPnOeRYNj6vFCUppQzyquZi5uIjhssdJq
-# IKjRIuXgOJU/9volJsr90d7ISIcBFBnpohBhTtpDXCSLL+OzhS3HGbE1FtdQGC1Q
-# m9bpX39vBVS3epH+I9GwLjcyJjZq73pc+RMLenZZJ1yuBDOeaG/kWfF340ENK7Gk
-# SDgFfX5J5nhBJKFpq3Njkwh8bJGI+Vu/Tk4ty85KNad25U2XDsoz71b2rWMbGhAZ
-# zIfz1LijiQjQj/MAy4AVLc/1bHYXqqstgfbBNGBsl1ymOWNA4brE9CJkOn4sdDCJ
-# bF/o6eyFh/AJ28FEsMgaI/aZpC8j3Qq2X+Af7xbhSOTKDnULd8hBUy8U8BbvTBEf
-# WENJwvUd5yo4Vtk0R4mvkDCYjKt+Db1kptATFz3aSerjO1gBKw+m2rEPtCVxT6kY
-# Eqf99I5paJsJfx/72tO4GTT8AZf4msI5D4WRQ4MVyn/DdekdEwcFc9aBgc2hBtM3
-# ThnbqQxKaB8zWRMPv/bbD4uBj8NtvXhnDOTZeTQLdk2yTaeDC84auIokjNJma/ee
-# gvpnxhbk/HANivmP4Ij7p8ykoYIXdjCCF3IGCisGAQQBgjcDAwExghdiMIIXXgYJ
+# MAwGCisGAQQBgjcCARUwLwYJKoZIhvcNAQkEMSIEIGWsYb0MUVHT3B/0Qp96wml9
+# c0V48crJOUMiGKC4ZurjMA0GCSqGSIb3DQEBAQUABIICAF4kAz/KYjNRyYJff8B/
+# 7ABQN/BnVyR1ylIPWf4hljz6IEgVpaxDXVBVtBwDdNuteqi1EBfX9vGtuBDBVBkd
+# SXSxutEMFaxafO60QkK3vkAZN0iubTeGIfj4Qrj/zFQvchkyjzZ5FDZ/spXeEUP9
+# BVfT6EPtIc/MsUpNZ0UqKfXorPEX/I79Gcbd2SwgNWb3y10qwOKhAzFtxXVA2/xm
+# DmrmPSlrIulUFVQuN3QZw3juNacmIBDgNjIom1UPP2KM0Q7QHGg+gBjwpjikHl0g
+# 6Z87PkYIZXabGS7HTzrvKuFZ4adW/MZEaz52hBlj9bVvtQcKybPAb8/Sv9ZSx1/f
+# Dh01NQ7oCfF94r2j1rssVSAgf/dBLlMEUpettinX8HymmXPuWkr+NzuRcRzoapsH
+# 1TP1jVdyK0ORAz+pDGneQdsC3G6id/sweYbPKk/xq1dFbBK2Gi+5uc6FugpmdVh6
+# 8g9ouJJoC/lFTIlVu6biDCGa743H0oQmPnRIno9UH8O2dL/uaA5L2t/uV4wAb3mu
+# PaVvzP5PR416dA2BB1fp4AFurBlGQoIkW7VDvA0n2IsK/dEd77dJFhf4d4XSf8W5
+# wQRC6GPAHr+Pj9eOGo3A1ybNiZHoVeDD+dJkXhB2h4r1HhOQhl3evqL9uxaV8AfE
+# 9aObhuqUesC9n1bST76gRWmloYIXdjCCF3IGCisGAQQBgjcDAwExghdiMIIXXgYJ
 # KoZIhvcNAQcCoIIXTzCCF0sCAQMxDzANBglghkgBZQMEAgEFADB3BgsqhkiG9w0B
-# CRABBKBoBGYwZAIBAQYJYIZIAYb9bAcBMDEwDQYJYIZIAWUDBAIBBQAEIKBO7+aT
-# dUfzfjr9EDyNjcBbmEiPwtyi+ddR6sbrCVXIAhBBA+De7N9eAsmGovh3GOGWGA8y
-# MDI2MDkxMTEyMjMwNlqgghM6MIIG7TCCBNWgAwIBAgIQCE/cM09+RU7bww+P+ZIY
+# CRABBKBoBGYwZAIBAQYJYIZIAYb9bAcBMDEwDQYJYIZIAWUDBAIBBQAEIG06dMdP
+# 4mvJEf7C4TaboNlvZilcE9hxvVT7BVxX1T5eAhBVP84imMKvC9dfLyLrRzkJGA8y
+# MDI2MTAwMTExMTM0MlqgghM6MIIG7TCCBNWgAwIBAgIQCE/cM09+RU7bww+P+ZIY
 # NTANBgkqhkiG9w0BAQsFADBpMQswCQYDVQQGEwJVUzEXMBUGA1UEChMORGlnaUNl
 # cnQsIEluYy4xQTA/BgNVBAMTOERpZ2lDZXJ0IFRydXN0ZWQgRzQgVGltZVN0YW1w
 # aW5nIFJTQTQwOTYgU0hBMjU2IDIwMjUgQ0ExMB4XDTI2MDgwNTAwMDAwMFoXDTM3
@@ -393,19 +393,19 @@ end {
 # LjFBMD8GA1UEAxM4RGlnaUNlcnQgVHJ1c3RlZCBHNCBUaW1lU3RhbXBpbmcgUlNB
 # NDA5NiBTSEEyNTYgMjAyNSBDQTECEAhP3DNPfkVO28MPj/mSGDUwDQYJYIZIAWUD
 # BAIBBQCggdEwGgYJKoZIhvcNAQkDMQ0GCyqGSIb3DQEJEAEEMBwGCSqGSIb3DQEJ
-# BTEPFw0yNjA5MTExMjIzMDZaMCsGCyqGSIb3DQEJEAIMMRwwGjAYMBYEFFHZq9oD
-# SXPYT0JmrKSCSOazacQ5MC8GCSqGSIb3DQEJBDEiBCDNY2aZclG6HptgrCLaYTB8
-# LEt7o+NWBl9zJToU8mNg5zA3BgsqhkiG9w0BCRACLzEoMCYwJDAiBCAtoJ2n9BMf
-# n+cttsXm6cllZ1WvBD8ep0LMDSEg4UHr/DANBgkqhkiG9w0BAQEFAASCAgCX8WiW
-# bdui2E0p9XpH8+sYzrDhFurYtsLeedyYeb1J3CELt8sr2CvdtBvG55dAB2WobT2M
-# eyOWRqkHT3utIUO1m2Ml9wrYOpjqSG1BuNlQ5wGcR+AFcMe8jEeQee/1ULLDH5FW
-# jA0IDxjsSV9OTKNP/S9ntEGzWmzV23dXzsGjw0WXgb/d0FHONlkva1v+tvxR8rJ5
-# 9dFU/4uWGJSITDzpVufAdkFRg8UiCxYwc8jtDL0fvy2smfeO96KLeL7hFqQYxAgy
-# +hwFO49jWX7MZ1pL9TzJl532pXA9g0mdkakGWJvfFba/Q8SbLfoxLLiIe/QCAKcy
-# vL6w1Elv+tpfE0BYg30rYd5zuW06CChhB86aPvcIKVMXRYKt5D+aSrSAO9BxRdn3
-# YQjiODrHhOJ7ZE6JAzLfVe+glJ2dfn5gW9pnt5F2/Q5Y16SFp61KbusoMAO+y1dZ
-# AWPeAnZuDW+vxMO7wAAyI+umZ1pzYhZaWiS8ClDf4P7CrAAP/LWjXwyBEUL5TFuI
-# UMwraeEnA0vK9DsOUV+wao1YmAw7rmsg5WfgQ5B3o7ads7nDaMBmZsuzJdggwt5z
-# FpNjOp9PwGcMAtLUl3riAgXzo+YFzrHZXxPQckSXzfAk7M5rEZ6ug3RouT0lMrlD
-# gMocrIm0S15Ft4scOYUUx4sNCA5H+FtQbh9oUQ==
+# BTEPFw0yNjEwMDExMTEzNDJaMCsGCyqGSIb3DQEJEAIMMRwwGjAYMBYEFFHZq9oD
+# SXPYT0JmrKSCSOazacQ5MC8GCSqGSIb3DQEJBDEiBCAMtL7/giXuY8YuFt9fx9IZ
+# HXEYnHtZg/WbGcbTR8bHqTA3BgsqhkiG9w0BCRACLzEoMCYwJDAiBCAtoJ2n9BMf
+# n+cttsXm6cllZ1WvBD8ep0LMDSEg4UHr/DANBgkqhkiG9w0BAQEFAASCAgCI1a0T
+# f/e1lJLIbrT6+89RmvTnaMeApPVSO1NFTlMOALg8zSSkdJLxFv1xuSJI7wg83EDp
+# mLm1WYq/kQdbtnJx22QUzxEnkdEMdFmi80HStD+uQ577ZhRzXG2vlHTnlRAWFG1l
+# E6RWZoBY0xkyqbHmIJrCIbqbXxEsc+M7o0HIfhobXhq8j0+B5DU2Se/tcZFwmDMu
+# t3aOveApo6OBv50yizzKHaQlZaUchFLBuZMQ7TqFmK06a6ccWPzCoxMpM9pSFXRs
+# 0f6XhneMwn3VviQdGG9kq/t2Lcwm7gMa34AKkvdL9uhbQJ0LYNg/t6asbq1xEeUo
+# gWe9AA2Ran7CBlzkw4aDIMqxmw+/uWRBwclOAolZIMc+2T1xg03/3I627+MkivjL
+# MpmZg0QXWxrpM059xN9ixFtpsQlLTmAUvCf2Lk6p6M5b7Zx+Z33RiXv/xVfd18zw
+# 8FutyGUaLr0Fl/HCNrGBXuLQKkSppv1NU7sAzSATX/lM0jU3q0EcXYdwdfy5d/eP
+# 3Sv09GFfvkC9qtxuku0J7sBZX5dH5VYeGm3E7EqHJLTx4GupswTV6EQFdQgQxu1i
+# PBVfGsScuw/FD9eyLO3iMpBQ4kFwtQBoGCdl1IMKuYaTBdDFhm/aXe/G8RNSM/C2
+# o1gtQkhK/fegFcwelYlxstuj2Fx/w1ERcG9reg==
 # SIG # End signature block
