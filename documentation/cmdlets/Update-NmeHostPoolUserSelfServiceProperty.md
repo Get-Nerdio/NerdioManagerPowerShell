@@ -25,6 +25,7 @@ Update user self-service properties for ARM host pool
 | AllowedImages | String[] | No |  |
 | AllowedScriptedActions | [IUserSelfServiceScriptedAction[]](../models/New-NmeUserSelfServiceScriptedActionModel.md) | No |  |
 | AllowedVMSizes | String[] | No |  |
+| AllowPreStageDesktops | SwitchParameter | No |  |
 | AllowReimageDesktops | SwitchParameter | No |  |
 | AllowResetFsLogix | SwitchParameter | No |  |
 | AllowResizeDesktops | SwitchParameter | No |  |
@@ -38,6 +39,7 @@ Update user self-service properties for ARM host pool
 | AutoRevertPersonalSize | SwitchParameter | No |  |
 | AutoRevertPersonalSizeMaxDelayHours | Int32 | No |  |
 | AutoRevertPersonalSizeSessionState | String | No | Values: `High`, `Medium`, `Low` |
+| ConnectOption | String | No | Values: `Disabled`, `App`, `Web`, `AppAndWeb` |
 | EnableUserSelfServicePortal | SwitchParameter | No |  |
 | MaxAutoScaleRestrictionPeriod | Int32 | No |  |
 | RecoveryMode | String | No | Values: `InstantRestoresOnly`, `AllRecoveryPoints` |

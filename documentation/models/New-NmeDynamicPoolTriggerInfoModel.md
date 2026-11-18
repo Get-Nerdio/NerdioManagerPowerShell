@@ -39,6 +39,7 @@ Create an in-memory object for DynamicPoolTriggerInfo.
 | PersonalAutoShrinkNotificationSubjectTemplate | String | No |  |
 | PersonalAutoShrinkNotificationTemplate | String | No |  |
 | PersonalAutoShrinkScriptedActions | [IScriptedActionOption[]](New-NmeScriptedActionOptionModel.md) | No | Pass as array. |
+| PersonalAutoShrinkSessionType | String | No | Values: `All`, `Active` |
 | RamScaleInAverageTimeRangeInMinutes | Int32 | No |  |
 | RamScaleInHostChangeCount | Int32 | No |  |
 | RamScaleInValue | Single | No |  |

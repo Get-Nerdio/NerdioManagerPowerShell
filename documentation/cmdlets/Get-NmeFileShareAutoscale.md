@@ -6,7 +6,7 @@
 
 Get Azure Files auto-scale
 
-**Output Type:** `IAzureFilesAutoscaleConfig`
+**Output Type:** `IAzureFilesAutoscaleConfigState`
 
 ## Parameters
 

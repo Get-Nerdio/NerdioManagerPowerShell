@@ -41,6 +41,7 @@ $triggers = New-NmeDynamicPoolTriggerInfoModel `
 $default = New-NmeAutoScaleDefaultConfigurationUpdateModel `
     -AutoHealConfigs $autoHealConfigs `
     -AutoHealEnable $true `
+    -AutoScaleMethod "Dynamic" `
     -AvdPropertyLoadBalancing "BreadthFirst" `
     -AvdPropertyMaxSessionsPerHost 0 `
     -AvdPropertyStartVMOnConnect $true `

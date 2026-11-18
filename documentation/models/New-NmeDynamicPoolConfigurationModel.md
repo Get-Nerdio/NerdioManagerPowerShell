@@ -31,6 +31,7 @@ Create an in-memory object for DynamicPoolConfiguration.
 | AutoHealConfigs | [IAutoHealConfigurationItem[]](New-NmeAutoHealConfigurationItemModel.md) | No | Pass as array. |
 | AutoScaleCriteria | String | No | Values: `CPUUsage`, `RAMUsage`, `AvgActiveSessions`, `AvailableUserSessionSingle`, `AvailableUserSessions`, `UserDriven`, `PersonalAutoGrow`, `PersonalAutoShrink` |
 | AutoScaleInterval | Int32 | No |  |
+| AutoScaleMethod | String | No | Values: `Dynamic`, `PowerManagement` |
 | AutoScaleTriggers | [IDynamicPoolTriggerInfo[]](New-NmeDynamicPoolTriggerInfoModel.md) | No | Pass as array. |
 | AvailableUserSessionScaleCriterionAvailableSessionRestriction | String | No | Values: `Always`, `DuringWorkHours` |
 | AvailableUserSessionScaleCriterionEndWorkHours | String | No |  |

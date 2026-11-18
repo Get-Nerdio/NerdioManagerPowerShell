@@ -12,6 +12,7 @@ Create ARM workspace
 
 | Parameter | Type | Required | Description |
 |-----------|------|----------|-------------|
+| DeploymentScope | String | Yes | Values: `Geographical`, `Regional` |
 | IdName | String | Yes |  |
 | IdResourceGroup | String | Yes |  |
 | IdSubscriptionId | String | Yes |  |
@@ -24,6 +25,7 @@ Create ARM workspace
 
 ```powershell
 New-NmeWorkspace `
+    -DeploymentScope "Geographical" `
     -IdName "<IdName>" `
     -IdResourceGroup "<IdResourceGroup>" `
     -IdSubscriptionId "<IdSubscriptionId>" `

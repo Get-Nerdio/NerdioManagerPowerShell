@@ -11,6 +11,7 @@ Create an in-memory object for HostPoolUserSelfServiceUpdate.
 | AllowAppInstall | Boolean | No |  |
 | AllowChangePersonalDiskSize | Boolean | No |  |
 | AllowCreateVM | Boolean | No |  |
+| AllowPreStageDesktops | Boolean | No |  |
 | AllowReimageDesktops | Boolean | No |  |
 | AllowResetFsLogix | Boolean | No |  |
 | AllowResizeDesktops | Boolean | No |  |
@@ -31,6 +32,7 @@ Create an in-memory object for HostPoolUserSelfServiceUpdate.
 | AutoRevertPersonalSize | Boolean | No |  |
 | AutoRevertPersonalSizeMaxDelayHours | Int32 | No |  |
 | AutoRevertPersonalSizeSessionState | String | No | Values: `High`, `Medium`, `Low` |
+| ConnectOption | String | No | Values: `Disabled`, `App`, `Web`, `AppAndWeb` |
 | EnableUserSelfServicePortal | Boolean | No |  |
 | MaxAutoScaleRestrictionPeriod | Int32 | No |  |
 | RecoveryMode | String | No | Values: `InstantRestoresOnly`, `AllRecoveryPoints` |
@@ -60,6 +62,7 @@ $model = New-NmeHostPoolUserSelfServiceUpdateModel `
     -AllowAppInstall $true `
     -AllowChangePersonalDiskSize $true `
     -AllowCreateVM $true `
+    -AllowPreStageDesktops $true `
     -AllowReimageDesktops $true `
     -AllowResetFsLogix $true `
     -AllowResizeDesktops $true `
@@ -80,6 +83,7 @@ $model = New-NmeHostPoolUserSelfServiceUpdateModel `
     -AutoRevertPersonalSize $true `
     -AutoRevertPersonalSizeMaxDelayHours 0 `
     -AutoRevertPersonalSizeSessionState "High" `
+    -ConnectOption "Disabled" `
     -EnableUserSelfServicePortal $true `
     -MaxAutoScaleRestrictionPeriod 0 `
     -RecoveryMode "InstantRestoresOnly"

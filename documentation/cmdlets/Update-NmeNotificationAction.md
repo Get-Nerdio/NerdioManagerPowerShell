@@ -13,6 +13,7 @@ Partially update notification action.
 | Parameter | Type | Required | Description |
 |-----------|------|----------|-------------|
 | Id | Int32 | Yes |  |
+| ConditionHealthAlertConditionIds | Int32[] | No |  |
 | ConditionNerdioConditionIds | Int32[] | No |  |
 | EmailBuiltInRecipients | String[] | No | Values: `None`, `EntraIdManager` |
 | EmailEnable | SwitchParameter | No |  |

@@ -10,6 +10,7 @@ Create an in-memory object for PersonalAutoShrinkConfiguration.
 |-----------|------|----------|-------------|
 | DeletionDelay | Int32 | Yes |  |
 | HostIdleDaysThreshold | Int32 | Yes |  |
+| SessionType | String | Yes | Values: `All`, `Active` |
 | AdminNotificationEmails | Object | No |  |
 | AdminNotificationSubjectTemplate | String | No |  |
 | AdminNotificationTemplate | String | No |  |
@@ -27,6 +28,7 @@ Create an in-memory object for PersonalAutoShrinkConfiguration.
 ```powershell
 $model = New-NmePersonalAutoShrinkConfigurationModel `
     -DeletionDelay 0 `
-    -HostIdleDaysThreshold 0
+    -HostIdleDaysThreshold 0 `
+    -SessionType "All"
 ```
 

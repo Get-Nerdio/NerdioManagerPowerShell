@@ -7,7 +7,7 @@
 Create ARM session host
 
 To choose more than one user to assign them to hosts in personal pool, write them in "userToAssign" field and separate them with comma [,].
-
+            
 Host Name depends on "Name" value and "AddSuffix" value.
 When "AddSuffix" is false the host name will follow "Exact" name forming.
 When "AddSuffix" is true the host name will follow "Prefix" name forming.

@@ -8,8 +8,10 @@ Create an in-memory object for AzureFilesPreStageConfigUpdate.
 
 | Parameter | Type | Required | Description |
 |-----------|------|----------|-------------|
+| Iops | Int32 | No |  |
 | IsEnabled | Boolean | No |  |
 | QuotaBuffer | Int32 | No |  |
+| Throughput | Int32 | No |  |
 | TimezoneId | String | No |  |
 | WorkDays | Object | No | Values: `0`, `1`, `2`, `3`, `4`, `5`, `6` |
 
@@ -17,8 +19,10 @@ Create an in-memory object for AzureFilesPreStageConfigUpdate.
 
 ```powershell
 $model = New-NmeAzureFilesPreStageConfigUpdateModel `
+    -Iops 0 `
     -IsEnabled $true `
     -QuotaBuffer 0 `
+    -Throughput 0 `
     -TimezoneId "<TimezoneId>" `
     -WorkDays "0"
 ```

@@ -13,18 +13,26 @@ Create an in-memory object for AzureFilesAutoscaleConfig.
 | BasicMinQuotaBuffer | Int32 | Yes |  |
 | IsEnabled | Boolean | Yes |  |
 | PreStageIsEnabled | Boolean | Yes |  |
-| ScalingScaleInBy | Int32 | Yes |  |
-| ScalingScaleInInterval | Int32 | Yes |  |
-| ScalingScaleInLowLatency | Int32 | Yes |  |
-| ScalingScaleOutBy | Int32 | Yes |  |
-| ScalingScaleOutHighLatency | Int32 | Yes |  |
-| ScalingScaleOutInterval | Int32 | Yes |  |
-| ScalingTransactionThreshold | Int32 | Yes |  |
-| ScalingTrigger | String | Yes | Values: `MaxSuccessServerLatency`, `AvgSuccessServerLatency` |
 | Unit | String | Yes | Values: `Percent`, `SizeGb`, `SizeTb` |
+| IopBoundMax | Int32 | No |  |
+| IopBoundMin | Int32 | No |  |
+| PreStageIops | Int32 | No |  |
 | PreStageQuotaBuffer | Int32 | No |  |
+| PreStageThroughput | Int32 | No |  |
 | PreStageTimezoneId | String | No |  |
 | PreStageWorkDays | Object | No | Values: `0`, `1`, `2`, `3`, `4`, `5`, `6` |
+| ScalingRules | [IAzureFilesScalingRule[]](New-NmeAzureFilesScalingRuleModel.md) | No | Pass as array. |
+| ScalingScaleInBy | Int32 | No |  |
+| ScalingScaleInInterval | Int32 | No |  |
+| ScalingScaleInLowLatency | Int32 | No |  |
+| ScalingScaleOutBy | Int32 | No |  |
+| ScalingScaleOutHighLatency | Int32 | No |  |
+| ScalingScaleOutInterval | Int32 | No |  |
+| ScalingTransactionThreshold | Int32 | No |  |
+| ScalingTrigger | String | No | Values: `MaxSuccessServerLatency`, `AvgSuccessServerLatency` |
+| StorageType | String | No | Values: `AzureFiles`, `AzureFilesV2` |
+| ThroughputBoundMax | Int32 | No |  |
+| ThroughputBoundMin | Int32 | No |  |
 
 ## Usage
 
@@ -35,14 +43,6 @@ $model = New-NmeAzureFilesAutoscaleConfigModel `
     -BasicMinQuotaBuffer 0 `
     -IsEnabled $true `
     -PreStageIsEnabled $true `
-    -ScalingScaleInBy 0 `
-    -ScalingScaleInInterval 0 `
-    -ScalingScaleInLowLatency 0 `
-    -ScalingScaleOutBy 0 `
-    -ScalingScaleOutHighLatency 0 `
-    -ScalingScaleOutInterval 0 `
-    -ScalingTransactionThreshold 0 `
-    -ScalingTrigger "MaxSuccessServerLatency" `
     -Unit "Percent"
 ```
 

@@ -8,12 +8,14 @@ Create an in-memory object for NotificationActionConditions.
 
 | Parameter | Type | Required | Description |
 |-----------|------|----------|-------------|
+| HealthAlertConditionIds | Object | Yes |  |
 | NerdioConditionIds | Object | Yes |  |
 
 ## Usage
 
 ```powershell
 $model = New-NmeNotificationActionConditionsModel `
+    -HealthAlertConditionIds "<HealthAlertConditionIds>" `
     -NerdioConditionIds "<NerdioConditionIds>"
 ```
 

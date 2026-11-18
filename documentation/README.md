@@ -257,6 +257,7 @@
 | DELETE | `/api/v1/notifications/actions/{id}` | [Remove-NmeNotificationAction](cmdlets/Remove-NmeNotificationAction.md) |
 | GET | `/api/v1/notifications/actions/{id}` | [Get-NmeNotificationAction](cmdlets/Get-NmeNotificationAction.md) |
 | PATCH | `/api/v1/notifications/actions/{id}` | [Update-NmeNotificationAction](cmdlets/Update-NmeNotificationAction.md) |
+| GET | `/api/v1/notifications/conditions/health` | [Get-NmeNotificationHealthAlertCondition](cmdlets/Get-NmeNotificationHealthAlertCondition.md) |
 | GET | `/api/v1/notifications/conditions/nerdio` | [Get-NmeNotificationCondition](cmdlets/Get-NmeNotificationCondition.md) |
 | POST | `/api/v1/notifications/conditions/nerdio` | [New-NmeNotificationCondition](cmdlets/New-NmeNotificationCondition.md) |
 | DELETE | `/api/v1/notifications/conditions/nerdio/{id}` | [Remove-NmeNotificationCondition](cmdlets/Remove-NmeNotificationCondition.md) |
@@ -531,10 +532,12 @@ Model cmdlets create in-memory objects used as parameters for the action cmdlets
 | [New-NmeAzureFilesAutoscaleConfigUpdateModel](models/New-NmeAzureFilesAutoscaleConfigUpdateModel.md) | Create an in-memory object for AzureFilesAutoscaleConfigUpdate. |
 | [New-NmeAzureFilesBasicAutoscaleConfigModel](models/New-NmeAzureFilesBasicAutoscaleConfigModel.md) | Create an in-memory object for AzureFilesBasicAutoscaleConfig. |
 | [New-NmeAzureFilesBasicAutoscaleConfigUpdateModel](models/New-NmeAzureFilesBasicAutoscaleConfigUpdateModel.md) | Create an in-memory object for AzureFilesBasicAutoscaleConfigUpdate. |
+| [New-NmeAzureFilesPerformanceBoundsModel](models/New-NmeAzureFilesPerformanceBoundsModel.md) | Create an in-memory object for AzureFilesPerformanceBounds. |
 | [New-NmeAzureFilesPreStageConfigModel](models/New-NmeAzureFilesPreStageConfigModel.md) | Create an in-memory object for AzureFilesPreStageConfig. |
 | [New-NmeAzureFilesPreStageConfigUpdateModel](models/New-NmeAzureFilesPreStageConfigUpdateModel.md) | Create an in-memory object for AzureFilesPreStageConfigUpdate. |
 | [New-NmeAzureFilesScalingConfigModel](models/New-NmeAzureFilesScalingConfigModel.md) | Create an in-memory object for AzureFilesScalingConfig. |
 | [New-NmeAzureFilesScalingConfigUpdateModel](models/New-NmeAzureFilesScalingConfigUpdateModel.md) | Create an in-memory object for AzureFilesScalingConfigUpdate. |
+| [New-NmeAzureFilesScalingRuleModel](models/New-NmeAzureFilesScalingRuleModel.md) | Create an in-memory object for AzureFilesScalingRule. |
 | [New-NmeCloudPcAlertConditionCreateModel](models/New-NmeCloudPcAlertConditionCreateModel.md) | Create an in-memory object for CloudPcAlertConditionCreate. |
 | [New-NmeCloudPcAlertConditionUpdateModel](models/New-NmeCloudPcAlertConditionUpdateModel.md) | Create an in-memory object for CloudPcAlertConditionUpdate. |
 | [New-NmeCloudPcAlertRuleConditionUpdateModel](models/New-NmeCloudPcAlertRuleConditionUpdateModel.md) | Create an in-memory object for CloudPcAlertRuleConditionUpdate. |

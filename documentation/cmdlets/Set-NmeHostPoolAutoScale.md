@@ -39,6 +39,7 @@ Update auto-scale config for ARM host pool
 | AutoHealConfigs | [IAutoHealConfigurationItem[]](../models/New-NmeAutoHealConfigurationItemModel.md) | No |  |
 | AutoScaleCriteria | String | No | Values: `CPUUsage`, `RAMUsage`, `AvgActiveSessions`, `AvailableUserSessionSingle`, `AvailableUserSessions`, `UserDriven`, `PersonalAutoGrow`, `PersonalAutoShrink` |
 | AutoScaleInterval | Int32 | No |  |
+| AutoScaleMethod | String | No | Values: `Dynamic`, `PowerManagement` |
 | AutoScaleTriggers | [IDynamicPoolTriggerInfo[]](../models/New-NmeDynamicPoolTriggerInfoModel.md) | No |  |
 | AvailableUserSessionScaleCriterionAvailableSessionRestriction | String | No | Values: `Always`, `DuringWorkHours` |
 | AvailableUserSessionScaleCriterionEndWorkHours | String | No |  |
@@ -141,6 +142,7 @@ Set-NmeHostPoolAutoScale `
     -SubscriptionId "<SubscriptionId>" `
     -AutoHealConfigs @($autoHealConfigs) `
     -AutoScaleCriteria "CPUUsage" `
+    -AutoScaleMethod "Dynamic" `
     -AutoScaleTriggers @($autoScaleTriggers) `
     -ExtensionLoadBalancing "BreadthFirst" `
     -ExtensionMaxSessionsPerHost 10 `
@@ -167,7 +169,65 @@ Set-NmeHostPoolAutoScale `
     -VMTemplateSubnet "LAN"
 ```
 
-### Example 2: Personal + User Driven
+### Example 2: Pooled + Power Management
+
+```powershell
+$actions = New-NmeAutoHealActionModel `
+    -Type "RestartVm"
+$autoHealConfigs = New-NmeAutoHealConfigurationItemModel `
+    -SessionCriteria "WithoutSessions" `
+    -WaitMinutes 5 `
+    -WvdStatuses @("FSLogixNotHealthy") `
+    -Actions $actions `
+    -StaleHeartbeatMinutes 30 `
+    -WaitMinutesBeforeFirstAction 5
+$autoScaleTriggers = New-NmeDynamicPoolTriggerInfoModel `
+    -TriggerType "CPUUsage"
+Set-NmeHostPoolAutoScale `
+    -ActiveHostType "AvailableForConnection" `
+    -AutoHealEnable `
+    -BurstCapacity 0 `
+    -HostPoolCapacity 0 `
+    -HostPoolName "<HostPoolName>" `
+    -HostPoolSizingMeasureType "Count" `
+    -IsEnabled `
+    -MinActiveHostsCount 1 `
+    -MultiTriggers "<MultiTriggers>" `
+    -ReImageUsedHostsMode "Disabled" `
+    -ResourceGroup "<ResourceGroup>" `
+    -ScaleInAggressiveness "High" `
+    -ScalingMode "Default" `
+    -SubscriptionId "<SubscriptionId>" `
+    -AutoHealConfigs @($autoHealConfigs) `
+    -AutoScaleCriteria "CPUUsage" `
+    -AutoScaleMethod "PowerManagement" `
+    -AutoScaleTriggers @($autoScaleTriggers) `
+    -ExtensionLoadBalancing "BreadthFirst" `
+    -ExtensionMaxSessionsPerHost 10 `
+    -HostUsageScaleCriteriaScaleInHostChangeCount 1 `
+    -HostUsageScaleCriteriaScaleInValue 40 `
+    -HostUsageScaleCriteriaScaleOutHostChangeCount 1 `
+    -HostUsageScaleCriteriaScaleOutValue 65 `
+    -RemoveMessagingMessage "Sorry for the interruption. We are doing some maintenance and need you to log out. We will be terminating your session in 10 minutes if you haven't logged out by then." `
+    -RemoveMessagingMinutesBeforeRemove 10 `
+    -ScaleInAverageTimeRangeInMinutes 15 `
+    -ScaleOutAverageTimeRangeInMinutes 5 `
+    -StoppedDiskType "StandardSSD_LRS" `
+    -TimezoneId "Central Standard Time" `
+    -UserDrivenMinAvailableSessions 0 `
+    -UserDrivenStopDelayMinutes 0 `
+    -VMNamingMode "Reuse" `
+    -VMTemplateDiskSize 128 `
+    -VMTemplateImage "MicrosoftWindowsDesktop/windows-11/win11-24h2-avd/latest" `
+    -VMTemplateNetworkId "/subscriptions/e0b52e85-7caf-4260-a772-c0d82e56d407/resourceGroups/resource-group-1/providers/Microsoft.Network/virtualNetworks/v-net-1" `
+    -VMTemplatePrefix "prefix" `
+    -VMTemplateResourceGroupId "/subscriptions/e0b52e85-7caf-4260-a772-c0d82e56d407/resourceGroups/resource-group-1" `
+    -VMTemplateSize "Standard_D2s_v3" `
+    -VMTemplateStorageType "StandardSSD_LRS" `
+    -VMTemplateSubnet "LAN"
+```
+
+### Example 3: Personal + User Driven
 
 ```powershell
 $actions = New-NmeAutoHealActionModel `
@@ -202,6 +262,7 @@ Set-NmeHostPoolAutoScale `
     -SubscriptionId "<SubscriptionId>" `
     -AutoHealConfigs @($autoHealConfigs) `
     -AutoScaleCriteria "UserDriven" `
+    -AutoScaleMethod "Dynamic" `
     -AutoScaleTriggers @($autoScaleTriggers) `
     -ConfigDays @(1) `
     -ConfigHostsToBeReady 0 `
@@ -229,7 +290,7 @@ Set-NmeHostPoolAutoScale `
     -VMTemplateSubnet "LAN"
 ```
 
-### Example 3: Personal + Schedule
+### Example 4: Personal + Schedule
 
 ```powershell
 $actions = New-NmeAutoHealActionModel `
@@ -260,6 +321,7 @@ Set-NmeHostPoolAutoScale `
     -SubscriptionId "<SubscriptionId>" `
     -AutoHealConfigs @($autoHealConfigs) `
     -AutoScaleCriteria "PersonalAutoShrink" `
+    -AutoScaleMethod "Dynamic" `
     -AutoScaleTriggers @($autoScaleTriggers) `
     -ConfigDays @(1) `
     -ConfigHostsToBeReady 0 `

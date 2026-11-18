@@ -17,7 +17,7 @@ Update scheduled Azure runbook scripted action execution in Automation account
 | Id | Int32 | Yes |  |
 | ScheduleId | Int32 | Yes |  |
 | ScheduleRecurrenceType | String | Yes | Values: `Once`, `Daily`, `Weekly`, `Monthly`, `Hourly`, `PatchTuesday` |
-| ScheduleStartDate | DateTime | Yes |  |
+| ScheduleStartDate | DateTime | Yes | Calendar date in `TimeZoneId` (not UTC). |
 | ScheduleStartHour | Int32 | Yes |  |
 | ScheduleStartMinutes | Int32 | Yes |  |
 | ScheduleTimeZoneId | String | Yes |  |

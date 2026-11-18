@@ -19,42 +19,89 @@ Update Azure Files auto-scale
 | IsEnabled | SwitchParameter | Yes |  |
 | PreStageIsEnabled | SwitchParameter | Yes |  |
 | ResourceGroup | String | Yes |  |
-| ScalingScaleInBy | Int32 | Yes |  |
-| ScalingScaleInInterval | Int32 | Yes |  |
-| ScalingScaleInLowLatency | Int32 | Yes |  |
-| ScalingScaleOutBy | Int32 | Yes |  |
-| ScalingScaleOutHighLatency | Int32 | Yes |  |
-| ScalingScaleOutInterval | Int32 | Yes |  |
-| ScalingTransactionThreshold | Int32 | Yes |  |
-| ScalingTrigger | String | Yes | Values: `MaxSuccessServerLatency`, `AvgSuccessServerLatency` |
 | ShareName | String | Yes |  |
 | SubscriptionId | String | Yes |  |
 | Unit | String | Yes | Values: `Percent`, `SizeGb`, `SizeTb` |
-| PreStageQuotaBuffer | Int32 | No |  |
+| IopBoundMax | Int32 | No |  |
+| IopBoundMin | Int32 | No |  |
+| PreStageIops | Int32 | No | Pre-stage provisioned IOPS. |
+| PreStageQuotaBuffer | Int32 | No | Pre-stage quota buffer. |
+| PreStageThroughput | Int32 | No | Pre-stage provisioned throughput. |
 | PreStageTimezoneId | String | No |  |
 | PreStageWorkDays | Int32[] | No | Values: `0`, `1`, `2`, `3`, `4`, `5`, `6` |
+| ScalingRules | [IAzureFilesScalingRule[]](../models/New-NmeAzureFilesScalingRuleModel.md) | No | Scaling rules. |
+| ScalingScaleInBy | Int32 | No |  |
+| ScalingScaleInInterval | Int32 | No |  |
+| ScalingScaleInLowLatency | Int32 | No |  |
+| ScalingScaleOutBy | Int32 | No |  |
+| ScalingScaleOutHighLatency | Int32 | No |  |
+| ScalingScaleOutInterval | Int32 | No |  |
+| ScalingTransactionThreshold | Int32 | No |  |
+| ScalingTrigger | String | No | Values: `MaxSuccessServerLatency`, `AvgSuccessServerLatency` |
+| StorageType | String | No | Values: `AzureFiles`, `AzureFilesV2` |
+| ThroughputBoundMax | Int32 | No |  |
+| ThroughputBoundMin | Int32 | No |  |
 
 ## Examples
 
+### Example 1: Provisioned V1
+
 ```powershell
+$scalingRules = New-NmeAzureFilesScalingRuleModel `
+    -ScaleInBy 20 `
+    -ScaleInInterval 15 `
+    -ScaleInLowLatency 10 `
+    -ScaleOutBy 10 `
+    -ScaleOutHighLatency 20 `
+    -ScaleOutInterval 5 `
+    -Target "Quota" `
+    -TransactionThreshold 100 `
+    -Trigger "AvgSuccessServerLatency"
 Set-NmeFileShareAutoscale `
     -AccountName "<AccountName>" `
-    -BasicMaxQuotaBuffer 0 `
-    -BasicMaxQuotaLimitGb 0 `
-    -BasicMinQuotaBuffer 0 `
-    -IsEnabled `
-    -PreStageIsEnabled `
+    -BasicMaxQuotaBuffer 100 `
+    -BasicMaxQuotaLimitGb 102400 `
+    -BasicMinQuotaBuffer 10 `
     -ResourceGroup "<ResourceGroup>" `
-    -ScalingScaleInBy 0 `
-    -ScalingScaleInInterval 0 `
-    -ScalingScaleInLowLatency 0 `
-    -ScalingScaleOutBy 0 `
-    -ScalingScaleOutHighLatency 0 `
-    -ScalingScaleOutInterval 0 `
-    -ScalingTransactionThreshold 0 `
-    -ScalingTrigger "MaxSuccessServerLatency" `
     -ShareName "<ShareName>" `
     -SubscriptionId "<SubscriptionId>" `
-    -Unit "SizeGb"
+    -Unit "SizeGb" `
+    -PreStageQuotaBuffer 50 `
+    -PreStageTimezoneId "Central Standard Time" `
+    -PreStageWorkDays @(1, 2, 3, 4, 5) `
+    -ScalingRules @($scalingRules) `
+    -StorageType "AzureFiles"
+```
+
+### Example 2: Provisioned V2
+
+```powershell
+$scalingRules = New-NmeAzureFilesScalingRuleModel `
+    -ScaleInBy 100 `
+    -ScaleInInterval 15 `
+    -ScaleInLowLatency 10 `
+    -ScaleOutBy 100 `
+    -ScaleOutHighLatency 20 `
+    -ScaleOutInterval 5 `
+    -Target "ProvisionedIops" `
+    -TransactionThreshold 100 `
+    -Trigger "AvgSuccessServerLatency"
+Set-NmeFileShareAutoscale `
+    -AccountName "<AccountName>" `
+    -BasicMaxQuotaBuffer 100 `
+    -BasicMaxQuotaLimitGb 1024 `
+    -BasicMinQuotaBuffer 10 `
+    -ResourceGroup "<ResourceGroup>" `
+    -ShareName "<ShareName>" `
+    -SubscriptionId "<SubscriptionId>" `
+    -Unit "SizeGb" `
+    -PreStageIops 4000 `
+    -PreStageThroughput 150 `
+    -PreStageTimezoneId "Central Standard Time" `
+    -PreStageWorkDays @(1, 2, 3, 4, 5) `
+    -ScalingRules @($scalingRules) `
+    -StorageType "AzureFilesV2" `
+    -ThroughputBoundMax 300 `
+    -ThroughputBoundMin 100
 ```
 

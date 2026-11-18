@@ -12,20 +12,18 @@ Get ARM host pool user sessions
 
 | Parameter | Type | Required | Description |
 |-----------|------|----------|-------------|
-| Hostname | String | Yes |  |
 | HostPoolName | String | Yes |  |
 | ResourceGroup | String | Yes |  |
 | SubscriptionId | String | Yes |  |
-| Username | String | Yes |  |
+| Hostname | String | No |  |
+| Username | String | No |  |
 
 ## Examples
 
 ```powershell
 Get-NmeHostPoolUserSession `
-    -Hostname "<Hostname>" `
     -HostPoolName "<HostPoolName>" `
     -ResourceGroup "<ResourceGroup>" `
-    -SubscriptionId "<SubscriptionId>" `
-    -Username "<Username>"
+    -SubscriptionId "<SubscriptionId>"
 ```
 

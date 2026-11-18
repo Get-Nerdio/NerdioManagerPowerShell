@@ -10,6 +10,7 @@ Create an in-memory object for AutoScaleDefaultConfigurationUpdate.
 |-----------|------|----------|-------------|
 | AutoHealConfigs | [IAutoHealConfigurationItem[]](New-NmeAutoHealConfigurationItemModel.md) | No | Pass as array. |
 | AutoHealEnable | Boolean | No |  |
+| AutoScaleMethod | String | No | Values: `Dynamic`, `PowerManagement` |
 | AvdPropertyLoadBalancing | String | No | Values: `BreadthFirst`, `DepthFirst`, `Persistent`, `MultiplePersistent` |
 | AvdPropertyMaxSessionsPerHost | Int32 | No |  |
 | AvdPropertyStartVMOnConnect | Boolean | No |  |
@@ -76,6 +77,7 @@ $triggers = New-NmeDynamicPoolTriggerInfoModel `
 $model = New-NmeAutoScaleDefaultConfigurationUpdateModel `
     -AutoHealConfigs $autoHealConfigs `
     -AutoHealEnable $true `
+    -AutoScaleMethod "Dynamic" `
     -AvdPropertyLoadBalancing "BreadthFirst" `
     -AvdPropertyMaxSessionsPerHost 0 `
     -AvdPropertyStartVMOnConnect $true `

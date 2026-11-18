@@ -41,47 +41,6 @@ param(
     ${PreStageIsEnabled},
 
     [Parameter(Mandatory)]
-    [NmePowershell.Category('Body')]
-    [System.Int32]
-    ${ScalingScaleInBy},
-
-    [Parameter(Mandatory)]
-    [NmePowershell.Category('Body')]
-    [System.Int32]
-    ${ScalingScaleInInterval},
-
-    [Parameter(Mandatory)]
-    [NmePowershell.Category('Body')]
-    [System.Int32]
-    ${ScalingScaleInLowLatency},
-
-    [Parameter(Mandatory)]
-    [NmePowershell.Category('Body')]
-    [System.Int32]
-    ${ScalingScaleOutBy},
-
-    [Parameter(Mandatory)]
-    [NmePowershell.Category('Body')]
-    [System.Int32]
-    ${ScalingScaleOutHighLatency},
-
-    [Parameter(Mandatory)]
-    [NmePowershell.Category('Body')]
-    [System.Int32]
-    ${ScalingScaleOutInterval},
-
-    [Parameter(Mandatory)]
-    [NmePowershell.Category('Body')]
-    [System.Int32]
-    ${ScalingTransactionThreshold},
-
-    [Parameter(Mandatory)]
-    [NmePowershell.PSArgumentCompleterAttribute("MaxSuccessServerLatency", "AvgSuccessServerLatency")]
-    [NmePowershell.Category('Body')]
-    [System.String]
-    ${ScalingTrigger},
-
-    [Parameter(Mandatory)]
     [NmePowershell.PSArgumentCompleterAttribute("Percent", "SizeGb", "SizeTb")]
     [NmePowershell.Category('Body')]
     [System.String]
@@ -90,7 +49,33 @@ param(
     [Parameter()]
     [NmePowershell.Category('Body')]
     [System.Int32]
+    ${IopBoundMax},
+
+    [Parameter()]
+    [NmePowershell.Category('Body')]
+    [System.Int32]
+    ${IopBoundMin},
+
+    [Parameter()]
+    [NmePowershell.Category('Body')]
+    [System.Int32]
+    # Pre-stage provisioned IOPS.
+    # Provisioned V2 only.
+    ${PreStageIops},
+
+    [Parameter()]
+    [NmePowershell.Category('Body')]
+    [System.Int32]
+    # Pre-stage quota buffer.
+    # Provisioned V1 only.
     ${PreStageQuotaBuffer},
+
+    [Parameter()]
+    [NmePowershell.Category('Body')]
+    [System.Int32]
+    # Pre-stage provisioned throughput.
+    # Provisioned V2 only.
+    ${PreStageThroughput},
 
     [Parameter()]
     [NmePowershell.Category('Body')]
@@ -101,7 +86,71 @@ param(
     [NmePowershell.PSArgumentCompleterAttribute("0", "1", "2", "3", "4", "5", "6")]
     [NmePowershell.Category('Body')]
     [System.Int32[]]
-    ${PreStageWorkDays}
+    ${PreStageWorkDays},
+
+    [Parameter()]
+    [NmePowershell.Category('Body')]
+    [NmePowershell.Models.IAzureFilesScalingRule[]]
+    # Scaling rules.
+    # Required unless Scaling is set, and used instead of it.
+    ${ScalingRules},
+
+    [Parameter()]
+    [NmePowershell.Category('Body')]
+    [System.Int32]
+    ${ScalingScaleInBy},
+
+    [Parameter()]
+    [NmePowershell.Category('Body')]
+    [System.Int32]
+    ${ScalingScaleInInterval},
+
+    [Parameter()]
+    [NmePowershell.Category('Body')]
+    [System.Int32]
+    ${ScalingScaleInLowLatency},
+
+    [Parameter()]
+    [NmePowershell.Category('Body')]
+    [System.Int32]
+    ${ScalingScaleOutBy},
+
+    [Parameter()]
+    [NmePowershell.Category('Body')]
+    [System.Int32]
+    ${ScalingScaleOutHighLatency},
+
+    [Parameter()]
+    [NmePowershell.Category('Body')]
+    [System.Int32]
+    ${ScalingScaleOutInterval},
+
+    [Parameter()]
+    [NmePowershell.Category('Body')]
+    [System.Int32]
+    ${ScalingTransactionThreshold},
+
+    [Parameter()]
+    [NmePowershell.PSArgumentCompleterAttribute("MaxSuccessServerLatency", "AvgSuccessServerLatency")]
+    [NmePowershell.Category('Body')]
+    [System.String]
+    ${ScalingTrigger},
+
+    [Parameter()]
+    [NmePowershell.PSArgumentCompleterAttribute("AzureFiles", "AzureFilesV2")]
+    [NmePowershell.Category('Body')]
+    [System.String]
+    ${StorageType},
+
+    [Parameter()]
+    [NmePowershell.Category('Body')]
+    [System.Int32]
+    ${ThroughputBoundMax},
+
+    [Parameter()]
+    [NmePowershell.Category('Body')]
+    [System.Int32]
+    ${ThroughputBoundMin}
 )
 
 begin {
@@ -157,8 +206,8 @@ end {
 # SIG # Begin signature block
 # MIIvWAYJKoZIhvcNAQcCoIIvSTCCL0UCAQExDzANBglghkgBZQMEAgEFADB5Bgor
 # BgEEAYI3AgEEoGswaTA0BgorBgEEAYI3AgEeMCYCAwEAAAQQH8w7YFlLCE63JNLG
-# KX7zUQIBAAIBAAIBAAIBAAIBADAxMA0GCWCGSAFlAwQCAQUABCCZx1Wx8T2OoHHG
-# W8WeirFpTExs6P6vPxl/OkSJh/U/xqCCFAUwggWQMIIDeKADAgECAhAFmxtXno4h
+# KX7zUQIBAAIBAAIBAAIBAAIBADAxMA0GCWCGSAFlAwQCAQUABCBvdSTYLvehDtwa
+# PmvG6SA0VNYaEAqpr+w/RRGtY3NyO6CCFAUwggWQMIIDeKADAgECAhAFmxtXno4h
 # MuI5B72nd3VcMA0GCSqGSIb3DQEBDAUAMGIxCzAJBgNVBAYTAlVTMRUwEwYDVQQK
 # EwxEaWdpQ2VydCBJbmMxGTAXBgNVBAsTEHd3dy5kaWdpY2VydC5jb20xITAfBgNV
 # BAMTGERpZ2lDZXJ0IFRydXN0ZWQgUm9vdCBHNDAeFw0xMzA4MDExMjAwMDBaFw0z
@@ -270,23 +319,23 @@ end {
 # RzQgQ29kZSBTaWduaW5nIFJTQTQwOTYgU0hBMzg0IDIwMjEgQ0ExAhALDOX/BzyG
 # PKP6JnAWOAwdMA0GCWCGSAFlAwQCAQUAoIGEMBgGCisGAQQBgjcCAQwxCjAIoAKA
 # AKECgAAwGQYJKoZIhvcNAQkDMQwGCisGAQQBgjcCAQQwHAYKKwYBBAGCNwIBCzEO
-# MAwGCisGAQQBgjcCARUwLwYJKoZIhvcNAQkEMSIEINGHTCvh4tD5pAPMsCLdzIW4
-# nKm+xduhHywB6T1nrEAaMA0GCSqGSIb3DQEBAQUABIICAH4eTMKtRuhCSUyggCnR
-# lmY91tC3kWji+n1Qcobgz4fhKQew0akJkWs+/qKAcNkrpu0d01KQ06PlDpM6Cmry
-# IgifGRjCGioR5SjkDadYVR7Tc8Gy2zDgbMxhAoh5IaFbWVAFDJanF9ucSMLWLyka
-# Va45X41AfCPuq1GUkXH5My+fRugRPyxTMoE4COV1duNb8xrPJlLrT4ZowGldZIHG
-# KGjDZzLqhn0CbgPxkV2eAb2fatydVbv0gTLmQxTpcGEXubkwKJnIEbFZtsZ/9w4t
-# xSrMlOpLXfhoSChqyi3MnEj02Rj5VeFdxD43Zz1w5naDekOUJ1xk+AY2/uLa7CSg
-# 6NyAG743K/9p1RSyFptvKvm30WZuQVj44zuzbFGhUg4lrONfo1RrhfOuRa9Q7IIK
-# PQXcA1whOCcMkaVE4IQh6zBA7o1TrSqTvx4hJrqP3BYau5lhZetj9oF7ZIZusmsD
-# NCsgbnEllJZIc3yu2s+4flJyXiEiEL8zCIBTIk/ODXnrMpNOMUmRq3FTtPqar6vZ
-# cnUHpfM1lpT3Q6GtSFuRD79re+vmLMPR8uS8E/Zp0N84Dx6h3WmRECkltKWA7iQG
-# VshuBzJ4iKI8mb32p9TiQvMnoBVrz1Fr5feeUR3DpalslsWiNyX0tkMl6h308VkG
-# 3Bj2WEdXGGWYiW53axDZFdScoYIXdjCCF3IGCisGAQQBgjcDAwExghdiMIIXXgYJ
+# MAwGCisGAQQBgjcCARUwLwYJKoZIhvcNAQkEMSIEINP3yYgq8RLfz2kSDibdkbbg
+# yYXA8eBXK2Kf3hjTYN5gMA0GCSqGSIb3DQEBAQUABIICAB26tOBT+qdVVDO49+Cz
+# 3pdD64jHG2q8tXRz3S15Oswlg0D9RZaSEiguYvup3reJNjK2gEi7o4Sw+GwX2UR5
+# vTCccNhlvY9DcZCAdLGZk1uKeJHv7o4n7et0n38aUqZjbIDHzthGMhOID5M8qH2r
+# vKCU4YnFVWhhFWQKAjGzmp7WQUhwW2ZxlWzAx3BIEmlI9conBOdfp2cQzykL+FmC
+# oEMPSYu61J6IY3R9aphh6gG+Hc8s4j0um5zZLPEVdUyKcpNc/FxEd+Dg+/XX1Aoe
+# iDismgXyJw8FSsi8h7a0kYLFrmmWsc+QMSyHYMrnjffpYM+F++w7ivILI2Z86e/w
+# 7Wk2I9EHimL8cG7hYyHYcybu2CmPHMBA9zJT6YakPnkwVsVSRFgn0PJLucmzmYTk
+# RT837gC3Yr/McYB9zSJNCpgb3qITHmHgENvSiHtHjv/R9I2sN9eq4JPdI//RMp9T
+# zuXgzVhLSWKYi6WY9mxwHjjzdPRSy4ljNT+V91HNexSWLJdun0k1bvbFmv6hBIaq
+# 9Dh+5EMnN7CBQU4c+t+76fbLTtXJXlmx7YQ+2p7JbyDNOjuJHZEOhudxfQBeQwWV
+# IzXmOi/W80xVp9jwK7MUenp848tKZZtQEAG4K+8JIUo7rv0tRPujc0+g6C3fsflu
+# qdNR7W58d3gRXYCeCoY8zsQYoYIXdjCCF3IGCisGAQQBgjcDAwExghdiMIIXXgYJ
 # KoZIhvcNAQcCoIIXTzCCF0sCAQMxDzANBglghkgBZQMEAgEFADB3BgsqhkiG9w0B
-# CRABBKBoBGYwZAIBAQYJYIZIAYb9bAcBMDEwDQYJYIZIAWUDBAIBBQAEICPLLDcB
-# bcWe9ebdOSXeaD/BC8s9v/MTepI7k1lIRucQAhBxW5zWocwPaS2NHiff8iyiGA8y
-# MDI2MTAwMTExMTMzNFqgghM6MIIG7TCCBNWgAwIBAgIQCE/cM09+RU7bww+P+ZIY
+# CRABBKBoBGYwZAIBAQYJYIZIAYb9bAcBMDEwDQYJYIZIAWUDBAIBBQAEID+7SUht
+# MkUkhjBPv78Lx1zCLrh4e0hbn4XCD4RXpR66AhBwcM6cDiJgpHMVJbbaXsKVGA8y
+# MDI2MTExODExMDkxOFqgghM6MIIG7TCCBNWgAwIBAgIQCE/cM09+RU7bww+P+ZIY
 # NTANBgkqhkiG9w0BAQsFADBpMQswCQYDVQQGEwJVUzEXMBUGA1UEChMORGlnaUNl
 # cnQsIEluYy4xQTA/BgNVBAMTOERpZ2lDZXJ0IFRydXN0ZWQgRzQgVGltZVN0YW1w
 # aW5nIFJTQTQwOTYgU0hBMjU2IDIwMjUgQ0ExMB4XDTI2MDgwNTAwMDAwMFoXDTM3
@@ -393,19 +442,19 @@ end {
 # LjFBMD8GA1UEAxM4RGlnaUNlcnQgVHJ1c3RlZCBHNCBUaW1lU3RhbXBpbmcgUlNB
 # NDA5NiBTSEEyNTYgMjAyNSBDQTECEAhP3DNPfkVO28MPj/mSGDUwDQYJYIZIAWUD
 # BAIBBQCggdEwGgYJKoZIhvcNAQkDMQ0GCyqGSIb3DQEJEAEEMBwGCSqGSIb3DQEJ
-# BTEPFw0yNjEwMDExMTEzMzRaMCsGCyqGSIb3DQEJEAIMMRwwGjAYMBYEFFHZq9oD
-# SXPYT0JmrKSCSOazacQ5MC8GCSqGSIb3DQEJBDEiBCAaVWFQjF2tmwdhAthca7Mq
-# r54+zqIMnnu+0/B0D038MzA3BgsqhkiG9w0BCRACLzEoMCYwJDAiBCAtoJ2n9BMf
-# n+cttsXm6cllZ1WvBD8ep0LMDSEg4UHr/DANBgkqhkiG9w0BAQEFAASCAgAXKlm+
-# 4JO38dknGec8nWMeV+t7TPVIrEhnx6/JTWw5TcmoCSXj1eSUs+MD0+HR42WIJ4DB
-# TAouLQ0p2+bf8qk/fEV0f/dfyb9v6oM78k7MfANIH8lX0E7+bU+SlUb+p9yJ/Nfu
-# 6ZQ5rH/MdmCZebraQuLLsNv2SwyWPXonzxBB9cymn6S06VO/ezxH9FGoix19byp6
-# /tmKfV3xuSZRuloMrvVHqDJaDjNqU5SkxL0FWZv2b6ulPsBz8IQbMU3wEpMwF5Jx
-# dKaMFgQOBCw5YfV3/0NWc4HSxUaHcr52uoDgd1keZwWJ88wxlfHUIyRsg8wMCLMM
-# 2HPoRdrOibjrxOF4qWyA6YT3wEgwWvWsPnTo/TnSsoAebi8UVPDCYrtNirOHlMA6
-# HzRNP7ggi7h8de7Uc78S8/YZSht18AUfS70NHq832yfZp8JgUy+Dx/fC//B6/+ul
-# SK6cTvuO+1lZWxm9yphlnL/qmJJ9VZ3pRfpEjK4CsUCIvzhPOKDEG+/l5fKok+yQ
-# ASbtOUqZj88rYs6IhNt98RLFqV1nWDD+IMalcank4L/Ah1cCsfmpEDNCqJSkvUCb
-# 9nf4hJsuZTzJdrG+jrJNpYSVxeDbhyeMqQJlTWq4h44iFreKe+DRNkbTXoxq8WG0
-# qHw3fZigWzQh0a8uJXSji/zQ2T+qoNs58hscnw==
+# BTEPFw0yNjExMTgxMTA5MThaMCsGCyqGSIb3DQEJEAIMMRwwGjAYMBYEFFHZq9oD
+# SXPYT0JmrKSCSOazacQ5MC8GCSqGSIb3DQEJBDEiBCCqOaIY5rsEs38STJppjQMX
+# xwA0surSpPR/LqeWfblFnjA3BgsqhkiG9w0BCRACLzEoMCYwJDAiBCAtoJ2n9BMf
+# n+cttsXm6cllZ1WvBD8ep0LMDSEg4UHr/DANBgkqhkiG9w0BAQEFAASCAgBiZkLk
+# te9hBtwW53rohgl7zPezgmYF8cLDurxXcNjF4cKlIbh3Jc2QIYaekA28zQ2TWmik
+# btmkAHFUZT2JKhl2+7UNH9HTkbBOg6clRaZgagT9UCzu42aDiS+joBOCSi4KOZUf
+# jUq6PJinnYLPQIQQUEEwj9AlfHoq/A7yytcCW94bhvEl4sc50EJZLGaFwG/gOIsa
+# 79sqz4LKu5K6vX1hu27kUE2VJMAJ2yR+ezyJVnZWgk6L9kvTzoBlo1OgAkCYfF58
+# uF84+ItM+VfPzCVTA5sOQYu5sjWOJI/b3QCuKtes9/WWezfh8lS6WQ400PGkeCCv
+# KFhA7EOXTCki3SVPmDSCA5JBEXbPZb3ghnaDdS3OdWPSljOfhpp1s4CqXFsbNxNG
+# LEsgIq/TtEHzjawU1Nu/kQzTvi7SxwYBTNQ0GziGLROZkqGtNC2NKVTixuUX7cnB
+# eOpFQwbd6ctoB40NgaVJvfUn3NOakbCOakxlQQkpGj6USlKqavfCePhcqFmKLIMH
+# 8Gx2uAxCS5mSAc88+024j4Ajd0x8lcrzeF6lw9wkh0u9Oz98EBQ0hPXx2PPBqqvq
+# noJSJTsBXmGiJRxN+jEDgJziObdC1pCsIljHjdfD+tyciZHbHzoZzrA09OusAGG/
+# 8oKz63F7m4uzZcJIfKyRdEydLixfnZGyQSOxqQ==
 # SIG # End signature block

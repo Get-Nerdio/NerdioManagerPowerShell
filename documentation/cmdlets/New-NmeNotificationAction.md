@@ -12,6 +12,7 @@ Create notification action.
 
 | Parameter | Type | Required | Description |
 |-----------|------|----------|-------------|
+| ConditionHealthAlertConditionIds | Int32[] | Yes |  |
 | ConditionNerdioConditionIds | Int32[] | Yes |  |
 | EmailBuiltInRecipients | String[] | Yes | Values: `None`, `EntraIdManager` |
 | EmailEnable | SwitchParameter | Yes |  |
@@ -26,6 +27,7 @@ Create notification action.
 
 ```powershell
 New-NmeNotificationAction `
+    -ConditionHealthAlertConditionIds 0 `
     -ConditionNerdioConditionIds 0 `
     -EmailBuiltInRecipients "None" `
     -EmailEnable `

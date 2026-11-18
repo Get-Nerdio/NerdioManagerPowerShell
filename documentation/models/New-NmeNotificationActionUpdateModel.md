@@ -8,6 +8,7 @@ Create an in-memory object for NotificationActionUpdate.
 
 | Parameter | Type | Required | Description |
 |-----------|------|----------|-------------|
+| ConditionHealthAlertConditionIds | Object | No |  |
 | ConditionNerdioConditionIds | Object | No |  |
 | EmailBuiltInRecipients | Object | No | Values: `None`, `EntraIdManager` |
 | EmailEnable | Boolean | No |  |
@@ -22,6 +23,7 @@ Create an in-memory object for NotificationActionUpdate.
 
 ```powershell
 $model = New-NmeNotificationActionUpdateModel `
+    -ConditionHealthAlertConditionIds "<ConditionHealthAlertConditionIds>" `
     -ConditionNerdioConditionIds "<ConditionNerdioConditionIds>" `
     -EmailBuiltInRecipients "None" `
     -EmailEnable $true `

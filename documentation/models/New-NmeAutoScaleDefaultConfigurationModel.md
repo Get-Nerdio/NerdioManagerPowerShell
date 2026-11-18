@@ -24,6 +24,7 @@ Create an in-memory object for AutoScaleDefaultConfiguration.
 | SizeMinActiveHostsCount | Int32 | Yes |  |
 | Triggers | [IDynamicPoolTriggerInfo[]](New-NmeDynamicPoolTriggerInfoModel.md) | Yes | Pass as array. |
 | AutoHealConfigs | [IAutoHealConfigurationItem[]](New-NmeAutoHealConfigurationItemModel.md) | No | Pass as array. |
+| AutoScaleMethod | String | No | Values: `Dynamic`, `PowerManagement` |
 | ConfigActions | [IAutoHealAction[]](New-NmeAutoHealActionModel.md) | No | Pass as array. |
 | ConfigDays | Object | No | Values: `0`, `1`, `2`, `3`, `4`, `5`, `6` |
 | ConfigHostsToBeReady | Int32 | No |  |

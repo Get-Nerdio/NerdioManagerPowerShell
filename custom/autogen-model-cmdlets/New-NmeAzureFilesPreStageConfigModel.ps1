@@ -20,12 +20,18 @@ function New-NmeAzureFilesPreStageConfigModel {
     [CmdletBinding(PositionalBinding=$false)]
     Param(
 
+        [Parameter(HelpMessage="Pre-stage provisioned IOPS. Provisioned V2 only.")]
+        [int]
+        $Iops,
         [Parameter(Mandatory)]
         [bool]
         $IsEnabled,
-        [Parameter()]
+        [Parameter(HelpMessage="Pre-stage quota buffer. Provisioned V1 only.")]
         [int]
         $QuotaBuffer,
+        [Parameter(HelpMessage="Pre-stage provisioned throughput. Provisioned V2 only.")]
+        [int]
+        $Throughput,
         [Parameter()]
         [string]
         $TimezoneId,
@@ -38,11 +44,17 @@ function New-NmeAzureFilesPreStageConfigModel {
     process {
         $Object = [NmePowershell.Models.AzureFilesPreStageConfig]::New()
 
+        if ($PSBoundParameters.ContainsKey('Iops')) {
+            $Object.Iops = $Iops
+        }
         if ($PSBoundParameters.ContainsKey('IsEnabled')) {
             $Object.IsEnabled = $IsEnabled
         }
         if ($PSBoundParameters.ContainsKey('QuotaBuffer')) {
             $Object.QuotaBuffer = $QuotaBuffer
+        }
+        if ($PSBoundParameters.ContainsKey('Throughput')) {
+            $Object.Throughput = $Throughput
         }
         if ($PSBoundParameters.ContainsKey('TimezoneId')) {
             $Object.TimezoneId = $TimezoneId
@@ -58,8 +70,8 @@ function New-NmeAzureFilesPreStageConfigModel {
 # SIG # Begin signature block
 # MIIvWQYJKoZIhvcNAQcCoIIvSjCCL0YCAQExDzANBglghkgBZQMEAgEFADB5Bgor
 # BgEEAYI3AgEEoGswaTA0BgorBgEEAYI3AgEeMCYCAwEAAAQQH8w7YFlLCE63JNLG
-# KX7zUQIBAAIBAAIBAAIBAAIBADAxMA0GCWCGSAFlAwQCAQUABCDx26j3joMlEysT
-# KcN1moheew3GytMk/Iy0nqD7F+MUtqCCFAUwggWQMIIDeKADAgECAhAFmxtXno4h
+# KX7zUQIBAAIBAAIBAAIBAAIBADAxMA0GCWCGSAFlAwQCAQUABCA2GwZ9wk+L9Stu
+# kQa1VzFn8y59M+KEyVzqlSl2fu6QIqCCFAUwggWQMIIDeKADAgECAhAFmxtXno4h
 # MuI5B72nd3VcMA0GCSqGSIb3DQEBDAUAMGIxCzAJBgNVBAYTAlVTMRUwEwYDVQQK
 # EwxEaWdpQ2VydCBJbmMxGTAXBgNVBAsTEHd3dy5kaWdpY2VydC5jb20xITAfBgNV
 # BAMTGERpZ2lDZXJ0IFRydXN0ZWQgUm9vdCBHNDAeFw0xMzA4MDExMjAwMDBaFw0z
@@ -171,23 +183,23 @@ function New-NmeAzureFilesPreStageConfigModel {
 # RzQgQ29kZSBTaWduaW5nIFJTQTQwOTYgU0hBMzg0IDIwMjEgQ0ExAhALDOX/BzyG
 # PKP6JnAWOAwdMA0GCWCGSAFlAwQCAQUAoIGEMBgGCisGAQQBgjcCAQwxCjAIoAKA
 # AKECgAAwGQYJKoZIhvcNAQkDMQwGCisGAQQBgjcCAQQwHAYKKwYBBAGCNwIBCzEO
-# MAwGCisGAQQBgjcCARUwLwYJKoZIhvcNAQkEMSIEIAqU/01J6BxlTf3o+sKSIAzd
-# j/9wjBDLiacr8j0xttDSMA0GCSqGSIb3DQEBAQUABIICAAhdSCvjqprWlNT6WCsI
-# Fl1u72JEuUtWNZYDeDbXwHzWUd0tgisNQ4CUl461Z3AjqaK9YBmmmsFod6UQqxUY
-# PImP8it/VeF3g7WdUQ+wln051f52LPTmP/0/5rsZ0rVwRoG2ICn2dilV/VrmwKQ0
-# 9Y0NkI0PFuFjvJP2yWNDDpq6FKTUcVi91Mja8CH+0yFX6r2AFedfpEgC6Un5MZGa
-# FGAiZfoyVk292rXX3E96UzWzCIhKWcJRcnNLyseKohkzPXd0I3diWm2r/dTixPOo
-# uYa9cDMt5qd9tTGsX5BxTuy3x75tZxR0mckTstK0nxixRTnWBce4/QoOm+18bI3O
-# Jk/HWJai4Ar6LlK0azdZfoh4u3Jev0VN7GW0ZWiuvZVPwui9I/mCY7sF20RMI6vi
-# UlBr0HxyQlPYGIn5AFvQMTQEaBndKf6nK40MPzesvLMymux5LiOB2lAVssIzELUk
-# 3T6x1SA7c3josXTTqHWTTEQ1R1ba0FFeYy6GAMGEeBck/UAnGePd9K5yhCZtCFnm
-# bXfjGe5eD2CXii1nL3HSiRnB3EYd1I7ldQdFnnkNKp7qhpXb0AiTobJrOY7ZxV6x
-# ZELIdKJKvmAQ7cz9psFQZlkAsKrZKtk7Vs+lC+58PVbAVrhafHiKwbYYP0UCKZZA
-# ylYk++o5Ab9XEyqq+ltE7H23oYIXdzCCF3MGCisGAQQBgjcDAwExghdjMIIXXwYJ
+# MAwGCisGAQQBgjcCARUwLwYJKoZIhvcNAQkEMSIEILgZ1Sjo+HNUZBHphUwEO0q+
+# i9xs6PmnLGwy635KB5pBMA0GCSqGSIb3DQEBAQUABIICAG3R+IQgkLcgveMvLxz/
+# QvrfMREif8b6lHNkB64INJeYknvLqbPxv9MCAjN46alBP2xqnRlPfJt4jnioOehc
+# ElMx2OCmH06L/3HLSzOYTWrGGHbfB7NKxJWz5BzfRLKU7wOFDYPc/xVTYzo1//CD
+# /sI1arV8j66ePnsbUcCHp7/YQihJ+Axk7fGVME8y6a3aWtMS/cv6GvB78zSFCazr
+# wectAjmgZ2DoaxbtcrKjXW4Dv2JB67BzPG85X04rIfZHiiGswpKnV1V/DC63928h
+# ZgFlWtpMRrCnkpILEEl9u6FsgLdORcz2PYB18+wtVBcBi6xpQpLrzwD9K/8QvXtn
+# krZ1oPZ160+oyyejZKkTDBO6e2A8KPhuw1Ib/mvxZheqrLUFBWjFIIto8q7eKBW1
+# oBoveh3GfpqWXqOp0qJCn+O22SqWmotZ+pbzgPYvPDWg6A2irNZZrVB5Q5TMRTgV
+# awjFZMTTidZ8WBBRrz856cXoOag6O7vI1SFahwjAENoKVncg8QrVxE1G3TRpBKbm
+# cT7+h+Jjbbk5MYUIaMADs295RLg2JIvrgQ7WAGMm/9DppN0W4LYCC49AMXL5RpZi
+# NE9NxyWXGuDL7O/lidwYK0MzRDhT6q47CM4+M6XqIm49G/xAXH26qyaRdgPjJo2r
+# NFX3WbI18ln5ma9i8pN5l5rIoYIXdzCCF3MGCisGAQQBgjcDAwExghdjMIIXXwYJ
 # KoZIhvcNAQcCoIIXUDCCF0wCAQMxDzANBglghkgBZQMEAgEFADB4BgsqhkiG9w0B
-# CRABBKBpBGcwZQIBAQYJYIZIAYb9bAcBMDEwDQYJYIZIAWUDBAIBBQAEIHQvyBu/
-# UNjeFFupcp5sIwBENnej4J/E2moBm/uYpA+0AhEA8BGJPV8yBjcSnKIKPDHKIRgP
-# MjAyNjEwMDExMTEzMTVaoIITOjCCBu0wggTVoAMCAQICEAhP3DNPfkVO28MPj/mS
+# CRABBKBpBGcwZQIBAQYJYIZIAYb9bAcBMDEwDQYJYIZIAWUDBAIBBQAEIMaHsmx1
+# ZmiE8n663dVaFH/6Dkb4jWlyaifX1q8LgonQAhEAmQ+ut4SwbK+mblGXVY6u8hgP
+# MjAyNjExMTgxMTA5MDJaoIITOjCCBu0wggTVoAMCAQICEAhP3DNPfkVO28MPj/mS
 # GDUwDQYJKoZIhvcNAQELBQAwaTELMAkGA1UEBhMCVVMxFzAVBgNVBAoTDkRpZ2lD
 # ZXJ0LCBJbmMuMUEwPwYDVQQDEzhEaWdpQ2VydCBUcnVzdGVkIEc0IFRpbWVTdGFt
 # cGluZyBSU0E0MDk2IFNIQTI1NiAyMDI1IENBMTAeFw0yNjA4MDUwMDAwMDBaFw0z
@@ -294,19 +306,19 @@ function New-NmeAzureFilesPreStageConfigModel {
 # Yy4xQTA/BgNVBAMTOERpZ2lDZXJ0IFRydXN0ZWQgRzQgVGltZVN0YW1waW5nIFJT
 # QTQwOTYgU0hBMjU2IDIwMjUgQ0ExAhAIT9wzT35FTtvDD4/5khg1MA0GCWCGSAFl
 # AwQCAQUAoIHRMBoGCSqGSIb3DQEJAzENBgsqhkiG9w0BCRABBDAcBgkqhkiG9w0B
-# CQUxDxcNMjYxMDAxMTExMzE1WjArBgsqhkiG9w0BCRACDDEcMBowGDAWBBRR2ava
-# A0lz2E9CZqykgkjms2nEOTAvBgkqhkiG9w0BCQQxIgQgL6ZhprdSdE3A9SmLghzy
-# IJqATE8cMll9N8FGO4e/PtkwNwYLKoZIhvcNAQkQAi8xKDAmMCQwIgQgLaCdp/QT
-# H5/nLbbF5unJZWdVrwQ/HqdCzA0hIOFB6/wwDQYJKoZIhvcNAQEBBQAEggIAmkMq
-# MT/+a+VE4jNNKGEL5OjYZqsNXwUTXkAo6Z/3A2IchXljEokAt3l/j/vyUgKYpon1
-# c+VXWWi5R91CU14B0hwJFjE+eBvJOUlFF1CIV6YfVCkTT2NsZ/P7Oz1845jYBUzG
-# lsdwnxExxQ48ayvXaIpZonkRvqNYuuE7n51Oo8su61GWvw2ktkbOl9LCMJN7pE/G
-# L/GxVYU0urqET1a1e2EIqdyqjgyfILmAXgfh8X84jjYJfDcXpGAPeECKfio3HTc7
-# iK+nt/S+p7gb1zhYLnruoV3vJ9dM5BvoXpP2FNIfZ847i7gO+/Ky7pMulzSNd6wN
-# 7ubWK1w95d3ZGoIOIXhLv+Xq6YzO1CNT9cs5hu61CHBOsNqMo9MPu7Uzmcusn/dl
-# kuplLfpLbfTn3pfQitniesL5E+6y2GLxY7eFzUCgZML0BnMEvMmkQkQUyKO2P8VN
-# 02w2NAn2Np8Al2Cw0p6HsT0cvbIRgN09v1duEBMpBXAQ7E5Z1EYh7wGTHZcIMpVx
-# QU9U92NFWtYWiPDDvErW7ZRQEVoc3fLMl6ywQPA/HBkCguPVepUvkTRShvabUd5z
-# U6/nMn/7Nwc8W14un8Hp2f8+rHwOOd4RuLZor1nmaclAsVF3Y0qRFYTLA8qUG7or
-# X8hCUbanjzivZ9qLR9v9mSovCdlPy5h9LM64LzI=
+# CQUxDxcNMjYxMTE4MTEwOTAyWjArBgsqhkiG9w0BCRACDDEcMBowGDAWBBRR2ava
+# A0lz2E9CZqykgkjms2nEOTAvBgkqhkiG9w0BCQQxIgQgFCybM3x+eMGK1MZiwJX3
+# 67aaIYjoaE05DGDb6lWk5BMwNwYLKoZIhvcNAQkQAi8xKDAmMCQwIgQgLaCdp/QT
+# H5/nLbbF5unJZWdVrwQ/HqdCzA0hIOFB6/wwDQYJKoZIhvcNAQEBBQAEggIAR0BI
+# RQ6umx32Pwzoq3qoPJ4B3KVPhzt0IKZhXzio4g0YQ6iXLHyvRpGboGGpB/ooi3U3
+# H2Vm4bhcOCMRNr3Shu7xN1oxiPk17J2LzRujyXS08ptFrT5eDayhQ6CBs1AYrdw0
+# Oy12lmnp8R/GgRkaDzMeD7VQhg6EeueGHMrIIiMmwChRWSxKfuQApG5hZxJtwhM2
+# 3cfVktpp0oy4P8cZuHRqeghYtpo0rT4gkJlyF1yk5fVp6Zvs8N9I5k8I/JegsqwZ
+# AeonEfRlJoTcqEJPCQ120MjaR6V0z+F/Ao+gUSWS775jv2qrH7tY551jXjs6sW6K
+# NAAHbNXYefRZBQELYzqYSvN31wZHPeCKttWzFn9Ry1LGS5hFdaH6SWQ6KbHstZU+
+# 3O9rSUDS30UdvRFDeIq1y5lZw1HWUldY3K2Hbh2bVig8yKqBMjVC+UhSwRPSLZ4o
+# h40Ghlbkp4CT9BwkN08Ye6pc0KU9PqFra8YA0bkFEWlREPfvfV473gO5iPv/CtDz
+# LOa/JZ7vIFx64KoGXThXqTuUEkMUaAXS4wT7LMlRb2/UH2GQVWzESRG1q/Bdt+uc
+# SYDsnDn2ifu4JnnXi/+iVfKRaTpD3+JzJsEHqBNgXunqdGe7j4jYR8n4jPyJPX0o
+# rK/+HpcxDV6BnZ+HGKqlJ9fS3X3/seKJs/r+WFY=
 # SIG # End signature block

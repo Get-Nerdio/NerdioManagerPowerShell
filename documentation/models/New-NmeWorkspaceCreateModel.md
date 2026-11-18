@@ -8,6 +8,7 @@ Create an in-memory object for WorkspaceCreate.
 
 | Parameter | Type | Required | Description |
 |-----------|------|----------|-------------|
+| DeploymentScope | String | Yes | Values: `Geographical`, `Regional` |
 | IdName | String | Yes |  |
 | IdResourceGroup | String | Yes |  |
 | IdSubscriptionId | String | Yes |  |
@@ -20,6 +21,7 @@ Create an in-memory object for WorkspaceCreate.
 
 ```powershell
 $model = New-NmeWorkspaceCreateModel `
+    -DeploymentScope "Geographical" `
     -IdName "<IdName>" `
     -IdResourceGroup "<IdResourceGroup>" `
     -IdSubscriptionId "<IdSubscriptionId>" `

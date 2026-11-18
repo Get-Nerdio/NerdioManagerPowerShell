@@ -14,8 +14,8 @@ Get ARM workspace session hosts
 |-----------|------|----------|-------------|
 | ResourceGroup | String | Yes |  |
 | SubscriptionId | String | Yes |  |
-| Username | String | Yes |  |
 | WorkspaceName | String | Yes |  |
+| Username | String | No |  |
 
 ## Examples
 
@@ -23,7 +23,6 @@ Get ARM workspace session hosts
 Get-NmeSessionHostsByWorkspace `
     -ResourceGroup "<ResourceGroup>" `
     -SubscriptionId "<SubscriptionId>" `
-    -Username "<Username>" `
     -WorkspaceName "<WorkspaceName>"
 ```
 

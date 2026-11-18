@@ -29,15 +29,27 @@ function New-NmeAzureFilesAutoscaleConfigModel {
         [Parameter(Mandatory)]
         [int]
         $BasicMinQuotaBuffer,
+        [Parameter()]
+        [int]
+        $IopBoundMax,
+        [Parameter()]
+        [int]
+        $IopBoundMin,
         [Parameter(Mandatory)]
         [bool]
         $IsEnabled,
+        [Parameter(HelpMessage="Pre-stage provisioned IOPS. Provisioned V2 only.")]
+        [int]
+        $PreStageIops,
         [Parameter(Mandatory)]
         [bool]
         $PreStageIsEnabled,
-        [Parameter()]
+        [Parameter(HelpMessage="Pre-stage quota buffer. Provisioned V1 only.")]
         [int]
         $PreStageQuotaBuffer,
+        [Parameter(HelpMessage="Pre-stage provisioned throughput. Provisioned V2 only.")]
+        [int]
+        $PreStageThroughput,
         [Parameter()]
         [string]
         $PreStageTimezoneId,
@@ -45,31 +57,44 @@ function New-NmeAzureFilesAutoscaleConfigModel {
         [NmePowershell.PSArgumentCompleterAttribute("0", "1", "2", "3", "4", "5", "6")]
         [int[]]
         $PreStageWorkDays,
-        [Parameter(Mandatory)]
+        [Parameter(HelpMessage="Scaling rules. Required unless Scaling is set, and used instead of it.")]
+        [NmePowershell.Models.IAzureFilesScalingRule[]]
+        $ScalingRules,
+        [Parameter()]
         [int]
         $ScalingScaleInBy,
-        [Parameter(Mandatory)]
+        [Parameter()]
         [int]
         $ScalingScaleInInterval,
-        [Parameter(Mandatory)]
+        [Parameter()]
         [int]
         $ScalingScaleInLowLatency,
-        [Parameter(Mandatory)]
+        [Parameter()]
         [int]
         $ScalingScaleOutBy,
-        [Parameter(Mandatory)]
+        [Parameter()]
         [int]
         $ScalingScaleOutHighLatency,
-        [Parameter(Mandatory)]
+        [Parameter()]
         [int]
         $ScalingScaleOutInterval,
-        [Parameter(Mandatory)]
+        [Parameter()]
         [int]
         $ScalingTransactionThreshold,
-        [Parameter(Mandatory)]
+        [Parameter()]
         [NmePowershell.PSArgumentCompleterAttribute("MaxSuccessServerLatency", "AvgSuccessServerLatency")]
         [string]
         $ScalingTrigger,
+        [Parameter()]
+        [NmePowershell.PSArgumentCompleterAttribute("AzureFiles", "AzureFilesV2")]
+        [string]
+        $StorageType,
+        [Parameter()]
+        [int]
+        $ThroughputBoundMax,
+        [Parameter()]
+        [int]
+        $ThroughputBoundMin,
         [Parameter(Mandatory)]
         [NmePowershell.PSArgumentCompleterAttribute("Percent", "SizeGb", "SizeTb")]
         [string]
@@ -88,8 +113,17 @@ function New-NmeAzureFilesAutoscaleConfigModel {
         if ($PSBoundParameters.ContainsKey('BasicMinQuotaBuffer')) {
             $Object.BasicMinQuotaBuffer = $BasicMinQuotaBuffer
         }
+        if ($PSBoundParameters.ContainsKey('IopBoundMax')) {
+            $Object.IopBoundMax = $IopBoundMax
+        }
+        if ($PSBoundParameters.ContainsKey('IopBoundMin')) {
+            $Object.IopBoundMin = $IopBoundMin
+        }
         if ($PSBoundParameters.ContainsKey('IsEnabled')) {
             $Object.IsEnabled = $IsEnabled
+        }
+        if ($PSBoundParameters.ContainsKey('PreStageIops')) {
+            $Object.PreStageIops = $PreStageIops
         }
         if ($PSBoundParameters.ContainsKey('PreStageIsEnabled')) {
             $Object.PreStageIsEnabled = $PreStageIsEnabled
@@ -97,11 +131,17 @@ function New-NmeAzureFilesAutoscaleConfigModel {
         if ($PSBoundParameters.ContainsKey('PreStageQuotaBuffer')) {
             $Object.PreStageQuotaBuffer = $PreStageQuotaBuffer
         }
+        if ($PSBoundParameters.ContainsKey('PreStageThroughput')) {
+            $Object.PreStageThroughput = $PreStageThroughput
+        }
         if ($PSBoundParameters.ContainsKey('PreStageTimezoneId')) {
             $Object.PreStageTimezoneId = $PreStageTimezoneId
         }
         if ($PSBoundParameters.ContainsKey('PreStageWorkDays')) {
             $Object.PreStageWorkDays = $PreStageWorkDays
+        }
+        if ($PSBoundParameters.ContainsKey('ScalingRules')) {
+            $Object.ScalingRules = $ScalingRules
         }
         if ($PSBoundParameters.ContainsKey('ScalingScaleInBy')) {
             $Object.ScalingScaleInBy = $ScalingScaleInBy
@@ -127,6 +167,15 @@ function New-NmeAzureFilesAutoscaleConfigModel {
         if ($PSBoundParameters.ContainsKey('ScalingTrigger')) {
             $Object.ScalingTrigger = $ScalingTrigger
         }
+        if ($PSBoundParameters.ContainsKey('StorageType')) {
+            $Object.StorageType = $StorageType
+        }
+        if ($PSBoundParameters.ContainsKey('ThroughputBoundMax')) {
+            $Object.ThroughputBoundMax = $ThroughputBoundMax
+        }
+        if ($PSBoundParameters.ContainsKey('ThroughputBoundMin')) {
+            $Object.ThroughputBoundMin = $ThroughputBoundMin
+        }
         if ($PSBoundParameters.ContainsKey('Unit')) {
             $Object.Unit = $Unit
         }
@@ -138,8 +187,8 @@ function New-NmeAzureFilesAutoscaleConfigModel {
 # SIG # Begin signature block
 # MIIvWAYJKoZIhvcNAQcCoIIvSTCCL0UCAQExDzANBglghkgBZQMEAgEFADB5Bgor
 # BgEEAYI3AgEEoGswaTA0BgorBgEEAYI3AgEeMCYCAwEAAAQQH8w7YFlLCE63JNLG
-# KX7zUQIBAAIBAAIBAAIBAAIBADAxMA0GCWCGSAFlAwQCAQUABCDn4ScUyiZavlt6
-# Tr8gOrbbZswvDcF5UuFc2kD+NKltnqCCFAUwggWQMIIDeKADAgECAhAFmxtXno4h
+# KX7zUQIBAAIBAAIBAAIBAAIBADAxMA0GCWCGSAFlAwQCAQUABCCHtWPgdkuPogos
+# kypROv0jipYAMoRI8fZKkV8mrxbjTKCCFAUwggWQMIIDeKADAgECAhAFmxtXno4h
 # MuI5B72nd3VcMA0GCSqGSIb3DQEBDAUAMGIxCzAJBgNVBAYTAlVTMRUwEwYDVQQK
 # EwxEaWdpQ2VydCBJbmMxGTAXBgNVBAsTEHd3dy5kaWdpY2VydC5jb20xITAfBgNV
 # BAMTGERpZ2lDZXJ0IFRydXN0ZWQgUm9vdCBHNDAeFw0xMzA4MDExMjAwMDBaFw0z
@@ -251,23 +300,23 @@ function New-NmeAzureFilesAutoscaleConfigModel {
 # RzQgQ29kZSBTaWduaW5nIFJTQTQwOTYgU0hBMzg0IDIwMjEgQ0ExAhALDOX/BzyG
 # PKP6JnAWOAwdMA0GCWCGSAFlAwQCAQUAoIGEMBgGCisGAQQBgjcCAQwxCjAIoAKA
 # AKECgAAwGQYJKoZIhvcNAQkDMQwGCisGAQQBgjcCAQQwHAYKKwYBBAGCNwIBCzEO
-# MAwGCisGAQQBgjcCARUwLwYJKoZIhvcNAQkEMSIEIIOIEe3dPEIyR/HyZZ9tgRs5
-# X8AGe/3/zCUsXFgqkLflMA0GCSqGSIb3DQEBAQUABIICAI9DKCb2ROJ4LTmi+3bz
-# r7zc/HK7BKwxac3p01+/2ZlArWquUenbVytAl72obpA5mK9n455yXpU50zkmtrsg
-# mnQJSLRJ7jer35spkbv17pmvHB5kRArup7jG2TPi0nHvVIIkabEBvNeozRd+otxF
-# yhu/R8pSr+3Q7OgoRqk0BU7xqe91/GJNrXXWNHBTptLVVWTNFricUCTgROGHi32N
-# mTf6tIDX1brQy7814b97Y9nkAcTob50s1GFMNkCpgcKeAj6X03UTM/lV1eziMfo2
-# uOXwFozgzwNkc/wkQ5RkWyx8JGDRUDutkS/KEDNfqk2DyCh5Ww4Wf14wPxtNxGSz
-# 0mJKY2zmnpfOLW5HrqbJbBN406wB2ljP22l8b2heZHnBhuApS45/RBJYj4x2u7LU
-# Tqo00yYIIqypxANZ9LQE9w3ybDiuDsaZ9qLv71rivXHjfQaT6tVwyO2DxFEomLCC
-# +J0nEu/BJfK+s2/tYLJPIPPib1dbpYpBwydASgs8NIs3cKy8Rfkp9eME/Nr4x8IS
-# s9G/WPyRozLuULu8ByEemYh6zt9nJHxSq/3SjzmcinpTMGTP36S5GZzLUyY1xnki
-# iYEEJtOgAqR+VTJwaJXdNvOsEp8Mqq2aWB5NZr13DM7C7zjMllVGOXa/CUMY9paX
-# YI5AtGEbhjb6Ad/FOOQaHCwhoYIXdjCCF3IGCisGAQQBgjcDAwExghdiMIIXXgYJ
+# MAwGCisGAQQBgjcCARUwLwYJKoZIhvcNAQkEMSIEIGD4l7fQYI19uAjIR5w4Fa6Q
+# ju561b12pVxP3S1ScHluMA0GCSqGSIb3DQEBAQUABIICAFntWJ5NYs+c2l7DTNYq
+# EHzzcLi/jyRJxk4RaRJYiJE3nZPRXgA15PRgP3FPjnrEkoJpJcE/+aqvE3MS5vdV
+# 9fD7UQb7JFZ3e+9L0PLiKEiaEENE7hkKQPLoO6QKqYv088k4fGr2TbusU63svoSj
+# CzNbQgzuCRLlXCQKCNkOMPqqPCL0DTTMKAMBbeuSzvPT2SUoHuoVGWMwZoT4wfwo
+# +O2EwPvu2eRyXbqCyQtRcZ98wCWreEoORIC/3nWGIvi6jAKNsju1PGy3sprkuzmq
+# R4Nhgk1/s3+APKrqGiZf5xFJok1C9ru65C3n16hKMF4BauxWdH8yFN1RTNjreVUJ
+# CWk41zfH6d7R+AOeJCMU638dKEXPzRlLEDmzpk1ecJ3oW1rRuW9GBWdHS2LZSZio
+# 2HbGpBLTgSXF7OAoDoOuQKfREZG+9o1Q4JGyzVhaucrxY3TfZJ2PhSN3WNjMYv+G
+# PGh83R6/mckqQm7ZtvK6+/G8TWi7Jt/DJJZK6uOvy2PEKS+thCEXhxx3XNA+7PGi
+# sRXRTesascEsy+hMKbiLPOpIbLc8VwaM7Va0NQzXLeV0/LlOOe6vUBQ8BNNzEsxl
+# dXmvJPie6ru6W7FHKKRXgZexFXe42by1yYPe35UAfU31swVyOIxfQIIuNQj4Iydt
+# JYSCuN3vWHvtXg02rTeINqTGoYIXdjCCF3IGCisGAQQBgjcDAwExghdiMIIXXgYJ
 # KoZIhvcNAQcCoIIXTzCCF0sCAQMxDzANBglghkgBZQMEAgEFADB3BgsqhkiG9w0B
-# CRABBKBoBGYwZAIBAQYJYIZIAYb9bAcBMDEwDQYJYIZIAWUDBAIBBQAEIFlYRxhc
-# os9upJ0afvpPoD5IDFKzX5Ttx92zDJ7y/KavAhAhh+WyqVtIqt53dZTWjpHOGA8y
-# MDI2MTAwMTExMTMxNVqgghM6MIIG7TCCBNWgAwIBAgIQCE/cM09+RU7bww+P+ZIY
+# CRABBKBoBGYwZAIBAQYJYIZIAYb9bAcBMDEwDQYJYIZIAWUDBAIBBQAEID8jr0MJ
+# 6vJ1tKJNmQmrDmgV2CiqfM2CEPWw6MMT+zaWAhAeKVpGkWNDPatEmpoY/RJkGA8y
+# MDI2MTExODExMDkwMlqgghM6MIIG7TCCBNWgAwIBAgIQCE/cM09+RU7bww+P+ZIY
 # NTANBgkqhkiG9w0BAQsFADBpMQswCQYDVQQGEwJVUzEXMBUGA1UEChMORGlnaUNl
 # cnQsIEluYy4xQTA/BgNVBAMTOERpZ2lDZXJ0IFRydXN0ZWQgRzQgVGltZVN0YW1w
 # aW5nIFJTQTQwOTYgU0hBMjU2IDIwMjUgQ0ExMB4XDTI2MDgwNTAwMDAwMFoXDTM3
@@ -374,19 +423,19 @@ function New-NmeAzureFilesAutoscaleConfigModel {
 # LjFBMD8GA1UEAxM4RGlnaUNlcnQgVHJ1c3RlZCBHNCBUaW1lU3RhbXBpbmcgUlNB
 # NDA5NiBTSEEyNTYgMjAyNSBDQTECEAhP3DNPfkVO28MPj/mSGDUwDQYJYIZIAWUD
 # BAIBBQCggdEwGgYJKoZIhvcNAQkDMQ0GCyqGSIb3DQEJEAEEMBwGCSqGSIb3DQEJ
-# BTEPFw0yNjEwMDExMTEzMTVaMCsGCyqGSIb3DQEJEAIMMRwwGjAYMBYEFFHZq9oD
-# SXPYT0JmrKSCSOazacQ5MC8GCSqGSIb3DQEJBDEiBCDqcP8bwKqw2p5eY/h9MF9Z
-# TdGnSsjEl3YgQzRhdWibDDA3BgsqhkiG9w0BCRACLzEoMCYwJDAiBCAtoJ2n9BMf
-# n+cttsXm6cllZ1WvBD8ep0LMDSEg4UHr/DANBgkqhkiG9w0BAQEFAASCAgCt9/T3
-# P5+VSn7l7mQbInefgfxjJPxrz38hiccZhyjsfYR0YBZkgwBLV6W28GimaW+jUjdX
-# kfAtXWXOESRxZaRo3LBwa3bTyGUP2qUKeBTQV/ooTrgj2HqgDt2lFJldcZL4VMfm
-# opnOB0x5EGchMwHrPZkkmI9dF2+15U1se0KGczTZRfnU8hFj2Y/GxuMaxQrsezZs
-# BqHbVgZFo9A7AMh6sZhGBnUqejsCuJem5BXzMiCpSAhoIn13IJD9uZ/s8JHxMWuN
-# dItlOtHW0ZHyEM/EsSVhUhd7/Ob+f7oVg0EhpnwrMtwsSFH04o+rXRnO1mHi9du0
-# 0qGiAzqKQ04lqvS99nNUF1VqG6E6BqU/0c08nXsjbSGSpCSZvAL6wHaXx+4qVHsw
-# d5+eYKt1lGz7vr4Wag6wb9CRYymaza6rrkEsDBW8nO8Aj6XXlc38qM9uZtBgMUwI
-# yPESrMGp2s6IdyvPea4NGC18/02xkVCgjaY/aqsUE+8UszS41TschOHk9taEv8hP
-# yMf+HvLzQq3qpnd+saqCHYasAxisYdn+YW5L2iU5vdWkoxLTBxmErdEnqOHTdmUN
-# phD79vN2uvyU0QHtcCfl09Bsos3edYvOqr5h4yupifYgc4tsUay9BHBWJrGSceHq
-# PqeBY031o1pv3yIgjS7d3M8v8sUVXJZFVZuG9A==
+# BTEPFw0yNjExMTgxMTA5MDJaMCsGCyqGSIb3DQEJEAIMMRwwGjAYMBYEFFHZq9oD
+# SXPYT0JmrKSCSOazacQ5MC8GCSqGSIb3DQEJBDEiBCCcO5Etu2kDI96TT69ZNrzR
+# tXwVVHMhPQUk+F72b1LDbDA3BgsqhkiG9w0BCRACLzEoMCYwJDAiBCAtoJ2n9BMf
+# n+cttsXm6cllZ1WvBD8ep0LMDSEg4UHr/DANBgkqhkiG9w0BAQEFAASCAgB3s/qY
+# Nrh6L0JCjo7lnBJ7IbDJq3JAONIPhOrktnv/N+jZioY3XWzGBy6lgU0I9bjBinUT
+# vQEGzfBwpt0UWusRXu4Sa468pHzrNkOXrh0ECr12Nq1rgfn8jyk/tpyAst+bSAJy
+# ouzjjNgXTgqypzvtbYhDqwt14vb2a7k6lezRPCY829Vu6qrTYRbZJeMj7ZauCyZZ
+# JJ6LsEc+AJiDsMXbWximJBMbIUxqB8/cQ9MmiikCrpzZRG442OkXtrjFNf7qj+Xo
+# o1jpsQ11EYOiDaJGNPv4NNxQb7fOaYT839vRD7ZJWte4JxjHd7VJ5pVES0vBus8i
+# NalgqqD9oEegY7ZZWW7t6Wtsz/peRogWjRFMgRdeOnE9Bm0fQ6WNlB+J0o5lldv5
+# +1+Vj8FsWEcghW7qXjdKTYyRV2d+6+XceHj+S3Vf6NnIdHstTIC+GaSkaB/kTLHQ
+# 2daUcahZCtOD+vO1jVpWGplzS8Mmt5o99XAxSFsa+qo6kcYaIL3G8zw0azXN6kCd
+# rREi2oFdCQB7Z/n2izqjTtUFQTOU4Wl2EJ78Q/RmruuWcDD1k2oK4eI8fIt4xLLC
+# XmcVZdiSKMAm1ydj7+Nokhu9ttdHD4s9GxTntyhNMP/8WZpuGiE/S8C/Qr5wyNz0
+# HJOHqDURj+7UIsnwtJogazP6I4wwp5xtUwA1RQ==
 # SIG # End signature block

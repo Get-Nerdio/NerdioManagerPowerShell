@@ -1852,6 +1852,50 @@
       </TableControl>
     </View>
     <View>
+      <Name>NmePowershell.Models.AutoScaleDefaultConfiguration</Name>
+      <ViewSelectedBy>
+        <TypeName>NmePowershell.Models.AutoScaleDefaultConfiguration#Multiple</TypeName>
+      </ViewSelectedBy>
+      <TableControl>
+        <TableHeaders>
+          <TableColumnHeader>
+            <Label>AutoScaleMethod</Label>
+          </TableColumnHeader>
+        </TableHeaders>
+        <TableRowEntries>
+          <TableRowEntry>
+            <TableColumnItems>
+              <TableColumnItem>
+                <PropertyName>AutoScaleMethod</PropertyName>
+              </TableColumnItem>
+            </TableColumnItems>
+          </TableRowEntry>
+        </TableRowEntries>
+      </TableControl>
+    </View>
+    <View>
+      <Name>NmePowershell.Models.AutoScaleDefaultConfigurationUpdate</Name>
+      <ViewSelectedBy>
+        <TypeName>NmePowershell.Models.AutoScaleDefaultConfigurationUpdate#Multiple</TypeName>
+      </ViewSelectedBy>
+      <TableControl>
+        <TableHeaders>
+          <TableColumnHeader>
+            <Label>AutoScaleMethod</Label>
+          </TableColumnHeader>
+        </TableHeaders>
+        <TableRowEntries>
+          <TableRowEntry>
+            <TableColumnItems>
+              <TableColumnItem>
+                <PropertyName>AutoScaleMethod</PropertyName>
+              </TableColumnItem>
+            </TableColumnItems>
+          </TableRowEntry>
+        </TableRowEntries>
+      </TableControl>
+    </View>
+    <View>
       <Name>NmePowershell.Models.AutoScaleOverrideProfileFlags</Name>
       <ViewSelectedBy>
         <TypeName>NmePowershell.Models.AutoScaleOverrideProfileFlags#Multiple</TypeName>
@@ -1933,6 +1977,12 @@
       <TableControl>
         <TableHeaders>
           <TableColumnHeader>
+            <Label>GlobalPoolGroupId</Label>
+          </TableColumnHeader>
+          <TableColumnHeader>
+            <Label>GlobalPoolId</Label>
+          </TableColumnHeader>
+          <TableColumnHeader>
             <Label>HostPoolId</Label>
           </TableColumnHeader>
           <TableColumnHeader>
@@ -1948,6 +1998,12 @@
         <TableRowEntries>
           <TableRowEntry>
             <TableColumnItems>
+              <TableColumnItem>
+                <PropertyName>GlobalPoolGroupId</PropertyName>
+              </TableColumnItem>
+              <TableColumnItem>
+                <PropertyName>GlobalPoolId</PropertyName>
+              </TableColumnItem>
               <TableColumnItem>
                 <PropertyName>HostPoolId</PropertyName>
               </TableColumnItem>
@@ -2348,6 +2404,9 @@
             <Label>IsEnabled</Label>
           </TableColumnHeader>
           <TableColumnHeader>
+            <Label>StorageType</Label>
+          </TableColumnHeader>
+          <TableColumnHeader>
             <Label>Unit</Label>
           </TableColumnHeader>
         </TableHeaders>
@@ -2356,6 +2415,43 @@
             <TableColumnItems>
               <TableColumnItem>
                 <PropertyName>IsEnabled</PropertyName>
+              </TableColumnItem>
+              <TableColumnItem>
+                <PropertyName>StorageType</PropertyName>
+              </TableColumnItem>
+              <TableColumnItem>
+                <PropertyName>Unit</PropertyName>
+              </TableColumnItem>
+            </TableColumnItems>
+          </TableRowEntry>
+        </TableRowEntries>
+      </TableControl>
+    </View>
+    <View>
+      <Name>NmePowershell.Models.AzureFilesAutoscaleConfigState</Name>
+      <ViewSelectedBy>
+        <TypeName>NmePowershell.Models.AzureFilesAutoscaleConfigState#Multiple</TypeName>
+      </ViewSelectedBy>
+      <TableControl>
+        <TableHeaders>
+          <TableColumnHeader>
+            <Label>IsEnabled</Label>
+          </TableColumnHeader>
+          <TableColumnHeader>
+            <Label>StorageType</Label>
+          </TableColumnHeader>
+          <TableColumnHeader>
+            <Label>Unit</Label>
+          </TableColumnHeader>
+        </TableHeaders>
+        <TableRowEntries>
+          <TableRowEntry>
+            <TableColumnItems>
+              <TableColumnItem>
+                <PropertyName>IsEnabled</PropertyName>
+              </TableColumnItem>
+              <TableColumnItem>
+                <PropertyName>StorageType</PropertyName>
               </TableColumnItem>
               <TableColumnItem>
                 <PropertyName>Unit</PropertyName>
@@ -2376,6 +2472,9 @@
             <Label>IsEnabled</Label>
           </TableColumnHeader>
           <TableColumnHeader>
+            <Label>StorageType</Label>
+          </TableColumnHeader>
+          <TableColumnHeader>
             <Label>Unit</Label>
           </TableColumnHeader>
         </TableHeaders>
@@ -2384,6 +2483,9 @@
             <TableColumnItems>
               <TableColumnItem>
                 <PropertyName>IsEnabled</PropertyName>
+              </TableColumnItem>
+              <TableColumnItem>
+                <PropertyName>StorageType</PropertyName>
               </TableColumnItem>
               <TableColumnItem>
                 <PropertyName>Unit</PropertyName>
@@ -2462,6 +2564,34 @@
       </TableControl>
     </View>
     <View>
+      <Name>NmePowershell.Models.AzureFilesPerformanceBounds</Name>
+      <ViewSelectedBy>
+        <TypeName>NmePowershell.Models.AzureFilesPerformanceBounds#Multiple</TypeName>
+      </ViewSelectedBy>
+      <TableControl>
+        <TableHeaders>
+          <TableColumnHeader>
+            <Label>Max</Label>
+          </TableColumnHeader>
+          <TableColumnHeader>
+            <Label>Min</Label>
+          </TableColumnHeader>
+        </TableHeaders>
+        <TableRowEntries>
+          <TableRowEntry>
+            <TableColumnItems>
+              <TableColumnItem>
+                <PropertyName>Max</PropertyName>
+              </TableColumnItem>
+              <TableColumnItem>
+                <PropertyName>Min</PropertyName>
+              </TableColumnItem>
+            </TableColumnItems>
+          </TableRowEntry>
+        </TableRowEntries>
+      </TableControl>
+    </View>
+    <View>
       <Name>NmePowershell.Models.AzureFilesPreStageConfig</Name>
       <ViewSelectedBy>
         <TypeName>NmePowershell.Models.AzureFilesPreStageConfig#Multiple</TypeName>
@@ -2469,10 +2599,16 @@
       <TableControl>
         <TableHeaders>
           <TableColumnHeader>
+            <Label>Iops</Label>
+          </TableColumnHeader>
+          <TableColumnHeader>
             <Label>IsEnabled</Label>
           </TableColumnHeader>
           <TableColumnHeader>
             <Label>QuotaBuffer</Label>
+          </TableColumnHeader>
+          <TableColumnHeader>
+            <Label>Throughput</Label>
           </TableColumnHeader>
           <TableColumnHeader>
             <Label>TimezoneId</Label>
@@ -2482,10 +2618,16 @@
           <TableRowEntry>
             <TableColumnItems>
               <TableColumnItem>
+                <PropertyName>Iops</PropertyName>
+              </TableColumnItem>
+              <TableColumnItem>
                 <PropertyName>IsEnabled</PropertyName>
               </TableColumnItem>
               <TableColumnItem>
                 <PropertyName>QuotaBuffer</PropertyName>
+              </TableColumnItem>
+              <TableColumnItem>
+                <PropertyName>Throughput</PropertyName>
               </TableColumnItem>
               <TableColumnItem>
                 <PropertyName>TimezoneId</PropertyName>
@@ -2503,10 +2645,16 @@
       <TableControl>
         <TableHeaders>
           <TableColumnHeader>
+            <Label>Iops</Label>
+          </TableColumnHeader>
+          <TableColumnHeader>
             <Label>IsEnabled</Label>
           </TableColumnHeader>
           <TableColumnHeader>
             <Label>QuotaBuffer</Label>
+          </TableColumnHeader>
+          <TableColumnHeader>
+            <Label>Throughput</Label>
           </TableColumnHeader>
           <TableColumnHeader>
             <Label>TimezoneId</Label>
@@ -2516,10 +2664,16 @@
           <TableRowEntry>
             <TableColumnItems>
               <TableColumnItem>
+                <PropertyName>Iops</PropertyName>
+              </TableColumnItem>
+              <TableColumnItem>
                 <PropertyName>IsEnabled</PropertyName>
               </TableColumnItem>
               <TableColumnItem>
                 <PropertyName>QuotaBuffer</PropertyName>
+              </TableColumnItem>
+              <TableColumnItem>
+                <PropertyName>Throughput</PropertyName>
               </TableColumnItem>
               <TableColumnItem>
                 <PropertyName>TimezoneId</PropertyName>
@@ -2645,6 +2799,76 @@
               </TableColumnItem>
               <TableColumnItem>
                 <PropertyName>ScaleOutInterval</PropertyName>
+              </TableColumnItem>
+              <TableColumnItem>
+                <PropertyName>TransactionThreshold</PropertyName>
+              </TableColumnItem>
+              <TableColumnItem>
+                <PropertyName>Trigger</PropertyName>
+              </TableColumnItem>
+            </TableColumnItems>
+          </TableRowEntry>
+        </TableRowEntries>
+      </TableControl>
+    </View>
+    <View>
+      <Name>NmePowershell.Models.AzureFilesScalingRule</Name>
+      <ViewSelectedBy>
+        <TypeName>NmePowershell.Models.AzureFilesScalingRule#Multiple</TypeName>
+      </ViewSelectedBy>
+      <TableControl>
+        <TableHeaders>
+          <TableColumnHeader>
+            <Label>ScaleInBy</Label>
+          </TableColumnHeader>
+          <TableColumnHeader>
+            <Label>ScaleInInterval</Label>
+          </TableColumnHeader>
+          <TableColumnHeader>
+            <Label>ScaleInLowLatency</Label>
+          </TableColumnHeader>
+          <TableColumnHeader>
+            <Label>ScaleOutBy</Label>
+          </TableColumnHeader>
+          <TableColumnHeader>
+            <Label>ScaleOutHighLatency</Label>
+          </TableColumnHeader>
+          <TableColumnHeader>
+            <Label>ScaleOutInterval</Label>
+          </TableColumnHeader>
+          <TableColumnHeader>
+            <Label>Target</Label>
+          </TableColumnHeader>
+          <TableColumnHeader>
+            <Label>TransactionThreshold</Label>
+          </TableColumnHeader>
+          <TableColumnHeader>
+            <Label>Trigger</Label>
+          </TableColumnHeader>
+        </TableHeaders>
+        <TableRowEntries>
+          <TableRowEntry>
+            <TableColumnItems>
+              <TableColumnItem>
+                <PropertyName>ScaleInBy</PropertyName>
+              </TableColumnItem>
+              <TableColumnItem>
+                <PropertyName>ScaleInInterval</PropertyName>
+              </TableColumnItem>
+              <TableColumnItem>
+                <PropertyName>ScaleInLowLatency</PropertyName>
+              </TableColumnItem>
+              <TableColumnItem>
+                <PropertyName>ScaleOutBy</PropertyName>
+              </TableColumnItem>
+              <TableColumnItem>
+                <PropertyName>ScaleOutHighLatency</PropertyName>
+              </TableColumnItem>
+              <TableColumnItem>
+                <PropertyName>ScaleOutInterval</PropertyName>
+              </TableColumnItem>
+              <TableColumnItem>
+                <PropertyName>Target</PropertyName>
               </TableColumnItem>
               <TableColumnItem>
                 <PropertyName>TransactionThreshold</PropertyName>
@@ -3546,6 +3770,9 @@
             <Label>AutoScaleInterval</Label>
           </TableColumnHeader>
           <TableColumnHeader>
+            <Label>AutoScaleMethod</Label>
+          </TableColumnHeader>
+          <TableColumnHeader>
             <Label>BurstCapacity</Label>
           </TableColumnHeader>
           <TableColumnHeader>
@@ -3605,6 +3832,9 @@
               </TableColumnItem>
               <TableColumnItem>
                 <PropertyName>AutoScaleInterval</PropertyName>
+              </TableColumnItem>
+              <TableColumnItem>
+                <PropertyName>AutoScaleMethod</PropertyName>
               </TableColumnItem>
               <TableColumnItem>
                 <PropertyName>BurstCapacity</PropertyName>
@@ -5898,6 +6128,9 @@
             <Label>AllowCreateVM</Label>
           </TableColumnHeader>
           <TableColumnHeader>
+            <Label>AllowPreStageDesktops</Label>
+          </TableColumnHeader>
+          <TableColumnHeader>
             <Label>AllowReimageDesktops</Label>
           </TableColumnHeader>
           <TableColumnHeader>
@@ -5937,6 +6170,9 @@
             <Label>AutoRevertPersonalSizeSessionState</Label>
           </TableColumnHeader>
           <TableColumnHeader>
+            <Label>ConnectOption</Label>
+          </TableColumnHeader>
+          <TableColumnHeader>
             <Label>EnableUserSelfServicePortal</Label>
           </TableColumnHeader>
           <TableColumnHeader>
@@ -5957,6 +6193,9 @@
               </TableColumnItem>
               <TableColumnItem>
                 <PropertyName>AllowCreateVM</PropertyName>
+              </TableColumnItem>
+              <TableColumnItem>
+                <PropertyName>AllowPreStageDesktops</PropertyName>
               </TableColumnItem>
               <TableColumnItem>
                 <PropertyName>AllowReimageDesktops</PropertyName>
@@ -5996,6 +6235,9 @@
               </TableColumnItem>
               <TableColumnItem>
                 <PropertyName>AutoRevertPersonalSizeSessionState</PropertyName>
+              </TableColumnItem>
+              <TableColumnItem>
+                <PropertyName>ConnectOption</PropertyName>
               </TableColumnItem>
               <TableColumnItem>
                 <PropertyName>EnableUserSelfServicePortal</PropertyName>
@@ -6056,6 +6298,9 @@
             <Label>AllowCreateVM</Label>
           </TableColumnHeader>
           <TableColumnHeader>
+            <Label>AllowPreStageDesktops</Label>
+          </TableColumnHeader>
+          <TableColumnHeader>
             <Label>AllowReimageDesktops</Label>
           </TableColumnHeader>
           <TableColumnHeader>
@@ -6095,6 +6340,9 @@
             <Label>AutoRevertPersonalSizeSessionState</Label>
           </TableColumnHeader>
           <TableColumnHeader>
+            <Label>ConnectOption</Label>
+          </TableColumnHeader>
+          <TableColumnHeader>
             <Label>EnableUserSelfServicePortal</Label>
           </TableColumnHeader>
           <TableColumnHeader>
@@ -6115,6 +6363,9 @@
               </TableColumnItem>
               <TableColumnItem>
                 <PropertyName>AllowCreateVM</PropertyName>
+              </TableColumnItem>
+              <TableColumnItem>
+                <PropertyName>AllowPreStageDesktops</PropertyName>
               </TableColumnItem>
               <TableColumnItem>
                 <PropertyName>AllowReimageDesktops</PropertyName>
@@ -6154,6 +6405,9 @@
               </TableColumnItem>
               <TableColumnItem>
                 <PropertyName>AutoRevertPersonalSizeSessionState</PropertyName>
+              </TableColumnItem>
+              <TableColumnItem>
+                <PropertyName>ConnectOption</PropertyName>
               </TableColumnItem>
               <TableColumnItem>
                 <PropertyName>EnableUserSelfServicePortal</PropertyName>
@@ -9310,6 +9564,52 @@
       </TableControl>
     </View>
     <View>
+      <Name>NmePowershell.Models.NotificationHealthAlertCondition</Name>
+      <ViewSelectedBy>
+        <TypeName>NmePowershell.Models.NotificationHealthAlertCondition#Multiple</TypeName>
+      </ViewSelectedBy>
+      <TableControl>
+        <TableHeaders>
+          <TableColumnHeader>
+            <Label>Id</Label>
+          </TableColumnHeader>
+          <TableColumnHeader>
+            <Label>IsAvailable</Label>
+          </TableColumnHeader>
+          <TableColumnHeader>
+            <Label>Metric</Label>
+          </TableColumnHeader>
+          <TableColumnHeader>
+            <Label>Name</Label>
+          </TableColumnHeader>
+          <TableColumnHeader>
+            <Label>Severity</Label>
+          </TableColumnHeader>
+        </TableHeaders>
+        <TableRowEntries>
+          <TableRowEntry>
+            <TableColumnItems>
+              <TableColumnItem>
+                <PropertyName>Id</PropertyName>
+              </TableColumnItem>
+              <TableColumnItem>
+                <PropertyName>IsAvailable</PropertyName>
+              </TableColumnItem>
+              <TableColumnItem>
+                <PropertyName>Metric</PropertyName>
+              </TableColumnItem>
+              <TableColumnItem>
+                <PropertyName>Name</PropertyName>
+              </TableColumnItem>
+              <TableColumnItem>
+                <PropertyName>Severity</PropertyName>
+              </TableColumnItem>
+            </TableColumnItems>
+          </TableRowEntry>
+        </TableRowEntries>
+      </TableControl>
+    </View>
+    <View>
       <Name>NmePowershell.Models.NotificationMailboxRestModel</Name>
       <ViewSelectedBy>
         <TypeName>NmePowershell.Models.NotificationMailboxRestModel#Multiple</TypeName>
@@ -9623,6 +9923,9 @@
           <TableColumnHeader>
             <Label>NotificationTemplate</Label>
           </TableColumnHeader>
+          <TableColumnHeader>
+            <Label>SessionType</Label>
+          </TableColumnHeader>
         </TableHeaders>
         <TableRowEntries>
           <TableRowEntry>
@@ -9659,6 +9962,9 @@
               </TableColumnItem>
               <TableColumnItem>
                 <PropertyName>NotificationTemplate</PropertyName>
+              </TableColumnItem>
+              <TableColumnItem>
+                <PropertyName>SessionType</PropertyName>
               </TableColumnItem>
             </TableColumnItems>
           </TableRowEntry>
@@ -13519,6 +13825,9 @@
       <TableControl>
         <TableHeaders>
           <TableColumnHeader>
+            <Label>DeploymentScope</Label>
+          </TableColumnHeader>
+          <TableColumnHeader>
             <Label>Description</Label>
           </TableColumnHeader>
           <TableColumnHeader>
@@ -13531,6 +13840,9 @@
         <TableRowEntries>
           <TableRowEntry>
             <TableColumnItems>
+              <TableColumnItem>
+                <PropertyName>DeploymentScope</PropertyName>
+              </TableColumnItem>
               <TableColumnItem>
                 <PropertyName>Description</PropertyName>
               </TableColumnItem>

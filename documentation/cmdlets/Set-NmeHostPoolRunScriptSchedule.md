@@ -20,7 +20,7 @@ Update scheduled script execution on ARM host pool session hosts' VMs
 | ResourceGroup | String | Yes |  |
 | ScheduleId | Int32 | Yes |  |
 | ScheduleRecurrenceType | String | Yes | Values: `Once`, `Daily`, `Weekly`, `Monthly`, `Hourly`, `PatchTuesday` |
-| ScheduleStartDate | DateTime | Yes |  |
+| ScheduleStartDate | DateTime | Yes | Calendar date in `TimeZoneId` (not UTC). |
 | ScheduleStartHour | Int32 | Yes |  |
 | ScheduleStartMinutes | Int32 | Yes |  |
 | ScheduleTimeZoneId | String | Yes |  |

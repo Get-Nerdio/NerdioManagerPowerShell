@@ -12,20 +12,18 @@ Get ARM workspace user sessions
 
 | Parameter | Type | Required | Description |
 |-----------|------|----------|-------------|
-| Hostname | String | Yes |  |
 | ResourceGroup | String | Yes |  |
 | SubscriptionId | String | Yes |  |
-| Username | String | Yes |  |
 | WorkspaceName | String | Yes |  |
+| Hostname | String | No |  |
+| Username | String | No |  |
 
 ## Examples
 
 ```powershell
 Get-NmeWorkspaceUserSession `
-    -Hostname "<Hostname>" `
     -ResourceGroup "<ResourceGroup>" `
     -SubscriptionId "<SubscriptionId>" `
-    -Username "<Username>" `
     -WorkspaceName "<WorkspaceName>"
 ```
 

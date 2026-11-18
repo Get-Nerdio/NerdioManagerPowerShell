@@ -1,5 +1,39 @@
 # Changelog
 
+## 1.4.0-preview
+
+### New cmdlets
+
+#### Health Alerts
+- `Get-NmeNotificationHealthAlertCondition`
+
+#### Azure Files Autoscale Models
+- `New-NmeAzureFilesPerformanceBoundsModel`
+- `New-NmeAzureFilesScalingRuleModel`
+
+### Breaking changes
+- `New-NmeWorkspace` and `New-NmeWorkspaceCreateModel` - Added mandatory `DeploymentScope` parameter (`Geographical` or `Regional`)
+- `New-NmeNotificationAction` and `New-NmeNotificationActionCreateModel` - Added mandatory `ConditionHealthAlertConditionIds` parameter
+- `New-NmeNotificationActionConditionsModel` - Added mandatory `HealthAlertConditionIds` parameter
+- `New-NmePersonalAutoShrinkConfigurationModel` - Added mandatory `SessionType` parameter (`All` or `Active`)
+- `Get-NmeFileShareAutoscale` - Output type changed from `IAzureFilesAutoscaleConfig` to `IAzureFilesAutoscaleConfigState`
+
+### Changes to existing cmdlets
+- `Set-NmeFileShareAutoscale`, `Update-NmeFileShareAutoscaleStatus`, `New-NmeAzureFilesAutoscaleConfigModel`, and `New-NmeAzureFilesAutoscaleConfigUpdateModel` - Added Azure Files V2 storage type, scaling rules, IOPS and throughput bounds, and pre-stage IOPS and throughput parameters
+- `Set-NmeFileShareAutoscale` and `New-NmeAzureFilesAutoscaleConfigModel` - `ScalingScaleInBy`, `ScalingScaleInInterval`, `ScalingScaleInLowLatency`, `ScalingScaleOutBy`, `ScalingScaleOutHighLatency`, `ScalingScaleOutInterval`, `ScalingTransactionThreshold`, and `ScalingTrigger` are no longer mandatory
+- `New-NmeAzureFilesPreStageConfigModel` and `New-NmeAzureFilesPreStageConfigUpdateModel` - Added `Iops` and `Throughput` parameters
+- `Set-NmeHostPoolAutoScale`, `New-NmeDynamicPoolConfigurationModel`, `New-NmeAutoScaleDefaultConfigurationModel`, and `New-NmeAutoScaleDefaultConfigurationUpdateModel` - Added `AutoScaleMethod` parameter (`Dynamic` or `PowerManagement`)
+- `New-NmeDynamicPoolTriggerInfoModel` - Added `PersonalAutoShrinkSessionType` parameter
+- `Update-NmeHostPoolUserSelfServiceProperty` and `New-NmeHostPoolUserSelfServiceUpdateModel` - Added `AllowPreStageDesktops` and `ConnectOption` parameters
+- `Update-NmeNotificationAction` and `New-NmeNotificationActionUpdateModel` - Added `ConditionHealthAlertConditionIds` parameter
+- `New-NmeNotificationActionConditionsUpdateModel` - Added `HealthAlertConditionIds` parameter
+- `Get-NmeHostPoolUserSession` and `Get-NmeWorkspaceUserSession` - `Hostname` and `Username` are no longer mandatory
+- `Get-NmeSessionHostsByWorkspace` - `Username` is no longer mandatory
+- Clarified that `ScheduleStartDate` is a calendar date in `TimeZoneId`, not UTC, in schedule cmdlet documentation
+
+> [!NOTE]
+> Compatible with NME 8.3.0 REST API
+
 ## 1.3.1-preview
 
 ### New cmdlets

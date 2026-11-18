@@ -2625,7 +2625,7 @@ Get Azure Files auto-scale
 
 #>
 function Get-NmeFileShareAutoscale {
-[OutputType([NmePowershell.Models.IAzureFilesAutoscaleConfig])]
+[OutputType([NmePowershell.Models.IAzureFilesAutoscaleConfigState])]
 [CmdletBinding(DefaultParameterSetName='Get', PositionalBinding=$false)]
 param(
     [Parameter(Mandatory)]
@@ -5362,13 +5362,13 @@ param(
     # .
     ${SubscriptionId},
 
-    [Parameter(Mandatory)]
+    [Parameter()]
     [NmePowershell.Category('Query')]
     [System.String]
     # .
     ${Hostname},
 
-    [Parameter(Mandatory)]
+    [Parameter()]
     [NmePowershell.Category('Query')]
     [System.String]
     # .
@@ -7895,6 +7895,107 @@ end {
 
 <#
 .Synopsis
+
+.Description
+
+
+#>
+function Get-NmeNotificationHealthAlertCondition {
+[OutputType([NmePowershell.Models.INotificationHealthAlertCondition])]
+[CmdletBinding(DefaultParameterSetName='Get', PositionalBinding=$false)]
+param(
+    [Parameter(DontShow)]
+    [NmePowershell.Category('Runtime')]
+    [System.Management.Automation.SwitchParameter]
+    # Wait for .NET debugger to attach
+    ${Break},
+
+    [Parameter(DontShow)]
+    [ValidateNotNull()]
+    [NmePowershell.Category('Runtime')]
+    [NmePowershell.Runtime.SendAsyncStep[]]
+    # SendAsync Pipeline Steps to be appended to the front of the pipeline
+    ${HttpPipelineAppend},
+
+    [Parameter(DontShow)]
+    [ValidateNotNull()]
+    [NmePowershell.Category('Runtime')]
+    [NmePowershell.Runtime.SendAsyncStep[]]
+    # SendAsync Pipeline Steps to be prepended to the front of the pipeline
+    ${HttpPipelinePrepend},
+
+    [Parameter(DontShow)]
+    [NmePowershell.Category('Runtime')]
+    [System.Uri]
+    # The URI for the proxy server to use
+    ${Proxy},
+
+    [Parameter(DontShow)]
+    [ValidateNotNull()]
+    [NmePowershell.Category('Runtime')]
+    [System.Management.Automation.PSCredential]
+    # Credentials for a proxy server to use for the remote call
+    ${ProxyCredential},
+
+    [Parameter(DontShow)]
+    [NmePowershell.Category('Runtime')]
+    [System.Management.Automation.SwitchParameter]
+    # Use the default credentials for the proxy
+    ${ProxyUseDefaultCredentials}
+)
+
+begin {
+    try {
+        $outBuffer = $null
+        if ($PSBoundParameters.TryGetValue('OutBuffer', [ref]$outBuffer)) {
+            $PSBoundParameters['OutBuffer'] = 1
+        }
+        $parameterSet = $PSCmdlet.ParameterSetName
+        
+        $testPlayback = $false
+        $PSBoundParameters['HttpPipelinePrepend'] | Foreach-Object { if ($_) { $testPlayback = $testPlayback -or ('NmePowershell.Runtime.PipelineMock' -eq $_.Target.GetType().FullName -and 'Playback' -eq $_.Target.Mode) } }
+
+        $mapping = @{
+            Get = 'NerdioManagerPowerShell.private\Get-NmeNotificationHealthAlertCondition_Get';
+        }
+        $cmdInfo = Get-Command -Name $mapping[$parameterSet]
+        [NmePowershell.Runtime.MessageAttributeHelper]::ProcessCustomAttributesAtRuntime($cmdInfo, $MyInvocation, $parameterSet, $PSCmdlet)
+        [NmePowershell.Runtime.MessageAttributeHelper]::ProcessPreviewMessageAttributesAtRuntime($cmdInfo, $MyInvocation, $parameterSet, $PSCmdlet)
+        $wrappedCmd = $ExecutionContext.InvokeCommand.GetCommand(($mapping[$parameterSet]), [System.Management.Automation.CommandTypes]::Cmdlet)
+        if ($wrappedCmd -eq $null) {
+            $wrappedCmd = $ExecutionContext.InvokeCommand.GetCommand(($mapping[$parameterSet]), [System.Management.Automation.CommandTypes]::Function)
+        }
+        $scriptCmd = {& $wrappedCmd @PSBoundParameters}
+        $steppablePipeline = $scriptCmd.GetSteppablePipeline($MyInvocation.CommandOrigin)
+        $steppablePipeline.Begin($PSCmdlet)
+    } catch {
+
+        throw
+    }
+}
+
+process {
+    try {
+        $steppablePipeline.Process($_)
+    } catch {
+
+        throw
+    }
+
+}
+end {
+    try {
+        $steppablePipeline.End()
+
+    } catch {
+
+        throw
+    }
+} 
+}
+
+<#
+.Synopsis
 Get versions
 .Description
 Get versions
@@ -8913,7 +9014,7 @@ param(
     # .
     ${WorkspaceName},
 
-    [Parameter(Mandatory)]
+    [Parameter()]
     [NmePowershell.Category('Query')]
     [System.String]
     # .
@@ -10124,13 +10225,13 @@ param(
     # .
     ${WorkspaceName},
 
-    [Parameter(Mandatory)]
+    [Parameter()]
     [NmePowershell.Category('Query')]
     [System.String]
     # .
     ${Hostname},
 
-    [Parameter(Mandatory)]
+    [Parameter()]
     [NmePowershell.Category('Query')]
     [System.String]
     # .
@@ -14402,7 +14503,8 @@ param(
     [Parameter(ParameterSetName='NewExpanded', Mandatory)]
     [NmePowershell.Category('Body')]
     [System.DateTime]
-    # .
+    # Calendar date in `TimeZoneId` (not UTC).
+    # Time of day is set by `StartHour` and `StartMinutes`.
     ${ScheduleStartDate},
 
     [Parameter(ParameterSetName='NewExpanded', Mandatory)]
@@ -15243,7 +15345,8 @@ param(
     [Parameter(ParameterSetName='NewExpanded', Mandatory)]
     [NmePowershell.Category('Body')]
     [System.DateTime]
-    # .
+    # Calendar date in `TimeZoneId` (not UTC).
+    # Time of day is set by `StartHour` and `StartMinutes`.
     ${ScheduleStartDate},
 
     [Parameter(ParameterSetName='NewExpanded', Mandatory)]
@@ -15548,7 +15651,8 @@ param(
     [Parameter(ParameterSetName='NewExpanded', Mandatory)]
     [NmePowershell.Category('Body')]
     [System.DateTime]
-    # .
+    # Calendar date in `TimeZoneId` (not UTC).
+    # Time of day is set by `StartHour` and `StartMinutes`.
     ${ScheduleStartDate},
 
     [Parameter(ParameterSetName='NewExpanded', Mandatory)]
@@ -17795,6 +17899,13 @@ param(
     [NmePowershell.Category('Body')]
     [System.Int32[]]
     # .
+    ${ConditionHealthAlertConditionIds},
+
+    [Parameter(ParameterSetName='NewExpanded', Mandatory)]
+    [AllowEmptyCollection()]
+    [NmePowershell.Category('Body')]
+    [System.Int32[]]
+    # .
     ${ConditionNerdioConditionIds},
 
     [Parameter(ParameterSetName='NewExpanded', Mandatory)]
@@ -18279,7 +18390,8 @@ param(
     [Parameter(ParameterSetName='NewExpanded', Mandatory)]
     [NmePowershell.Category('Body')]
     [System.DateTime]
-    # .
+    # Calendar date in `TimeZoneId` (not UTC).
+    # Time of day is set by `StartHour` and `StartMinutes`.
     ${ScheduleStartDate},
 
     [Parameter(ParameterSetName='NewExpanded', Mandatory)]
@@ -19004,9 +19116,9 @@ end {
 
 <#
 .Synopsis
-To choose more than one user to assign them to hosts in personal pool, write them in \"userToAssign\" field and separate them with comma [,].\r\n\r\nHost Name depends on \"Name\" value and \"AddSuffix\" value.\r\nWhen \"AddSuffix\" is false the host name will follow \"Exact\" name forming.\r\nWhen \"AddSuffix\" is true the host name will follow \"Prefix\" name forming.
+To choose more than one user to assign them to hosts in personal pool, write them in \"userToAssign\" field and separate them with comma [,].\r\n            \r\nHost Name depends on \"Name\" value and \"AddSuffix\" value.\r\nWhen \"AddSuffix\" is false the host name will follow \"Exact\" name forming.\r\nWhen \"AddSuffix\" is true the host name will follow \"Prefix\" name forming.
 .Description
-To choose more than one user to assign them to hosts in personal pool, write them in \"userToAssign\" field and separate them with comma [,].\r\n\r\nHost Name depends on \"Name\" value and \"AddSuffix\" value.\r\nWhen \"AddSuffix\" is false the host name will follow \"Exact\" name forming.\r\nWhen \"AddSuffix\" is true the host name will follow \"Prefix\" name forming.
+To choose more than one user to assign them to hosts in personal pool, write them in \"userToAssign\" field and separate them with comma [,].\r\n            \r\nHost Name depends on \"Name\" value and \"AddSuffix\" value.\r\nWhen \"AddSuffix\" is false the host name will follow \"Exact\" name forming.\r\nWhen \"AddSuffix\" is true the host name will follow \"Prefix\" name forming.
 
 #>
 function New-NmeSessionHost {
@@ -19721,6 +19833,13 @@ param(
     [NmePowershell.Models.IWorkspaceCreate]
     # .
     ${Body},
+
+    [Parameter(ParameterSetName='NewExpanded', Mandatory)]
+    [NmePowershell.PSArgumentCompleterAttribute("Geographical", "Regional")]
+    [NmePowershell.Category('Body')]
+    [System.String]
+    # .
+    ${DeploymentScope},
 
     [Parameter(ParameterSetName='NewExpanded', Mandatory)]
     [NmePowershell.Category('Body')]
@@ -23779,7 +23898,8 @@ param(
     [Parameter(ParameterSetName='SetExpanded', Mandatory)]
     [NmePowershell.Category('Body')]
     [System.DateTime]
-    # .
+    # Calendar date in `TimeZoneId` (not UTC).
+    # Time of day is set by `StartHour` and `StartMinutes`.
     ${ScheduleStartDate},
 
     [Parameter(ParameterSetName='SetExpanded', Mandatory)]
@@ -24001,55 +24121,6 @@ param(
     ${PreStageIsEnabled},
 
     [Parameter(ParameterSetName='SetExpanded', Mandatory)]
-    [NmePowershell.Category('Body')]
-    [System.Int32]
-    # .
-    ${ScalingScaleInBy},
-
-    [Parameter(ParameterSetName='SetExpanded', Mandatory)]
-    [NmePowershell.Category('Body')]
-    [System.Int32]
-    # .
-    ${ScalingScaleInInterval},
-
-    [Parameter(ParameterSetName='SetExpanded', Mandatory)]
-    [NmePowershell.Category('Body')]
-    [System.Int32]
-    # .
-    ${ScalingScaleInLowLatency},
-
-    [Parameter(ParameterSetName='SetExpanded', Mandatory)]
-    [NmePowershell.Category('Body')]
-    [System.Int32]
-    # .
-    ${ScalingScaleOutBy},
-
-    [Parameter(ParameterSetName='SetExpanded', Mandatory)]
-    [NmePowershell.Category('Body')]
-    [System.Int32]
-    # .
-    ${ScalingScaleOutHighLatency},
-
-    [Parameter(ParameterSetName='SetExpanded', Mandatory)]
-    [NmePowershell.Category('Body')]
-    [System.Int32]
-    # .
-    ${ScalingScaleOutInterval},
-
-    [Parameter(ParameterSetName='SetExpanded', Mandatory)]
-    [NmePowershell.Category('Body')]
-    [System.Int32]
-    # .
-    ${ScalingTransactionThreshold},
-
-    [Parameter(ParameterSetName='SetExpanded', Mandatory)]
-    [NmePowershell.PSArgumentCompleterAttribute("MaxSuccessServerLatency", "AvgSuccessServerLatency")]
-    [NmePowershell.Category('Body')]
-    [System.String]
-    # .
-    ${ScalingTrigger},
-
-    [Parameter(ParameterSetName='SetExpanded', Mandatory)]
     [NmePowershell.PSArgumentCompleterAttribute("Percent", "SizeGb", "SizeTb")]
     [NmePowershell.Category('Body')]
     [System.String]
@@ -24060,7 +24131,34 @@ param(
     [NmePowershell.Category('Body')]
     [System.Int32]
     # .
+    ${IopBoundMax},
+
+    [Parameter(ParameterSetName='SetExpanded')]
+    [NmePowershell.Category('Body')]
+    [System.Int32]
+    # .
+    ${IopBoundMin},
+
+    [Parameter(ParameterSetName='SetExpanded')]
+    [NmePowershell.Category('Body')]
+    [System.Int32]
+    # Pre-stage provisioned IOPS.
+    # Provisioned V2 only
+    ${PreStageIops},
+
+    [Parameter(ParameterSetName='SetExpanded')]
+    [NmePowershell.Category('Body')]
+    [System.Int32]
+    # Pre-stage quota buffer.
+    # Provisioned V1 only
     ${PreStageQuotaBuffer},
+
+    [Parameter(ParameterSetName='SetExpanded')]
+    [NmePowershell.Category('Body')]
+    [System.Int32]
+    # Pre-stage provisioned throughput.
+    # Provisioned V2 only
+    ${PreStageThroughput},
 
     [Parameter(ParameterSetName='SetExpanded')]
     [NmePowershell.Category('Body')]
@@ -24075,6 +24173,82 @@ param(
     [System.Int32[]]
     # .
     ${PreStageWorkDays},
+
+    [Parameter(ParameterSetName='SetExpanded')]
+    [AllowEmptyCollection()]
+    [NmePowershell.Category('Body')]
+    [NmePowershell.Models.IAzureFilesScalingRule[]]
+    # Scaling rules.
+    # Required unless Scaling is set, and used instead of it
+    ${ScalingRules},
+
+    [Parameter(ParameterSetName='SetExpanded')]
+    [NmePowershell.Category('Body')]
+    [System.Int32]
+    # .
+    ${ScalingScaleInBy},
+
+    [Parameter(ParameterSetName='SetExpanded')]
+    [NmePowershell.Category('Body')]
+    [System.Int32]
+    # .
+    ${ScalingScaleInInterval},
+
+    [Parameter(ParameterSetName='SetExpanded')]
+    [NmePowershell.Category('Body')]
+    [System.Int32]
+    # .
+    ${ScalingScaleInLowLatency},
+
+    [Parameter(ParameterSetName='SetExpanded')]
+    [NmePowershell.Category('Body')]
+    [System.Int32]
+    # .
+    ${ScalingScaleOutBy},
+
+    [Parameter(ParameterSetName='SetExpanded')]
+    [NmePowershell.Category('Body')]
+    [System.Int32]
+    # .
+    ${ScalingScaleOutHighLatency},
+
+    [Parameter(ParameterSetName='SetExpanded')]
+    [NmePowershell.Category('Body')]
+    [System.Int32]
+    # .
+    ${ScalingScaleOutInterval},
+
+    [Parameter(ParameterSetName='SetExpanded')]
+    [NmePowershell.Category('Body')]
+    [System.Int32]
+    # .
+    ${ScalingTransactionThreshold},
+
+    [Parameter(ParameterSetName='SetExpanded')]
+    [NmePowershell.PSArgumentCompleterAttribute("MaxSuccessServerLatency", "AvgSuccessServerLatency")]
+    [NmePowershell.Category('Body')]
+    [System.String]
+    # .
+    ${ScalingTrigger},
+
+    [Parameter(ParameterSetName='SetExpanded')]
+    [NmePowershell.PSArgumentCompleterAttribute("AzureFiles", "AzureFilesV2")]
+    [NmePowershell.Category('Body')]
+    [System.String]
+    # .
+    ${StorageType},
+
+    [Parameter(ParameterSetName='SetExpanded')]
+    [NmePowershell.Category('Body')]
+    [System.Int32]
+    # .
+    ${ThroughputBoundMax},
+
+    [Parameter(ParameterSetName='SetExpanded')]
+    [NmePowershell.Category('Body')]
+    [System.Int32]
+    # .
+    ${ThroughputBoundMin},
 
     [Parameter(DontShow)]
     [NmePowershell.Category('Runtime')]
@@ -24535,6 +24709,13 @@ param(
     [System.Int32]
     # .
     ${AutoScaleInterval},
+
+    [Parameter(ParameterSetName='SetExpanded')]
+    [NmePowershell.PSArgumentCompleterAttribute("Dynamic", "PowerManagement")]
+    [NmePowershell.Category('Body')]
+    [System.String]
+    # .
+    ${AutoScaleMethod},
 
     [Parameter(ParameterSetName='SetExpanded')]
     [AllowEmptyCollection()]
@@ -25262,7 +25443,8 @@ param(
     [Parameter(ParameterSetName='SetExpanded', Mandatory)]
     [NmePowershell.Category('Body')]
     [System.DateTime]
-    # .
+    # Calendar date in `TimeZoneId` (not UTC).
+    # Time of day is set by `StartHour` and `StartMinutes`.
     ${ScheduleStartDate},
 
     [Parameter(ParameterSetName='SetExpanded', Mandatory)]
@@ -25573,7 +25755,8 @@ param(
     [Parameter(ParameterSetName='SetExpanded', Mandatory)]
     [NmePowershell.Category('Body')]
     [System.DateTime]
-    # .
+    # Calendar date in `TimeZoneId` (not UTC).
+    # Time of day is set by `StartHour` and `StartMinutes`.
     ${ScheduleStartDate},
 
     [Parameter(ParameterSetName='SetExpanded', Mandatory)]
@@ -26899,7 +27082,8 @@ param(
     [Parameter(ParameterSetName='SetExpanded', Mandatory)]
     [NmePowershell.Category('Body')]
     [System.DateTime]
-    # .
+    # Calendar date in `TimeZoneId` (not UTC).
+    # Time of day is set by `StartHour` and `StartMinutes`.
     ${ScheduleStartDate},
 
     [Parameter(ParameterSetName='SetExpanded', Mandatory)]
@@ -28368,9 +28552,28 @@ param(
 
     [Parameter(ParameterSetName='UpdateExpanded')]
     [NmePowershell.Category('Body')]
+    [System.Int32]
+    # .
+    ${IopBoundMax},
+
+    [Parameter(ParameterSetName='UpdateExpanded')]
+    [NmePowershell.Category('Body')]
+    [System.Int32]
+    # .
+    ${IopBoundMin},
+
+    [Parameter(ParameterSetName='UpdateExpanded')]
+    [NmePowershell.Category('Body')]
     [System.Management.Automation.SwitchParameter]
     # .
     ${IsEnabled},
+
+    [Parameter(ParameterSetName='UpdateExpanded')]
+    [NmePowershell.Category('Body')]
+    [System.Int32]
+    # Pre-stage provisioned IOPS.
+    # Provisioned V2 only
+    ${PreStageIops},
 
     [Parameter(ParameterSetName='UpdateExpanded')]
     [NmePowershell.Category('Body')]
@@ -28381,8 +28584,16 @@ param(
     [Parameter(ParameterSetName='UpdateExpanded')]
     [NmePowershell.Category('Body')]
     [System.Int32]
-    # .
+    # Pre-stage quota buffer.
+    # Provisioned V1 only
     ${PreStageQuotaBuffer},
+
+    [Parameter(ParameterSetName='UpdateExpanded')]
+    [NmePowershell.Category('Body')]
+    [System.Int32]
+    # Pre-stage provisioned throughput.
+    # Provisioned V2 only
+    ${PreStageThroughput},
 
     [Parameter(ParameterSetName='UpdateExpanded')]
     [NmePowershell.Category('Body')]
@@ -28397,6 +28608,15 @@ param(
     [System.Int32[]]
     # .
     ${PreStageWorkDays},
+
+    [Parameter(ParameterSetName='UpdateExpanded')]
+    [AllowEmptyCollection()]
+    [NmePowershell.Category('Body')]
+    [NmePowershell.Models.IAzureFilesScalingRule[]]
+    # Scaling rules.
+    # Replace all rules, each one must be complete.
+    # Used instead of Scaling
+    ${ScalingRules},
 
     [Parameter(ParameterSetName='UpdateExpanded')]
     [NmePowershell.Category('Body')]
@@ -28446,6 +28666,25 @@ param(
     [System.String]
     # .
     ${ScalingTrigger},
+
+    [Parameter(ParameterSetName='UpdateExpanded')]
+    [NmePowershell.PSArgumentCompleterAttribute("AzureFiles", "AzureFilesV2")]
+    [NmePowershell.Category('Body')]
+    [System.String]
+    # .
+    ${StorageType},
+
+    [Parameter(ParameterSetName='UpdateExpanded')]
+    [NmePowershell.Category('Body')]
+    [System.Int32]
+    # .
+    ${ThroughputBoundMax},
+
+    [Parameter(ParameterSetName='UpdateExpanded')]
+    [NmePowershell.Category('Body')]
+    [System.Int32]
+    # .
+    ${ThroughputBoundMin},
 
     [Parameter(ParameterSetName='UpdateExpanded')]
     [NmePowershell.PSArgumentCompleterAttribute("Percent", "SizeGb", "SizeTb")]
@@ -30944,6 +31183,12 @@ param(
     [NmePowershell.Category('Body')]
     [System.Management.Automation.SwitchParameter]
     # .
+    ${AllowPreStageDesktops},
+
+    [Parameter(ParameterSetName='UpdateExpanded')]
+    [NmePowershell.Category('Body')]
+    [System.Management.Automation.SwitchParameter]
+    # .
     ${AllowReimageDesktops},
 
     [Parameter(ParameterSetName='UpdateExpanded')]
@@ -31067,6 +31312,13 @@ param(
     [System.String]
     # .
     ${AutoRevertPersonalSizeSessionState},
+
+    [Parameter(ParameterSetName='UpdateExpanded')]
+    [NmePowershell.PSArgumentCompleterAttribute("Disabled", "App", "Web", "AppAndWeb")]
+    [NmePowershell.Category('Body')]
+    [System.String]
+    # .
+    ${ConnectOption},
 
     [Parameter(ParameterSetName='UpdateExpanded')]
     [NmePowershell.Category('Body')]
@@ -32568,6 +32820,13 @@ param(
     [NmePowershell.Models.INotificationActionUpdate]
     # .
     ${Body},
+
+    [Parameter(ParameterSetName='UpdateExpanded')]
+    [AllowEmptyCollection()]
+    [NmePowershell.Category('Body')]
+    [System.Int32[]]
+    # .
+    ${ConditionHealthAlertConditionIds},
 
     [Parameter(ParameterSetName='UpdateExpanded')]
     [AllowEmptyCollection()]
@@ -36475,6 +36734,12 @@ param(
     ${AutoHealConfigs},
 
     [Parameter()]
+    [NmePowershell.PSArgumentCompleterAttribute("Dynamic", "PowerManagement")]
+    [NmePowershell.Category('Body')]
+    [System.String]
+    ${AutoScaleMethod},
+
+    [Parameter()]
     [NmePowershell.Category('Body')]
     [NmePowershell.Models.IAutoHealAction[]]
     # 
@@ -36673,6 +36938,12 @@ param(
     [NmePowershell.Category('Body')]
     [System.Boolean]
     ${AutoHealEnable},
+
+    [Parameter()]
+    [NmePowershell.PSArgumentCompleterAttribute("Dynamic", "PowerManagement")]
+    [NmePowershell.Category('Body')]
+    [System.String]
+    ${AutoScaleMethod},
 
     [Parameter()]
     [NmePowershell.PSArgumentCompleterAttribute("BreadthFirst", "DepthFirst", "Persistent", "MultiplePersistent")]
@@ -38853,47 +39124,6 @@ param(
     ${PreStageIsEnabled},
 
     [Parameter(Mandatory)]
-    [NmePowershell.Category('Body')]
-    [System.Int32]
-    ${ScalingScaleInBy},
-
-    [Parameter(Mandatory)]
-    [NmePowershell.Category('Body')]
-    [System.Int32]
-    ${ScalingScaleInInterval},
-
-    [Parameter(Mandatory)]
-    [NmePowershell.Category('Body')]
-    [System.Int32]
-    ${ScalingScaleInLowLatency},
-
-    [Parameter(Mandatory)]
-    [NmePowershell.Category('Body')]
-    [System.Int32]
-    ${ScalingScaleOutBy},
-
-    [Parameter(Mandatory)]
-    [NmePowershell.Category('Body')]
-    [System.Int32]
-    ${ScalingScaleOutHighLatency},
-
-    [Parameter(Mandatory)]
-    [NmePowershell.Category('Body')]
-    [System.Int32]
-    ${ScalingScaleOutInterval},
-
-    [Parameter(Mandatory)]
-    [NmePowershell.Category('Body')]
-    [System.Int32]
-    ${ScalingTransactionThreshold},
-
-    [Parameter(Mandatory)]
-    [NmePowershell.PSArgumentCompleterAttribute("MaxSuccessServerLatency", "AvgSuccessServerLatency")]
-    [NmePowershell.Category('Body')]
-    [System.String]
-    ${ScalingTrigger},
-
-    [Parameter(Mandatory)]
     [NmePowershell.PSArgumentCompleterAttribute("Percent", "SizeGb", "SizeTb")]
     [NmePowershell.Category('Body')]
     [System.String]
@@ -38902,7 +39132,33 @@ param(
     [Parameter()]
     [NmePowershell.Category('Body')]
     [System.Int32]
+    ${IopBoundMax},
+
+    [Parameter()]
+    [NmePowershell.Category('Body')]
+    [System.Int32]
+    ${IopBoundMin},
+
+    [Parameter()]
+    [NmePowershell.Category('Body')]
+    [System.Int32]
+    # Pre-stage provisioned IOPS.
+    # Provisioned V2 only.
+    ${PreStageIops},
+
+    [Parameter()]
+    [NmePowershell.Category('Body')]
+    [System.Int32]
+    # Pre-stage quota buffer.
+    # Provisioned V1 only.
     ${PreStageQuotaBuffer},
+
+    [Parameter()]
+    [NmePowershell.Category('Body')]
+    [System.Int32]
+    # Pre-stage provisioned throughput.
+    # Provisioned V2 only.
+    ${PreStageThroughput},
 
     [Parameter()]
     [NmePowershell.Category('Body')]
@@ -38913,7 +39169,71 @@ param(
     [NmePowershell.PSArgumentCompleterAttribute("0", "1", "2", "3", "4", "5", "6")]
     [NmePowershell.Category('Body')]
     [System.Int32[]]
-    ${PreStageWorkDays}
+    ${PreStageWorkDays},
+
+    [Parameter()]
+    [NmePowershell.Category('Body')]
+    [NmePowershell.Models.IAzureFilesScalingRule[]]
+    # Scaling rules.
+    # Required unless Scaling is set, and used instead of it.
+    ${ScalingRules},
+
+    [Parameter()]
+    [NmePowershell.Category('Body')]
+    [System.Int32]
+    ${ScalingScaleInBy},
+
+    [Parameter()]
+    [NmePowershell.Category('Body')]
+    [System.Int32]
+    ${ScalingScaleInInterval},
+
+    [Parameter()]
+    [NmePowershell.Category('Body')]
+    [System.Int32]
+    ${ScalingScaleInLowLatency},
+
+    [Parameter()]
+    [NmePowershell.Category('Body')]
+    [System.Int32]
+    ${ScalingScaleOutBy},
+
+    [Parameter()]
+    [NmePowershell.Category('Body')]
+    [System.Int32]
+    ${ScalingScaleOutHighLatency},
+
+    [Parameter()]
+    [NmePowershell.Category('Body')]
+    [System.Int32]
+    ${ScalingScaleOutInterval},
+
+    [Parameter()]
+    [NmePowershell.Category('Body')]
+    [System.Int32]
+    ${ScalingTransactionThreshold},
+
+    [Parameter()]
+    [NmePowershell.PSArgumentCompleterAttribute("MaxSuccessServerLatency", "AvgSuccessServerLatency")]
+    [NmePowershell.Category('Body')]
+    [System.String]
+    ${ScalingTrigger},
+
+    [Parameter()]
+    [NmePowershell.PSArgumentCompleterAttribute("AzureFiles", "AzureFilesV2")]
+    [NmePowershell.Category('Body')]
+    [System.String]
+    ${StorageType},
+
+    [Parameter()]
+    [NmePowershell.Category('Body')]
+    [System.Int32]
+    ${ThroughputBoundMax},
+
+    [Parameter()]
+    [NmePowershell.Category('Body')]
+    [System.Int32]
+    ${ThroughputBoundMin}
 )
 
 begin {
@@ -38994,8 +39314,25 @@ param(
 
     [Parameter()]
     [NmePowershell.Category('Body')]
+    [System.Int32]
+    ${IopBoundMax},
+
+    [Parameter()]
+    [NmePowershell.Category('Body')]
+    [System.Int32]
+    ${IopBoundMin},
+
+    [Parameter()]
+    [NmePowershell.Category('Body')]
     [System.Boolean]
     ${IsEnabled},
+
+    [Parameter()]
+    [NmePowershell.Category('Body')]
+    [System.Int32]
+    # Pre-stage provisioned IOPS.
+    # Provisioned V2 only.
+    ${PreStageIops},
 
     [Parameter()]
     [NmePowershell.Category('Body')]
@@ -39005,7 +39342,16 @@ param(
     [Parameter()]
     [NmePowershell.Category('Body')]
     [System.Int32]
+    # Pre-stage quota buffer.
+    # Provisioned V1 only.
     ${PreStageQuotaBuffer},
+
+    [Parameter()]
+    [NmePowershell.Category('Body')]
+    [System.Int32]
+    # Pre-stage provisioned throughput.
+    # Provisioned V2 only.
+    ${PreStageThroughput},
 
     [Parameter()]
     [NmePowershell.Category('Body')]
@@ -39017,6 +39363,14 @@ param(
     [NmePowershell.Category('Body')]
     [System.Int32[]]
     ${PreStageWorkDays},
+
+    [Parameter()]
+    [NmePowershell.Category('Body')]
+    [NmePowershell.Models.IAzureFilesScalingRule[]]
+    # Scaling rules.
+    # Replace all rules, each one must be complete.
+    # Used instead of Scaling.
+    ${ScalingRules},
 
     [Parameter()]
     [NmePowershell.Category('Body')]
@@ -39058,6 +39412,22 @@ param(
     [NmePowershell.Category('Body')]
     [System.String]
     ${ScalingTrigger},
+
+    [Parameter()]
+    [NmePowershell.PSArgumentCompleterAttribute("AzureFiles", "AzureFilesV2")]
+    [NmePowershell.Category('Body')]
+    [System.String]
+    ${StorageType},
+
+    [Parameter()]
+    [NmePowershell.Category('Body')]
+    [System.Int32]
+    ${ThroughputBoundMax},
+
+    [Parameter()]
+    [NmePowershell.Category('Body')]
+    [System.Int32]
+    ${ThroughputBoundMin},
 
     [Parameter()]
     [NmePowershell.PSArgumentCompleterAttribute("Percent", "SizeGb", "SizeTb")]
@@ -39272,6 +39642,78 @@ end {
 
 <#
 .Synopsis
+Create an in-memory object for AzureFilesPerformanceBounds.
+.Description
+Create an in-memory object for AzureFilesPerformanceBounds.
+
+#>
+function New-NmeAzureFilesPerformanceBoundsModel {
+[OutputType([NmePowershell.Models.AzureFilesPerformanceBounds])]
+[CmdletBinding(PositionalBinding=$false)]
+param(
+    [Parameter(Mandatory)]
+    [NmePowershell.Category('Body')]
+    [System.Int32]
+    ${Max},
+
+    [Parameter(Mandatory)]
+    [NmePowershell.Category('Body')]
+    [System.Int32]
+    ${Min}
+)
+
+begin {
+    try {
+        $outBuffer = $null
+        if ($PSBoundParameters.TryGetValue('OutBuffer', [ref]$outBuffer)) {
+            $PSBoundParameters['OutBuffer'] = 1
+        }
+        $parameterSet = $PSCmdlet.ParameterSetName
+        
+        $testPlayback = $false
+        $PSBoundParameters['HttpPipelinePrepend'] | Foreach-Object { if ($_) { $testPlayback = $testPlayback -or ('NmePowershell.Runtime.PipelineMock' -eq $_.Target.GetType().FullName -and 'Playback' -eq $_.Target.Mode) } }
+
+        $mapping = @{
+            __AllParameterSets = 'NerdioManagerPowerShell.custom\New-NmeAzureFilesPerformanceBoundsModel';
+        }
+        $cmdInfo = Get-Command -Name $mapping[$parameterSet]
+        [NmePowershell.Runtime.MessageAttributeHelper]::ProcessCustomAttributesAtRuntime($cmdInfo, $MyInvocation, $parameterSet, $PSCmdlet)
+        [NmePowershell.Runtime.MessageAttributeHelper]::ProcessPreviewMessageAttributesAtRuntime($cmdInfo, $MyInvocation, $parameterSet, $PSCmdlet)
+        $wrappedCmd = $ExecutionContext.InvokeCommand.GetCommand(($mapping[$parameterSet]), [System.Management.Automation.CommandTypes]::Cmdlet)
+        if ($wrappedCmd -eq $null) {
+            $wrappedCmd = $ExecutionContext.InvokeCommand.GetCommand(($mapping[$parameterSet]), [System.Management.Automation.CommandTypes]::Function)
+        }
+        $scriptCmd = {& $wrappedCmd @PSBoundParameters}
+        $steppablePipeline = $scriptCmd.GetSteppablePipeline($MyInvocation.CommandOrigin)
+        $steppablePipeline.Begin($PSCmdlet)
+    } catch {
+
+        throw
+    }
+}
+
+process {
+    try {
+        $steppablePipeline.Process($_)
+    } catch {
+
+        throw
+    }
+
+}
+end {
+    try {
+        $steppablePipeline.End()
+
+    } catch {
+
+        throw
+    }
+} 
+}
+
+<#
+.Synopsis
 Create an in-memory object for AzureFilesPreStageConfig.
 .Description
 Create an in-memory object for AzureFilesPreStageConfig.
@@ -39289,7 +39731,23 @@ param(
     [Parameter()]
     [NmePowershell.Category('Body')]
     [System.Int32]
+    # Pre-stage provisioned IOPS.
+    # Provisioned V2 only.
+    ${Iops},
+
+    [Parameter()]
+    [NmePowershell.Category('Body')]
+    [System.Int32]
+    # Pre-stage quota buffer.
+    # Provisioned V1 only.
     ${QuotaBuffer},
+
+    [Parameter()]
+    [NmePowershell.Category('Body')]
+    [System.Int32]
+    # Pre-stage provisioned throughput.
+    # Provisioned V2 only.
+    ${Throughput},
 
     [Parameter()]
     [NmePowershell.Category('Body')]
@@ -39366,13 +39824,29 @@ function New-NmeAzureFilesPreStageConfigUpdateModel {
 param(
     [Parameter()]
     [NmePowershell.Category('Body')]
+    [System.Int32]
+    # Pre-stage provisioned IOPS.
+    # Provisioned V2 only.
+    ${Iops},
+
+    [Parameter()]
+    [NmePowershell.Category('Body')]
     [System.Boolean]
     ${IsEnabled},
 
     [Parameter()]
     [NmePowershell.Category('Body')]
     [System.Int32]
+    # Pre-stage quota buffer.
+    # Provisioned V1 only.
     ${QuotaBuffer},
+
+    [Parameter()]
+    [NmePowershell.Category('Body')]
+    [System.Int32]
+    # Pre-stage provisioned throughput.
+    # Provisioned V2 only.
+    ${Throughput},
 
     [Parameter()]
     [NmePowershell.Category('Body')]
@@ -39605,6 +40079,115 @@ begin {
 
         $mapping = @{
             __AllParameterSets = 'NerdioManagerPowerShell.custom\New-NmeAzureFilesScalingConfigUpdateModel';
+        }
+        $cmdInfo = Get-Command -Name $mapping[$parameterSet]
+        [NmePowershell.Runtime.MessageAttributeHelper]::ProcessCustomAttributesAtRuntime($cmdInfo, $MyInvocation, $parameterSet, $PSCmdlet)
+        [NmePowershell.Runtime.MessageAttributeHelper]::ProcessPreviewMessageAttributesAtRuntime($cmdInfo, $MyInvocation, $parameterSet, $PSCmdlet)
+        $wrappedCmd = $ExecutionContext.InvokeCommand.GetCommand(($mapping[$parameterSet]), [System.Management.Automation.CommandTypes]::Cmdlet)
+        if ($wrappedCmd -eq $null) {
+            $wrappedCmd = $ExecutionContext.InvokeCommand.GetCommand(($mapping[$parameterSet]), [System.Management.Automation.CommandTypes]::Function)
+        }
+        $scriptCmd = {& $wrappedCmd @PSBoundParameters}
+        $steppablePipeline = $scriptCmd.GetSteppablePipeline($MyInvocation.CommandOrigin)
+        $steppablePipeline.Begin($PSCmdlet)
+    } catch {
+
+        throw
+    }
+}
+
+process {
+    try {
+        $steppablePipeline.Process($_)
+    } catch {
+
+        throw
+    }
+
+}
+end {
+    try {
+        $steppablePipeline.End()
+
+    } catch {
+
+        throw
+    }
+} 
+}
+
+<#
+.Synopsis
+Create an in-memory object for AzureFilesScalingRule.
+.Description
+Create an in-memory object for AzureFilesScalingRule.
+
+#>
+function New-NmeAzureFilesScalingRuleModel {
+[OutputType([NmePowershell.Models.AzureFilesScalingRule])]
+[CmdletBinding(PositionalBinding=$false)]
+param(
+    [Parameter(Mandatory)]
+    [NmePowershell.Category('Body')]
+    [System.Int32]
+    ${ScaleInBy},
+
+    [Parameter(Mandatory)]
+    [NmePowershell.Category('Body')]
+    [System.Int32]
+    ${ScaleInInterval},
+
+    [Parameter(Mandatory)]
+    [NmePowershell.Category('Body')]
+    [System.Int32]
+    ${ScaleInLowLatency},
+
+    [Parameter(Mandatory)]
+    [NmePowershell.Category('Body')]
+    [System.Int32]
+    ${ScaleOutBy},
+
+    [Parameter(Mandatory)]
+    [NmePowershell.Category('Body')]
+    [System.Int32]
+    ${ScaleOutHighLatency},
+
+    [Parameter(Mandatory)]
+    [NmePowershell.Category('Body')]
+    [System.Int32]
+    ${ScaleOutInterval},
+
+    [Parameter(Mandatory)]
+    [NmePowershell.PSArgumentCompleterAttribute("Quota", "ProvisionedIops", "ProvisionedThroughput")]
+    [NmePowershell.Category('Body')]
+    [System.String]
+    ${Target},
+
+    [Parameter(Mandatory)]
+    [NmePowershell.Category('Body')]
+    [System.Int32]
+    ${TransactionThreshold},
+
+    [Parameter(Mandatory)]
+    [NmePowershell.PSArgumentCompleterAttribute("MaxSuccessServerLatency", "AvgSuccessServerLatency")]
+    [NmePowershell.Category('Body')]
+    [System.String]
+    ${Trigger}
+)
+
+begin {
+    try {
+        $outBuffer = $null
+        if ($PSBoundParameters.TryGetValue('OutBuffer', [ref]$outBuffer)) {
+            $PSBoundParameters['OutBuffer'] = 1
+        }
+        $parameterSet = $PSCmdlet.ParameterSetName
+        
+        $testPlayback = $false
+        $PSBoundParameters['HttpPipelinePrepend'] | Foreach-Object { if ($_) { $testPlayback = $testPlayback -or ('NmePowershell.Runtime.PipelineMock' -eq $_.Target.GetType().FullName -and 'Playback' -eq $_.Target.Mode) } }
+
+        $mapping = @{
+            __AllParameterSets = 'NerdioManagerPowerShell.custom\New-NmeAzureFilesScalingRuleModel';
         }
         $cmdInfo = Get-Command -Name $mapping[$parameterSet]
         [NmePowershell.Runtime.MessageAttributeHelper]::ProcessCustomAttributesAtRuntime($cmdInfo, $MyInvocation, $parameterSet, $PSCmdlet)
@@ -40214,6 +40797,8 @@ param(
     [Parameter(Mandatory)]
     [NmePowershell.Category('Body')]
     [System.DateTime]
+    # Calendar date in TimeZoneId (not UTC).
+    # Time of day is set by StartHour and StartMinutes.
     ${ScheduleStartDate},
 
     [Parameter(Mandatory)]
@@ -40513,6 +41098,12 @@ param(
     [NmePowershell.Category('Body')]
     [System.Int32]
     ${AutoScaleInterval},
+
+    [Parameter()]
+    [NmePowershell.PSArgumentCompleterAttribute("Dynamic", "PowerManagement")]
+    [NmePowershell.Category('Body')]
+    [System.String]
+    ${AutoScaleMethod},
 
     [Parameter()]
     [NmePowershell.Category('Body')]
@@ -41097,6 +41688,12 @@ param(
     [NmePowershell.Models.IScriptedActionOption[]]
     # 
     ${PersonalAutoShrinkScriptedActions},
+
+    [Parameter()]
+    [NmePowershell.PSArgumentCompleterAttribute("All", "Active")]
+    [NmePowershell.Category('Body')]
+    [System.String]
+    ${PersonalAutoShrinkSessionType},
 
     [Parameter()]
     [NmePowershell.Category('Body')]
@@ -44909,6 +45506,8 @@ param(
     [Parameter(Mandatory)]
     [NmePowershell.Category('Body')]
     [System.DateTime]
+    # Calendar date in TimeZoneId (not UTC).
+    # Time of day is set by StartHour and StartMinutes.
     ${ScheduleStartDate},
 
     [Parameter(Mandatory)]
@@ -46469,6 +47068,8 @@ param(
     [Parameter(Mandatory)]
     [NmePowershell.Category('Body')]
     [System.DateTime]
+    # Calendar date in TimeZoneId (not UTC).
+    # Time of day is set by StartHour and StartMinutes.
     ${ScheduleStartDate},
 
     [Parameter(Mandatory)]
@@ -46970,6 +47571,11 @@ param(
     [Parameter()]
     [NmePowershell.Category('Body')]
     [System.Boolean]
+    ${AllowPreStageDesktops},
+
+    [Parameter()]
+    [NmePowershell.Category('Body')]
+    [System.Boolean]
     ${AllowReimageDesktops},
 
     [Parameter()]
@@ -47071,6 +47677,12 @@ param(
     [NmePowershell.Category('Body')]
     [System.String]
     ${AutoRevertPersonalSizeSessionState},
+
+    [Parameter()]
+    [NmePowershell.PSArgumentCompleterAttribute("Disabled", "App", "Web", "AppAndWeb")]
+    [NmePowershell.Category('Body')]
+    [System.String]
+    ${ConnectOption},
 
     [Parameter()]
     [NmePowershell.Category('Body')]
@@ -50984,6 +51596,11 @@ param(
     [Parameter(Mandatory)]
     [NmePowershell.Category('Body')]
     [System.Int32[]]
+    ${HealthAlertConditionIds},
+
+    [Parameter(Mandatory)]
+    [NmePowershell.Category('Body')]
+    [System.Int32[]]
     ${NerdioConditionIds}
 )
 
@@ -51051,6 +51668,11 @@ param(
     [Parameter()]
     [NmePowershell.Category('Body')]
     [System.Int32[]]
+    ${HealthAlertConditionIds},
+
+    [Parameter()]
+    [NmePowershell.Category('Body')]
+    [System.Int32[]]
     ${NerdioConditionIds}
 )
 
@@ -51115,6 +51737,11 @@ function New-NmeNotificationActionCreateModel {
 [OutputType([NmePowershell.Models.NotificationActionCreate])]
 [CmdletBinding(PositionalBinding=$false)]
 param(
+    [Parameter(Mandatory)]
+    [NmePowershell.Category('Body')]
+    [System.Int32[]]
+    ${ConditionHealthAlertConditionIds},
+
     [Parameter(Mandatory)]
     [NmePowershell.Category('Body')]
     [System.Int32[]]
@@ -51575,6 +52202,11 @@ function New-NmeNotificationActionUpdateModel {
 [OutputType([NmePowershell.Models.NotificationActionUpdate])]
 [CmdletBinding(PositionalBinding=$false)]
 param(
+    [Parameter()]
+    [NmePowershell.Category('Body')]
+    [System.Int32[]]
+    ${ConditionHealthAlertConditionIds},
+
     [Parameter()]
     [NmePowershell.Category('Body')]
     [System.Int32[]]
@@ -52386,6 +53018,12 @@ param(
     [NmePowershell.Category('Body')]
     [System.Int32]
     ${HostIdleDaysThreshold},
+
+    [Parameter(Mandatory)]
+    [NmePowershell.PSArgumentCompleterAttribute("All", "Active")]
+    [NmePowershell.Category('Body')]
+    [System.String]
+    ${SessionType},
 
     [Parameter()]
     [NmePowershell.Category('Body')]
@@ -54036,6 +54674,8 @@ param(
     [Parameter(Mandatory)]
     [NmePowershell.Category('Body')]
     [System.DateTime]
+    # Calendar date in TimeZoneId (not UTC).
+    # Time of day is set by StartHour and StartMinutes.
     ${ScheduleStartDate},
 
     [Parameter(Mandatory)]
@@ -54561,6 +55201,8 @@ param(
     [Parameter(Mandatory)]
     [NmePowershell.Category('Body')]
     [System.DateTime]
+    # Calendar date in TimeZoneId (not UTC).
+    # Time of day is set by StartHour and StartMinutes.
     ${StartDate},
 
     [Parameter(Mandatory)]
@@ -59430,6 +60072,12 @@ function New-NmeWorkspaceCreateModel {
 [CmdletBinding(PositionalBinding=$false)]
 param(
     [Parameter(Mandatory)]
+    [NmePowershell.PSArgumentCompleterAttribute("Geographical", "Regional")]
+    [NmePowershell.Category('Body')]
+    [System.String]
+    ${DeploymentScope},
+
+    [Parameter(Mandatory)]
     [NmePowershell.Category('Body')]
     [System.String]
     ${IdName},
@@ -59596,8 +60244,8 @@ end {
 # SIG # Begin signature block
 # MIIvWQYJKoZIhvcNAQcCoIIvSjCCL0YCAQExDzANBglghkgBZQMEAgEFADB5Bgor
 # BgEEAYI3AgEEoGswaTA0BgorBgEEAYI3AgEeMCYCAwEAAAQQH8w7YFlLCE63JNLG
-# KX7zUQIBAAIBAAIBAAIBAAIBADAxMA0GCWCGSAFlAwQCAQUABCBw2WEPttt7AJyG
-# rwgH3EC2SJJkyfn9MlEMiGxDTHWAAaCCFAUwggWQMIIDeKADAgECAhAFmxtXno4h
+# KX7zUQIBAAIBAAIBAAIBAAIBADAxMA0GCWCGSAFlAwQCAQUABCBZqUaWy7Hjqd/i
+# 2pSFcthtz8XId6ranqYDTYnynTr/jqCCFAUwggWQMIIDeKADAgECAhAFmxtXno4h
 # MuI5B72nd3VcMA0GCSqGSIb3DQEBDAUAMGIxCzAJBgNVBAYTAlVTMRUwEwYDVQQK
 # EwxEaWdpQ2VydCBJbmMxGTAXBgNVBAsTEHd3dy5kaWdpY2VydC5jb20xITAfBgNV
 # BAMTGERpZ2lDZXJ0IFRydXN0ZWQgUm9vdCBHNDAeFw0xMzA4MDExMjAwMDBaFw0z
@@ -59709,23 +60357,23 @@ end {
 # RzQgQ29kZSBTaWduaW5nIFJTQTQwOTYgU0hBMzg0IDIwMjEgQ0ExAhALDOX/BzyG
 # PKP6JnAWOAwdMA0GCWCGSAFlAwQCAQUAoIGEMBgGCisGAQQBgjcCAQwxCjAIoAKA
 # AKECgAAwGQYJKoZIhvcNAQkDMQwGCisGAQQBgjcCAQQwHAYKKwYBBAGCNwIBCzEO
-# MAwGCisGAQQBgjcCARUwLwYJKoZIhvcNAQkEMSIEIMKQZyDY1cvBC4clfGANe3ns
-# WfMA/Nkvf3xvlROL6J5lMA0GCSqGSIb3DQEBAQUABIICAInfNx6KOAnwAEEFggOn
-# C1JGpl5lezDSwS2u/eOPDJIgsA/1yaaqnK3vEKscA3ReQ/kNOvBh3E/dL7dgi3bd
-# VMWlwiYnIkNamqgDm/Q7lYyyABkDs7EIeBzZTsSKZyLseRzaJBkOIBxDewul21nq
-# cWQkA4iQ2WDViapsLYiS/KvrGi4aLzcKJmblZ9CfPWNfHuaI5OvPTGYDLPcAENiA
-# DB6QDESxJ+SuZp1N3x3rDUloud04GNYIVeaRoO5gYlrLclEcTxYZrMupDbANqzZZ
-# lLF+J9ip09udeMSw/UpjzfGGuys/UNZpBZGtf/0vuYzmZGR6M/wOMK7rtyBawwqy
-# 8FaPbHHITq2hlQhBRIasDShTtoVNUnWCzn2/MYQlJOfXQ9Jn2ybDrzJSc2IJDaR8
-# Yiylbjv8YHov1DwztTEq5CxhlCRE2V6HcG8W1x+O4FrAycUCBer9onkIVCqAvLSc
-# 7KCkpii6tY9Ce35mlL9qxDTwj2ALMG+N7kWI5iv5vYQEVuGk+cRCzXibObrUo6lb
-# byYznK7QE9D0tsPB1HD7bZnoiXRCYBc1Vq1G0dKnRuW1FwBphw4L3d7RVN/3q4l+
-# 4gVK437t+KyN5xcVUrDKKRKKfxN59wr/38ykFLm3ouBwhdBd8h71bN5h/dJt9cdP
-# aAjoxOluXmpq9ebf5FoHRYZnoYIXdzCCF3MGCisGAQQBgjcDAwExghdjMIIXXwYJ
+# MAwGCisGAQQBgjcCARUwLwYJKoZIhvcNAQkEMSIEIMRdLyCZAZM19QUhY3c9U6gb
+# t2SQanPbiMJlBA/0bZKlMA0GCSqGSIb3DQEBAQUABIICAKZbhsuQZqYm0KGcftKH
+# dnrhYroURbdTbUWlX7rV1D340QK5+oqKDSk5VAUAJcHHKeS/X1sBgO0QpN2T1otX
+# /SlVOa7PHEYPfMWh/enwUdTeb+5fryzHMgAqWEsNwDENK+R1Ez11A3AXQvAq4DLG
+# r9cB0Vbmp+FEjmWpckhFbA4d88i4tLlMu/2hCSHwMPZjyZF/gWkVfSG2eiHtfV+J
+# 9bBbprYQk3cb2ObptbOUb29ZolYWVFt3e8jxomMTSHxThBAxY/LxwEnU+8841GfO
+# BgOGSTxpoTfZv01uBXtV2b4iAL9mle+oQYS7yUyzVG2aBTgJtftSzx/iJAnV8Ytw
+# 3ivDKL+71tlO+TNm+Qirlng+litwi8SatcqNhfnH/p3NhvSdAK9hP0I5Y9+SeMb/
+# 41Ld6WtInzJ3yCAifLpEhdYjMV1EgMXFrcZNNQ5DeCGKd7VP+adT2oG1Yu5JqEcc
+# WBNYwgAv8fhva+9P0CAKl6td7+a2m0jwTtg3HJnspE6DWK+mYsKT4anDDdw6e+pv
+# E7+etrFzcOJ7byZ2JCtopHeSDdLNTbs3CwcrU9z1/Rdhttkt/1y/uRys4DfGSm8q
+# 0BdejvQjnbcIRxraYmXcz9TcQuRW9Dv1ZHSGJ0CQrZJGlXkfIqjCrsb5sTtf4D7l
+# Vq/s8uWS5GClV4pKT22yjY2soYIXdzCCF3MGCisGAQQBgjcDAwExghdjMIIXXwYJ
 # KoZIhvcNAQcCoIIXUDCCF0wCAQMxDzANBglghkgBZQMEAgEFADB4BgsqhkiG9w0B
-# CRABBKBpBGcwZQIBAQYJYIZIAYb9bAcBMDEwDQYJYIZIAWUDBAIBBQAEICrF7Wui
-# HrwAt/xQoKoBT4F4JX88xm86+E1HltyCVSnVAhEAo6qJplrdvVorvvpgGcDERBgP
-# MjAyNjEwMDExMTEzNDlaoIITOjCCBu0wggTVoAMCAQICEAhP3DNPfkVO28MPj/mS
+# CRABBKBpBGcwZQIBAQYJYIZIAYb9bAcBMDEwDQYJYIZIAWUDBAIBBQAEIJy5HiwJ
+# hJMhnFfOGBvtqfV+RLw8PCrpG8RN1lTV+1HjAhEAvBD/GRLcvbcHdBiigxeanBgP
+# MjAyNjExMTgxMTA5MjdaoIITOjCCBu0wggTVoAMCAQICEAhP3DNPfkVO28MPj/mS
 # GDUwDQYJKoZIhvcNAQELBQAwaTELMAkGA1UEBhMCVVMxFzAVBgNVBAoTDkRpZ2lD
 # ZXJ0LCBJbmMuMUEwPwYDVQQDEzhEaWdpQ2VydCBUcnVzdGVkIEc0IFRpbWVTdGFt
 # cGluZyBSU0E0MDk2IFNIQTI1NiAyMDI1IENBMTAeFw0yNjA4MDUwMDAwMDBaFw0z
@@ -59832,19 +60480,19 @@ end {
 # Yy4xQTA/BgNVBAMTOERpZ2lDZXJ0IFRydXN0ZWQgRzQgVGltZVN0YW1waW5nIFJT
 # QTQwOTYgU0hBMjU2IDIwMjUgQ0ExAhAIT9wzT35FTtvDD4/5khg1MA0GCWCGSAFl
 # AwQCAQUAoIHRMBoGCSqGSIb3DQEJAzENBgsqhkiG9w0BCRABBDAcBgkqhkiG9w0B
-# CQUxDxcNMjYxMDAxMTExMzQ5WjArBgsqhkiG9w0BCRACDDEcMBowGDAWBBRR2ava
-# A0lz2E9CZqykgkjms2nEOTAvBgkqhkiG9w0BCQQxIgQgMsHuvUBZDNCP6oAzWRwW
-# 47UCFuwXckzW2C+xt0JIPbEwNwYLKoZIhvcNAQkQAi8xKDAmMCQwIgQgLaCdp/QT
-# H5/nLbbF5unJZWdVrwQ/HqdCzA0hIOFB6/wwDQYJKoZIhvcNAQEBBQAEggIALGDY
-# O5NDTMPBQxZpTpS/0rOO1CvwFN2AFjdrUN1rT3F3WJ4mbnjkpurQPXxCBDcnHTMR
-# rZj5F39/qd9Kw3DNmWNnJri64xq0XsjMxpyO/lrl0Rc0KfJxS6Ek+ny0I+hafwXd
-# rAJ/W2oNiOeSYjvqCgp6j65qBEexBkZfZqK9iGsqrpLJ0K1RsOZ9toT624emFCpR
-# taC4hT9n8ID48M+J00cwC3NGs9SyBGEmLHPeUBm7kAXNB+wxIW9gkfFeCponLRea
-# R03gNvIXx1p1k7XawmGPi/1/sqaFHs0sX51laH7h0n4S4dsBaO0tPxQBbowE1F0b
-# 0hkyO/yCXJc3mx9d6Xxi058C6l+fi0M4NKvbEf41geaDP+aFRJqF4DSK502VhdjT
-# X7EBws8cbseEIWoYIVOt6xhYmlLbBU/G31EvrZZ4FgV/B4issDFV2jYmgsLJ9/Ic
-# Bl6wPgMvWiNHoetrYPHcJw3B+5lZxy+3ytxdBBHMXpaqFlorBJzkrTAw/SjHyiyL
-# UXKIsfk9vAtrQjVGofpaVLgbSw8nN8p/9w/6xv0FDxsX4MeCyJWtKuED6nxb68bL
-# VCZogTIrkAplCJ58htBO4IoeiHlxvdOkwjrM0MVJ3p6AnIVLf+bWJeIcDq0zq5+3
-# Siycyj2rOC6wlXjtv3uCcldJ2/+GO98CZl8tMSk=
+# CQUxDxcNMjYxMTE4MTEwOTI3WjArBgsqhkiG9w0BCRACDDEcMBowGDAWBBRR2ava
+# A0lz2E9CZqykgkjms2nEOTAvBgkqhkiG9w0BCQQxIgQg1eelJb/wCd3hhTwnUutW
+# s/QroHjuIFuiaCzxTvLTMWYwNwYLKoZIhvcNAQkQAi8xKDAmMCQwIgQgLaCdp/QT
+# H5/nLbbF5unJZWdVrwQ/HqdCzA0hIOFB6/wwDQYJKoZIhvcNAQEBBQAEggIATBDb
+# 46gDcJPN0LI+8Cww+aelmD5loQB1U3V4zK279hzyRIvJiK0BYVovQiuwKzhNyZxE
+# dlxZPtszXYxNaBXjYxaVzgh1IfoW4nwBzd9DXTVg5VekQvvuYB3BnfcULcxXNFG+
+# B7tHJHvYR2kXtII8uwvkEFzxrOEHTSr9DqFaQmsDPgGWrlJCAiO6X6lsRzoBPrro
+# og3QWgjgvTRPWNSGqjNDiFrQDmP8Kl8P/0YpFMKPlYHDrtzMFUGxd7JEluPBei+w
+# EI2ZQaZQMfs1rsJcecAr+/VeHcPM825YS4y+KAehYVbC8T/YMe4k/PQR7xZ53Nd6
+# WEiSkw1WtUsjo4mWhmjgMFoGhlYC/46tS97hrxbbaQlunjPZWC1fy0Qjk411b/jo
+# reT42OH48Z1ogk0TAC0mdDCEHykXqP4nXqSJ7fC0STB5zcreQdZa43s0XYQJ2poJ
+# 8iSzNs0NkYgg+1KwwQdsL3oY7pUtaDkxNtG6kEWk7FKNFyWK2i21zWMPbm6EZ2jo
+# QL6lMcMF1Nc9MkbbWgXHJsRyWgqnhKtZ6cQoEgYKaC1+lmDhusxzicIzfh7zRuOL
+# wL9erufQD5ngDzGmnEsrWtWIUsnN6HhSCPm81Q8uHdRrY7XuGyp2VEyr9a2cJzrR
+# R1I4G5NA5XrAd0CYYWgw3LOK+5KE+wFh3PZfzxM=
 # SIG # End signature block
